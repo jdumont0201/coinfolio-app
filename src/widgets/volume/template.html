@@ -1,0 +1,65 @@
+<mat-card class="chart-card">
+  <mat-card-header>
+    <mat-card-title>{{symbol}} Volume</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+  </mat-card-header>
+
+  <div class="options">
+    <mat-menu [overlapTrigger]="false" #appMenu1="matMenu">
+      <button *ngFor="let val of appConfigService.values" mat-menu-item (click)="setValue(val)"> {{val}}</button>
+    </mat-menu>
+    <div class="row">Symbols:
+      <button class="symbol" mat-button *ngFor="let val of appConfigService.values" (click)="setValue(val)"> {{val}}
+      </button>
+    </div>
+    <div class="row">
+      <button mat-button [matMenuTriggerFor]="appMenu1" *ngIf="false">
+        Symbol: {{symbol}}
+      </button>
+      <mat-menu [overlapTrigger]="false" #appMenu2="matMenu">
+        <button *ngFor="let val of appConfigService.bases" mat-menu-item (click)="setBase(val)"> {{val}}</button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="appMenu2">
+        Base: {{base}}
+      </button>
+      <mat-menu [overlapTrigger]="false" #appMenu5="matMenu">
+        <button  mat-menu-item (click)="setInterval(1)">Day </button>
+        <button  mat-menu-item (click)="setInterval(7)">Week </button>
+      </mat-menu>
+      <button mat-button  [matMenuTriggerFor]="appMenu5">
+        Group by : {{interval==1?"Day":"Week"}}
+      </button>
+    </div>
+  </div>
+
+  <button class="dots" mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+  <mat-menu #menu="matMenu"><button mat-button class="showdata"  (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button></mat-menu>
+
+  <mat-card-content>
+
+    <div [chart]="chart"></div>
+
+    <br class="clear">
+
+  </mat-card-content>
+
+
+  <span *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
+  <mat-table #table class="data" [dataSource]="dataSource" *ngIf="showDataTable">
+
+    <ng-container matColumnDef="ts">
+      <mat-header-cell *matHeaderCellDef> Date</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.ts*1000 | date:"medium"}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="volume">
+      <mat-header-cell *matHeaderCellDef> Volume</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.volume  }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+</mat-card>
+

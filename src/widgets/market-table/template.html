@@ -1,0 +1,41 @@
+<mat-card class="example-card chart-card">
+  <mat-card-header>
+    <mat-card-title>Highest Market Caps</mat-card-title>
+    <mat-card-subtitle>Data from  {{ts *1000 |date:"medium"}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+
+
+    <div>
+
+    </div>
+
+    <mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="symbol">
+        <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cap">
+        <mat-header-cell *matHeaderCellDef> Market Cap (m{{base}}) </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.cap/1000000 | number:"1.0-0"}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+
+    <mat-paginator [length]="length"
+                   [pageSize]="pageSize"
+                   [pageSizeOptions]="pageSizeOptions"
+                   (page)="updatePagination( $event)">
+    </mat-paginator>
+
+
+  </mat-card-content>
+  <div class="source">Source: {{appConfigService.sources[source]}}</div>
+
+
+</mat-card>
+

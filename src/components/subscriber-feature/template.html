@@ -1,0 +1,3 @@
+
+<button *ngIf="authService.isSubscriptionActive()" (click)="apply(event)" mat-button ><ng-content></ng-content></button>
+<button *ngIf="!authService.isSubscriptionActive()" (click)="showSubscribe()" mat-button ><ng-content></ng-content><span  class="subscriber-feature">+</span></button>

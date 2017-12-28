@@ -1,0 +1,30 @@
+<mat-nav-list>
+<div id="header">
+  <div class="logo-img"><mat-icon>上</mat-icon></div>
+  <div class="logo-in" routerLink="/">
+    <span id="logo"> GOGOGROW</span>
+    <span id="slogan">Crypto dashboard builder</span>
+  </div><br>
+
+
+  <button mat-button routerLink="/config/all">
+    <mat-icon>settings</mat-icon>
+    {{authService.isAuthenticated()?"Settings":"Sign in"}}
+  </button>
+
+</div>
+
+  <div *ngFor="let p of currentWorkspace?.panels" >
+
+    <div *ngIf="myPanels[p].type=='separator'" mat-list-item class="mat-list-item  menu-separator"> {{myPanels[p].title}}</div>
+    <a *ngIf=" myPanels[p].type=='panel'"  [routerLink]="'/board/'+p" matLine mat-list-item > {{myPanels[p].title}}</a>
+    <a *ngIf=" myPanels[p].type=='special'"  [routerLink]="appConfigService.specialLinks[myPanels[p].id]" matLine mat-list-item > {{myPanels[p].title}}</a>
+  </div>
+
+
+
+<button mat-button (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
+
+</mat-nav-list>
+
+

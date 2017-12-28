@@ -1,0 +1,82 @@
+<mat-card class="chart-card">
+  <mat-card-header>
+    <mat-card-title>{{symbol}} Price</mat-card-title>
+    <mat-card-subtitle>Candlestick chart by  {{appConfigService.intervalNames[period]}} in {{base}}</mat-card-subtitle>
+  </mat-card-header>
+    <div class="options">
+      <mat-menu [overlapTrigger]="false" #appMenu1="matMenu">
+        <button *ngFor="let val of appConfigService.values" mat-menu-item (click)="setValue(val)"> {{val}} </button>
+      </mat-menu>
+
+      <div class="row">Symbols: <button class="symbol" mat-button *ngFor="let val of appConfigService.values" (click)="setValue(val)"><app-crypto-icon  [display]="'symbol'" [symbol]="val"></app-crypto-icon>  </button>      </div>
+      <div class="row">
+        <button mat-button  [matMenuTriggerFor]="appMenu1" *ngIf="false">
+          Symbol: {{symbol}}
+        </button>
+        <mat-menu [overlapTrigger]="false" #appMenu2="matMenu">
+          <button *ngFor="let val of appConfigService.bases" mat-menu-item (click)="setBase(val)"> {{val}} </button>
+        </mat-menu>
+        <button mat-button  [matMenuTriggerFor]="appMenu2">
+          Base: {{base}}
+        </button>
+        <mat-menu [overlapTrigger]="false" #appMenu5="matMenu">
+          <button *ngFor="let val of appConfigService.intervals" mat-menu-item (click)="setInterval(val)"> {{appConfigService.intervalNames[val]}} </button>
+        </mat-menu>
+        <button mat-button  [matMenuTriggerFor]="appMenu5">
+          Interval: {{appConfigService.intervalNames[period]}}
+        </button>
+      </div>
+    </div>
+  <button class="dots" mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-button class="showdata"  (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
+  </mat-menu>
+
+  <mat-card-content>
+    <div class="highchart-box" [chart]="chart"></div>
+
+    <br class="clear">
+  </mat-card-content>
+  <span  *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
+    <mat-table #table class="data"  [dataSource]="dataSource" *ngIf="showDataTable">
+
+      <ng-container matColumnDef="ts" >
+        <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.ts*1000 | date:"medium"}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="open" >
+        <mat-header-cell *matHeaderCellDef> Open ({{base}}) </mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.open | number}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="high" >
+        <mat-header-cell *matHeaderCellDef> High ({{base}}) </mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.high | number}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="low" >
+        <mat-header-cell *matHeaderCellDef> Low ({{base}}) </mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.low | number}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="close" >
+        <mat-header-cell *matHeaderCellDef> Close ({{base}}) </mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.close | number}} </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+
+
+
+
+</mat-card>
+

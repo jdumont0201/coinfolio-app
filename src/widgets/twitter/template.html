@@ -1,0 +1,33 @@
+<mat-card class="tweet-card">
+  <mat-card-header>
+    <mat-card-title>Latest tweets</mat-card-title>
+    <mat-card-subtitle>Most popular with hashtag #{{symbol}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+      <ul>
+        <li *ngFor="let t of tweets" class="tweet">
+          <div>
+            <a  target="_blank"  href="http://twitter.com/{{t.userscreenname}}">
+
+              <div class="tweet-image" [ngStyle]="{'background-image': 'url(' + t.image + ')'}"></div>
+              <span class="tweet-user">{{t.username}}</span><br>
+              <span class="tweet-userscreen">@{{t.userscreenname}}</span>
+              <br class="clear">
+            </a><br>
+
+            <span class="tweet-text">{{t.text}}</span><br>
+            <br>
+            <span class="tweet-date">{{t.date | date:"medium"}}</span><br>
+            <mat-icon>cached</mat-icon>
+            <span class="tweet-retweets">{{t.retweets}}</span>
+            <mat-icon>favorite_border</mat-icon>
+            <span class="tweet-favorites">{{t.favorites}}</span>
+            <a  target="_blank" href="http://twitter.com/statuses/{{t.id}}" rel="external" class="tweet-url">More...</a>
+          </div>
+        </li>
+      </ul>
+
+
+  </mat-card-content>
+
+</mat-card>

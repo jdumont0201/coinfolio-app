@@ -1,0 +1,52 @@
+<mat-card class="chart-card">
+  <mat-card-header>
+    <mat-card-title>ΔPrice vs Market cap</mat-card-title>
+    <mat-card-subtitle>Last week</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div [chart]="chart"></div>
+
+    <br class="clear">
+
+
+
+  </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button class="showdata" (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
+      <span *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
+    </mat-card-actions>
+    <mat-table #table class="data"  [dataSource]="dataSource" *ngIf="showDataTable">
+
+      <ng-container matColumnDef="ts" >
+        <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.ts*1000 | date:"medium"}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="symbol">
+        <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+      </ng-container>
+
+
+
+      <ng-container matColumnDef="price" >
+        <mat-header-cell *matHeaderCellDef> Price ({{base}}) </mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.price | number}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="cap">
+        <mat-header-cell *matHeaderCellDef> Cap (m{{base}})</mat-header-cell>
+        <mat-cell *matCellDef="let element" >{{element.cap/1000000 | number:"1.0-0"}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+
+
+
+</mat-card>
+

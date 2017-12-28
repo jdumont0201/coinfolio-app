@@ -1,0 +1,92 @@
+<div id="{{popup?'subscribe':''}}">
+  <div *ngIf="popup" class="close" (click)="close()">X</div>
+
+
+  <h3 class="title">Subscribe</h3>
+
+You are trying to access a Plus feature. Plus features are premium features marked with <span  class="subscriber-feature">+</span>&nbsp;&nbsp;&nbsp;icons.<br><br>
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step label="Choose plan">
+
+      <h3>All features from $19/mo</h3>
+      <ul>
+        <li><h4>Access a wide collection of widgets</h4>Edit data panels <button mat-button >View all</button></li>
+        <li><h4>Access exclusive dashboards</h4>Edit data panels <button mat-button >View all</button></li>
+        <li><h4>Customize data display</h4>Edit data panels</li>
+        <li><h4>Build your data boards</h4>Create custom panels with all the widgets</li>
+        <li><h4>Receive alerts</h4>
+          <span>Receive alerts</span></li>
+        <li></li>
+      </ul>
+      <br>
+
+      <h3>Choose a plan</h3>
+      <div class="subscribe-plans">
+        <button mat-raised-button *ngFor="let p of plans" [color]="planSelected==p.id?'accent':'primary'" (click)="processChoice(p,stepper)">{{p.name}} at
+          ${{p.amount}} - {{p.btcamount}}BTC
+        </button>
+
+      </div>
+
+    </mat-step>
+
+    <mat-step label="Sign up" *ngIf="!authService.isAuthenticated()">
+      <div class="form">
+
+        <form [formGroup]="form">
+          <div>
+            <mat-form-field><input  name="email" matInput [formControlName]="'email'" placeholder="email" required></mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input formControlName="password" name="password" matInput placeholder="Enter your password" type="password" required>
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <input matInput placeholder="Confirm your password" type="password" required>
+              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+            </mat-form-field>
+          </div>
+          <button mat-raised-button="" [disabled]="!form.valid" (click)="submit()" color="primary">Continue</button>
+        </form>
+      </div>
+
+    </mat-step>
+    <mat-step label="Pay">
+      Send payment to this address:
+      <div class="subscribe-address">
+        <div>{{bitcoinAddress}}</div>
+        <div>Amount: {{amount}} BTC</div>
+
+
+        <qr-code *ngIf="qrcode" [value]="qrcode" [size]="150"></qr-code>
+        <div *ngIf="addressExpirationCountdown">The address will expire in {{addressExpirationCountdownMin}}min
+          {{addressExpirationCountdownSec}}s
+        </div>
+      </div><br>
+      The transaction will be automatically scanned until confirmation.<br><br><br>
+      Status: {{isPaid?"Paid":"Waiting for payment confirmation"}}<br>
+      Balance: {{paymentStatus?paymentStatus?.balance:"Checking..."}}
+
+    </mat-step>
+    <mat-step label="Confirmed !">
+      <h3>Payment status</h3>
+      <div>
+        Status: {{isPaid?"Paid":"Waiting for payment confirmation"}}<br>
+        Balance: {{paymentStatus?.balance}}
+
+        <div *ngIf="isPaid">Your payment has been received. Thank you for subscribing. <br>
+          <div class="centered">
+          <button class="centered" mat-raised-button color="primary">Continue to premium account</button>
+          </div>
+        </div>
+      </div>
+    </mat-step>
+
+  </mat-horizontal-stepper>
+
+
+
+</div>

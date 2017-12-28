@@ -1,0 +1,40 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>Top performers</mat-card-title>
+    <mat-card-subtitle>Weekly</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Choose a date"  (dateChange)="dateChanged($event)" [formControl]="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+
+
+    <mat-table #table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="symbol">
+        <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="perf">
+        <mat-header-cell *matHeaderCellDef> Perf </mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.perf  | number:"1.1-1"}}% </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </mat-card-content>
+
+
+
+  <mat-card-actions>
+    <button mat-button (click)="yesterday()">Previous day</button>
+    <button mat-button (click)="tomorrow()">Next day</button>
+
+  </mat-card-actions>
+</mat-card>
+

@@ -1,0 +1,57 @@
+<mat-toolbar>
+  <h3>{{symbolId}} </h3>
+
+</mat-toolbar>
+
+
+<mat-tab-group>
+  <mat-tab label="Perf">
+
+
+    <app-perf-lastweek [symbol]="symbolId"></app-perf-lastweek>
+    <app-cap-lastweek [symbol]="symbolId"></app-cap-lastweek>
+  </mat-tab>
+  <mat-tab label="Social">
+
+
+    <div class="grid grid-2-1">
+      <div class="grid-in left">
+        <app-headlines [symbol]="symbolId"></app-headlines>
+      </div>
+      <div class="grid-in right">
+        <app-twitter [symbol]="symbolId"></app-twitter>
+      </div>
+      <br class="clear">
+    </div>
+
+  </mat-tab>
+  <mat-tab label="Information">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Information</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            Symbol: {{symbolId}}
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

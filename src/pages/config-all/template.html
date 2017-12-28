@@ -1,0 +1,15 @@
+
+    <mat-toolbar>
+      <h3>Settings </h3>
+
+    </mat-toolbar>
+
+<mat-tab-group>
+  <mat-tab label="Profile">
+   E-mail: {{user?.email}}
+  </mat-tab>
+
+  <mat-tab label="Subscription">Premium expires on {{
+    user?.currentPaymentExpiration | date:"medium"}}</mat-tab>
+  <mat-tab label="Interface">Language: en_US</mat-tab>
+</mat-tab-group>

@@ -1,0 +1,89 @@
+<mat-card class="chart-card">
+  <mat-card-header>
+    <mat-card-title>Top performers</mat-card-title>
+    <mat-card-subtitle *ngIf="period=='last24h'">Last 24h</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="period=='last7d'">Last 7j</mat-card-subtitle>
+    <mat-card-subtitle *ngIf="period=='last30d'">Last 30j</mat-card-subtitle>
+  </mat-card-header>
+  <div class="options">
+    <div class="row">
+      <button class="symbol" mat-button (click)="setPeriod('last24h')"> Last 24h </button>
+      <button class="symbol" mat-button (click)="setPeriod('last7d')"> Last 7j </button>
+      <button class="symbol" mat-button (click)="setPeriod('last30d')"> Last 30j </button>
+    </div>
+  </div>
+  <mat-card-content >
+    <div [chart]="chart"></div>
+    <br class="clear">
+
+
+    <div *ngIf="period=='custom'">
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Choose a date" (dateChange)="dateChanged($event)"  [formControl]="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    </div>
+
+  </mat-card-content>
+
+  <div *ngIf="period=='custom'"><mat-card-actions>
+      <button mat-button (click)="yesterday()">Previous day</button>
+      <button mat-button *ngIf="!isFuture" (click)="tomorrow()">Next day</button>
+
+  </mat-card-actions></div>
+
+  <span *ngIf="isFuture">Future data is not available</span>
+
+    <mat-table #table *ngIf="!isFuture" [dataSource]="dataSource">
+      <ng-container matColumnDef="symbol">
+        <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="perf">
+        <mat-header-cell *matHeaderCellDef> Perf </mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="element.perf>0?'valpos':'valneg'" >{{element.perf*100 | number:"1.1-1"}}% </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+
+  <mat-card-actions>
+    <button mat-button class="showdata"  (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
+    <span  *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
+  </mat-card-actions>
+
+  <mat-table #table class="data"  [dataSource]="dataSourceRef" *ngIf="showDataTable">
+    <ng-container matColumnDef="symbol" >
+      <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.symbol}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="ts_from" >
+      <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.ts_from*1000 | date:"medium"}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="val_from" >
+      <mat-header-cell *matHeaderCellDef> Start Price ({{base}}) </mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.val_from | number}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="ts_to" >
+      <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.ts_to*1000 | date:"medium"}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="val_to" >
+      <mat-header-cell *matHeaderCellDef> End Price ({{base}}) </mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.val_to | number}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="perf" >
+      <mat-header-cell *matHeaderCellDef> Perf  </mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.perf*100 | number}}% </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>
+  </mat-table>
+
+
+
+</mat-card>
+

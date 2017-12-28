@@ -1,0 +1,31 @@
+import { ObjectId, ModelInterface, PopulableItem, Raw, DataInterface, ModelType } from "../interfaces/interfaces";
+export declare class Model implements ModelInterface {
+    loader: DataInterface;
+    _id: ObjectId;
+    created: string;
+    updated: string;
+    deleted: boolean;
+    archived: boolean;
+    modelType: ModelType;
+    datafields: string[];
+    record: string;
+    static loader: any;
+    EXTRA_FIELDS: string[];
+    static EXTRA_FIELDS: string[];
+    constructor(loader: DataInterface);
+    addToPopulableItemArray<T extends Model>(m: T | ObjectId, fieldname: string): void;
+    setToPopulableItem<T extends Model>(m: T | ObjectId, fieldname: string): void;
+    save<T>(f: Function): void;
+    serialize(): string;
+    serializeModified(referenceRaw: Raw): string;
+    deleteAndSave<T>(f: Function): void;
+    copy(obj: any): void;
+    isPopulated(value: any): boolean;
+    getPopulatedItem(key: string): PopulableItem<any>;
+    getPopulatedArray(key: string): PopulableItem<any>[];
+    getField(fieldName: string): any;
+    getFields(useExtra?: boolean): Raw;
+    isFieldModified(old: any, neu: any): boolean;
+    isModified(fieldName: string, ref: Raw, cur: any): boolean;
+    getModifiedFields(ref: Raw): Raw;
+}

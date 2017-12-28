@@ -1,0 +1,9 @@
+<mat-toolbar>
+  <h3>Listing </h3>
+
+</mat-toolbar>
+<mat-list>
+
+  <mat-list-item link routerLink="/symbol/{{s}}" *ngFor="let s of appConfigService.values" matLine  mat-list-item  >{{s}}</mat-list-item>
+
+</mat-list>

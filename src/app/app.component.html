@@ -1,0 +1,15 @@
+
+
+
+<mat-sidenav-container fullscreen *ngIf="!showPanelCreator"  >
+  <mat-sidenav #sidenav opened="true" disableClose="true" mode="side">
+    <app-menu-list></app-menu-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<app-panel-creator  *ngIf="showPanelCreator" [editedPanel]="editedPanel"></app-panel-creator>
+<app-subscribe [popup]="true" *ngIf="showSubscribe"></app-subscribe>
+
+<app-login *ngIf="showLogin"></app-login>

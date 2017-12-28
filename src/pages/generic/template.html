@@ -1,0 +1,65 @@
+<mat-toolbar>
+  <h3>{{currentPanel?.title}} </h3>
+<div id="customize-button">
+  <button *ngIf="authService.isSubscriptionActive()" (click)="openPanelEditor(currentPanel)" mat-button>Customize this
+    board
+  </button>
+  <button *ngIf="!authService.isSubscriptionActive()" (click)="eventService.showSubscribe()" mat-button>Customize this
+    board<span class="subscriber-feature">+</span></button>
+</div>
+
+</mat-toolbar>
+
+
+<mat-tab-group>
+  <mat-tab label="{{t.title}}" *ngFor="let t of currentPanel?.tabs">
+    <div class="panel-row" *ngFor="let r of t.rows">
+      <div  *ngIf="r?.content && r?.content.length>0">
+        <span class="panel-row-title">{{r.title}}</span>
+        <div class="panel-content-box">
+          <div class="panel-content panel-content-{{r.content.length}}" *ngFor="let c of r.content">
+            <div [ngSwitch]="c.code" class="panel-component">
+              <div *ngSwitchCase="'PRICE_CHANGE'">
+                <app-marketcap-evol-mini></app-marketcap-evol-mini>
+              </div>
+              <div *ngSwitchCase="'EVOL_MARKETCAP_MINI'">
+                <app-marketcap-evol-mini [period]="c.time"></app-marketcap-evol-mini>
+              </div>
+              <div *ngSwitchCase="'VOLUME_CHANGE'">
+                <app-marketcap-evol-mini></app-marketcap-evol-mini>
+              </div>
+              <div *ngSwitchCase="'LATEST_NEWS'">
+                <app-headlines [symbol]="c.symbol"></app-headlines>
+              </div>
+              <div *ngSwitchCase="'CHART_MARKETCAP'">
+                <app-marketcap  [symbol]="c.symbol"></app-marketcap>
+              </div>
+              <div *ngSwitchCase="'CHART_PRICE'">
+                <app-price  [symbol]="c.symbol"></app-price>
+              </div>
+              <div *ngSwitchCase="'CHART_VOLUME'">
+                <app-volume  [symbol]="c.symbol"></app-volume>
+              </div>
+              <div *ngSwitchCase="'LATEST_TWEETS'">
+                <app-twitter [symbol]="c.symbol"></app-twitter>
+              </div>
+              <div *ngSwitchCase="'RANKING_MARKETCAP'">
+                <app-marketcap-table></app-marketcap-table>
+              </div>
+              <div *ngSwitchCase="'PERF_LASTWEEK'">
+                <app-perf-lastweek [symbol]="c.symbol" [format]="c.format"></app-perf-lastweek>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+
+
+
+
+

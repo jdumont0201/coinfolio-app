@@ -1,0 +1,12 @@
+<div id="errors-panel">
+    <div *ngFor="let e of errors">
+        <span class="error" *ngIf="e.isDisplayed">
+            <span class="title">{{'errors.'+e.code | translate }}</span>
+            <span class="date">{{e.date | date:'medium'}}</span>
+            <span class="content">{{e.stack }}</span>
+            <span class="close" (click)="hideMessage(e)">X</span>
+        </span>
+    </div>
+</div>
+<div id="loading-indicator" [hidden]="!isLoading"> Loading  </div>
+<div id="saving-indicator" [hidden]="!isSaving">    Saving</div>

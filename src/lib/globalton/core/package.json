@@ -1,0 +1,25 @@
+{
+  "author": {
+    "name": "Jean-Baptiste Dumont"
+  },
+  "publishConfig": {
+    "registry": "http://npm.dev.hireton.com:4873/"
+  },
+  "scripts": {
+    "tsc": "tsc", 
+    "tsc:w": "tsc -w"
+  },
+  "description": "Globalton Core",
+  "dependencies": {
+
+  },
+  "peerDependencies": {
+  },
+  "repository": {},
+  "license": "",
+  "devDependencies": {
+
+  },
+  "name": "@globalton/core",
+  "version": "0.4.128"
+}
