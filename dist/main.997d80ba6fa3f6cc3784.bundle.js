@@ -515,7 +515,7 @@ var AppMenuList = (function () {
 /***/ "../../../../../src/canvas/menu/template.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-nav-list>\r\n<div id=\"header\">\r\n  <div class=\"logo-img\"><mat-icon>trending_up</mat-icon></div>\r\n  <div class=\"logo-in\" routerLink=\"/\">\r\n    <span id=\"logo\"> GOGOGROW</span>\r\n    <span id=\"slogan\">Crypto dashboard builder</span>\r\n  </div><br>\r\n\r\n\r\n  <button mat-button routerLink=\"/config/all\">\r\n    <mat-icon>settings</mat-icon>\r\n    {{authService.isAuthenticated()?\"Settings\":\"Sign in\"}}\r\n  </button>\r\n\r\n</div>\r\n\r\n  <div *ngFor=\"let p of currentWorkspace?.panels\" >\r\n\r\n    <div *ngIf=\"myPanels[p].type=='separator'\" mat-list-item class=\"mat-list-item  menu-separator\"> {{myPanels[p].title}}</div>\r\n    <a *ngIf=\" myPanels[p].type=='panel'\"  [routerLink]=\"'/board/'+p\" matLine mat-list-item > {{myPanels[p].title}}</a>\r\n    <a *ngIf=\" myPanels[p].type=='special'\"  [routerLink]=\"appConfigService.specialLinks[myPanels[p].id]\" matLine mat-list-item > {{myPanels[p].title}}</a>\r\n  </div>\r\n\r\n\r\n\r\n  <button mat-button *ngIf=\"authService.isSubscriptionActive()\" (click)=\"addPanel()\" id=\"button-editmode\">Edit dashboards...</button>\r\n  <button mat-button *ngIf=\"!authService.isSubscriptionActive()\"  (click)=\"eventService.showSubscribe()\"  id=\"button-editmode\">Edit dashboards...<span class=\"subscriber-feature\">+</span></button>\r\n\r\n</mat-nav-list>\r\n\r\n\r\n"
+module.exports = "<mat-nav-list>\r\n<div id=\"header\">\r\n  <div class=\"logo-img\"><mat-icon>trending_up</mat-icon></div>\r\n  <div class=\"logo-in\" routerLink=\"/\">\r\n    <span id=\"logo\"> CoinFolio  </span>\r\n    <span id=\"slogan\">Crypto dashboard builder</span>\r\n  </div><br>\r\n\r\n\r\n  <button mat-button routerLink=\"/config/all\">\r\n    <mat-icon>settings</mat-icon>\r\n    {{authService.isAuthenticated()?\"Settings\":\"Sign in\"}}\r\n  </button>\r\n\r\n</div>\r\n\r\n  <div *ngFor=\"let p of currentWorkspace?.panels\" >\r\n\r\n    <div *ngIf=\"myPanels[p].type=='separator'\" mat-list-item class=\"mat-list-item  menu-separator\"> {{myPanels[p].title}}</div>\r\n    <a *ngIf=\" myPanels[p].type=='panel'\"  [routerLink]=\"'/board/'+p\" matLine mat-list-item > {{myPanels[p].title}}</a>\r\n    <a *ngIf=\" myPanels[p].type=='special'\"  [routerLink]=\"appConfigService.specialLinks[myPanels[p].id]\" matLine mat-list-item > {{myPanels[p].title}}</a>\r\n  </div>\r\n\r\n\r\n\r\n  <button mat-button *ngIf=\"authService.isSubscriptionActive()\" (click)=\"addPanel()\" id=\"button-editmode\">Edit dashboards...</button>\r\n  <button mat-button *ngIf=\"!authService.isSubscriptionActive()\"  (click)=\"eventService.showSubscribe()\"  id=\"button-editmode\">Edit dashboards...<span class=\"subscriber-feature\">+</span></button>\r\n\r\n</mat-nav-list>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -1970,7 +1970,8 @@ var AuthService = (function () {
         return this.token;
     };
     AuthService.prototype.isSubscriptionActive = function () {
-        return this.authenticated && this.paymentExpiration && this.paymentExpiration > new Date().getTime() / 1000;
+        return true;
+        // return this.authenticated && this.paymentExpiration && this.paymentExpiration>new Date().getTime()/1000
     };
     AuthService.prototype.isAuthenticated = function () {
         return this.authenticated;
