@@ -11,7 +11,7 @@ EXPOSE 4200
 EXPOSE 49153
 
 ENV appname app
-RUN mkdir /coinfolio && mkdir /coinfolio/${appname}
+RUN mkdir /coinfolio && mkdir /coinfolio/${appname} &&  mkdir /coinfolio/${appname}/server &&  mkdir /coinfolio/${appname}/dist
 
 COPY server /coinfolio/${appname}/server
 RUN cd /coinfolio/${appname}/server && npm install
