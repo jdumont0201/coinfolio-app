@@ -156,7 +156,9 @@ export class AuthService {
         return this.token;
     }
   isSubscriptionActive():boolean{
-      return this.authenticated && this.paymentExpiration && this.paymentExpiration>new Date().getTime()/1000
+
+      return true;
+      // return this.authenticated && this.paymentExpiration && this.paymentExpiration>new Date().getTime()/1000
   }
     isAuthenticated(): boolean {
         return this.authenticated;
