@@ -15,6 +15,7 @@ RUN mkdir /coinfolio && mkdir /coinfolio/${appname}
 
 COPY dist /coinfolio/${appname}/dist
 COPY server /coinfolio/${appname}/server
+RUN cd /coinfolio/${appname}/server && npm install
 
 #NO CACHE AFTER THIS STEP
 ARG DEVBUILDNB
