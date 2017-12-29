@@ -4,6 +4,7 @@ import {DataService} from "../../lib/localton/services/data.service";
 
 import {EventService} from "../../lib/localton/services/event.service";
 import {Logic} from "../../logic/Logic";
+import {AuthService} from "../../lib/globalton/core/services/auth.service";
 @Component({
   selector: 'app-config-all',
   templateUrl:'template.html'
@@ -12,7 +13,8 @@ import {Logic} from "../../logic/Logic";
 @Injectable()
 export class AppConfigAllPage {
   user;
-  constructor(public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic) {
+  constructor(public authService:AuthService,public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic) {
+    if(this.authService.isAuthenticated())
     this.logic.getMe((user)=>{
       this.user=user;
     })

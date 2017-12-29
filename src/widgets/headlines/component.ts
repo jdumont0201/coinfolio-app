@@ -37,16 +37,17 @@ export class AppHeadlinesComponent implements OnInit{
   }
   parseNews(res):any[]{
     console.log(res)
-    const R = res.searchNews;
+    const R = res;
     let A = [];
-    for (let k in R) {
+    for (let k=0;k<R.length;++k) {
       const news = R[k];
+      if(news && typeof news==="object" && "title" in news)
       A.push({
         title: news.title,
-        desc: news.description,
-        publisher: news.publisher,
+        desc: news.content,
+        publisher: null,//news.publisher,
         link: news.link,
-        image: news.thumbnailUrl,
+        image: null,
         date:news.pubDate
       })
     }

@@ -104,7 +104,7 @@ import {GlobalErrorHandler} from "../lib/globalton/core/handlers/GlobalErrorHand
 import { Angular2TokenService } from 'angular2-token';
 
 export function RestangularConfigFactory (RestangularProvider) {
-  RestangularProvider.setBaseUrl('http://ec2-52-17-191-51.eu-west-1.compute.amazonaws.com:8081/');
+  RestangularProvider.setBaseUrl('http://34.242.69.165:3000');
   //RestangularProvider.setDefaultHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtX3VzZXIifQ.V2Jh0ImjSe1TvDuImncT1nG9W0zh6FFkmh7UhWWeJnI'});
   RestangularProvider.addFullRequestInterceptor((element, operation, path, url, headers, params)=> {
     console.log("[REQ] ",url,"params",params,"headers",headers);

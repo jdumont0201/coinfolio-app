@@ -58,7 +58,6 @@ export class AuthService {
     xfbml: true,
     version: 'v2.8'
 };
-
     localStorageKey: string;
 
     constructor(private http: Http,
@@ -89,7 +88,6 @@ export class AuthService {
         if (value.type == "general") {
             this.CONTENT_AUTHENTIFICATION = value.CONTENT_AUTHENTIFICATION;
             this.setLocalStorageKey();
-
             let jwt = localStorage.getItem(this.localStorageKey);
             if (jwt !== null) {
                 this.consoleService.log("has local storage");
@@ -100,7 +98,6 @@ export class AuthService {
             }
             this.isPostConfigured = true;
         }
-
     }
 
     setLocalStorageKey() {
@@ -137,9 +134,10 @@ export class AuthService {
 
     postLogin(): void {
         console.log("postlogin", this.loginResponse);
+        this.loadFromLoginResponse();
+
         this.createAuthHeaders();
         this.authenticated = true;
-        this.loadFromLoginResponse();
         console.log("postlogin userid=", this.userId, "authenticated=",this.authenticated);
         this.configService.setEntityPrefix("entity/" + this.entityId + "/");
         this.emitAuthStatus();
@@ -251,16 +249,16 @@ export class AuthService {
     createNoAuthHeaders(): void {
         console.log(" > authService createNoAuthHeaders");
         this.noauthPostHeaders = new HttpHeaders();
-        this.noauthPostHeaders.append('Content-Type', 'application/json');
+        this.noauthPostHeaders=this.noauthPostHeaders.set('Content-Type', 'application/json');
         this.noauthGetHeaders = new HttpHeaders();
-        this.noauthGetHeaders.append('Content-Type', 'application/json');
+        this.noauthGetHeaders=this.noauthGetHeaders.set('Content-Type', 'application/json');
         if (!this.authGetHeaders) {
             this.authGetHeaders = new HttpHeaders();
-            this.authGetHeaders.append('Content-Type', 'application/json');
+            this.authGetHeaders=this.authGetHeaders.set('Content-Type', 'application/json');
         }
         if (!this.authPostHeaders) {
             this.authPostHeaders = new HttpHeaders();
-            this.authPostHeaders.append('Content-Type', 'application/json');
+            this.authPostHeaders=this.authPostHeaders.set('Content-Type', 'application/json');
         }
     }
 

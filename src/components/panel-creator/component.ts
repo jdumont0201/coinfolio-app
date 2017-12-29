@@ -160,13 +160,13 @@ libraryTabChange(ev){
   }
 
   replaceSelectByValue(obj) {
-    this.consoleService.ui("REPLACE SELECTS", t)
+    this.consoleService.ui("REPLACE SELECTS")
     for (let i = 0; i < this.panel.tabs.length; ++i) {
-      let t = obj.tabs[i]
+      const t = obj.tabs[i]
       this.consoleService.ui("REPLACE TAB", t)
       for (let j = 0; j < t.rows[j].content.length; ++j) {
 
-        let r = t.rows[j]
+        const r = t.rows[j]
         this.consoleService.ui("REPLACE ROW", r, r.content)
         for (let k = 0; k < r.content.length; ++k) {
           this.consoleService.ui("REPALCE ", r.content[k].symbol, r.content[k].symbolValue)

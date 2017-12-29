@@ -1,4 +1,4 @@
-
+<ng-template *ngIf="authService?.isAuthenticated()">
     <mat-toolbar>
       <h3>Settings </h3>
 
@@ -13,3 +13,8 @@
     user?.currentPaymentExpiration | date:"medium"}}</mat-tab>
   <mat-tab label="Interface">Language: en_US</mat-tab>
 </mat-tab-group>
+</ng-template>
+<ng-template *ngIf="!authService?.isAuthenticated()">
+    <app-login [popup]="false"></app-login>
+
+</ng-template>

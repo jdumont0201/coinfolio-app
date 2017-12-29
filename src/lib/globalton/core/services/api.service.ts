@@ -66,9 +66,13 @@ export class ApiService {
         this.messageService.hideSaving();
         console.error(errorCode, err);
         let desc: string;
-        if (err.name == "TimeoutError") {
+        if(!err){
+            this.messageService.addError("API_ERROR", null, "No error desc available");
+        return}
+
+        if (err.name === "TimeoutError") {
             this.messageService.addError("API_DOWN", null, "API is unreachable.");
-        }else if (err.message == "Unauthorized") {
+        }else if (err.message === "Unauthorized") {
             this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource.");
         }else{
             console.log("other error");
@@ -186,7 +190,6 @@ export class ApiService {
     noauthpost(url: string, model: Model|any, f: Function): void {
         let fullurl: string = this.baseurl + url;
         let h: HttpHeaders = this.authService.noauthPostHeaders;
-
         let ser: string = typeof model =="object"?JSON.stringify(model):model.serialize();
         this.post(fullurl, ser, h, f);
     }
@@ -204,10 +207,9 @@ export class ApiService {
     }
 
     private post(url: string, raw: any, headers: HttpHeaders, f: Function) {
-        this.consoleService.post("Posting", url, "obj", raw, "seralized", raw, "headers", headers);
+        this.consoleService.post("Posting", url, "seralized", raw, "headers", headers);
         this.messageService.showSaving();
         this.http.post(url, raw, {headers: headers})
-
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(

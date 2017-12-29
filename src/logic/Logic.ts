@@ -14,6 +14,7 @@ export class Logic {
   }
 
   registerUser(obj, f) {
+    console.log("Register ",obj)
     this.apiService.noauthpost("user", obj, (res) => {
       if (res.token) {
         this.authService.loginResponse = res;
@@ -157,7 +158,12 @@ export class Logic {
       f(res)
     })
   }
-
+  getPanels(array,f:Function){
+    const url='panel?filter={"where":{"id":{"inq":["'+array.join('","')+'"]}}}'
+    this.apiService.authget(url, (res) => {
+      f(res)
+    })
+  }
   getMyWorkspaces(f: Function) {
     this.apiService.authget("user/" + this.authService.userId + "/workspaces", (res) => {
       f(res)
@@ -174,11 +180,11 @@ export class Logic {
       });
   }
   getNews(q:string,f:Function){
-    let url="widget/searchNews?q="+q;
+    const url="widget/searchNews?q="+q;
     this.apiService.noauthget(     url,    (res) => {
 
 
-      f(res)
+      f(res.searchNews.feed.entries)
     });
   }
   getTweets(q:string,f:Function){
@@ -197,4 +203,14 @@ export class Logic {
     })
 
   }
+  loadDefaultPanels(array,f:Function){
+    let A={}
+    this.getPanels(array,(res) => {
+      for(let i=0;i<res.length;++i)
+        A[res[i].id] = res[i];
+      f({array:res,object:A})
+    })
+
+  }
+
 }

@@ -1,6 +1,6 @@
 <mat-nav-list>
 <div id="header">
-  <div class="logo-img"><mat-icon>上</mat-icon></div>
+  <div class="logo-img"><mat-icon>trending_up</mat-icon></div>
   <div class="logo-in" routerLink="/">
     <span id="logo"> GOGOGROW</span>
     <span id="slogan">Crypto dashboard builder</span>
@@ -23,7 +23,8 @@
 
 
 
-<button mat-button (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
+  <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
+  <button mat-button *ngIf="!authService.isSubscriptionActive()"  (click)="eventService.showSubscribe()"  id="button-editmode">Edit dashboards...<span class="subscriber-feature">+</span></button>
 
 </mat-nav-list>
 

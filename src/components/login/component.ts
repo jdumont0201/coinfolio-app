@@ -18,10 +18,9 @@ export class AppLoginComponent {
   @Input() popup;
   form = new FormGroup({
     email: new FormControl('', {
-      validators: [Validators.required, Validators.pattern("[^ @]*@[^ @]*")],
-      updateOn: 'submit'
+      validators: [Validators.required, Validators.pattern("[^ @]*@[^ @]*")]
     }),
-    password: new FormControl('', {validators: [Validators.required, Validators.minLength(8)], updateOn: 'submit'})
+    password: new FormControl('', {validators: [Validators.required, Validators.minLength(8)]})
   });
 
   constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, private tokenService: Angular2TokenService, public apiService: ApiService) {
@@ -29,13 +28,11 @@ export class AppLoginComponent {
   }
 
   submit() {
-    console.log("Submit")
+    console.log("Submit");
     let obj = {}
     for (let k in this.form.controls)
       obj[k] = this.form.controls[k].value
     console.log("CONTROLS", this.form.controls, "OBJ", obj)
-    //this.logic.saveUser(obj,(res)=>{})
-
     this.logic.registerUser(obj, (res) => {
 
     })

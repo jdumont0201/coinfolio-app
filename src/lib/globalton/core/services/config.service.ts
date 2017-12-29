@@ -508,7 +508,7 @@ screenInformation:any;
 
     } else {
       if (location.host.indexOf("localhost")>-1)
-        this.apiURL = "http://localhost:3000/";
+        this.apiURL = "http://34.242.69.165:3001/";
       else
         this.apiURL = "http://api." + this.prefix + this.domain + apiSuffix
     }

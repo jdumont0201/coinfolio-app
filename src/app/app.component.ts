@@ -22,20 +22,15 @@ export class AppComponent   {
   myPanels;
 
   constructor(public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, private route: ActivatedRoute) {
-
     this.eventService.panelCreatorEvent.subscribe((val) => this.panelCreatorUpdated(val));
     this.eventService.loginEvent.subscribe((val) => this.loginUpdated(val));
     this.eventService.subscribeEvent.subscribe((val) => this.subscribeUpdated(val))
-
     this.eventService.workspaceUpdatedEvent.subscribe((val) => this.workspaceUpdated(val))
-
   }
 
   workspaceUpdated(val: any) {
 
   }
-
-
   panelCreatorUpdated(msg: any) {
     console.log("MAIN > panelCreatorUpdated",msg)
     if(msg && "display" in msg){
@@ -51,8 +46,6 @@ export class AppComponent   {
   subscribeUpdated(val: boolean) {
     this.showSubscribe = val;
   }
-
-
   loginUpdated(val: boolean) {
     this.showLogin = val;
   }
