@@ -1,6 +1,8 @@
 import {Injectable} from "@angular/core"
 import {Output} from "@angular/core"
 import {EventEmitter} from '@angular/core';
+import {ConsoleService} from "../../globalton/core/services/console.service";
+import {AuthService} from "../../globalton/core/services/auth.service";
 @Injectable()
 export class EventService {
   @Output() panelCreatorEvent:EventEmitter<any>=new EventEmitter<boolean>()
@@ -13,8 +15,30 @@ export class EventService {
   isMenuDisplayed:boolean=true;
   isMobile:boolean=false;
   isMenuPinned:boolean=false;
-  constructor(){
-this.init();
+  isVeilVisible:boolean=true;
+  isWelcomeVisible:boolean=true;
+
+
+  showWelcome(){
+    this.consoleService.ui("showwelcome");
+    this.isWelcomeVisible=true
+  }
+  hideWelcome(){
+    this.consoleService.ui("hidewelcome");
+    this.isWelcomeVisible=false;
+  }
+
+  showVeil(){
+    this.consoleService.ui("showVeil");
+    this.isVeilVisible=true
+  }
+  hideVeil(){
+    this.consoleService.ui("hideVeil");
+    this.isVeilVisible=false;
+  }
+  constructor(public consoleService:ConsoleService,public authService:AuthService){
+    this.init();
+    this.isWelcomeVisible=this.authService.isAuthenticated()?false:true;
   }
   init(){
     if(window.innerWidth<800)

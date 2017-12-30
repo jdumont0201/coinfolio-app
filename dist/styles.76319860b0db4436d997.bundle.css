@@ -813,6 +813,73 @@ display: block;
 width: 60px;
 height: 60px;
 text-align: center;
+}
+#welcome{
+  position: absolute;
+  width: 90%;
+  z-index: 20;
+  top: 30px;
+  left: 0;
+  background: white;
+  box-shadow: 4px 3px 5px #00000059;
+  margin: auto;
+  right: 0;
+
+}
+#welcome-in {  padding: 20px;}
+#welcome h1{
+  font:bold 25px/35px Roboto;
+text-align:center;
+}
+#welcome h2{
+font:bold 25px/35px Roboto
+}
+#welcome-desc span{
+  font:bold 15px/20px Roboto
+}
+#welcome #logo{
+  color: #444444;}
+.disclaimer{
+  font: normal 15px/35px Roboto;
+  border-top: solid 1px #ddc2a1;
+  border-bottom: solid 1px #ddc2a1;
+  background: #ffead1;
+  color: #917553;
+  font-style: italic;
+  text-align: center;
+  margin: 20px 0;}
+#veil{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #00000070;
+  z-index: 16;
+}
+
+#welcome table {
+  margin: auto;
+  border: solid 1px #ccc;
+  padding: 0;
+  border-spacing: 0;
+  border-bottom: 0;
+}
+
+#welcome td {
+  border-bottom: solid 1px #ccc;
+  padding: 10px;
+  margin: 0;
+
+  text-align: center;}
+#welcome td:first-child {
+  text-align: left;
+}
+#welcome tr:first-child td {
+  background:#fafafa
+}
+#welcome tr:last-child td {
+  background:#fafafa
 }@media screen and (max-width: 640px) {
     .mat-drawer{ }
 

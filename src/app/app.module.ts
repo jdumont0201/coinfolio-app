@@ -66,7 +66,7 @@ import {routes} from "./app-routing.module"
 import { QRCodeModule } from 'angular2-qrcode';
 //import { Ng4TwitterTimelineModule } from 'ng4-twitter-timeline/lib/index';
 
-/*COMPONENTS*/
+/*WIDGETS*/
 import {AppTopPerformanceComponent} from "../widgets/top-performance/component"
 import {AppTopPerformanceDailyComponent} from "../widgets/top-performance-daily/component";
 import {AppEvolutionTableComponent} from "../widgets/evolution-table/component";
@@ -81,11 +81,14 @@ import {AppPriceDivMarketComponent} from "../widgets/pricedivmarket/component";
 import {AppVolumeComponent} from "../widgets/volume/component";
 import {AppTwitterComponent} from "../widgets/twitter/component"
 import {AppHeadlinesComponent} from "../widgets/headlines/component"
+
+/*COMPONENTS*/
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
 import {AppMarketCapEvolComponent} from "../widgets/marketcap-evol/component"
 import {AppLoginComponent} from "../components/login/component"
 import {AppWelcomeComponent} from "../components/welcome/component"
 import {AppSubscribeComponent} from "../components/subscribe/component"
+import {AppVeilComponent} from "../components/veil/component"
 import {MatStepperModule} from '@angular/material/stepper';
 import {AppMarketCapEvolMiniComponent} from "../widgets/marketcap-evol-mini/component"
 import {AppSubscriberFeatureComponent} from "../components/subscriber-feature/component";
@@ -125,7 +128,7 @@ export function RestangularConfigFactory (RestangularProvider) {
 @NgModule({
   declarations: [
     AppComponent, AppMenuList,
-    AskNameDialog,AppWelcomeComponent,
+    AskNameDialog,AppWelcomeComponent,AppVeilComponent,
     AppChartItemPage, AppDashboardPage,AppAllocationPage,AppNewsPage,AppAccountPage,AppConfigAllPage,AppImportPage,AppEvolutionPage,AppImportCMCPage,AppMarketPage,AppSymbolItemPage,AppSymbolAllPage,AppGenericPage,
   AppPanelCreatorComponent,AppLoginComponent,AppSubscriberFeatureComponent,AppSubscribeComponent,AppRegisterComponent,AppConfigProfilePage,
     AppCryptoIconComponent,AppMarketCapEvolComponent,AppMarketCapEvolMiniComponent,AppTopPerformanceComponent,AppTopPerformanceDailyComponent,AppHeadlinesComponent,AppTwitterComponent,AppEvolutionTableComponent,AppSortedPerformanceComponent,AppMarketCapTableComponent,AppPerfLastWeekComponent,AppCapLastWeekComponent,AppTrendingLastWeekComponent,AppVolumeComponent,AppPriceComponent,AppMarketCapComponent,AppPriceDivMarketComponent

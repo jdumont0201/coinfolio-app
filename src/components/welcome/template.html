@@ -1,15 +1,63 @@
-<div id="welcome" *ngIf="displayed">
-    <h1>CoinFolio</h1>
-    <h2>All your crypto news & tweets on one dashboard</h2>
-    <span></span>
-    <h2>Market data + indicators</h2>
-    <span></span>
-    <h2>Portofolio allocation</h2>
-    <span></span>
-    <h2>Edit & customize your boards</h2>
-    <span></span>
-    <h1>Plans</h1>
+<div id="welcome" *ngIf="eventService.isWelcomeVisible">
+        <mat-tab-group>
+            <mat-tab label="Welcome">
+                <div id="welcome-in">
+                    <div class="logo-in" routerlink="/" tabindex="0" ng-reflect-router-link="/">
+                        <span id="logo"> CoinFolio  </span>
+                        <span id="slogan">Crypto dashboard builder</span>
+                    </div>
+                    <div id="welcome-desc">
+                    <h2>All your crypto news & tweets on one dashboard</h2>
+                <span></span>
+                <h2>Market data + indicators</h2>
+                <span></span>
+                <h2>Portofolio allocation</h2>
+                <span></span>
+                <h2>Edit & customize your boards</h2>
+                <span></span>
+                    </div>
+                <h1>Plans</h1>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>Free</td>
+                        <td>Subscribers</td>
+                    </tr>
+                    <tr>
+                        <td>Access data boards</td>
+                        <td><mat-icon class="valpos">check_circle</mat-icon></td>
+                        <td><mat-icon class="valpos">check_circle</mat-icon></td>
+                    </tr>
+                    <tr>
+                        <td>Access portfolio optimization boards</td>
+                        <td><mat-icon class="valneg">not_interested</mat-icon></td>
+                        <td><mat-icon class="valpos">check_circle</mat-icon></td>
+                    </tr>
+                    <tr>
+                        <td>Customize widgets</td>
+                        <td><mat-icon class="valneg">not_interested</mat-icon></td>
+                        <td><mat-icon class="valpos">check_circle</mat-icon></td>
+                    </tr>
+                    <tr>
+                        <td>Receive alerts</td>
+                        <td><mat-icon class="valneg">not_interested</mat-icon></td>
+                        <td><mat-icon class="valpos">check_circle</mat-icon></td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td>FREE</td>
+                        <td>$29/mo</td>
+                    </tr>
 
-    <span class="disclaimer">CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford to lose.</span>
-    <button mat-raised-button (click)="displayed=false">Agreed</button>
+                </table>
+    </div>
+    <div class="disclaimer">DISCLAIMER<br>
+        CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford to lose.</div>
+    <div class="centered"><button class="centered" mat-raised-button color="accent" (click)="close()">Agreed</button></div>
+
+    </mat-tab>
+            <mat-tab label="Subscribe now">
+                <app-register></app-register>
+            </mat-tab>
+        </mat-tab-group>
 </div>
