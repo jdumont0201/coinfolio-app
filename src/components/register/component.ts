@@ -5,7 +5,6 @@ import {EventService} from "../../lib/localton/services/event.service"
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {Logic} from "../../logic/Logic";
 
-import {Angular2TokenService} from 'angular2-token';
 import {ApiService} from "../../lib/globalton/core/services/api.service";
 
 @Component({
@@ -22,7 +21,7 @@ export class AppRegisterComponent {
     }),
     password: new FormControl('', {validators: [Validators.required, Validators.minLength(8)], updateOn: 'submit'})
   });
-  constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, private tokenService: Angular2TokenService, public apiService: ApiService) {
+  constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService,  public apiService: ApiService) {
 
   }
 

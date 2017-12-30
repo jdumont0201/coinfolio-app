@@ -7,7 +7,6 @@ import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {EventService} from "../../lib/localton/services/event.service"
 import {FormGroup, FormControl, Validators, FormBuilder} from "@angular/forms";
 import {Logic} from "../../logic/Logic";
-import {Angular2TokenService} from 'angular2-token';
 import {ApiService} from "../../lib/globalton/core/services/api.service";
 import {RequestService} from "../../lib/globalton/core/services/request.service";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
@@ -25,7 +24,7 @@ export class AppSubscribeComponent {
   isPlanSelected = false;
   plans: any[];
 
-  constructor(public logic: Logic, private fb: FormBuilder, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, private tokenService: Angular2TokenService, public apiService: ApiService, public requestService: RequestService) {
+  constructor(public logic: Logic, private fb: FormBuilder, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
     this.logic.getPlans((res) => {
       console.log("plans", res);
       this.plans = res;
