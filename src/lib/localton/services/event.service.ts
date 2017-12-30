@@ -8,8 +8,25 @@ export class EventService {
   @Output() subscribeEvent:EventEmitter<boolean>=new EventEmitter<boolean>()
   @Output() panelChangedEvent:EventEmitter<boolean>=new EventEmitter<boolean>()
   @Output() workspaceUpdatedEvent:EventEmitter<any>=new EventEmitter<boolean>()
-  constructor(){
+  @Output() menuDisplayUpdatedEvent:EventEmitter<any>=new EventEmitter<boolean>()
 
+  isMenuDisplayed:boolean=true;
+  isMobile:boolean=false;
+  isMenuPinned:boolean=false;
+  constructor(){
+this.init();
+  }
+  init(){
+    if(window.innerWidth<800)
+      this.isMobile=true;
+    else
+      this.isMobile=false;
+    if(this.isMobile) this.isMenuDisplayed=false; else this.isMenuDisplayed=true;
+
+  }
+  resized() {
+    console.log("resized",window.innerWidth)
+    this.init();
   }
 
   showPanelCreator(){

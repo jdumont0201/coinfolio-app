@@ -1,16 +1,17 @@
-<mat-nav-list>
-<div id="header">
-  <div class="logo-img"><mat-icon>trending_up</mat-icon></div>
-  <div class="logo-in" routerLink="/">
-    <span id="logo"> CoinFolio  </span>
-    <span id="slogan">Crypto dashboard builder</span>
-  </div><br>
+
+<mat-nav-list  id="desktop-menu">
+  <div id="header">
+    <div class="logo-img"><mat-icon>trending_up</mat-icon></div>
+    <div class="logo-in" routerLink="/">
+      <span id="logo"> CoinFolio  </span>
+      <span id="slogan">Crypto dashboard builder</span>
+    </div><br>
 
 
-  <button mat-button routerLink="/config/all">
-    <mat-icon>settings</mat-icon>
-    {{authService.isAuthenticated()?"Settings":"Sign in"}}
-  </button>
+    <button mat-button routerLink="/config/all">
+      <mat-icon>settings</mat-icon>
+      {{authService.isAuthenticated()?"Settings":"Sign in"}}
+    </button>
 
 </div>
 
@@ -20,8 +21,6 @@
     <a *ngIf=" myPanels[p].type=='panel'"  [routerLink]="'/board/'+p" matLine mat-list-item > {{myPanels[p].title}}</a>
     <a *ngIf=" myPanels[p].type=='special'"  [routerLink]="appConfigService.specialLinks[myPanels[p].id]" matLine mat-list-item > {{myPanels[p].title}}</a>
   </div>
-
-
 
   <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
   <button mat-button *ngIf="!authService.isSubscriptionActive()"  (click)="eventService.showSubscribe()"  id="button-editmode">Edit dashboards...<span class="subscriber-feature">+</span></button>

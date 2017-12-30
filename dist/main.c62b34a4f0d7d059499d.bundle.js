@@ -116,7 +116,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n\r\n\r\n<mat-sidenav-container fullscreen *ngIf=\"!showPanelCreator\"  >\r\n  <mat-sidenav #sidenav opened=\"true\" disableClose=\"true\" mode=\"side\">\r\n    <app-menu-list></app-menu-list>\r\n  </mat-sidenav>\r\n  <mat-sidenav-content>\r\n    <router-outlet></router-outlet>\r\n  </mat-sidenav-content>\r\n</mat-sidenav-container>\r\n<app-panel-creator  *ngIf=\"showPanelCreator\" [editedPanel]=\"editedPanel\"></app-panel-creator>\r\n<app-subscribe [popup]=\"true\" *ngIf=\"showSubscribe\"></app-subscribe>\r\n\r\n<app-login *ngIf=\"showLogin\"></app-login>\r\n"
+module.exports = "\r\n<div  (window:resize)=\"eventService.resized($event)\" id=\"maincanvas\" *ngIf=\"!showPanelCreator\" [ngClass]=\"eventService.isMenuDisplayed?'':'menudisplayed'\">\r\n  <mat-icon id=\"menu-switch\" (click)=\"sidenav.toggle();eventService.isMenuDisplayed=!eventService.isMenuDisplayed\">{{eventService.isMenuDisplayed?\"chevron_left\":\"menu\"}}</mat-icon>\r\n  <mat-sidenav-container fullscreen (backdropClick)=\"sidenav.close();eventService.isMenuDisplayed=false\" >\r\n    <mat-sidenav #sidenav [opened]=\"eventService.isMobile?false:true\" [mode]=\"eventService.isMenuPinned?'side':(eventService.isMobile?'over':'side')\" opened=\"true\" disableClose=\"true\" mode=\"side\">\r\n      <mat-icon id=\"menu-pin\" (click)=\"eventService.isMenuPinned=!eventService.isMenuPinned\">{{eventService.isMenuPinned?\"lock\":\"lock_outline\"}}</mat-icon>\r\n\r\n      <app-menu-list></app-menu-list>\r\n    </mat-sidenav>\r\n    <mat-sidenav-content>\r\n      <router-outlet></router-outlet>\r\n    </mat-sidenav-content>\r\n  </mat-sidenav-container>\r\n\r\n</div>\r\n\r\n<app-panel-creator  *ngIf=\"showPanelCreator\" [editedPanel]=\"editedPanel\"></app-panel-creator>\r\n\r\n<app-subscribe [popup]=\"true\" *ngIf=\"showSubscribe\"></app-subscribe>\r\n\r\n<app-login *ngIf=\"showLogin\"></app-login>\r\n"
 
 /***/ }),
 
@@ -270,20 +270,21 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_58__components_cryptoicon_component__ = __webpack_require__("../../../../../src/components/cryptoicon/component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_59__widgets_marketcap_evol_component__ = __webpack_require__("../../../../../src/widgets/marketcap-evol/component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_60__components_login_component__ = __webpack_require__("../../../../../src/components/login/component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__components_subscribe_component__ = __webpack_require__("../../../../../src/components/subscribe/component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__angular_material_stepper__ = __webpack_require__("../../../material/esm5/stepper.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__widgets_marketcap_evol_mini_component__ = __webpack_require__("../../../../../src/widgets/marketcap-evol-mini/component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__components_subscriber_feature_component__ = __webpack_require__("../../../../../src/components/subscriber-feature/component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__components_register_component__ = __webpack_require__("../../../../../src/components/register/component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__pages_config_profile_component__ = __webpack_require__("../../../../../src/pages/config-profile/component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__angular_material_snack_bar__ = __webpack_require__("../../../material/esm5/snack-bar.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__components_panel_creator_component__ = __webpack_require__("../../../../../src/components/panel-creator/component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69_ng2_dnd__ = __webpack_require__("../../../../ng2-dnd/ng2-dnd.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70_ngx_restangular__ = __webpack_require__("../../../../ngx-restangular/dist/esm/src/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70_ngx_restangular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_70_ngx_restangular__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71__lib_globalton_core_handlers_GlobalErrorHandler__ = __webpack_require__("../../../../../src/lib/globalton/core/handlers/GlobalErrorHandler.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72_angular2_token__ = __webpack_require__("../../../../angular2-token/angular2-token.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72_angular2_token___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_72_angular2_token__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_61__components_welcome_component__ = __webpack_require__("../../../../../src/components/welcome/component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_62__components_subscribe_component__ = __webpack_require__("../../../../../src/components/subscribe/component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_63__angular_material_stepper__ = __webpack_require__("../../../material/esm5/stepper.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_64__widgets_marketcap_evol_mini_component__ = __webpack_require__("../../../../../src/widgets/marketcap-evol-mini/component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_65__components_subscriber_feature_component__ = __webpack_require__("../../../../../src/components/subscriber-feature/component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_66__components_register_component__ = __webpack_require__("../../../../../src/components/register/component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_67__pages_config_profile_component__ = __webpack_require__("../../../../../src/pages/config-profile/component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_68__angular_material_snack_bar__ = __webpack_require__("../../../material/esm5/snack-bar.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_69__components_panel_creator_component__ = __webpack_require__("../../../../../src/components/panel-creator/component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_70_ng2_dnd__ = __webpack_require__("../../../../ng2-dnd/ng2-dnd.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71_ngx_restangular__ = __webpack_require__("../../../../ngx-restangular/dist/esm/src/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_71_ngx_restangular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_71_ngx_restangular__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_72__lib_globalton_core_handlers_GlobalErrorHandler__ = __webpack_require__("../../../../../src/lib/globalton/core/handlers/GlobalErrorHandler.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73_angular2_token__ = __webpack_require__("../../../../angular2-token/angular2-token.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_73_angular2_token___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_73_angular2_token__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -377,6 +378,7 @@ function highchartsModules() {
 
 
 
+
 function RestangularConfigFactory(RestangularProvider) {
     RestangularProvider.setBaseUrl('http://34.242.69.165:3000');
     //RestangularProvider.setDefaultHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtX3VzZXIifQ.V2Jh0ImjSe1TvDuImncT1nG9W0zh6FFkmh7UhWWeJnI'});
@@ -400,10 +402,10 @@ var AppModule = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
             declarations: [
                 __WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */], __WEBPACK_IMPORTED_MODULE_40__canvas_menu_component__["a" /* AppMenuList */],
-                __WEBPACK_IMPORTED_MODULE_68__components_panel_creator_component__["b" /* AskNameDialog */],
+                __WEBPACK_IMPORTED_MODULE_69__components_panel_creator_component__["b" /* AskNameDialog */], __WEBPACK_IMPORTED_MODULE_61__components_welcome_component__["a" /* AppWelcomeComponent */],
                 __WEBPACK_IMPORTED_MODULE_30__pages_chart_item_component__["a" /* AppChartItemPage */], __WEBPACK_IMPORTED_MODULE_27__pages_dashboard_component__["a" /* AppDashboardPage */], __WEBPACK_IMPORTED_MODULE_28__pages_allocation_item_component__["a" /* AppAllocationPage */], __WEBPACK_IMPORTED_MODULE_29__pages_news_component__["a" /* AppNewsPage */], __WEBPACK_IMPORTED_MODULE_32__pages_account_component__["a" /* AppAccountPage */], __WEBPACK_IMPORTED_MODULE_31__pages_config_all_component__["a" /* AppConfigAllPage */], __WEBPACK_IMPORTED_MODULE_33__pages_import_component__["a" /* AppImportPage */], __WEBPACK_IMPORTED_MODULE_35__pages_evolution_item_component__["a" /* AppEvolutionPage */], __WEBPACK_IMPORTED_MODULE_34__pages_import_cmc_component__["a" /* AppImportCMCPage */], __WEBPACK_IMPORTED_MODULE_36__pages_market_component__["a" /* AppMarketPage */], __WEBPACK_IMPORTED_MODULE_39__pages_symbol_item_component__["a" /* AppSymbolItemPage */], __WEBPACK_IMPORTED_MODULE_38__pages_symbol_all_component__["a" /* AppSymbolAllPage */], __WEBPACK_IMPORTED_MODULE_37__pages_generic_component__["a" /* AppGenericPage */],
-                __WEBPACK_IMPORTED_MODULE_68__components_panel_creator_component__["a" /* AppPanelCreatorComponent */], __WEBPACK_IMPORTED_MODULE_60__components_login_component__["a" /* AppLoginComponent */], __WEBPACK_IMPORTED_MODULE_64__components_subscriber_feature_component__["a" /* AppSubscriberFeatureComponent */], __WEBPACK_IMPORTED_MODULE_61__components_subscribe_component__["a" /* AppSubscribeComponent */], __WEBPACK_IMPORTED_MODULE_65__components_register_component__["a" /* AppRegisterComponent */], __WEBPACK_IMPORTED_MODULE_66__pages_config_profile_component__["a" /* AppConfigProfilePage */],
-                __WEBPACK_IMPORTED_MODULE_58__components_cryptoicon_component__["a" /* AppCryptoIconComponent */], __WEBPACK_IMPORTED_MODULE_59__widgets_marketcap_evol_component__["a" /* AppMarketCapEvolComponent */], __WEBPACK_IMPORTED_MODULE_63__widgets_marketcap_evol_mini_component__["a" /* AppMarketCapEvolMiniComponent */], __WEBPACK_IMPORTED_MODULE_44__widgets_top_performance_component__["a" /* AppTopPerformanceComponent */], __WEBPACK_IMPORTED_MODULE_45__widgets_top_performance_daily_component__["a" /* AppTopPerformanceDailyComponent */], __WEBPACK_IMPORTED_MODULE_57__widgets_headlines_component__["a" /* AppHeadlinesComponent */], __WEBPACK_IMPORTED_MODULE_56__widgets_twitter_component__["a" /* AppTwitterComponent */], __WEBPACK_IMPORTED_MODULE_46__widgets_evolution_table_component__["a" /* AppEvolutionTableComponent */], __WEBPACK_IMPORTED_MODULE_47__widgets_sorted_perf_component__["a" /* AppSortedPerformanceComponent */], __WEBPACK_IMPORTED_MODULE_48__widgets_market_table_component__["a" /* AppMarketCapTableComponent */], __WEBPACK_IMPORTED_MODULE_49__widgets_perf_lastweek_component__["a" /* AppPerfLastWeekComponent */], __WEBPACK_IMPORTED_MODULE_51__widgets_cap_lastweek_component__["a" /* AppCapLastWeekComponent */], __WEBPACK_IMPORTED_MODULE_50__widgets_trending_lastweek_component__["a" /* AppTrendingLastWeekComponent */], __WEBPACK_IMPORTED_MODULE_55__widgets_volume_component__["a" /* AppVolumeComponent */], __WEBPACK_IMPORTED_MODULE_52__widgets_price_component__["a" /* AppPriceComponent */], __WEBPACK_IMPORTED_MODULE_53__widgets_marketcap_component__["a" /* AppMarketCapComponent */], __WEBPACK_IMPORTED_MODULE_54__widgets_pricedivmarket_component__["a" /* AppPriceDivMarketComponent */]
+                __WEBPACK_IMPORTED_MODULE_69__components_panel_creator_component__["a" /* AppPanelCreatorComponent */], __WEBPACK_IMPORTED_MODULE_60__components_login_component__["a" /* AppLoginComponent */], __WEBPACK_IMPORTED_MODULE_65__components_subscriber_feature_component__["a" /* AppSubscriberFeatureComponent */], __WEBPACK_IMPORTED_MODULE_62__components_subscribe_component__["a" /* AppSubscribeComponent */], __WEBPACK_IMPORTED_MODULE_66__components_register_component__["a" /* AppRegisterComponent */], __WEBPACK_IMPORTED_MODULE_67__pages_config_profile_component__["a" /* AppConfigProfilePage */],
+                __WEBPACK_IMPORTED_MODULE_58__components_cryptoicon_component__["a" /* AppCryptoIconComponent */], __WEBPACK_IMPORTED_MODULE_59__widgets_marketcap_evol_component__["a" /* AppMarketCapEvolComponent */], __WEBPACK_IMPORTED_MODULE_64__widgets_marketcap_evol_mini_component__["a" /* AppMarketCapEvolMiniComponent */], __WEBPACK_IMPORTED_MODULE_44__widgets_top_performance_component__["a" /* AppTopPerformanceComponent */], __WEBPACK_IMPORTED_MODULE_45__widgets_top_performance_daily_component__["a" /* AppTopPerformanceDailyComponent */], __WEBPACK_IMPORTED_MODULE_57__widgets_headlines_component__["a" /* AppHeadlinesComponent */], __WEBPACK_IMPORTED_MODULE_56__widgets_twitter_component__["a" /* AppTwitterComponent */], __WEBPACK_IMPORTED_MODULE_46__widgets_evolution_table_component__["a" /* AppEvolutionTableComponent */], __WEBPACK_IMPORTED_MODULE_47__widgets_sorted_perf_component__["a" /* AppSortedPerformanceComponent */], __WEBPACK_IMPORTED_MODULE_48__widgets_market_table_component__["a" /* AppMarketCapTableComponent */], __WEBPACK_IMPORTED_MODULE_49__widgets_perf_lastweek_component__["a" /* AppPerfLastWeekComponent */], __WEBPACK_IMPORTED_MODULE_51__widgets_cap_lastweek_component__["a" /* AppCapLastWeekComponent */], __WEBPACK_IMPORTED_MODULE_50__widgets_trending_lastweek_component__["a" /* AppTrendingLastWeekComponent */], __WEBPACK_IMPORTED_MODULE_55__widgets_volume_component__["a" /* AppVolumeComponent */], __WEBPACK_IMPORTED_MODULE_52__widgets_price_component__["a" /* AppPriceComponent */], __WEBPACK_IMPORTED_MODULE_53__widgets_marketcap_component__["a" /* AppMarketCapComponent */], __WEBPACK_IMPORTED_MODULE_54__widgets_pricedivmarket_component__["a" /* AppPriceDivMarketComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -412,15 +414,15 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_3__lib_globalton_core_core_module__["a" /* GlobaltonCoreModule */],
                 __WEBPACK_IMPORTED_MODULE_6_angular_highcharts__["b" /* ChartModule */],
                 __WEBPACK_IMPORTED_MODULE_4__lib_globalton_ui_ui_module__["a" /* GlobaltonUIModule */], __WEBPACK_IMPORTED_MODULE_5__lib_localton_local_module__["a" /* LocalModule */],
-                __WEBPACK_IMPORTED_MODULE_70_ngx_restangular__["RestangularModule"].forRoot(RestangularConfigFactory),
+                __WEBPACK_IMPORTED_MODULE_71_ngx_restangular__["RestangularModule"].forRoot(RestangularConfigFactory),
                 __WEBPACK_IMPORTED_MODULE_42__angular_router__["c" /* RouterModule */].forRoot(__WEBPACK_IMPORTED_MODULE_41__app_routing_module__["b" /* routes */]),
-                __WEBPACK_IMPORTED_MODULE_9__angular_common_http__["b" /* HttpClientModule */], __WEBPACK_IMPORTED_MODULE_69_ng2_dnd__["a" /* DndModule */].forRoot(),
+                __WEBPACK_IMPORTED_MODULE_9__angular_common_http__["b" /* HttpClientModule */], __WEBPACK_IMPORTED_MODULE_70_ng2_dnd__["a" /* DndModule */].forRoot(),
                 __WEBPACK_IMPORTED_MODULE_43_angular2_qrcode__["a" /* QRCodeModule */],
-                __WEBPACK_IMPORTED_MODULE_12__angular_material__["b" /* MatButtonModule */], __WEBPACK_IMPORTED_MODULE_13__angular_material_sidenav__["a" /* MatSidenavModule */], __WEBPACK_IMPORTED_MODULE_67__angular_material_snack_bar__["b" /* MatSnackBarModule */], __WEBPACK_IMPORTED_MODULE_25__angular_material_tabs__["a" /* MatTabsModule */], __WEBPACK_IMPORTED_MODULE_14__angular_material_menu__["a" /* MatMenuModule */], __WEBPACK_IMPORTED_MODULE_15__angular_material_icon__["a" /* MatIconModule */], __WEBPACK_IMPORTED_MODULE_62__angular_material_stepper__["a" /* MatStepperModule */], __WEBPACK_IMPORTED_MODULE_26__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_16__angular_material_toolbar__["a" /* MatToolbarModule */], __WEBPACK_IMPORTED_MODULE_17__angular_material_list__["a" /* MatListModule */], __WEBPACK_IMPORTED_MODULE_18__angular_material_table__["b" /* MatTableModule */], __WEBPACK_IMPORTED_MODULE_12__angular_material__["c" /* MatCheckboxModule */], __WEBPACK_IMPORTED_MODULE_19__angular_material_form_field__["c" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_24__angular_material_paginator__["a" /* MatPaginatorModule */], __WEBPACK_IMPORTED_MODULE_12__angular_material__["f" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_20__angular_material_card__["a" /* MatCardModule */], __WEBPACK_IMPORTED_MODULE_21__angular_material_grid_list__["a" /* MatGridListModule */], __WEBPACK_IMPORTED_MODULE_23__angular_material_datepicker__["a" /* MatDatepickerModule */], __WEBPACK_IMPORTED_MODULE_12__angular_material__["g" /* MatNativeDateModule */],
+                __WEBPACK_IMPORTED_MODULE_12__angular_material__["b" /* MatButtonModule */], __WEBPACK_IMPORTED_MODULE_13__angular_material_sidenav__["a" /* MatSidenavModule */], __WEBPACK_IMPORTED_MODULE_68__angular_material_snack_bar__["b" /* MatSnackBarModule */], __WEBPACK_IMPORTED_MODULE_25__angular_material_tabs__["a" /* MatTabsModule */], __WEBPACK_IMPORTED_MODULE_14__angular_material_menu__["a" /* MatMenuModule */], __WEBPACK_IMPORTED_MODULE_15__angular_material_icon__["a" /* MatIconModule */], __WEBPACK_IMPORTED_MODULE_63__angular_material_stepper__["a" /* MatStepperModule */], __WEBPACK_IMPORTED_MODULE_26__angular_material_dialog__["c" /* MatDialogModule */], __WEBPACK_IMPORTED_MODULE_16__angular_material_toolbar__["a" /* MatToolbarModule */], __WEBPACK_IMPORTED_MODULE_17__angular_material_list__["a" /* MatListModule */], __WEBPACK_IMPORTED_MODULE_18__angular_material_table__["b" /* MatTableModule */], __WEBPACK_IMPORTED_MODULE_12__angular_material__["c" /* MatCheckboxModule */], __WEBPACK_IMPORTED_MODULE_19__angular_material_form_field__["c" /* MatFormFieldModule */], __WEBPACK_IMPORTED_MODULE_24__angular_material_paginator__["a" /* MatPaginatorModule */], __WEBPACK_IMPORTED_MODULE_12__angular_material__["f" /* MatInputModule */], __WEBPACK_IMPORTED_MODULE_20__angular_material_card__["a" /* MatCardModule */], __WEBPACK_IMPORTED_MODULE_21__angular_material_grid_list__["a" /* MatGridListModule */], __WEBPACK_IMPORTED_MODULE_23__angular_material_datepicker__["a" /* MatDatepickerModule */], __WEBPACK_IMPORTED_MODULE_12__angular_material__["g" /* MatNativeDateModule */],
                 __WEBPACK_IMPORTED_MODULE_41__app_routing_module__["a" /* AppRoutingModule */]
             ],
-            entryComponents: [__WEBPACK_IMPORTED_MODULE_68__components_panel_creator_component__["b" /* AskNameDialog */]],
-            providers: [__WEBPACK_IMPORTED_MODULE_22__logic_Logic__["a" /* Logic */], __WEBPACK_IMPORTED_MODULE_72_angular2_token__["Angular2TokenService"], { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["ErrorHandler"], useClass: __WEBPACK_IMPORTED_MODULE_71__lib_globalton_core_handlers_GlobalErrorHandler__["a" /* GlobalErrorHandler */] },
+            entryComponents: [__WEBPACK_IMPORTED_MODULE_69__components_panel_creator_component__["b" /* AskNameDialog */]],
+            providers: [__WEBPACK_IMPORTED_MODULE_22__logic_Logic__["a" /* Logic */], __WEBPACK_IMPORTED_MODULE_73_angular2_token__["Angular2TokenService"], { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["ErrorHandler"], useClass: __WEBPACK_IMPORTED_MODULE_72__lib_globalton_core_handlers_GlobalErrorHandler__["a" /* GlobalErrorHandler */] },
                 { provide: __WEBPACK_IMPORTED_MODULE_6_angular_highcharts__["c" /* HIGHCHARTS_MODULES */], useFactory: highchartsModules }
             ],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
@@ -515,7 +517,7 @@ var AppMenuList = (function () {
 /***/ "../../../../../src/canvas/menu/template.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-nav-list>\r\n<div id=\"header\">\r\n  <div class=\"logo-img\"><mat-icon>trending_up</mat-icon></div>\r\n  <div class=\"logo-in\" routerLink=\"/\">\r\n    <span id=\"logo\"> CoinFolio  </span>\r\n    <span id=\"slogan\">Crypto dashboard builder</span>\r\n  </div><br>\r\n\r\n\r\n  <button mat-button routerLink=\"/config/all\">\r\n    <mat-icon>settings</mat-icon>\r\n    {{authService.isAuthenticated()?\"Settings\":\"Sign in\"}}\r\n  </button>\r\n\r\n</div>\r\n\r\n  <div *ngFor=\"let p of currentWorkspace?.panels\" >\r\n\r\n    <div *ngIf=\"myPanels[p].type=='separator'\" mat-list-item class=\"mat-list-item  menu-separator\"> {{myPanels[p].title}}</div>\r\n    <a *ngIf=\" myPanels[p].type=='panel'\"  [routerLink]=\"'/board/'+p\" matLine mat-list-item > {{myPanels[p].title}}</a>\r\n    <a *ngIf=\" myPanels[p].type=='special'\"  [routerLink]=\"appConfigService.specialLinks[myPanels[p].id]\" matLine mat-list-item > {{myPanels[p].title}}</a>\r\n  </div>\r\n\r\n\r\n\r\n  <button mat-button *ngIf=\"authService.isSubscriptionActive()\" (click)=\"addPanel()\" id=\"button-editmode\">Edit dashboards...</button>\r\n  <button mat-button *ngIf=\"!authService.isSubscriptionActive()\"  (click)=\"eventService.showSubscribe()\"  id=\"button-editmode\">Edit dashboards...<span class=\"subscriber-feature\">+</span></button>\r\n\r\n</mat-nav-list>\r\n\r\n\r\n"
+module.exports = "\r\n<mat-nav-list  id=\"desktop-menu\">\r\n  <div id=\"header\">\r\n    <div class=\"logo-img\"><mat-icon>trending_up</mat-icon></div>\r\n    <div class=\"logo-in\" routerLink=\"/\">\r\n      <span id=\"logo\"> CoinFolio  </span>\r\n      <span id=\"slogan\">Crypto dashboard builder</span>\r\n    </div><br>\r\n\r\n\r\n    <button mat-button routerLink=\"/config/all\">\r\n      <mat-icon>settings</mat-icon>\r\n      {{authService.isAuthenticated()?\"Settings\":\"Sign in\"}}\r\n    </button>\r\n\r\n</div>\r\n\r\n  <div *ngFor=\"let p of currentWorkspace?.panels\" >\r\n\r\n    <div *ngIf=\"myPanels[p].type=='separator'\" mat-list-item class=\"mat-list-item  menu-separator\"> {{myPanels[p].title}}</div>\r\n    <a *ngIf=\" myPanels[p].type=='panel'\"  [routerLink]=\"'/board/'+p\" matLine mat-list-item > {{myPanels[p].title}}</a>\r\n    <a *ngIf=\" myPanels[p].type=='special'\"  [routerLink]=\"appConfigService.specialLinks[myPanels[p].id]\" matLine mat-list-item > {{myPanels[p].title}}</a>\r\n  </div>\r\n\r\n  <button mat-button *ngIf=\"authService.isSubscriptionActive()\" (click)=\"addPanel()\" id=\"button-editmode\">Edit dashboards...</button>\r\n  <button mat-button *ngIf=\"!authService.isSubscriptionActive()\"  (click)=\"eventService.showSubscribe()\"  id=\"button-editmode\">Edit dashboards...<span class=\"subscriber-feature\">+</span></button>\r\n\r\n</mat-nav-list>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -1376,6 +1378,54 @@ var AppSubscriberFeatureComponent = (function () {
 /***/ (function(module, exports) {
 
 module.exports = "\r\n<button *ngIf=\"authService.isSubscriptionActive()\" (click)=\"apply(event)\" mat-button ><ng-content></ng-content></button>\r\n<button *ngIf=\"!authService.isSubscriptionActive()\" (click)=\"showSubscribe()\" mat-button ><ng-content></ng-content><span  class=\"subscriber-feature\">+</span></button>\r\n"
+
+/***/ }),
+
+/***/ "../../../../../src/components/welcome/component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppWelcomeComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__lib_localton_services_appconfig_service__ = __webpack_require__("../../../../../src/lib/localton/services/appconfig.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var AppWelcomeComponent = (function () {
+    function AppWelcomeComponent(appConfigService) {
+        this.appConfigService = appConfigService;
+    }
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])(),
+        __metadata("design:type", String)
+    ], AppWelcomeComponent.prototype, "displayed", void 0);
+    AppWelcomeComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'app-welcome',
+            template: __webpack_require__("../../../../../src/components/welcome/template.html")
+        }),
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__lib_localton_services_appconfig_service__["a" /* AppConfigService */]])
+    ], AppWelcomeComponent);
+    return AppWelcomeComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/components/welcome/template.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"welcome\" *ngIf=\"displayed\">\r\n    <h1>CoinFolio</h1>\r\n    <h2>All your crypto news & tweets on one dashboard</h2>\r\n    <span></span>\r\n    <h2>Market data + indicators</h2>\r\n    <span></span>\r\n    <h2>Portofolio allocation</h2>\r\n    <span></span>\r\n    <h2>Edit & customize your boards</h2>\r\n    <span></span>\r\n    <h1>Plans</h1>\r\n\r\n    <span class=\"disclaimer\">CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford to lose.</span>\r\n    <button mat-raised-button (click)=\"displayed=false\">Agreed</button>\r\n</div>"
 
 /***/ }),
 
@@ -5179,7 +5229,26 @@ var EventService = (function () {
         this.subscribeEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.panelChangedEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.workspaceUpdatedEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.menuDisplayUpdatedEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
+        this.isMenuDisplayed = true;
+        this.isMobile = false;
+        this.isMenuPinned = false;
+        this.init();
     }
+    EventService.prototype.init = function () {
+        if (window.innerWidth < 800)
+            this.isMobile = true;
+        else
+            this.isMobile = false;
+        if (this.isMobile)
+            this.isMenuDisplayed = false;
+        else
+            this.isMenuDisplayed = true;
+    };
+    EventService.prototype.resized = function () {
+        console.log("resized", window.innerWidth);
+        this.init();
+    };
     EventService.prototype.showPanelCreator = function () {
         this.panelCreatorEvent.emit({ display: true });
     };
@@ -5234,6 +5303,10 @@ var EventService = (function () {
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
         __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
     ], EventService.prototype, "workspaceUpdatedEvent", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"])(),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"])
+    ], EventService.prototype, "menuDisplayUpdatedEvent", void 0);
     EventService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
         __metadata("design:paramtypes", [])
@@ -6283,7 +6356,7 @@ var AppGenericPage = (function () {
 /***/ "../../../../../src/pages/generic/template.html":
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar>\r\n  <h3>{{currentPanel?.title}} </h3>\r\n<div id=\"customize-button\">\r\n  <button *ngIf=\"authService.isSubscriptionActive()\" (click)=\"openPanelEditor(currentPanel)\" mat-button>Customize this\r\n    board\r\n  </button>\r\n  <button *ngIf=\"!authService.isSubscriptionActive()\" (click)=\"eventService.showSubscribe()\" mat-button>Customize this\r\n    board<span class=\"subscriber-feature\">+</span></button>\r\n</div>\r\n\r\n</mat-toolbar>\r\n\r\n\r\n<mat-tab-group>\r\n  <mat-tab label=\"{{t.title}}\" *ngFor=\"let t of currentPanel?.tabs\">\r\n    <div class=\"panel-row\" *ngFor=\"let r of t.rows\">\r\n      <div  *ngIf=\"r?.content && r?.content.length>0\">\r\n        <span class=\"panel-row-title\">{{r.title}}</span>\r\n        <div class=\"panel-content-box\">\r\n          <div class=\"panel-content panel-content-{{r.content.length}}\" *ngFor=\"let c of r.content\">\r\n            <div [ngSwitch]=\"c.code\" class=\"panel-component\">\r\n              <div *ngSwitchCase=\"'PRICE_CHANGE'\">\r\n                <app-marketcap-evol-mini></app-marketcap-evol-mini>\r\n              </div>\r\n              <div *ngSwitchCase=\"'EVOL_MARKETCAP_MINI'\">\r\n                <app-marketcap-evol-mini [period]=\"c.time\"></app-marketcap-evol-mini>\r\n              </div>\r\n              <div *ngSwitchCase=\"'VOLUME_CHANGE'\">\r\n                <app-marketcap-evol-mini></app-marketcap-evol-mini>\r\n              </div>\r\n              <div *ngSwitchCase=\"'LATEST_NEWS'\">\r\n                <app-headlines [symbol]=\"c.symbol\"></app-headlines>\r\n              </div>\r\n              <div *ngSwitchCase=\"'CHART_MARKETCAP'\">\r\n                <app-marketcap  [symbol]=\"c.symbol\"></app-marketcap>\r\n              </div>\r\n              <div *ngSwitchCase=\"'CHART_PRICE'\">\r\n                <app-price  [symbol]=\"c.symbol\"></app-price>\r\n              </div>\r\n              <div *ngSwitchCase=\"'CHART_VOLUME'\">\r\n                <app-volume  [symbol]=\"c.symbol\"></app-volume>\r\n              </div>\r\n              <div *ngSwitchCase=\"'LATEST_TWEETS'\">\r\n                <app-twitter [symbol]=\"c.symbol\"></app-twitter>\r\n              </div>\r\n              <div *ngSwitchCase=\"'RANKING_MARKETCAP'\">\r\n                <app-marketcap-table></app-marketcap-table>\r\n              </div>\r\n              <div *ngSwitchCase=\"'PERF_LASTWEEK'\">\r\n                <app-perf-lastweek [symbol]=\"c.symbol\" [format]=\"c.format\"></app-perf-lastweek>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n  </mat-tab>\r\n</mat-tab-group>\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
+module.exports = "<mat-toolbar>\r\n  <h3 [ngClass]=\"eventService.isMenuDisplayed?'':'menudisplayed'\">{{currentPanel?.title}} </h3>\r\n<div id=\"customize-button\">\r\n  <button *ngIf=\"authService.isSubscriptionActive()\" (click)=\"openPanelEditor(currentPanel)\" mat-button>Customize this\r\n    board\r\n  </button>\r\n  <button *ngIf=\"!authService.isSubscriptionActive()\" (click)=\"eventService.showSubscribe()\" mat-button>Customize this\r\n    board<span class=\"subscriber-feature\">+</span></button>\r\n</div>\r\n\r\n</mat-toolbar>\r\n\r\n\r\n<mat-tab-group>\r\n  <mat-tab label=\"{{t.title}}\" *ngFor=\"let t of currentPanel?.tabs\">\r\n    <div class=\"panel-row\" *ngFor=\"let r of t.rows\">\r\n      <div  *ngIf=\"r?.content && r?.content.length>0\">\r\n        <span class=\"panel-row-title\">{{r.title}}</span>\r\n        <div class=\"panel-content-box\">\r\n          <div class=\"panel-content panel-content-{{r.content.length}}\" *ngFor=\"let c of r.content\">\r\n            <div [ngSwitch]=\"c.code\" class=\"panel-component\">\r\n              <div *ngSwitchCase=\"'PRICE_CHANGE'\">\r\n                <app-marketcap-evol-mini></app-marketcap-evol-mini>\r\n              </div>\r\n              <div *ngSwitchCase=\"'EVOL_MARKETCAP_MINI'\">\r\n                <app-marketcap-evol-mini [period]=\"c.time\"></app-marketcap-evol-mini>\r\n              </div>\r\n              <div *ngSwitchCase=\"'VOLUME_CHANGE'\">\r\n                <app-marketcap-evol-mini></app-marketcap-evol-mini>\r\n              </div>\r\n              <div *ngSwitchCase=\"'LATEST_NEWS'\">\r\n                <app-headlines [symbol]=\"c.symbol\"></app-headlines>\r\n              </div>\r\n              <div *ngSwitchCase=\"'CHART_MARKETCAP'\">\r\n                <app-marketcap  [symbol]=\"c.symbol\"></app-marketcap>\r\n              </div>\r\n              <div *ngSwitchCase=\"'CHART_PRICE'\">\r\n                <app-price  [symbol]=\"c.symbol\"></app-price>\r\n              </div>\r\n              <div *ngSwitchCase=\"'CHART_VOLUME'\">\r\n                <app-volume  [symbol]=\"c.symbol\"></app-volume>\r\n              </div>\r\n              <div *ngSwitchCase=\"'LATEST_TWEETS'\">\r\n                <app-twitter [symbol]=\"c.symbol\"></app-twitter>\r\n              </div>\r\n              <div *ngSwitchCase=\"'RANKING_MARKETCAP'\">\r\n                <app-marketcap-table></app-marketcap-table>\r\n              </div>\r\n              <div *ngSwitchCase=\"'PERF_LASTWEEK'\">\r\n                <app-perf-lastweek [symbol]=\"c.symbol\" [format]=\"c.format\"></app-perf-lastweek>\r\n              </div>\r\n            </div>\r\n          </div>\r\n        </div>\r\n      </div>\r\n\r\n    </div>\r\n  </mat-tab>\r\n</mat-tab-group>\r\n\r\n\r\n\r\n\r\n\r\n\r\n"
 
 /***/ }),
 

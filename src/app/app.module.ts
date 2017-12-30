@@ -84,6 +84,7 @@ import {AppHeadlinesComponent} from "../widgets/headlines/component"
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
 import {AppMarketCapEvolComponent} from "../widgets/marketcap-evol/component"
 import {AppLoginComponent} from "../components/login/component"
+import {AppWelcomeComponent} from "../components/welcome/component"
 import {AppSubscribeComponent} from "../components/subscribe/component"
 import {MatStepperModule} from '@angular/material/stepper';
 import {AppMarketCapEvolMiniComponent} from "../widgets/marketcap-evol-mini/component"
@@ -124,7 +125,7 @@ export function RestangularConfigFactory (RestangularProvider) {
 @NgModule({
   declarations: [
     AppComponent, AppMenuList,
-    AskNameDialog,
+    AskNameDialog,AppWelcomeComponent,
     AppChartItemPage, AppDashboardPage,AppAllocationPage,AppNewsPage,AppAccountPage,AppConfigAllPage,AppImportPage,AppEvolutionPage,AppImportCMCPage,AppMarketPage,AppSymbolItemPage,AppSymbolAllPage,AppGenericPage,
   AppPanelCreatorComponent,AppLoginComponent,AppSubscriberFeatureComponent,AppSubscribeComponent,AppRegisterComponent,AppConfigProfilePage,
     AppCryptoIconComponent,AppMarketCapEvolComponent,AppMarketCapEvolMiniComponent,AppTopPerformanceComponent,AppTopPerformanceDailyComponent,AppHeadlinesComponent,AppTwitterComponent,AppEvolutionTableComponent,AppSortedPerformanceComponent,AppMarketCapTableComponent,AppPerfLastWeekComponent,AppCapLastWeekComponent,AppTrendingLastWeekComponent,AppVolumeComponent,AppPriceComponent,AppMarketCapComponent,AppPriceDivMarketComponent
