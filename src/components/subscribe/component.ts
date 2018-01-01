@@ -102,7 +102,11 @@ export class AppSubscribeComponent {
   loadQRCode() {
     this.qrcode = "bitcoin:" + this.bitcoinAddress + "?amount=" + this.amount;
   }
-
+returntoplan(){
+    console.log("return")
+  clearInterval(this.interval);
+  this.stepper.previous()
+}
   ngOnDestroy() {
     clearInterval(this.interval);
   }

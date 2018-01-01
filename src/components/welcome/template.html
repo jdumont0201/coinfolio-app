@@ -1,13 +1,14 @@
 <div id="welcome" *ngIf="eventService.isWelcomeVisible">
 
-    <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-vertical-stepper linear #stepper>
         <mat-step label="Welcome">
-            <div id="welcome-in">
-                <div class="logo-in" routerlink="/" tabindex="0" ng-reflect-router-link="/">
-                    <span id="logo"> CoinFolio  </span>
-                    <span id="slogan">Crypto dashboard builder</span>
-                </div>
+            <div class="logo-in" routerlink="/" tabindex="0" ng-reflect-router-link="/">
+                <span id="logo"> CoinFolio  </span>
+                <span id="slogan">Crypto dashboard builder</span>
+            </div><div id="welcome-in">
+
                 <div id="welcome-desc">
+                    <span class="line">Coinfolio helps you make better trading decisions.</span>
                     <div class="left"><h2>See all your crypto data, news & tweets on dedicated dashboards</h2>
                     <span></span>
                     </div>
@@ -77,29 +78,25 @@
                 </tr>
                 <tr>
                     <td>Length</td>
-                    <div *ngFor="let p of plans">
-                        <td *ngIf="p.amount>0">        ${{p.length}}</td>
-                    </div>
+                    <td *ngFor="let p of plans">
+                        <span *ngIf="p.amount>0">        {{p.length}} days</span>
+                    </td>
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <div *ngFor="let p of plans">
-                        <td *ngIf="p.amount>0">        ${{p.amount}} - {{p.btcamount}}BTC</td>
-                    </div>
+
+                    <td *ngFor="let p of plans">
+                        <span *ngIf="p.amount>0">        ${{p.amount}}<br>{{p.btcamount}}BTC</span>
+                    </td>
                 </tr>
                 <tr>
                     <td>Choose</td>
-                    <td><button mat-raised-button [color]="'primary'" (click)="close()">Stay as guest</button>
+                    <td *ngFor="let p of plans">
+                        <div *ngIf="p.amount==0"><button mat-raised-button [color]="'primary'" (click)="close()">Stay as guest</button></div>
+                        <div *ngIf="p.amount>0">                              <button mat-raised-button [color]="planSelected==p.id?'accent':'primary'" (click)="processChoice(p,stepper)">Subscribe now</button></div>
                     </td>
-                    <div *ngFor="let p of plans">
-                        <td *ngIf="p.amount>0">                              <button mat-raised-button [color]="planSelected==p.id?'accent':'primary'" (click)="processChoice(p,stepper)">{{p.lebtcamount}}BTC
-                        </button>
-                        </td>
-                    </div>
-
                 </tr>
             </table>
-
             </div>
         </mat-step>
 
@@ -144,6 +141,9 @@
             The transaction will be automatically scanned until confirmation.<br><br><br>
             Status: {{isPaid?"Paid":"Waiting for payment confirmation"}}<br>
             Balance: {{paymentStatus?paymentStatus?.balance:"Checking..."}}
+                <br/><br/><br/>
+                <button mat-raised-button=""  (click)="returntoplan()" color="primary">Change plan</button>
+
             </div>
         </mat-step>
         <mat-step label="Confirmed !" >
@@ -162,6 +162,6 @@
             </div>
         </mat-step>
 
-    </mat-horizontal-stepper>
+    </mat-vertical-stepper>
 
 </div>

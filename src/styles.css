@@ -875,3 +875,22 @@ font:bold 25px/35px Roboto
 .padded{padding:20px}
 #welcome .mat-horizontal-content-container{padding:0}
 #welcome button {margin-bottom:10px}
+#welcome .logo-in{margin-top:30px}
+#welcome-desc .line{    text-align: center;
+  font-size: 22px;
+  margin: auto;
+  display: block;
+  margin: 71px auto;
+}
+#welcome h2{font-size:16px}
+
+/*
+.mat-horizontal-stepper-header-container{
+  background-color: #106CC8;
+  background: linear-gradient(#185694, #106cc8);
+  border-bottom: 1px solid #267ED5;
+
+}
+.mat-stepper-horizontal-line{border-top-color:#aaa}
+.mat-step-label{color:#aaa!important;}
+.mat-step-header .mat-step-label.mat-step-label-active{color:#fff!important}*/
