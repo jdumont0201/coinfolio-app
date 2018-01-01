@@ -24,8 +24,9 @@ export class AppSubscribeComponent {
   isPlanSelected = false;
   plans: any[];
 
-  constructor(public logic: Logic, private fb: FormBuilder, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+  constructor(public logic: Logic,  public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
     this.logic.getPlans((res) => {
+      //if(res.length===0) this.logic.adminInitDB();
       console.log("plans", res);
       this.plans = res;
     })
@@ -114,7 +115,9 @@ export class AppSubscribeComponent {
       password: new FormControl('', {validators: [Validators.required, Validators.minLength(8)]})
     });
   }
-
+continue(){
+    this.eventService.hideSubscribe()
+}
   prePay() {
     this.logic.generateAddress(this.planSelected, (obj) => {
       this.bitcoinAddress = obj.address;

@@ -872,3 +872,6 @@ font:bold 25px/35px Roboto
 #welcome tr:last-child td {
   background:#fafafa
 }
+.padded{padding:20px}
+#welcome .mat-horizontal-content-container{padding:0}
+#welcome button {margin-bottom:10px}

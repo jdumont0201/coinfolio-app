@@ -212,5 +212,20 @@ export class Logic {
     })
 
   }
+  adminInitDB(){
+   this.createPlans();
+  }
+  createPlans() {
+    this.savePlan({amount:39,length:30,name:"premium"})
+    this.savePlan({amount:89,length:90,name:"premium"})
+    this.savePlan({amount:299,length:365,name:"premium"})
+    this.savePlan({amount:0,length:10000,name:"free"})
+  }
+  savePlan(data) {
+    const url="plan";
+    this.apiService.noauthpost(url,data,(res)=>{
+
+    })
+  }
 
 }
