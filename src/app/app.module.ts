@@ -99,6 +99,7 @@ import {AppPriceDivMarketComponent} from "../widgets/pricedivmarket/component";
 import {AppVolumeComponent} from "../widgets/volume/component";
 import {AppTwitterComponent} from "../widgets/twitter/component"
 import {AppHeadlinesComponent} from "../widgets/headlines/component"
+import {AppBitcoinDominanceMiniWidget} from "../widgets/bitcoin-dominance/component"
 
 /*COMPONENTS*/
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
@@ -127,7 +128,7 @@ import {Logic} from "../logic/Logic";
         AppComponent, AppMenuList,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,
         AppChartItemPage, AppDashboardPage, AppAllocationPage, AppNewsPage, AppAccountPage, AppConfigAllPage, AppImportPage, AppEvolutionPage, AppImportCMCPage, AppMarketPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,
-        AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppConfigProfilePage,
+        AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppConfigProfilePage,AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
     ],
     imports: [

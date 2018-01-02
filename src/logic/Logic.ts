@@ -74,9 +74,12 @@ export class Logic {
     }, {key: "ts", dir: "asc"})
   }
 
-  getMarketCapEvol(source: string, base: string, from: number, to: number, f: Function) {
-    this.dataService.perform("marketcapevol", {psource: source, pfrom: from, pto: to, pbase: base}, f)
-  }
+    getMarketCapEvol(source: string, base: string, from: number, to: number, f: Function) {
+        this.dataService.perform("marketcapevol", {psource: source, pfrom: from, pto: to, pbase: base}, f)
+    }
+    getDominance(source: string, base: string, from: number, f: Function) {
+        this.dataService.perform("dominance", {psource: source, pts: from,pbase: base}, f)
+    }
 
   getMarketCapData(source: string, symbol: string, base: string, f: Function) {
     this.dataService.perform("marketcap", {psource: source, psymbol: symbol, pbase: base}, f)

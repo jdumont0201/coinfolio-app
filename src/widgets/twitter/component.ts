@@ -11,7 +11,7 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 
-import {TwitterService} from 'ng2-twitter';
+
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 
