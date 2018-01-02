@@ -85,7 +85,7 @@ export class WorkspaceService {
         })
         });
     }
-    
+
     setWorkspaces(w) {
 
     }
