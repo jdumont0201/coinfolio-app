@@ -85,12 +85,7 @@ export class WorkspaceService {
         })
         });
     }
-    copyUserPanels(){
-
-    }
-    copyPanel(panelId){
-        this.logic.getPanels()
-    }
+    
     setWorkspaces(w) {
 
     }

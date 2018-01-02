@@ -168,7 +168,7 @@ export class Logic {
     })
   }
 
-  
+
   getMyWorkspaces(f: Function) {
     this.apiService.authget("user/" + this.authService.userId + "/workspaces", (res) => {
       f(res)
