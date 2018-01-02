@@ -1,14 +1,13 @@
 <div id="welcome" *ngIf="eventService.isWelcomeVisible">
 
-    <mat-vertical-stepper linear #stepper>
+    <mat-horizontal-stepper linear #stepper>
         <mat-step label="Welcome">
             <div class="logo-in" routerlink="/" tabindex="0" ng-reflect-router-link="/">
-                <span id="logo"> CoinFolio  </span>
-                <span id="slogan">Crypto dashboard builder</span>
+                <span id="logo" class="logo-bottom"> </span>
             </div><div id="welcome-in">
 
                 <div id="welcome-desc">
-                    <span class="line">Coinfolio helps you make better trading decisions.</span>
+                    <span class="line">Coinamics helps you make better trading decisions.</span>
                     <div class="left"><h2>See all your crypto data, news & tweets on dedicated dashboards</h2>
                     <span></span>
                     </div>
@@ -26,7 +25,7 @@
                 CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford to lose.
             </div>
             <div class="centered">
-                <button class="centered" mat-raised-button color="accent" (click)="stepper.next()">Continue</button>
+                <button class="centered large" mat-raised-button color="accent" (click)="stepper.next()">Continue</button>
             </div>
 
         </mat-step>
@@ -77,7 +76,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Length</td>
+                    <td>Subscription time</td>
                     <td *ngFor="let p of plans">
                         <span *ngIf="p.amount>0">        {{p.length}} days</span>
                     </td>
@@ -87,13 +86,14 @@
 
                     <td *ngFor="let p of plans">
                         <span *ngIf="p.amount>0">        ${{p.amount}}<br>{{p.btcamount}}BTC</span>
+                        <span *ngIf="p.amount==0"> Free</span>
                     </td>
                 </tr>
                 <tr>
                     <td>Choose</td>
                     <td *ngFor="let p of plans">
                         <div *ngIf="p.amount==0"><button mat-raised-button [color]="'primary'" (click)="close()">Stay as guest</button></div>
-                        <div *ngIf="p.amount>0">                              <button mat-raised-button [color]="planSelected==p.id?'accent':'primary'" (click)="processChoice(p,stepper)">Subscribe now</button></div>
+                        <div *ngIf="p.amount>0">                              <button mat-raised-button  color="accent"  (click)="processChoice(p,stepper)">Subscribe now</button></div>
                     </td>
                 </tr>
             </table>
@@ -162,6 +162,6 @@
             </div>
         </mat-step>
 
-    </mat-vertical-stepper>
+    </mat-horizontal-stepper>
 
 </div>

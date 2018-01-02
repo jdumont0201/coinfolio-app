@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
 
 @font-face {
   font-family: "Financier";
@@ -100,7 +100,7 @@ a.news{border-left:solid 4px #d24407 !important}
 .mat-toolbar-single-row {
   padding: 11px 16px 0 16px!important;
 }
-h3.menudisplayed {
+.menudisplayed h3 {
   padding-left: 49px;
 }
 /* HEADERS */
@@ -319,7 +319,7 @@ li{list-style-type: none}
   box-shadow: 1px 1px 1px #0000006e;
 }
 
-.creator-component-list{    padding: 10px;
+.creator-component-list{    padding: 0px;
   /* background: #eee; */
   overflow-y: scroll;}
 .creator-component .title{font:normal 15px/20px Roboto;color:#666}
@@ -894,3 +894,33 @@ font:bold 25px/35px Roboto
 .mat-stepper-horizontal-line{border-top-color:#aaa}
 .mat-step-label{color:#aaa!important;}
 .mat-step-header .mat-step-label.mat-step-label-active{color:#fff!important}*/
+#logo{font-size:0;background:url("/assets/img/logo-bottom2.png")}
+.logo-bottom{font-size:0;background:url("/assets/img/logo-bottom.png")}
+#welcome #logo{    color: #444444;
+  width: 300px;
+  height: 70px;
+  background: url(/assets/img/logo-bottom.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: auto;}
+
+button.large span{padding: 10px 70px;
+  display: block;}
+mat-nav-list span#logo {
+  width: 170px;
+  height: 37px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: auto;
+}
+#loading{
+  position:absolute;top:0;width:90%;height:500px;background:white;text-align: center;
+}
+
+.creator-component-list .creator-component {
+ margin:0; border: 0;
+  border-radius: 0;
+  border-bottom: solid 1px #eee;
+  text-align: left;
+}
+.creator-component-list .creator-component:hover{background:#eee}

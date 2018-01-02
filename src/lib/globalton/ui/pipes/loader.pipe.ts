@@ -1,5 +1,5 @@
 import {Inject, Input, Injectable, Injector, Pipe, ChangeDetectionStrategy} from '@angular/core';
-import {ModelService} from '../../core/services/model.service';
+//import {ModelService} from '../../core/services/model.service';
 import {Headers, Http} from '@angular/http';
 @Injectable()
 @Pipe({
@@ -8,11 +8,11 @@ import {Headers, Http} from '@angular/http';
 })
 export class LoaderPipe {
 
-    modelService: ModelService;
+  //  modelService: ModelService;
 
-    constructor( @Inject(ModelService) modelService: ModelService) {
+    constructor( ) {
         // console.log("Translate Pipe");
-        this.modelService = modelService;
+//        this.modelService = modelService;
     }
     transform(p: any, args: string[]): any { //improve : set ChangeDetectionStrategy to update only once
         if(!p){

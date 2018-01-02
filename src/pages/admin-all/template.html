@@ -1,0 +1,19 @@
+
+<div *ngIf="authService?.isAuthenticated()">
+    <mat-toolbar>
+        <h3>Admin </h3>
+    </mat-toolbar>
+
+    <mat-tab-group>
+        <mat-tab label="Default workspace">
+
+        </mat-tab>
+
+
+    </mat-tab-group>
+</div>
+<div *ngIf="!authService?.isAuthenticated()">
+
+    <app-login [popup]="false"></app-login>
+
+</div>

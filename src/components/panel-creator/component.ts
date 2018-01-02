@@ -291,7 +291,10 @@ libraryTabChange(ev){
     });
 
   }
+    restoreDefaultPanels(){
+    this.workspaceService.restoreDefaultWorkspace();
 
+    }
   deletePanel(index) {
     this.consoleService.ui("deletePanel", this.myWorkspace.panels, index)
     this.myWorkspace.panels.splice(index, 1)
@@ -376,7 +379,6 @@ createSeparator(){
 
   saveWorkspace(f) {
     this.logic.saveWorkspace(this.myWorkspace, (res) => {
-
       this.eventService.workspaceUpdatedEvent.emit({workspace: res});
       f(res);
     })

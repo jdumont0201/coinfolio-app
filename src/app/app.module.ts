@@ -76,6 +76,7 @@ import {AppAccountPage} from "../pages/account/component";
 import {AppImportPage} from "../pages/import/component";
 import {AppImportCMCPage} from "../pages/import-cmc/component";
 import {AppEvolutionPage} from "../pages/evolution-item/component";
+import {AppAdminPage} from "../pages/admin-all/component"
 import {AppMarketPage} from "../pages/market/component"
 import {AppGenericPage} from "../pages/generic/component"
 import {AppSymbolAllPage} from "../pages/symbol-all/component";
@@ -106,6 +107,7 @@ import {AppCryptoIconComponent} from "../components/cryptoicon/component"
 import {AppMarketCapEvolComponent} from "../widgets/marketcap-evol/component"
 import {AppLoginComponent} from "../components/login/component"
 import {AppWelcomeComponent} from "../components/welcome/component"
+import {AppLoadingComponent} from "../components/loading/component"
 import {AppSubscribeComponent} from "../components/subscribe/component"
 import {AppVeilComponent} from "../components/veil/component"
 import {AppMarketCapEvolMiniComponent} from "../widgets/marketcap-evol-mini/component"
@@ -126,7 +128,7 @@ import {Logic} from "../logic/Logic";
 @NgModule({
     declarations: [
         AppComponent, AppMenuList,
-        AskNameDialog, AppWelcomeComponent, AppVeilComponent,
+        AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,
         AppChartItemPage, AppDashboardPage, AppAllocationPage, AppNewsPage, AppAccountPage, AppConfigAllPage, AppImportPage, AppEvolutionPage, AppImportCMCPage, AppMarketPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,
         AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppConfigProfilePage,AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent

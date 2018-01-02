@@ -1,122 +1,191 @@
 <div id="panel-creator">
-  <div id="panel-creator-box">
-    <div id="panel-creator-workspace" >
-      <div id="panel-creator-top">    Edit mode   </div>
-      <button mat-raised-button color="primary" class="panel-creator-button-end" (click)="close()" *ngIf="mode==''">Leave edit mode</button>
-      <div *ngIf="mode=='create'">
-        <button mat-raised-button color="accent" class="save" (click)="savePanel()">Save panel</button>
-        <button mat-raised-button color="primary" class="cancel" (click)="cancel()">Cancel</button>
-        <div  class="library-separator">Widget library</div>
-        <div class="creator-component-list">
-          <div class="creator-component draggable"  dnd-draggable [dragEnabled]="true" [dragData]="item.id"               *ngFor="let item of components">
-            <span class="grippytall"  dnd-draggable-handle ></span>
-            <div class="title">{{item.title}}</div>
-            <div class="size">{{item.size}}</div>
-            <button *ngIf="false" mat-button (click)="addComponent(item.id)">Add</button>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="mode==''">
-      <mat-nav-list  dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="myWorkspace?.panels">
-        <div *ngFor="let p of myWorkspace?.panels; let index=index" dnd-sortable [sortableIndex]="index">
-          <div *ngIf="isSet(p)">
-            <div *ngIf="myPanels[p].type=='separator'" mat-list-item class="mat-list-item  menu-separator"> <span   class="grippytall"></span> {{myPanels[p].title}}<br><a class="link" (click)="editSeparator(p)">Rename</a> <a class="link"                                                                                                  (click)="deleteSeparatorFromWorkspace(index)">Remove</a>          </div>
-          <div *ngIf="myPanels[p].type=='panel'" (click)="editPanel(myPanels[p])" matLine mat-list-item class="mat-list-item "> <span   class="grippytall"></span> {{myPanels[p].title}}            <br> <a class="link" (click)="editPanel(myPanels[p])">Edit</a> <a class="link"                                                                              (click)="deletePanel(index)">Remove</a>          </div>
-          <div *ngIf="myPanels[p].type=='special'" (click)="editPanel(myPanels[p])" matLine mat-list-item class="mat-list-item ">  <span   class="grippytall"></span>{{myPanels[p].title}}            <br> <a class="link" (click)="editPanel(myPanels[p])">Edit</a> <a class="link"                                                                              (click)="deletePanel(index)">Remove</a>          </div>
-          </div>
-          <div *ngIf="!isSet(p)">
-            <div  (click)="editPanel(p)" matLine mat-list-item class="mat-list-item "><span  class="grippytall"></span>{{p.title}}      <br> <a class="link" (click)="editPanel(p)">Edit</a> <a class="link"                                                                              (click)="deletePanel(index)">Delete</a>          </div>
-          </div>
-          </div>
-      </mat-nav-list>
-      <div id="panel-creator-workspace-droppable" dnd-droppable (onDropSuccess)="panelDropped($event)">Drop panels here        to add to your sidebar...      </div>
-      <button *ngIf="false" mat-button (click)="isNewPanel=true">Add new panel</button>
-      </div>
-    </div>
-    <div id="panel-creator-panels">
-      <div *ngIf="isNewPanel">
-        <div *ngIf="mode==''" style="padding: 10px 20px;">
-          <h3 class="title" *ngIf="mode==''">Compose your boards </h3>
-          <span class="info">Drag panels by the handle and drop them on the side bar to compose your workspace.</span>
-          <div id="panel-creator-moded">
-            <div id="panel-creator-mypanels-box">
-              <button *ngIf="selectedLibraryTab==0" mat-raised-button color="accent" class="newboard"(click)="createNewBoard()">New board           </button>
-              <button *ngIf="selectedLibraryTab==1"  mat-raised-button color="accent" class="newboard" (click)="createSeparator()">New separator</button>
-            <mat-tab-group #tabGroup2 (selectedTabChange)="libraryTabChange($event)">
-              <mat-tab label="My panels">
+    <div id="panel-creator-box">
+        <div id="panel-creator-workspace">
+            <div id="panel-creator-top"> Edit mode</div>
+            <button mat-raised-button color="primary" class="panel-creator-button-end" (click)="close()"
+                    *ngIf="mode==''">Leave edit mode
+            </button>
+            <div *ngIf="mode=='create'">
+                <button mat-raised-button color="accent" class="save" (click)="savePanel()">Save panel</button>
+                <button mat-raised-button color="primary" class="cancel" (click)="cancel()">Cancel</button>
 
-
-                <div *ngFor="let p of panels; let index=index">
-                  <div [dragEnabled]="true" [dragData]="p.id" dnd-draggable class="draggable creator-panel-icon"   *ngIf="!p.archived && p.type=='panel'"  mat-list-item >
-                    <div  dnd-draggable-handle class="draghandle"><span class="grippytall"></span>{{p.title}}</div>
-                    <div class="paneloptions"> <a class="link" (click)="editPanel(p)">Edit</a> <a class="link"                                                                                              (click)="archivePanel(p)">Archive</a></div>
-                  </div>
+                <div class="library-separator">Widget library</div>
+                <div class="creator-component-list">
+                    <div class="creator-component draggable" dnd-draggable [dragEnabled]="true" [dragData]="item.id"
+                         *ngFor="let item of components">
+                        <span class="grippytall" dnd-draggable-handle></span>
+                        <div class="title">{{item.title}}</div>
+                        <div class="size">{{item.size}}</div>
+                        <button *ngIf="false" mat-button (click)="addComponent(item.id)">Add</button>
+                    </div>
                 </div>
 
-              </mat-tab>
-              <mat-tab label="Separators">
-
-                <div *ngFor="let p of panels; let index=index">
-                  <div [dragEnabled]="true" [dragData]="p.id" dnd-draggable *ngIf="!p.archived && p.type=='separator'" mat-list-item    class="draggable mat-list-item   creator-panel-icon menu-separator">
-                    <div  dnd-draggable-handle class="draghandle"><span  class="grippytall"></span> {{p.title}}</div>
-                    <div class="paneloptions">  <a class="link"  (click)="editSeparator(p)">Edit</a>                  <a class="link" (click)="archiveSeparator(p)">Archive</a></div>
-                  </div>
-
-                </div>
-
-              </mat-tab>
-              <mat-tab label="Templates">
-                <div *ngFor="let p of panels; let index=index">
-                  <a *ngIf="p.type=='special'" [dragEnabled]="true" [dragData]="p.id" dnd-draggable class="draggable creator-panel-icon"  matLine mat-list-item (click)="setPanel(p)">
-                    <div  dnd-draggable-handle class="draghandle"><span class="grippytall"></span>{{p.title}}</div>
-                    <div class="paneloptions"></div>
-                  </a>
-                </div>
-              </mat-tab>
-            </mat-tab-group>
-
-
-          </div>
-          </div>
-        </div>
-        <div *ngIf="mode=='create'">
-          <div class="creator-panel-edit-box">
-            <div class="creator-panel">
-              <input class="title editable-text" type="text" [(ngModel)]="panel.title"/><br>
-              <mat-tab-group  (selectedTabChange)="tabChanged($event)" #tabGroup>
-                <mat-tab label="{{tab.title}}" *ngFor="let tab of panel.tabs ; let tabindex = index">
-                  <button mat-raised-button (click)="addTab()">Add tab</button>
-                  <button mat-raised-button (click)="deleteTab()">Delete tab</button>
-                  <button mat-raised-button (click)="renameTab()">Rename active tab</button><br>
-                  <ul>
-                    <li *ngFor="let row of tab.rows ; let rowindex = index">
-                      <div class="creator-panel-line-title"><input class="editable-text" type="text"  [(ngModel)]="row.title"/><br> <button mat-button (click)="deleteRow(tabindex,index)">Delete row</button><br> </div>
-                      <div class="creator-panel-line-drop">
-                        <div class="creator-panel-line-ph" dnd-droppable (onDropSuccess)="itemDropped($event,tabindex,rowindex)">
-                          <div *ngIf="row.content.length>0" class="creator-panel-line-existing">
-                            <div class="creator-component"  dnd-draggable [dragEnabled]="true" [dragData]="item.id" *ngFor="let item of row.content; let index = index" >
-                              <span class="grippytall"  dnd-draggable-handle ></span>
-                              <div class="xclose" (click)="removeWidget(row,item,index)">X</div>
-                              <div class="title">{{item.title}}</div>
-                              <div class="param" *ngIf="appConfigService.widgetConfig[item.code].time"><label>Time</label><select  [(ngModel)]="item.time" >    <option *ngFor="let s of appConfigService.times">{{s}}</option>                              </select></div>
-                              <div class="param" *ngIf="appConfigService.widgetConfig[item.code].symbol"><label>Symbol</label><select [(ngModel)]="item.symbol" ><option *ngFor="let s of appConfigService.valuesandglobal">{{s}}</option>                              </select></div>
-                              <div class="param" *ngIf="appConfigService.widgetConfig[item.code].format"><label>Format</label><select [(ngModel)]="item.format" ><option *ngFor="let s of appConfigService.formats">{{s}}</option>                              </select></div>
-                            </div>
-                          </div>
-                          <span>Drop components here...</span>
-                        </div>
-                      </div>
-                    </li>
-
-                  </ul>
-                  <button mat-button (click)="addRow()">Add row</button><br>
-                </mat-tab>
-              </mat-tab-group>
             </div>
-
-          </div>
+            <div *ngIf="mode==''">
+                <mat-nav-list dnd-sortable-container [dropZones]="['boxers-zone']" [sortableData]="myWorkspace?.panels">
+                    <div *ngFor="let p of myWorkspace?.panels; let index=index" dnd-sortable [sortableIndex]="index">
+                        <div *ngIf="isSet(p)">
+                            <div *ngIf="myPanels[p].type=='separator'" mat-list-item
+                                 class="mat-list-item  menu-separator"><span class="grippytall"></span>
+                                {{myPanels[p].title}}<br><a class="link" (click)="editSeparator(p)">Rename</a> <a
+                                        class="link" (click)="deleteSeparatorFromWorkspace(index)">Remove</a></div>
+                            <div *ngIf="myPanels[p].type=='panel'" (click)="editPanel(myPanels[p])" matLine
+                                 mat-list-item class="mat-list-item "><span class="grippytall"></span>
+                                {{myPanels[p].title}} <br> <a class="link" (click)="editPanel(myPanels[p])">Edit</a> <a
+                                        class="link" (click)="deletePanel(index)">Remove</a></div>
+                            <div *ngIf="myPanels[p].type=='special'" (click)="editPanel(myPanels[p])" matLine
+                                 mat-list-item class="mat-list-item "><span class="grippytall"></span>{{myPanels[p].title}}
+                                <br> <a class="link" (click)="editPanel(myPanels[p])">Edit</a> <a class="link"
+                                                                                                  (click)="deletePanel(index)">Remove</a>
+                            </div>
+                        </div>
+                        <div *ngIf="!isSet(p)">
+                            <div (click)="editPanel(p)" matLine mat-list-item class="mat-list-item "><span
+                                    class="grippytall"></span>{{p.title}} <br> <a class="link" (click)="editPanel(p)">Edit</a>
+                                <a class="link" (click)="deletePanel(index)">Delete</a></div>
+                        </div>
+                    </div>
+                </mat-nav-list>
+                <div id="panel-creator-workspace-droppable" dnd-droppable (onDropSuccess)="panelDropped($event)">Drop
+                    panels here to add to your sidebar...
+                </div>
+                <button mat-button color="primary"  (click)="restoreDefaultPanels()">Restore default panels</button>
+                <button *ngIf="false" mat-button (click)="isNewPanel=true">Add new panel</button>
+            </div>
         </div>
-      </div>
+        <div id="panel-creator-panels">
+            <div *ngIf="isNewPanel">
+                <div *ngIf="mode==''" style="padding: 10px 20px;">
+                    <h3 class="title" *ngIf="mode==''">Compose your boards </h3>
+                    <span class="info">Drag panels by the handle and drop them on the side bar to compose your workspace.</span>
+                    <div id="panel-creator-moded">
+                        <div id="panel-creator-mypanels-box">
+                            <button *ngIf="selectedLibraryTab==0" mat-raised-button color="accent" class="newboard"
+                                    (click)="createNewBoard()">New board
+                            </button>
+                            <button *ngIf="selectedLibraryTab==1" mat-raised-button color="accent" class="newboard"
+                                    (click)="createSeparator()">New separator
+                            </button>
+                            <mat-tab-group #tabGroup2 (selectedTabChange)="libraryTabChange($event)">
+                                <mat-tab label="My panels">
+
+
+                                    <div *ngFor="let p of panels; let index=index">
+                                        <div [dragEnabled]="true" [dragData]="p.id" dnd-draggable
+                                             class="draggable creator-panel-icon" *ngIf="!p.archived && p.type=='panel'"
+                                             mat-list-item>
+                                            <div dnd-draggable-handle class="draghandle"><span
+                                                    class="grippytall"></span>{{p.title}}
+                                            </div>
+                                            <div class="paneloptions"><a class="link" (click)="editPanel(p)">Edit</a> <a
+                                                    class="link" (click)="archivePanel(p)">Archive</a></div>
+                                        </div>
+                                    </div>
+
+                                </mat-tab>
+                                <mat-tab label="Separators">
+
+                                    <div *ngFor="let p of panels; let index=index">
+                                        <div [dragEnabled]="true" [dragData]="p.id" dnd-draggable
+                                             *ngIf="!p.archived && p.type=='separator'" mat-list-item
+                                             class="draggable mat-list-item   creator-panel-icon menu-separator">
+                                            <div dnd-draggable-handle class="draghandle"><span
+                                                    class="grippytall"></span> {{p.title}}
+                                            </div>
+                                            <div class="paneloptions"><a class="link"
+                                                                         (click)="editSeparator(p)">Edit</a> <a
+                                                    class="link" (click)="archiveSeparator(p)">Archive</a></div>
+                                        </div>
+
+                                    </div>
+
+                                </mat-tab>
+                                <mat-tab label="Templates">
+                                    <div *ngFor="let p of panels; let index=index">
+                                        <a *ngIf="p.type=='special'" [dragEnabled]="true" [dragData]="p.id"
+                                           dnd-draggable class="draggable creator-panel-icon" matLine mat-list-item
+                                           (click)="setPanel(p)">
+                                            <div dnd-draggable-handle class="draghandle"><span
+                                                    class="grippytall"></span>{{p.title}}
+                                            </div>
+                                            <div class="paneloptions"></div>
+                                        </a>
+                                    </div>
+                                </mat-tab>
+                            </mat-tab-group>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="mode=='create'">
+                    <div class="creator-panel-edit-box">
+                        <div class="creator-panel">
+                            <input class="title editable-text" type="text" [(ngModel)]="panel.title"/><br>
+                            <mat-tab-group (selectedTabChange)="tabChanged($event)" #tabGroup>
+                                <mat-tab label="{{tab.title}}" *ngFor="let tab of panel.tabs ; let tabindex = index">
+                                    <button mat-raised-button (click)="addTab()">Add tab</button>
+                                    <button mat-raised-button (click)="deleteTab()">Delete tab</button>
+                                    <button mat-raised-button (click)="renameTab()">Rename active tab</button>
+                                    <br>
+                                    <ul>
+                                        <li *ngFor="let row of tab.rows ; let rowindex = index">
+                                            <div class="creator-panel-line-title"><input class="editable-text"
+                                                                                         type="text"
+                                                                                         [(ngModel)]="row.title"/><br>
+                                                <button mat-button (click)="deleteRow(tabindex,index)">Delete row
+                                                </button>
+                                                <br></div>
+                                            <div class="creator-panel-line-drop">
+                                                <div class="creator-panel-line-ph" dnd-droppable
+                                                     (onDropSuccess)="itemDropped($event,tabindex,rowindex)">
+                                                    <div *ngIf="row.content.length>0"
+                                                         class="creator-panel-line-existing">
+                                                        <div class="creator-component" dnd-draggable
+                                                             [dragEnabled]="true" [dragData]="item.id"
+                                                             *ngFor="let item of row.content; let index = index">
+                                                            <span class="grippytall" dnd-draggable-handle></span>
+                                                            <div class="xclose" (click)="removeWidget(row,item,index)">
+                                                                X
+                                                            </div>
+                                                            <div class="title">{{item.title}}</div>
+                                                            <div class="param"
+                                                                 *ngIf="appConfigService.widgetConfig[item.code].time">
+                                                                <label>Time</label><select [(ngModel)]="item.time">
+                                                                <option *ngFor="let s of appConfigService.times">{{s}}
+                                                                </option>
+                                                            </select></div>
+                                                            <div class="param"
+                                                                 *ngIf="appConfigService.widgetConfig[item.code].symbol">
+                                                                <label>Symbol</label><select [(ngModel)]="item.symbol">
+                                                                <option *ngFor="let s of appConfigService.valuesandglobal">
+                                                                    {{s}}
+                                                                </option>
+                                                            </select></div>
+                                                            <div class="param"
+                                                                 *ngIf="appConfigService.widgetConfig[item.code].format">
+                                                                <label>Format</label><select [(ngModel)]="item.format">
+                                                                <option *ngFor="let s of appConfigService.formats">
+                                                                    {{s}}
+                                                                </option>
+                                                            </select></div>
+                                                        </div>
+                                                    </div>
+                                                    <span>Drop components here...</span>
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                    <button mat-button (click)="addRow()">Add row</button>
+                                    <br>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

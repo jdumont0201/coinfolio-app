@@ -1,20 +1,23 @@
-<ng-template *ngIf="authService?.isAuthenticated()">
-    <mat-toolbar>
-      <h3>Settings </h3>
 
+<div *ngIf="authService?.isAuthenticated()">
+    <mat-toolbar>
+        <h3>Settings </h3>
     </mat-toolbar>
 
-<mat-tab-group>
-  <mat-tab label="Profile">
-   E-mail: {{user?.email}}
-  </mat-tab>
+    <mat-tab-group>
+        <mat-tab label="Profile">
+            E-mail: {{user?.email}}<br>
+            <button mat-button (click)="logout()">Sign off</button>
+        </mat-tab>
 
-  <mat-tab label="Subscription">Premium expires on {{
-    user?.currentPaymentExpiration | date:"medium"}}</mat-tab>
-  <mat-tab label="Interface">Language: en_US</mat-tab>
-</mat-tab-group>
-</ng-template>
-<ng-template *ngIf="!authService?.isAuthenticated()">
+        <mat-tab label="Subscription">Premium expires on {{
+            user?.currentPaymentExpiration | date:"medium"}}
+        </mat-tab>
+        <mat-tab label="Interface">Language: en_US</mat-tab>
+    </mat-tab-group>
+</div>
+<div *ngIf="!authService?.isAuthenticated()" class="padded">
+
     <app-login [popup]="false"></app-login>
 
-</ng-template>
+</div>

@@ -49,6 +49,7 @@ export class ConfigService {
 
 
     @Output() perSiteConfigured: EventEmitter<any> = new EventEmitter();
+    @Output() isReady: EventEmitter<any> = new EventEmitter();
     @Output() perSiteConfiguredTranslate: EventEmitter<any> = new EventEmitter();
     @Output() perSiteConfiguredAuth: EventEmitter<any> = new EventEmitter();
 

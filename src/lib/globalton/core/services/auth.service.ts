@@ -21,6 +21,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Http, Headers} from '@angular/http';
 import {ObjectId} from "../interfaces/interfaces"
 import {Logic} from "../../../../logic/Logic";
+import {EventService} from "../../../localton/services/event.service";
 
 @Injectable()
 export class AuthService {
@@ -60,7 +61,7 @@ export class AuthService {
 };
     localStorageKey: string;
 
-    constructor(private http: Http,
+    constructor(
                 public messageService: MessageService,
                 private fb: FacebookService,
                 private consoleService: ConsoleService,
@@ -68,8 +69,7 @@ export class AuthService {
                 private translateService: TranslateService,
                 private currencyService: CurrencyService,
                 private apiService: ApiService,
-                private configService: ConfigService,
-                private requestService: RequestService) {
+                private configService: ConfigService) {
         this.consoleService.serv("+ AuthService");
         this.baseurl = this.configService.getApiUrl();
         this.configService.perSiteConfigured.subscribe(value => this.postConfigEvent(value), error => console.log("Error postConfigEvent" + error), () => console.log('done'));
@@ -95,8 +95,11 @@ export class AuthService {
                 this.postLogin();
             } else {
                 this.consoleService.auth("No Local Storage");
+                this.configService.isReady.emit({logged:true})
             }
             this.isPostConfigured = true;
+            //this.configService.isReady.emit({logged:false})
+            this.emitAuthStatus()
         }
     }
 
@@ -133,21 +136,22 @@ export class AuthService {
     }
 
     postLogin(): void {
-        console.log("postlogin", this.loginResponse);
+        console.log("[AUTH] postlogin", this.loginResponse);
         this.loadFromLoginResponse();
 
         this.createAuthHeaders();
         this.authenticated = true;
-        console.log("postlogin userid=", this.userId, "authenticated=",this.authenticated);
+        console.log("[AUTH] postlogin userid=", this.userId, "authenticated=",this.authenticated);
         this.configService.setEntityPrefix("entity/" + this.entityId + "/");
         this.emitAuthStatus();
         this.updateLocalStorage()
+
     }
 
 
     processError(err, f): void {
 
-        console.log("proceseerror");
+        console.log("[AUTH] proceseerror");
         this.messageService.addError("AUTH", err);
         f({error: true, desc: err, user: null});
     }

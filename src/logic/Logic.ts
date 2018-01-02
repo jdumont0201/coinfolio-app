@@ -3,7 +3,7 @@ import {DataService} from "../lib/localton/services/data.service";
 import {Data} from "@angular/router";
 
 import {RestangularModule, Restangular} from 'ngx-restangular';
-import {Record} from "../lib/localton/interfaces/interfaces"
+import {Record, Workspace} from "../lib/localton/interfaces/interfaces"
 import {ApiService} from "../lib/globalton/core/services/api.service";
 import {AuthService} from "../lib/globalton/core/services/auth.service";
 
@@ -167,12 +167,18 @@ export class Logic {
       f(res)
     })
   }
+  copyUserPanels()
+  copyPanels(p,f:Function){
+    this.apiService.authget(url, (res) => {
+      f(res)
+    })
+  }
   getMyWorkspaces(f: Function) {
     this.apiService.authget("user/" + this.authService.userId + "/workspaces", (res) => {
       f(res)
     })
   }
-  saveWorkspace(w,f:Function){
+  saveWorkspace(w:Workspace,f:Function){
     if(w.id)
     this.apiService.authput("user/" + this.authService.userId + "/workspaces/"+w.id, w, (res) => {
       f(res)
@@ -205,6 +211,9 @@ export class Logic {
       f({array:res,object:A})
     })
 
+  }
+  loadPanels(array,f:Function){
+    this.loadDefaultPanels(array,f)
   }
   loadDefaultPanels(array,f:Function){
     let A={}

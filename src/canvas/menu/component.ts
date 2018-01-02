@@ -60,4 +60,6 @@ export class AppMenuList implements OnInit{
     console.log("Set Panel menu")
     this.eventService.setPanel(p)
   }
+
+  isLoaded(p){return p in this.myPanels}
 }

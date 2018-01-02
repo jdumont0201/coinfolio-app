@@ -7,7 +7,7 @@ import {ConfigService} from './config.service';
 import {AuthService} from './auth.service';
 
 //import {ToastController} from 'ionic-angular';
-import {ModelService} from './model.service';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/toPromise';

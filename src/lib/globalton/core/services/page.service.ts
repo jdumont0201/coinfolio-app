@@ -3,7 +3,6 @@ import {Injectable, Inject, Output, EventEmitter} from "@angular/core";
 
 import {Location} from '@angular/common';
 import {MessageService} from './message.service';
-import {ModelService} from './model.service';
 import {ApiService} from './api.service';
 import {ConsoleService} from './console.service';
 import {ConfigService} from './config.service';
@@ -30,7 +29,7 @@ export class PageService {
         public messageService: MessageService,
         public configService: ConfigService,
         public headerService: HeaderService,
-        public modelService: ModelService,
+
         public authService: AuthService,
         public apiService: ApiService,
         public currencyService: CurrencyService,

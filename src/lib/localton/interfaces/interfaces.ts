@@ -45,4 +45,5 @@ export interface Panel {
 export type Workspace = {
   panels:Panel[];
   name:string;
+  id:string;
 };
