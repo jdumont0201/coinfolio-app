@@ -1,4 +1,4 @@
-import {Host, OnInit,Component, Input} from '@angular/core';
+/*import {Host, OnInit,Component, Input} from '@angular/core';
 // import {Transla teService} from 'hireton-common-angular2/services/translate.service';
 import {FormBuilder, FormGroup, AbstractControl, FormControl, Validators } from '@angular/forms'
 

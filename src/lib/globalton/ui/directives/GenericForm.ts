@@ -1,4 +1,4 @@
-//CORE
+/*//CORE
 import { Component,Injectable, ViewChild } from '@angular/core';
 
 //SERVICES
@@ -77,7 +77,7 @@ export abstract class GenericForm {
         this.fb = fb
     }
 
-    /* Loads queried model into form */
+    // Loads queried model into form
     ngOnChanges(changes: {[propName: string]: any}) {
         console.log('[FORM]  ngOnChanges Update myform model=' , changes['model']);
         if('model' in changes && this.myform){
@@ -278,3 +278,4 @@ export abstract class GenericForm {
     }
     }
 }
+*/

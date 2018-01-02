@@ -6,7 +6,7 @@ import {Headers, Http} from '@angular/http';
     name: 'loader',
     pure: false
 })
-export class LocationPipe {
+export class LoaderPipe {
 
     modelService: ModelService;
 

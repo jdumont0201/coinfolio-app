@@ -19,7 +19,7 @@ export class AppSortedPerformanceComponent {
   base: string = "EUR"
   source: string = "kraken"
 
-  timestamp = "1512925200"
+  timestamp = 1512925200
 
   displayedColumns = ['value', 'percent'];
   dataSource = new MatTableDataSource([]);

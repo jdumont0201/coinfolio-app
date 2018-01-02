@@ -1,6 +1,6 @@
 import {Component, Directive, Input, ElementRef, ViewChild, Inject}         from '@angular/core';
 import { MessageService }    from '../../core/services/message.service';
-import {CUSTOM_PIPES} from "../pipes/pipes";
+//import {CUSTOM_PIPES} from "../pipes/pipes";
 import {WindowService} from '../../core/services/window.service';
 
 @Component({

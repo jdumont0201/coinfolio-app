@@ -1,4 +1,4 @@
-import {Component, Input}         from '@angular/core';
+/*import {Component, Input}         from '@angular/core';
 import {CUSTOM_PIPES} from '../../pipes/pipes'
 
 import {NgClass} from '@angular/common';

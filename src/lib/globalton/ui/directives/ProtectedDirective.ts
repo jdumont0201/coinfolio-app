@@ -12,7 +12,7 @@ import {AuthService} from '../../core/services/auth.service';
 export class ProtectedDirective implements OnDestroy {
     private sub:any = null;
 
-    constructor(@Inject(AuthService)  authService:AuthService, private router:any, private location:Location) {
+    constructor(@Inject(AuthService)  authService:AuthService, private location:Location) {
         console.log("protected");
 /*
         if (!authService.isAuthenticated()) {
