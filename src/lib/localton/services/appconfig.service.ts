@@ -58,7 +58,8 @@ export class AppConfigService {
         "CHART_VOLUME": {time: false, symbol: true},
         "RANKING_MARKETCAP": {time: false, symbol: false},
         "PERF_LASTWEEK": {time: false, symbol: true, format: true},
-        "EVOL_MARKETCAP_MINI": {time: true, symbol: false}
+        "EVOL_MARKETCAP_MINI": {time: true, symbol: false},
+        "BITCOIN_DOMINANCE": {time: false, symbol: false}
     }
     specialPanels = [{id: 'SP_LISTING', type: "special", title: "Listing"}, {id: 'SP_SEPARATOR', type: "separator", title: "Separator"}]
     specialLinks = {'SP_LISTING': "/listing"}
@@ -116,6 +117,11 @@ export class AppConfigService {
             code: "PERF_LASTWEEK",
             size: "1x4",
             id: 10
+        }, {
+            title: "Bitcoin Dominance",
+            code: "BITCOIN_DOMINANCE",
+            size: "1x1",
+            id: 11
         }
     ];
 }

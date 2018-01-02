@@ -29,7 +29,7 @@ export class AppPanelCreatorComponent implements AfterViewInit {
   myWorkspace;
   panels: any[] = []
   @Input() editedPanel;
-
+  //templatePanels:any[]=[]
   constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public dialog: MatDialog, public consoleService: ConsoleService, public workspaceService: WorkspaceService,public authService:AuthService,public snackBar: MatSnackBar) {
     this.components = this.appConfigService.widgets;
     this.loadWorkspaceData()
@@ -51,7 +51,8 @@ export class AppPanelCreatorComponent implements AfterViewInit {
     this.panels = this.workspaceService.panelsArray;
     this.myWorkspaces = this.workspaceService.getAllWorkspaces()
     this.myWorkspace = this.workspaceService.getCurrentWorkspace()
-    console.log("panels", this.panels, "workspace", this.myWorkspace)
+      //this.templatePanels=this.workspaceService.getTemplatePanels();
+    console.log("[PANEL-CREATOR] loadWorkspaceData panels", this.panels, "workspace", this.myWorkspace)
 
   }
 

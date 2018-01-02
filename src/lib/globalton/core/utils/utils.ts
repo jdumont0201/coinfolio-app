@@ -1,6 +1,14 @@
 import {ObjectId, Raw} from '../interfaces/interfaces'
 import {Model} from "../models/Model";
 
+export function appendArrayToObject(res:any[],A){
+    for (let i = 0; i < res.length; ++i)
+        A[res[i].id] = res[i];
+}
+export function appendArrayToArray(res:any[],A:any[]){
+    for (let i = 0; i < res.length; ++i)
+        A.push(res[i])
+}
 
 
 export function findById(id: ObjectId, list: any[], f: Function): any {

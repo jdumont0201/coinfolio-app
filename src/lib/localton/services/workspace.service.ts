@@ -7,10 +7,10 @@ import {EventService} from "./event.service";
 import {AppConfigProfilePage} from "../../../pages/config-profile/component";
 import {AppConfigService} from "./appconfig.service";
 import {AuthService} from "../../globalton/core/services/auth.service";
-
+import {appendArrayToObject,appendArrayToArray} from "../../globalton/core/utils/utils"
 @Injectable()
 export class WorkspaceService {
-
+    @Output() workspacesLoaded: EventEmitter<any> = new EventEmitter();
 
     workspaces;
     currentWorkspace;
@@ -29,32 +29,52 @@ export class WorkspaceService {
             , "5a4644e3996ced000eacecf6"
             , "5a4644ea996ced000eacecf8"
             , "5a464559996ced000eacecfc"
-            , "5a464552996ced000eacecfa"], name: "Default workspace"
+            , "5a464552996ced000eacecfa"],
+        name: "Default workspace"
     }]
-
+    isLoaded=false;
     constructor(public logic: Logic, public authService: AuthService, public configService: ConfigService, public eventService: EventService, public appConfigService: AppConfigService) {
         console.log("[WS] MENU > Loading Sidebar")
         this.init();
+        this.authService.loginChanged.subscribe((val)=>this.loginChanged(val) )
     }
 
+    loginChanged(val){
+this.init()
+}
     init() {
+
         if (this.authService.isAuthenticated()) {
             console.log("[WS] loading my panels")
             this.logic.loadMyPanels((res) => {
+                console.log("[WS] loading my panels my",res)
+            this.logic.loadTemplatePanels((res2) => {
+                console.log("[WS] loading my panels template" ,res2)
+                appendArrayToArray(res2,res.array);
+                appendArrayToObject(res2,res.object);
+
                 this.panelsObject = res.object;
                 this.panelsArray = res.array;
                 this.setSpecialPanels()
                 this.loadWorkspaces(() => {
-
+                    this.isLoaded=true;
+                    this.eventService.workspaceUpdatedEvent.emit(true);
+                });
                 });
             })
         } else {
             console.log("[WS] loading default panels")
-            this.logic.loadDefaultPanels(this.defaultWorkspace[0].panels, (res) => {
+            this.logic.loadTemplatePanels( (res) => {
+                console.log("[WS] res ",res)
+                res.object={}
+                res.array=[]
+                appendArrayToArray(res,res.array);
+                appendArrayToObject(res,res.object);
                 this.panelsObject = res.object;
                 this.panelsArray = res.array;
                 this.loadDefaultWorkspace(() => {
-
+                    this.isLoaded=true
+                    this.eventService.workspaceUpdatedEvent.emit(true);
                 })
             })
         }
@@ -75,7 +95,7 @@ export class WorkspaceService {
 
         let defaultPanelIds=this.defaultWorkspace[0].panels
         for(let i=0;i<defaultPanelIds.length;++i){
-            this.logic
+
         }
 
 
@@ -94,18 +114,18 @@ export class WorkspaceService {
 
     }
 
-    getCurrentWorkspace() {
+      getCurrentWorkspace() {
         console.log("[WS] GETCUR", this.currentWorkspace)
         return this.currentWorkspace
     }
 
     getPanelArray() {
-        console.log("[WS] gpa", this.panelsArray)
+        console.log("[WS] getPanelArray", this.panelsArray)
         return this.panelsArray
     }
 
     getPanelsObject() {
-        console.log("[WS] gpa", this.panelsObject)
+        console.log("[WS] getPanelsObject", this.panelsObject)
         return this.panelsObject
     }
 
@@ -166,7 +186,7 @@ export class WorkspaceService {
         if (this.currentWorkspace && this.currentWorkspace.panels && this.currentWorkspace.panels.length > 0) {
 
             let boardId = this.currentWorkspace.panels[0];
-            if (boardId in this.panelsObject) {
+            if (this.panelsObject && (boardId in this.panelsObject)) {
                 let p = this.panelsObject[boardId];
                 console.log("[WS] MAIN > currentpanel", p)
                 p.tabs = JSON.parse(p.content)

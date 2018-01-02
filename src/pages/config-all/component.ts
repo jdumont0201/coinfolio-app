@@ -15,15 +15,19 @@ import {MatSnackBar} from "@angular/material";
 @Injectable()
 export class AppConfigAllPage {
     user;
-
+imports;
     constructor(public authService: AuthService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic,public snackBar: MatSnackBar) {
         if (this.authService.isAuthenticated()){
             console.log("logged")
             this.logic.getMe((user) => {
                 this.user = user;
             })
+            this.logic.getImports((res)=>{
+        this.imports=res;
+            })
         }else
             console.log("notlogged")
+
     }
     logout(){
      this.authService.doLogout()

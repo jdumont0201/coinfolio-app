@@ -504,9 +504,11 @@ h4{    font: bold 15px/25px Roboto;}
 .dnd-drag-start{border:dashed 2px #444!important}
 .dnd-drag-over{border:dashed 1px #444!important}
 
-.panel-creator-button-end{position: absolute!important;
-  top: 10px;
-  right: 10px;}
+.panel-creator-button-end{
+
+  margin: auto!important;
+  display: block!important;
+}
 
 .creator-panel-edit-box{display:flex;}
 
@@ -924,3 +926,7 @@ mat-nav-list span#logo {
   text-align: left;
 }
 .creator-component-list .creator-component:hover{background:#eee}
+#veil{    background-color: #106CC8;
+  background: linear-gradient(#185694, #106cc8);
+  border-bottom: 1px solid #267ED5;}
+.import-line{padding:10px}

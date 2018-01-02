@@ -21,7 +21,7 @@
       <span class="detail"  [ngClass]="r.cap_to > r.cap_from?'valpos':'valneg'">{{r.cap_to - r.cap_from>0?"+":""}}{{(r.cap_to - r.cap_from)/1000000}} m{{base}}</span>
     </div>
 
-
+<div *ngIf="!data || data.length==0">No data available</div>
 </mat-card-content>
 
 

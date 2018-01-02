@@ -45,7 +45,7 @@ export class DataService {
       f(null)
     });;
   }
-  getQueryParam(where,order?:{key:string,dir:string}):any{
+  getQueryParam(where,order?:{key:string,dir:string},limit?):any{
     if(this.database==="c"){
       let res={};
       for(let k in where){
@@ -53,16 +53,17 @@ export class DataService {
         res[k]="eq."+where[k]
       }
       if(order) res["order"]=order.key+"."+order.dir;
+        if(limit) res["limit"]=limit
       return res;
     }
   }
-  getAll(table:string,f:Function,where?:any,order?:{key:string,dir:string}){
+  getAll(table:string,f:Function,where?:any,order?:{key:string,dir:string},limit?){
     console.log("[GET ALL]",table,where)
     let dt = this.restangular.all(table);
-    let q=this.getQueryParam(where,order);
+    let q=this.getQueryParam(where,order,limit);
 
-    dt.customGETLIST("",q).subscribe(accounts => {
-      f( accounts);
+    dt.customGETLIST("",q).subscribe(obj => {
+      f( obj);
     });
   }
   getById(table:string,id,f:Function){

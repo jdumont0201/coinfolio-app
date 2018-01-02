@@ -2,8 +2,7 @@
     <div id="panel-creator-box">
         <div id="panel-creator-workspace">
             <div id="panel-creator-top"> Edit mode</div>
-            <button mat-raised-button color="primary" class="panel-creator-button-end" (click)="close()"
-                    *ngIf="mode==''">Leave edit mode
+            <button mat-raised-button color="primary" class="panel-creator-button-end" (click)="close()"                    *ngIf="mode==''">Leave edit mode
             </button>
             <div *ngIf="mode=='create'">
                 <button mat-raised-button color="accent" class="save" (click)="savePanel()">Save panel</button>
@@ -102,12 +101,8 @@
                                 </mat-tab>
                                 <mat-tab label="Templates">
                                     <div *ngFor="let p of panels; let index=index">
-                                        <a *ngIf="p.type=='special'" [dragEnabled]="true" [dragData]="p.id"
-                                           dnd-draggable class="draggable creator-panel-icon" matLine mat-list-item
-                                           (click)="setPanel(p)">
-                                            <div dnd-draggable-handle class="draghandle"><span
-                                                    class="grippytall"></span>{{p.title}}
-                                            </div>
+                                        <a *ngIf="p.type=='special' || p.isDefault" [dragEnabled]="true" [dragData]="p.id"                                           dnd-draggable class="draggable creator-panel-icon" matLine mat-list-item                                           (click)="setPanel(p)">
+                                            <div dnd-draggable-handle class="draghandle"><span                                                    class="grippytall"></span>{{p.title}}                                            </div>
                                             <div class="paneloptions"></div>
                                         </a>
                                     </div>
