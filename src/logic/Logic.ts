@@ -167,12 +167,8 @@ export class Logic {
       f(res)
     })
   }
-  copyUserPanels()
-  copyPanels(p,f:Function){
-    this.apiService.authget(url, (res) => {
-      f(res)
-    })
-  }
+
+  
   getMyWorkspaces(f: Function) {
     this.apiService.authget("user/" + this.authService.userId + "/workspaces", (res) => {
       f(res)
