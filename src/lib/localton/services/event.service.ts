@@ -20,7 +20,7 @@ export class EventService implements OnInit {
 
     isMenuDisplayed: boolean = true;
     isMobile: boolean = false;
-    isMenuPinned: boolean = false;
+    isMenuPinned: boolean = true;
     isVeilVisible: boolean = false;
     isLoadingVisible: boolean = true;
     isWelcomeVisible: boolean = false;

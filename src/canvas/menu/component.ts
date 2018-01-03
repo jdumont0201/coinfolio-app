@@ -5,6 +5,7 @@ import {Workspace, Panel, Item, Row, Tab} from "../../lib/localton/interfaces/in
 import {Logic} from "../../logic/Logic";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {WorkspaceService} from "../../lib/localton/services/workspace.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-menu-list',
@@ -26,7 +27,7 @@ export class AppMenuList implements OnInit {
     myPanels = {}
     panels = [];
 
-    constructor(public appConfigService: AppConfigService, public eventService: EventService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService) {
+    constructor(public appConfigService: AppConfigService, public eventService: EventService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService,public router:Router) {
         console.log("+ MENU")
 
         this.loadWorkspaceData()
@@ -64,5 +65,11 @@ export class AppMenuList implements OnInit {
 
     isLoaded(p) {
         return this.myPanels && (p in this.myPanels)
+    }
+    goTo(panelId){
+        console.log("this",this.eventService.isMenuPinned,this.eventService.isMenuDisplayed)
+       this.router.navigate(["/board/"+panelId]      )
+        if(!this.eventService.isMenuPinned)
+            this.eventService.isMenuDisplayed=false;
     }
 }
