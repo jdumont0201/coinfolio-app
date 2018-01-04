@@ -1,5 +1,4 @@
-
-<div  (window:resize)="eventService.resized($event)" id="maincanvas" *ngIf="!showPanelCreator" [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">
+<div  (window:resize)="eventService.resized($event)" id="maincanvas" *ngIf="!showPanelCreator && !eventService.isWelcomeVisible" [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">
   <mat-icon id="menu-switch" (click)="sidenav.toggle();eventService.isMenuDisplayed=!eventService.isMenuDisplayed">{{eventService.isMenuDisplayed?"chevron_left":"menu"}}</mat-icon>
   <mat-sidenav-container fullscreen (backdropClick)="sidenav.close();eventService.isMenuDisplayed=false" >
     <mat-sidenav #sidenav [opened]="eventService.isMobile?false:true" [mode]="eventService.isMenuPinned?'side':(eventService.isMobile?'over':'side')" opened="true" disableClose="true" mode="side">

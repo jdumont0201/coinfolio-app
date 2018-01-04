@@ -1,3 +1,3 @@
-<span *ngIf="display=='name'"><span class="crypto-iconed icon-crypto-{{symbol}}"></span>{{appConfigService.names[symbol]}}</span>
+<span *ngIf="display=='name'"><span class="crypto-iconed icon-crypto-{{symbol}}"></span>{{appConfigService.listing[symbol].name}}</span>
 <span *ngIf="display=='symbol'"><span class="crypto-iconed icon-crypto-{{symbol}}"></span>{{symbol}}</span>
 <span *ngIf="display=='pure'">{{symbol}}</span>

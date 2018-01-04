@@ -23,8 +23,9 @@
     <div *ngIf="!isLoaded(p)">Panel {{p}} not loaded
     </div>
   </div>
+    <a [routerLink]="'allocation'" matLine mat-list-item >Allocation</a>
 
-  <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
+    <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
   <button mat-button *ngIf="!authService.isSubscriptionActive()"  (click)="eventService.showSubscribe()"  id="button-editmode">Edit dashboards...<span class="subscriber-feature">+</span></button>
 
 </mat-nav-list>

@@ -24,7 +24,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material"
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs'
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar'
 
 /**************************************** EXTERNAL *******************************************/
@@ -45,11 +47,7 @@ export function RestangularConfigFactory(RestangularProvider) {
     //RestangularProvider.setDefaultHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtX3VzZXIifQ.V2Jh0ImjSe1TvDuImncT1nG9W0zh6FFkmh7UhWWeJnI'});
     RestangularProvider.addFullRequestInterceptor((element, operation, path, url, headers, params) => {
         console.log("[REQ] ", url, "params", params, "headers", headers);
-        return {
-            params: params,
-            headers: headers,
-            element: element
-        }
+        return {            params: params,            headers: headers,            element: element        }
     });
     RestangularProvider.addErrorInterceptor((response, subject, responseHandler) => {
         console.log("error!!", response.status, subject)
@@ -68,16 +66,10 @@ import {LocalModule} from "../lib/localton/local.module";
 import {AppComponent} from './app.component';
 /*PAGES*/
 import {AppDashboardPage} from "../pages/dashboard/component";
-import {AppAllocationPage} from "../pages/allocation-item/component";
-import {AppNewsPage} from "../pages/news/component";
-import {AppChartItemPage} from "../pages/chart-item/component";
 import {AppConfigAllPage} from "../pages/config-all/component";
 import {AppAccountPage} from "../pages/account/component";
-import {AppImportPage} from "../pages/import/component";
-import {AppImportCMCPage} from "../pages/import-cmc/component";
-import {AppEvolutionPage} from "../pages/evolution-item/component";
 import {AppAdminPage} from "../pages/admin-all/component"
-import {AppMarketPage} from "../pages/market/component"
+import {AppAllocationPage} from "../pages/allocation/component"
 import {AppGenericPage} from "../pages/generic/component"
 import {AppSymbolAllPage} from "../pages/symbol-all/component";
 import {AppSymbolItemPage} from "../pages/symbol-item/component";
@@ -101,6 +93,7 @@ import {AppVolumeComponent} from "../widgets/volume/component";
 import {AppTwitterComponent} from "../widgets/twitter/component"
 import {AppHeadlinesComponent} from "../widgets/headlines/component"
 import {AppBitcoinDominanceMiniWidget} from "../widgets/bitcoin-dominance/component"
+import {AppWidgetTopEntriesWidget} from "../widgets/top-entries/component"
 
 /*COMPONENTS*/
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
@@ -114,7 +107,6 @@ import {AppMarketCapEvolMiniComponent} from "../widgets/marketcap-evol-mini/comp
 import {AppSubscriberFeatureComponent} from "../components/subscriber-feature/component";
 import {AppRegisterComponent} from "../components/register/component";
 import {AppPanelCreatorComponent, AskNameDialog} from "../components/panel-creator/component";
-import {AppConfigProfilePage} from "../pages/config-profile/component";
 
 import {GlobalErrorHandler} from "../lib/globalton/core/handlers/GlobalErrorHandler";
 
@@ -128,9 +120,10 @@ import {Logic} from "../logic/Logic";
 @NgModule({
     declarations: [
         AppComponent, AppMenuList,
-        AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,
-        AppChartItemPage, AppDashboardPage, AppAllocationPage, AppNewsPage, AppAccountPage, AppConfigAllPage, AppImportPage, AppEvolutionPage, AppImportCMCPage, AppMarketPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,
-        AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppConfigProfilePage,AppBitcoinDominanceMiniWidget,
+        AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,
+        AppWidgetTopEntriesWidget,
+         AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,
+        AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
     ],
     imports: [
@@ -146,7 +139,7 @@ import {Logic} from "../logic/Logic";
 
         GlobaltonCoreModule,GlobaltonUIModule, LocalModule,        AppRoutingModule,
 
-        MatButtonModule, MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
+        MatSlideToggleModule,MatButtonModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
 
     ],
     entryComponents: [AskNameDialog],

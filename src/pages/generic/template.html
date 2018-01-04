@@ -1,4 +1,5 @@
-<mat-toolbar>
+<div *ngIf="!eventService.isWelcomeVisible">
+  <mat-toolbar>
   <h3 [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">{{currentPanel?.title}} </h3>
 <div id="customize-button">
   <button *ngIf="authService.isSubscriptionActive()" (click)="openPanelEditor(currentPanel)" mat-button>Customize this
@@ -63,3 +64,4 @@
 
 
 
+</div>

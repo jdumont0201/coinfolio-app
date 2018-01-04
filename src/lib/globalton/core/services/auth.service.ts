@@ -75,9 +75,7 @@ export class AuthService {
         this.configService.perSiteConfigured.subscribe(value => this.postConfigEvent(value), error => console.log("Error postConfigEvent" + error), () => console.log('done'));
         this.createNoAuthHeaders();
         this.apiService.setAuthService(this, () => {
-            this.apiService.ping(function () {
 
-            });
         });
         this.initFB();
     }

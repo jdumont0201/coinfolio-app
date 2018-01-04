@@ -95,7 +95,9 @@ export abstract class DataAndChartTemplate implements OnInit {
   updateOptions(opt) {
     this.options = Object.assign(this.options, opt);
   };
+findLastUpdate(){
 
+}
   showNotEnoughData() {
     this.chart = new StockChart({
       chart: {

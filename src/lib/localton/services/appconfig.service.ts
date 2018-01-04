@@ -15,7 +15,7 @@ export class AppConfigService {
 
 
     constructor(public configService: ConfigService, public consoleService: ConsoleService, public apiService: ApiService, public authService: AuthService, public logic: Logic) {
-        this.valuesandglobal.push.apply(this.valuesandglobal, this.values)
+        this.generateListing();
         this.apiService.setApiUrl("http://34.242.69.165:3001/api/");
         this.consoleService.serv("+ AppConfigService");
         this.configService.app = "comeoncoins"
@@ -27,20 +27,19 @@ export class AppConfigService {
                 console.log("active", this.authService.isSubscriptionActive(), this.authService.authenticated, this.authService.paymentExpiration, this.authService.paymentExpiration > new Date().getTime() / 1000)
             })
     }
-
     values = ["BTC", "ETH", "BCH", "XRP", "DASH", "XMR", "LTC", "ZEC"]
     valuesandglobal = ["GLOBAL"]
     formats = ["chart", "numeric"]
-    names = {
-        GLOBA: "Global",
-        BTC: "Bitcoin",
-        "ETH": "Ethereum",
-        "BCH": "Bitcoin Cash",
-        "XRP": "Ripple",
-        "DASH": "Dash",
-        "XMR": "Monero",
-        "LTC": "LiteCoin",
-        "ZEC": "ZCash"
+    listing= {
+        GLOBA: {name: "Global", price: [] ,marketcap: ["aken"]},
+        BTC: {name: "Bitcoin", price: ["kraken"], marketcap: ["cmc"]},
+        ETH: {name: "Ethereum", price: ["kraken"], marketcap: ["cmc"]},
+        XRP: {name: "Ripple", price: ["kraken"], marketcap: ["cmc"]},
+        ZEC: {name: "ZCash", price: ["kraken"], marketcap: ["cmc"]},
+        DASH: {name: "Dash", price: ["kraken"], marketcap: ["cmc"]},
+        XMR: {name: "Monero", price: ["kraken"], marketcap: ["cmc"]},
+        LTC: {name: "LiteCoin", price: ["kraken"], marketcap: ["cmc"]}
+
     }
     bases = ["USD", "EUR"]
     intervals = [1, 5, 15, 30, 60, 240, 1440]
@@ -59,7 +58,8 @@ export class AppConfigService {
         "RANKING_MARKETCAP": {time: false, symbol: false},
         "PERF_LASTWEEK": {time: false, symbol: true, format: true},
         "EVOL_MARKETCAP_MINI": {time: true, symbol: false},
-        "BITCOIN_DOMINANCE": {time: false, symbol: false}
+        "BITCOIN_DOMINANCE": {time: false, symbol: false},
+        "TOP_ENTRIES": {time: false, symbol: false}
     }
     specialPanels = [{id: 'SP_LISTING', type: "special", title: "Listing"}, {id: 'SP_SEPARATOR', type: "separator", title: "Separator"}]
     specialLinks = {'SP_LISTING': "/listing"}
@@ -122,6 +122,16 @@ export class AppConfigService {
             code: "BITCOIN_DOMINANCE",
             size: "1x1",
             id: 11
+        }, {
+            title: "Top entries",
+            code: "TOP_ENTRIES",
+            size: "1x1",
+            id: 11
         }
     ];
+    generateListing(){
+        this.valuesandglobal.push.apply(this.valuesandglobal, this.values)
+
+    }
+
 }

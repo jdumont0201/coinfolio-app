@@ -4,6 +4,8 @@ import {DataService} from "../lib/localton/services/data.service";
 import {EventService} from "../lib/localton/services/event.service";
 import {Logic} from "../logic/Logic";
 import {ActivatedRoute, Params} from "@angular/router";
+import {MessageService} from "../lib/globalton/core/services/message.service";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-root',
@@ -21,13 +23,18 @@ export class AppComponent   {
   currentPanel;// = this.workspace[0]
   myPanels;
 
-  constructor(public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, private route: ActivatedRoute) {
+  constructor(public requestService: RequestService,public eventService: EventService, public messageService:MessageService,public logic: Logic, private route: ActivatedRoute,public snackBar: MatSnackBar ) {
     this.eventService.panelCreatorEvent.subscribe((val) => this.panelCreatorUpdated(val));
     this.eventService.loginEvent.subscribe((val) => this.loginUpdated(val));
     this.eventService.subscribeEvent.subscribe((val) => this.subscribeUpdated(val))
     this.eventService.workspaceUpdatedEvent.subscribe((val) => this.workspaceUpdated(val))
+    this.messageService.errorsChanged.subscribe((val)=>this.errorsUpdated(val))
   }
 
+  errorsUpdated(msg:any){
+    console.log("error changed",msg)
+    this.snackBar.open("Error :"+msg.code,null,{panelClass:"red",duration:3000})
+  }
   workspaceUpdated(val: any) {
 
   }

@@ -4,7 +4,6 @@ import {EventEmitter} from '@angular/core';
 import {Logic} from "../../../logic/Logic";
 import {ConfigService} from "../../globalton/core/services/config.service";
 import {EventService} from "./event.service";
-import {AppConfigProfilePage} from "../../../pages/config-profile/component";
 import {AppConfigService} from "./appconfig.service";
 import {AuthService} from "../../globalton/core/services/auth.service";
 import {appendArrayToObject,appendArrayToArray} from "../../globalton/core/utils/utils"

@@ -1,9 +1,13 @@
 <div id="panel-creator">
     <div id="panel-creator-box">
         <div id="panel-creator-workspace">
-            <div id="panel-creator-top"> Edit mode</div>
-            <button mat-raised-button color="primary" class="panel-creator-button-end" (click)="close()"                    *ngIf="mode==''">Leave edit mode
-            </button>
+            <div id="panel-creator-top"> Edit mode
+
+                <select  (change)="switchWorkspace()" [(ngModel)]="selectedWorkspace">
+                    <option *ngFor="let w of myWorkspaces ; let index=index" [value]="index">{{w.name}}</option>
+                </select>
+                <button mat-raised-button color="primary" class="panel-creator-button-end" (click)="close()"                    *ngIf="mode==''">Leave edit mode</button>
+            </div>
             <div *ngIf="mode=='create'">
                 <button mat-raised-button color="accent" class="save" (click)="savePanel()">Save panel</button>
                 <button mat-raised-button color="primary" class="cancel" (click)="cancel()">Cancel</button>

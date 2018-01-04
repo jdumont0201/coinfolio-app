@@ -6,12 +6,42 @@ import {RestangularModule, Restangular} from 'ngx-restangular';
 import {Record, Workspace} from "../lib/localton/interfaces/interfaces"
 import {ApiService} from "../lib/globalton/core/services/api.service";
 import {AuthService} from "../lib/globalton/core/services/auth.service";
+import {RequestService} from "../lib/globalton/core/services/request.service";
+import {HttpHeaders} from "@angular/common/http";
+const binance = require('node-binance-api');
 
 @Injectable()
 export class Logic {
-    constructor(public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
+    constructor(public requestService:RequestService,public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
 
     }
+
+
+
+    BinanceGetAllocation(f:Function){
+        this.apiService.noauthget("user/getbinancebalance?userId="+this.authService.userId,(res)=>{
+            f(res)
+        })
+    }
+    BinanceGetLivePrices(f:Function){
+        this.apiService.noauthget("user/getbinanceliveprices?userId="+this.authService.userId,(res)=>{
+            f(res.result)
+        })/* let url="https://api.binance.com/api/v1/ticker/allPrices"
+        this.requestService.get(url,(res)=>{
+            f(res)
+        },this)*/
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     registerUser(obj, f) {
         console.log("Register ", obj)
@@ -28,7 +58,10 @@ export class Logic {
     }
 
     saveUser(obj, f: Function) {
-        this.dataService.post("user", obj, f)
+        if(obj.id)
+            this.apiService.authput("user", obj, f)
+            else
+        this.apiService.noauthpost("user", obj, f)
     }
 
     /* PAYMENT */
@@ -82,6 +115,9 @@ export class Logic {
     getDominance(source: string, base: string, from: number, f: Function) {
         this.dataService.perform("dominance", {psource: source, pts: from, pbase: base}, f)
     }
+    getTopEntries(source: string, base: string, from: number, f: Function) {
+        this.dataService.perform("topentries", {psource: source, pts: from, pbase: base}, f)
+    }
 
     getMarketCapData(source: string, symbol: string, base: string, f: Function) {
         this.dataService.perform("marketcap", {psource: source, psymbol: symbol, pbase: base}, f)
@@ -96,7 +132,7 @@ export class Logic {
     }
 
     getImports( f: Function) {
-        this.dataService.getAll("import", f,{},{key:"ts",dir:"desc"},100)
+        this.dataService.getAll("import", f,{},{key:"ts",dir:"desc"},1000)
     }
 
     getVolumeWeekData(source: string, symbol: string, base: string, f: Function) {

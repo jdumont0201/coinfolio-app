@@ -27,6 +27,8 @@ export class ApiService {
     retry: number;
     pingOnError: boolean = false;
     isUp: boolean = false;
+    pingInterval:any;
+
     authService: AuthService;
 
     constructor(public http: HttpClient,
@@ -38,7 +40,9 @@ export class ApiService {
         this.timeout = configService.API_TIMEOUT;
         this.retry = configService.API_NB_RETRY;
     this.baseurl=this.configService.apiURL;
+        this.ping(function () {
 
+        });
 
     }
     setApiUrl(v:string){
@@ -75,7 +79,7 @@ export class ApiService {
         }else if (err.message === "Unauthorized") {
             this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource.");
         }else{
-            console.log("other error");
+            console.log("other error",errorCode,err);
             if (err && err._body && typeof err._body === "string") {
                 try {
                     var parsed = JSON.parse(err._body);
@@ -83,22 +87,28 @@ export class ApiService {
                         desc = parsed.errordesc;
                     else if (parsed.message)
                         desc = parsed.message
+                    console.log("other error");
+
                     this.messageService.readError(parsed.error);
 
                 } catch (e) {
                     desc = err._body;
+                    console.log("not parsed");
+
                     this.messageService.addError(err.url,parsed.error,"Unparsable error");
 
                 }
             }
-  /*          let toast = this.toastCtrl.create({
-                message: errorCode + " " + err + " " + (desc ? desc.toString() : ""),
-                cssClass: "red",
-                dismissOnPageChange: true, showCloseButton: true,
-                position: 'bottom'
-            });
-            toast.present();
-*/
+            this.messageService.addError(errorCode,"","");
+
+            /*          let toast = this.toastCtrl.create({
+                          message: errorCode + " " + err + " " + (desc ? desc.toString() : ""),
+                          cssClass: "red",
+                          dismissOnPageChange: true, showCloseButton: true,
+                          position: 'bottom'
+                      });
+                      toast.present();
+          */
         }
     }
 
@@ -112,37 +122,47 @@ export class ApiService {
             f(data);
         }
     }
-
     pingResult(isUp: boolean, f: Function) {
 
-        let diff = new Date().getTime() - this.timer;
+        const diff = new Date().getTime() - this.timer;
         this.isUp = isUp;
         this.messageService.hideLoading();
         this.messageService.hideSaving();
         if (isUp) {
-
             console.log("PING Server up ", diff, "ms");
-
+            clearInterval(this.pingInterval);
+            this.processWaitLine()
         } else {
             console.error("PING Server down", diff, "ms");
         }
         f(isUp);
     }
-
-    private handleError(error: any) {
-        console.error('An error occurred', error);
+    processWaitLine(){
+       console.log("waitline",this.waitLine)
+        for(let i=0;i<this.waitLine.length;++i){
+            const w:any=this.waitLine[i]
+        if(w.type==="get")
+            this.get(w.url,w.headers,w.func)
+        }
+    }
+    private handlePingError(error: any) {
+        console.error('An error occurred', error,this);
+        if(!this.pingInterval)
+            this.pingInterval=window.setInterval(() => {
+               this.ping(()=>{})
+            },3000);
         //return Promise.reject(error.message || error);
     }
 
     ping(f: Function): void {
-        let fullurl: string = this.baseurl + "ping";
+        const fullurl: string = this.baseurl + "ping";
         console.log("PING", fullurl);
         this.timer = new Date().getTime();
-        let h: HttpHeaders = this.authService.noauthGetHeaders;
-        this.http.get(fullurl, {headers: h})
+        //const h: HttpHeaders = this.authService.noauthGetHeaders;
+        this.http.get(fullurl)
             .toPromise()
             .then(res => this.pingResult(true, f))
-            .catch(this.handleError);
+            .catch(this.handlePingError.bind(this));
         ;
     }
 
@@ -265,9 +285,12 @@ export class ApiService {
                 () => console.log('Done patching.')
             );
     }
-
+    waitLine:any[]=[];
     private get(url: string, headers: HttpHeaders, f: Function) {
-
+        if(!this.isUp) {
+            this.waitLine.push({type:"get",url:url,headers:headers,func:f})
+            return ;
+        }
         this.timer = new Date().getTime();
         this.consoleService.get("ApiService Get", url, headers);
         this.messageService.showLoading();

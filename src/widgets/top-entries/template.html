@@ -1,0 +1,51 @@
+<mat-card class="mini-card">
+  <mat-card-header>
+    <mat-card-title>Bitcoin dominance</mat-card-title>
+
+  </mat-card-header>
+  <div class="options" *ngIf="showOptions">
+    <div class="row">
+
+    </div>
+  </div>
+  <mat-card-content >
+
+
+    <div *ngFor="let r of data" class="mini">
+
+      <span class="large"  >{{r.symbol}}</span>
+      <span class="large"  >{{r.value}}</span>
+    </div>
+
+
+</mat-card-content>
+
+
+  <button class="dots" mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-button class="showdata"  (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
+   </mat-menu>
+<div class="data">
+  <span  *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
+  <mat-table #table class="data"  [dataSource]="dataSourceRef" *ngIf="showDataTable">
+    <ng-container matColumnDef="symbol" >
+      <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.symbol}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="ts" >
+      <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.ts*1000 | date:"medium"}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="value" >
+      <mat-header-cell *matHeaderCellDef> Bitcoin dominance</mat-header-cell>
+      <mat-cell *matCellDef="let element" >{{element.value | number}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>
+  </mat-table>
+</div>
+</mat-card>
+
