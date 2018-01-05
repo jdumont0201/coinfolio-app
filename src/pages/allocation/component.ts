@@ -20,17 +20,19 @@ import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 })
 @Injectable()
 export class AppAllocationPage extends DataAndChartTemplate {
-    allocation;
-    prices;
-    type="plain"
-    showDataTable = true
-    ;
+    allocation=[];
+    isDataSourceArray=true;
+    prices=[];
+    type = "plain"
+    showDataTable = true;
+    providers=["global"]
+
     displayedColumns = ['symbol', 'available', 'price', 'value'];
 
 
     options = {
-        chart: {type: 'pie' ,      margin: 0,},
-        title:{text:"Portfolio"},
+        chart: {type: 'pie', margin: 0,},
+        title: {text: "Portfolio"},
         credits: {enabled: false},
         plotOptions: {
             series: {
@@ -40,64 +42,134 @@ export class AppAllocationPage extends DataAndChartTemplate {
     }
 
     constructor(public authService: AuthService, public appConfigService: AppConfigService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
-        super(logic, appConfigService,"plain")
+        super(logic, appConfigService, "plain")
 
 
     }
 
+    charts=[];
+
+    dataSource = [];
+
+    updateBinance() {
+        console.log("updatebinance")
+
+        const key="binance";
+        this.prepareUpdate(key)
+        this.logic.BinanceGetAllocation((res) => {
+            this.logic.BinanceGetLivePrices((P) => {
+                this.prices[key]= P;
+                let V = 0;
+                let data = [];
+                for (let k in res.result)
+                    if (parseInt(res.result[k].available) > 0) {
+                        let q = res.result[k].available;
+                        let p;
+                        if (k === "USDT") {
+                            p = 1;
+                        } else if ((k + "USDT") in this.prices) {
+                            p = parseFloat(P[k + "USDT"]);
+                        } else {
+                            let pb = parseFloat(P[k + "BTC"]);
+                            let btcv = pb;
+                            let b = parseFloat(P["BTCUSDT"]);
+                            p = btcv * b;
+                        }
+                        V += p * q;
+                        if (k !== "USDT")
+                            data.push({name: k, y: p * q})
+                        this.allocation[key].push({symbol: k, available: q, price: p, value: p * q})
+                        this.addToGlobal(k,p,q)
+
+                }
+                this.allocation[key].push({symbol: "TOTAL", available: null, price: null, value: V})
+                this.dataSource[key] = new MatTableDataSource(this.allocation["key"]);
+                this.updateOptions({                    title: {text: " "}, series: [{name: "Portfolio",data: data                    }], yAxis: {}})
+                this.chart = new Chart(this.options);
+                this.updateGlobal()
+            });
+        });
+    }
+    addToGlobal(k,p,q){
+        let f:boolean=false;
+        for(let i=0;i<this.allocation["global"].length;++i)
+            if(this.allocation["global"][i].symbol===k){
+                this.allocation["global"][k].available+=q;
+                this.allocation["global"][k].value+=p*q;
+                f=true;
+                return;
+            }
+        this.allocation["global"].push({symbol: k, available: q, price: p, value: p*q})
+
+    }
+    updateGlobal(){
+        const key="global"
+        let data=[];
+        for(let i=0;i<this.allocation["global"].length;++i){
+            let a=this.allocation["global"][i];
+            data.push({name: a.symbol, y: a.value})
+        }
+
+        this.dataSource[key] = new MatTableDataSource(this.allocation[key]);
+        this.updateOptions({  title: {text: " "}, series: [{name: "Portfolio",data: data                    }], yAxis: {}})
+        this.charts[key] = new Chart(this.options);
+
+    }
+    prepareUpdate(key){
+        if(this.providers.indexOf(key)===-1)
+            this.providers.push(key)
+        this.allocation[key]=[];
+    }
+    updateKraken() {
+        console.log("updatekraken")
+        const key="kraken";
+        this.prepareUpdate(key)
+        this.logic.KrakenGetAllocation((res) => {
+            this.logic.KrakenGetLivePrices((P) => {
+                this.prices[key]= P;
+                let V = 0;
+                let data = [];
+                for (let k in res.result)
+                    if (parseInt(res.result[k].available) > 0) {
+                        let q = res.result[k].available;
+                        let p;
+                        if (k === "USDT") {
+                            p = 1;
+                        } else if ((k + "USDT") in this.prices) {
+                            p = parseFloat(P[k + "USDT"]);
+                        } else {
+                            let pb = parseFloat(P[k + "BTC"]);
+                            let btcv = pb;
+                            let b = parseFloat(P["BTCUSDT"]);
+                            p = btcv * b;
+                        }
+                        V += p * q;
+                        if (k !== "USDT")
+                            data.push({name: k, y: p * q})
+                        this.allocation[key].push({symbol: k, available: q, price: p, value: p * q})
+                        this.addToGlobal(k,p,q)
+                }
+                this.allocation[key].push({symbol: "TOTAL", available: null, price: null, value: V})
+                this.dataSource[key] = new MatTableDataSource(this.allocation["key"]);
+                this.updateOptions({                    title: {text: " "}, series: [{name: "Portfolio",data: data                    }], yAxis: {}})
+                this.charts["kraken"] = new Chart(this.options);
+                this.updateGlobal()
+            });
+        });
+    }
+
     updateData() {
+        this.allocation = [];
+
+        this.allocation["global"]=[];
         if (this.authService.isAuthenticated()) {
-            console.log("logged")
             this.logic.getMe((user) => {
-                this.logic.BinanceGetAllocation((res) => {
-                    this.logic.BinanceGetLivePrices((P) => {
+                console.log("logged",user)
+                if(user.ConnectionBinance)
+                this.updateBinance()
 
-                        this.prices = P;
-                        this.prices = P;
-                        // for (let k=0;k<P.length;++k)
-                        //    this.prices[P[k].symbol]=parseFloat(P[k].price)
-
-                        this.allocation = [];
-                        let V=0;
-                        let data=[]
-                        for (let k in res.result)
-                            if (parseInt(res.result[k].available) > 0) {
-                                let q = res.result[k].available;
-                                let p;
-                                if(k == "USDT") {
-                                    p=1;
-                                }else if((k + "USDT") in this.prices){
-                                    p =  parseFloat(this.prices[k + "USDT"]);
-
-                                }else {
-                                    let pb=    parseFloat(this.prices[k + "BTC"]);
-                                    let btcv=pb;
-                                    let b=    parseFloat(this.prices["BTCUSDT"]);
-                                    p = btcv*b ;
-
-                                }
-                                V+=p*q;
-                                if(k!=="USDT")
-                                    data.push({name:k,y:p*q})
-                                this.allocation.push({symbol: k, available: q, price: p, value: p * q})
-                            }
-                        this.allocation.push({symbol: "TOTAL", available: null, price: null, value: V})
-
-                        console.log("all", this.allocation)
-
-                        this.dataSource = new MatTableDataSource(this.allocation);
-
-                        this.updateOptions({title:{text:" "},series: [{
-                            name: "Portfolio",
-                            data: data
-                        }],yAxis : {
-
-                        }})
-                        this.chart = new Chart(this.options);
-
-                    });
-                });
-
+                if(user.ConnectionKraken)
+                this.updateKraken()
 
             });
 

@@ -1,14 +1,9 @@
 import {Injectable} from "@angular/core";
 import {DataService} from "../lib/localton/services/data.service";
-import {Data} from "@angular/router";
-
-import {RestangularModule, Restangular} from 'ngx-restangular';
 import {Record, Workspace} from "../lib/localton/interfaces/interfaces"
 import {ApiService} from "../lib/globalton/core/services/api.service";
 import {AuthService} from "../lib/globalton/core/services/auth.service";
 import {RequestService} from "../lib/globalton/core/services/request.service";
-import {HttpHeaders} from "@angular/common/http";
-const binance = require('node-binance-api');
 
 @Injectable()
 export class Logic {
@@ -26,10 +21,18 @@ export class Logic {
     BinanceGetLivePrices(f:Function){
         this.apiService.noauthget("user/getbinanceliveprices?userId="+this.authService.userId,(res)=>{
             f(res.result)
-        })/* let url="https://api.binance.com/api/v1/ticker/allPrices"
-        this.requestService.get(url,(res)=>{
+        })
+    }
+
+    KrakenGetAllocation(f:Function){
+        this.apiService.noauthget("user/getkrakenbalance?userId="+this.authService.userId,(res)=>{
             f(res)
-        },this)*/
+        })
+    }
+    KrakenGetLivePrices(f:Function){
+        this.apiService.noauthget("user/getkrakenliveprices?userId="+this.authService.userId,(res)=>{
+            f(res.result)
+        })
     }
 
 

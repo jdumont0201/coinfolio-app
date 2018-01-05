@@ -10,12 +10,12 @@ import {MatTableDataSource} from '@angular/material';
 export abstract class DataAndChartTemplate implements OnInit {
 
   displayedColumns
-  dataSource = new MatTableDataSource([]);
+  dataSource ;
   showDataTable = false;
   data: any = [];
   options: any;
   chart;
-
+isDataSourceArray;
   stockChartDefOptions= {
 
     chart: {
@@ -74,6 +74,12 @@ export abstract class DataAndChartTemplate implements OnInit {
     if(type==="plain") this.chart=new Chart(this.plainChartDefOptions)
     else this.chart=new StockChart(this.stockChartDefOptions)
 
+    if(this.isDataSourceArray)
+      this.dataSource = [];
+else
+    this.dataSource =new MatTableDataSource([]);
+
+
   }
 
   ngOnInit() {
@@ -89,6 +95,7 @@ export abstract class DataAndChartTemplate implements OnInit {
       return false
     }
     else
+      if(!this.isDataSourceArray)
       this.dataSource = new MatTableDataSource(this.data);
   }
 

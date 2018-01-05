@@ -26,6 +26,7 @@ ConnectionBinance=false;
             this.logic.getMe((user) => {
                 this.user = user;
                 if(!user.ConnectionBinance) user.ConnectionBinance=false;
+                if(!user.ConnectionKraken) user.ConnectionKraken=false;
                 console.log("this.user",this.user)
             })
             this.logic.getImports((res)=>{
