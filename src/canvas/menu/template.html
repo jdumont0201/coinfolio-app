@@ -3,10 +3,7 @@
 <mat-nav-list  id="desktop-menu">
   <div id="header">
     <div class="logo-img"><mat-icon>trending_up</mat-icon></div>
-    <div class="logo-in" routerLink="/">
-      <span id="logo"> Coinamics  </span>
-
-    </div><br>
+    <br>
    <button mat-button routerLink="/config/all">
       <mat-icon>settings</mat-icon>
       {{authService.isAuthenticated()?"Settings":"Sign in"}}
@@ -23,10 +20,15 @@
     <div *ngIf="!isLoaded(p)">Panel {{p}} not loaded
     </div>
   </div>
-    <a [routerLink]="'allocation'" matLine mat-list-item >Allocation</a>
+    <a (click)="goToLink('allocation')" matLine mat-list-item >Allocation</a>
+  <div  mat-list-item class="mat-list-item  menu-separator">Listing</div>
+    <a (click)="goToLink('listing')" matLine mat-list-item >Listing</a>
 
     <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
   <button mat-button *ngIf="!authService.isSubscriptionActive()"  (click)="eventService.showSubscribe()"  id="button-editmode">Edit dashboards...<span class="subscriber-feature">+</span></button>
+  <div class="logo-in" routerLink="/">
+    <span id="logo"> Coinamics  </span>
+  </div>
 
 </mat-nav-list>
 

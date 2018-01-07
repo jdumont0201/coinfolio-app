@@ -3,7 +3,7 @@
         <h3>Settings </h3>
     </mat-toolbar>
 
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Profile">
             E-mail: {{user?.email}}<br>
             userId: {{user?.id}}<br>
@@ -14,34 +14,12 @@
             user?.currentPaymentExpiration | date:"medium"}}
         </mat-tab>
         <mat-tab label="Interface">Language: en_US</mat-tab>
-        <mat-tab label="Broker connections" *ngIf="user">
-            <div class="padded">
-                <mat-slide-toggle [color]="accent" [(ngModel)]="user.ConnectionBinance"> Binance</mat-slide-toggle>
-                <div *ngIf="user?.ConnectionBinance">
-                    <form>
-                        <div>
-                            <mat-form-field><input name="BinanceAPIKey" matInput [(ngModel)]="user.ConnectionBinanceAPIKey" placeholder="API Key"></mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field><input name="BinanceAPISecret" matInput [(ngModel)]="user.ConnectionBinanceAPISecret" placeholder="API Secret"></mat-form-field>
-                        </div>
-                        <button mat-raised-button="" (click)="submit()" color="primary">Save</button>
-                    </form>
-                </div>
-            </div>
-            <div class="padded">
-                <mat-slide-toggle [color]="accent" [(ngModel)]="user.ConnectionKraken"> Kraken</mat-slide-toggle>
-                <div *ngIf="user?.ConnectionKraken">
-                    <form>
-                        <div>
-                            <mat-form-field><input name="KrakenAPIKey" matInput [(ngModel)]="user.ConnectionKrakenAPIKey" placeholder="API Key"></mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field><input name="KrakenAPISecret" matInput [(ngModel)]="user.ConnectionKrakenAPISecret" placeholder="API Secret"></mat-form-field>
-                        </div>
-                        <button mat-raised-button="" (click)="submit()" color="primary">Save</button>
-                    </form>
-                </div>
+        <mat-tab label="Favorites">Favorite cryptos
+
+        </mat-tab>
+        <mat-tab label="Broker connections">
+            <div class="padded"  *ngIf="tabIndex==4">
+                <app-broker-connections></app-broker-connections>
             </div>
         </mat-tab>
         <mat-tab label="Latest imports">

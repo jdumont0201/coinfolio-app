@@ -1,0 +1,1 @@
+<div id="disconnected" *ngIf="!apiService.isUp">{{retryIn==0?'Try connecting to server...':'Disconnected from server. Retrying connection in '+retryIn+'s...'}} </div>

@@ -1,0 +1,9 @@
+#live{
+display:flex;
+}
+#live-left{
+width:40%
+}
+#live-right{
+width:60%
+}

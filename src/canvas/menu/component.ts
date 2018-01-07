@@ -72,4 +72,10 @@ export class AppMenuList implements OnInit {
         if(!this.eventService.isMenuPinned)
             this.eventService.isMenuDisplayed=false;
     }
+    goToLink(route){
+        console.log("this",this.eventService.isMenuPinned,this.eventService.isMenuDisplayed)
+        this.router.navigate([route]);
+        if(!this.eventService.isMenuPinned)
+            this.eventService.isMenuDisplayed=false;
+    }
 }

@@ -1,0 +1,14 @@
+<select (change)="setDecimals()" [(ngModel)]="nbDecimal">
+  <option *ngFor="let d of decimalSpan" value="{{d}}">{{d}}</option>
+</select>
+<div class="depth-ask" *ngFor="let b of askArrayFiltered ; let index=index">
+  <div class="depth-bar-ask">
+    <div class="depth-bar-in" [style.width]="b.v/maxVol*100+'%'">{{b.p | number:'1.'+nbDecimal+"-"+nbDecimal}}</div>
+  </div>
+  <span>{{b.v}}</span>
+</div>
+<div class="depth-bid" *ngFor="let b of bidArrayFiltered ; let index=index">
+  <div class="depth-bar-bid">
+    <div class="depth-bar-in" [style.width]="b.v/maxVol*100+'%'">{{b.p | number:'1.'+nbDecimal+"-"+nbDecimal}}</div>
+  </div>
+  <span>{{b.v}}</span></div>

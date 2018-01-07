@@ -19,14 +19,16 @@
             </mat-menu>
 
             <mat-card-content>
-                <div class="highchart-box" [chart]="chart"></div>
+                <div class="highchart-box" [chart]="charts[prov]"></div>
 
                 <br class="clear">
             </mat-card-content>
+
+            <button mat-button (click)="resetSnapshot()" >Reset reference</button>
+
             <span  *ngIf="showDataTable" class="source">Source: {{prov}}.com</span>
 
             <mat-table #table class="data" [dataSource]="dataSource[prov]" *ngIf="showDataTable">
-
             <ng-container matColumnDef="symbol">
                 <mat-header-cell *matHeaderCellDef> Symbol</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.symbol}}</mat-cell>

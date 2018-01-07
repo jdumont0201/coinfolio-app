@@ -185,12 +185,11 @@ export class ApiService {
         this.put(fullurl, ser, h, f);
     }
 
-    authpatch(url: string, model: Model|any, referenceRaw: Raw, f: Function): void {
-        let fullurl: string = this.baseurl + url;
-        let h: HttpHeaders = this.authService.authPostHeaders;
-
-
-        this.patch(fullurl, model, referenceRaw, h, f);
+    authpatch(url: string, model: Model|any, f: Function): void {
+        const fullurl: string = this.baseurl + url;
+        const h: HttpHeaders = this.authService.authPostHeaders;
+        const ser: string = typeof model =="object"?JSON.stringify(model):model.serialize();
+        this.patch(fullurl, model,  h, f);
     }
 
     authpost(url: string, model: Model|any, f: Function): void {
@@ -270,12 +269,10 @@ export class ApiService {
             );
     }
 
-    private patch(url: string, model: Model, referenceRaw: Raw, headers: HttpHeaders, f: Function) {
-        let ser: string = model.serializeModified(referenceRaw);
-        this.consoleService.patch("Patching", url, "obj", model, "serialized", ser);
+    private patch(url: string, ser:string, headers: HttpHeaders, f: Function) {
+        this.consoleService.patch("Patching", url, "obj",ser, "serialized", ser);
         this.messageService.showSaving();
         this.http.patch(url, ser, {headers: headers})
-
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(

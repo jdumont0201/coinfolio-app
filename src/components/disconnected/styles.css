@@ -1,0 +1,15 @@
+#disconnected{
+    z-index: 20;
+    position: absolute;
+    top: -4px;
+    left: 20%;
+    width: 60%;
+    background: #ff00009c;
+    padding: 10px;
+    text-align: center;
+    font: normal 13px/15px Roboto;
+    margin: auto;
+    display: block;
+    color: white;
+    border: solid 3px #de4040;
+}

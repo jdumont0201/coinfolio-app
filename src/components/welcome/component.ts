@@ -9,7 +9,8 @@ import {ApiService} from "../../lib/globalton/core/services/api.service";
 
 @Component({
   selector: 'app-welcome',
-  templateUrl: 'template.html'
+  templateUrl: 'template.html',
+  styleUrls:['styles.css']
 
 })
 @Injectable()

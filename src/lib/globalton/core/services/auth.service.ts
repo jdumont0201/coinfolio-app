@@ -83,10 +83,10 @@ export class AuthService {
     //WHEN CONFIG IS DONE
     postConfigEvent(value) {
         console.log("auth.service postconfigevent", value);
-        if (value.type == "general") {
+        if (value.type === "general") {
             this.CONTENT_AUTHENTIFICATION = value.CONTENT_AUTHENTIFICATION;
             this.setLocalStorageKey();
-            let jwt = localStorage.getItem(this.localStorageKey);
+            const jwt = localStorage.getItem(this.localStorageKey);
             if (jwt !== null) {
                 this.consoleService.log("has local storage");
                 this.setTokenFromLocalStorage();
@@ -102,8 +102,8 @@ export class AuthService {
     }
 
     setLocalStorageKey() {
-        let sitename = this.configService.sitename;
-        let appname = this.configService.app;
+        const sitename = this.configService.sitename;
+        const appname = this.configService.app;
         if (appname) {
             this.localStorageKey = sitename + "-" + appname + "-jwt";
         } else {

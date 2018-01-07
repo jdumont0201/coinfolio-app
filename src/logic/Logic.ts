@@ -7,43 +7,50 @@ import {RequestService} from "../lib/globalton/core/services/request.service";
 
 @Injectable()
 export class Logic {
-    constructor(public requestService:RequestService,public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
+    constructor(public requestService: RequestService, public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
 
     }
 
 
-
-    BinanceGetAllocation(f:Function){
-        this.apiService.noauthget("user/getbinancebalance?userId="+this.authService.userId,(res)=>{
+    BinanceGetAllocation(f: Function) {
+        this.apiService.noauthget("user/getbinancebalance?userId=" + this.authService.userId, (res) => {
             f(res)
         })
     }
-    BinanceGetLivePrices(f:Function){
-        this.apiService.noauthget("user/getbinanceliveprices?userId="+this.authService.userId,(res)=>{
+
+    BinanceGetLivePrices(f: Function) {
+        this.apiService.noauthget("user/getbinanceliveprices?userId=" + this.authService.userId, (res) => {
             f(res.result)
         })
     }
 
-    KrakenGetAllocation(f:Function){
-        this.apiService.noauthget("user/getkrakenbalance?userId="+this.authService.userId,(res)=>{
-            f(res)
+    BinanceGetMyTrades(f: Function) {
+        this.apiService.noauthget("user/getbinancetrades?userId=" + this.authService.userId, (res) => {
+            f(res.result)
         })
     }
-    KrakenGetLivePrices(f:Function){
-        this.apiService.noauthget("user/getkrakenliveprices?userId="+this.authService.userId,(res)=>{
+    BinanceGetDepth(symbol:string,f: Function) {
+        this.apiService.noauthget("user/getbinancedepth?symbol="+symbol+"&userId=" + this.authService.userId, (res) => {
+            f(res.result)
+        })
+    }
+    BinanceGetOHLC(symbol:string,interval:string,f: Function) {
+        this.apiService.noauthget("user/getbinanceohlc?symbol="+symbol+"&interval="+interval+"&userId=" + this.authService.userId, (res) => {
             f(res.result)
         })
     }
 
+    KrakenGetAllocation(f: Function) {
+        this.apiService.noauthget("user/getkrakenbalance?userId=" + this.authService.userId, (res) => {
+            f(res)
+        })
+    }
 
-
-
-
-
-
-
-
-
+    KrakenGetLivePrices(f: Function) {
+        this.apiService.noauthget("user/getkrakenliveprices?userId=" + this.authService.userId, (res) => {
+            f(res.result)
+        })
+    }
 
 
     registerUser(obj, f) {
@@ -59,12 +66,15 @@ export class Logic {
         })
 
     }
+    set(url:string,obj,f){
+        this.apiService.authpatch("user",obj,f)
+    }
 
     saveUser(obj, f: Function) {
-        if(obj.id)
+        if (obj.id)
             this.apiService.authput("user", obj, f)
-            else
-        this.apiService.noauthpost("user", obj, f)
+        else
+            this.apiService.noauthpost("user", obj, f)
     }
 
     /* PAYMENT */
@@ -118,6 +128,7 @@ export class Logic {
     getDominance(source: string, base: string, from: number, f: Function) {
         this.dataService.perform("dominance", {psource: source, pts: from, pbase: base}, f)
     }
+
     getTopEntries(source: string, base: string, from: number, f: Function) {
         this.dataService.perform("topentries", {psource: source, pts: from, pbase: base}, f)
     }
@@ -134,8 +145,8 @@ export class Logic {
         this.dataService.perform("volumedd", {psource: source, psymbol: symbol, pbase: base}, f)
     }
 
-    getImports( f: Function) {
-        this.dataService.getAll("import", f,{},{key:"ts",dir:"desc"},1000)
+    getImports(f: Function) {
+        this.dataService.getAll("import", f, {}, {key: "ts", dir: "desc"}, 1000)
     }
 
     getVolumeWeekData(source: string, symbol: string, base: string, f: Function) {
@@ -148,9 +159,9 @@ export class Logic {
 
     /*
 
-          PERFORM
+     PERFORM
 
-    * */
+     * */
     getMarketData(source: string, base: string, ts, f: Function) {
         this.dataService.perform("allsymbolscap", {psource: source, pts: ts, pbase: base}, f)
     }

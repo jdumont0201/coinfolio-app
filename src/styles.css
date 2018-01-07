@@ -489,7 +489,7 @@ display:flex;
   background: -webkit-linear-gradient(#185694, #106cc8);
   background: linear-gradient(#185694, #106cc8);
   border-bottom: 1px solid #267ED5;
-  width: 200px;
+  width: 180px;
 
 }
 
@@ -525,7 +525,7 @@ h4{    font: bold 15px/25px Roboto;}
 #panel-creator-workspace {
 
   background: #106cc8;
-  width: 200px;
+  width: 180px;
 }
 
 .mat-drawer-content {padding-left: 0px}
@@ -653,7 +653,9 @@ mat-nav-list .mat-list-item-content{
 }
 
 .logo-in{background:none!important;
-  width: 100%;
+  width: 65%;margin:auto;
+  position: absolute;
+  bottom: 0;
   text-align: center;
   display: block;outline:none;
   }
@@ -693,7 +695,8 @@ mat-nav-list .mat-list-item-content{
   font-size: 11px;
   color: #81bdf9!important;
   width: 100%;
-  text-align: right;}
+  text-align: right;
+  background: transparent;}
 
 
 
@@ -718,7 +721,7 @@ mat-nav-list .mat-list-item-content{
 .mat-drawer-container[fullscreen]{position:initial!important;
   background: #106cc8!important;}
 
-.mat-drawer{  overflow-y: initial!important;width:200px;}
+.mat-drawer{  overflow-y: initial!important;width:180px;}
 
 .mat-drawer-content{
   background: #fafafa!important;}
@@ -756,6 +759,10 @@ span.separator-marker {
 
 }
 .mat-tab-label {
+
+  font-family: Roboto;
+  text-transform: uppercase;
+  font-size: 14px;
 
 
 }
@@ -819,8 +826,14 @@ text-align: center;
   box-shadow: 4px 3px 5px #00000059;
   margin: auto;
   right: 0;
-
+  height: 100%;
 }
+#welcome .mat-horizontal-stepper-content{
+  background: linear-gradient(#185694, #106cc8);height:100%
+}
+#welcome .mat-horizontal-content-container{padding:0;  height: 100%;}
+#welcome .mat-stepper-horizontal{height:100% }
+
 #welcome-in {  padding: 20px;}
 #welcome h1{
   font:bold 25px/35px Roboto;
@@ -877,7 +890,6 @@ font:bold 25px/35px Roboto
   background:#fafafa
 }
 .padded{padding:20px}
-#welcome .mat-horizontal-content-container{padding:0}
 #welcome button {margin-bottom:10px}
 #welcome .logo-in{margin-top:30px}
 #welcome-desc .line{    text-align: center;
@@ -906,13 +918,13 @@ font:bold 25px/35px Roboto
   background: url(/assets/img/logo-bottom.png);
   background-size: contain;
   background-repeat: no-repeat;
-  margin: auto;}
+  }
 
 button.large span{padding: 10px 70px;
   display: block;}
 mat-nav-list span#logo {
-  width: 170px;
-  height: 37px;
+  width: 100px;
+  height: 25px;
   background-size: contain;
   background-repeat: no-repeat;
   margin: auto;
@@ -942,3 +954,17 @@ mat-nav-list span#logo {
 
   width: 100%; bottom: 0;
 }
+
+
+.depth-ask,.depth-bid{font-size:13px;width:200px;
+  display: flex;padding:3px;
+  justify-content: space-between;border-bottom: solid 1px #fafafa}
+.depth-ask span,.depth-bid span{display:block}
+.depth-ask{padding:0;
+}
+.depth-bid{padding:0;
+}
+.depth-bar-ask{width:100%}
+.depth-bar-bid{width:100%}
+.depth-bar-ask .depth-bar-in{background:indianred;color:red;height:20px;line-height:20px}
+.depth-bar-bid .depth-bar-in{background: #a1bc9f;color:green;height:20px;line-height:20px}

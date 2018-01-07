@@ -18,6 +18,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -73,6 +74,7 @@ import {AppAllocationPage} from "../pages/allocation/component"
 import {AppGenericPage} from "../pages/generic/component"
 import {AppSymbolAllPage} from "../pages/symbol-all/component";
 import {AppSymbolItemPage} from "../pages/symbol-item/component";
+import {AppPairItemPage} from "../pages/pair/component";
 
 /*CANVAS*/
 import {AppMenuList} from "../canvas/menu/component";
@@ -94,15 +96,19 @@ import {AppTwitterComponent} from "../widgets/twitter/component"
 import {AppHeadlinesComponent} from "../widgets/headlines/component"
 import {AppBitcoinDominanceMiniWidget} from "../widgets/bitcoin-dominance/component"
 import {AppWidgetTopEntriesWidget} from "../widgets/top-entries/component"
+import {AppLivePriceWidget} from "../widgets/liveprice/component"
+import {AppDepthWidget} from "../widgets/depth/component"
 
 /*COMPONENTS*/
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
 import {AppMarketCapEvolComponent} from "../widgets/marketcap-evol/component"
 import {AppLoginComponent} from "../components/login/component"
+import {AppBrokerConnectionsComponent} from "../components/broker-connections/component"
 import {AppWelcomeComponent} from "../components/welcome/component"
 import {AppLoadingComponent} from "../components/loading/component"
 import {AppSubscribeComponent} from "../components/subscribe/component"
 import {AppVeilComponent} from "../components/veil/component"
+import {AppDisconnectedComponent} from "../components/disconnected/component"
 import {AppMarketCapEvolMiniComponent} from "../widgets/marketcap-evol-mini/component"
 import {AppSubscriberFeatureComponent} from "../components/subscriber-feature/component";
 import {AppRegisterComponent} from "../components/register/component";
@@ -119,10 +125,10 @@ import {Logic} from "../logic/Logic";
 
 @NgModule({
     declarations: [
-        AppComponent, AppMenuList,
+        AppComponent, AppMenuList,AppDisconnectedComponent,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,
-        AppWidgetTopEntriesWidget,
-         AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,
+        AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,
+         AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,
         AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
     ],
@@ -139,7 +145,7 @@ import {Logic} from "../logic/Logic";
 
         GlobaltonCoreModule,GlobaltonUIModule, LocalModule,        AppRoutingModule,
 
-        MatSlideToggleModule,MatButtonModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
+        MatSlideToggleModule,MatTooltipModule,MatButtonModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
 
     ],
     entryComponents: [AskNameDialog],

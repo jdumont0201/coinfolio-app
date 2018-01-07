@@ -382,7 +382,6 @@ export class AppPanelCreatorComponent implements AfterViewInit {
 
     tabChanged(event) {
         this.consoleService.ui("tabchanged", event)
-
     }
 
     panelDropped(event) {

@@ -23,7 +23,10 @@ export class AppComponent   {
   currentPanel;// = this.workspace[0]
   myPanels;
 
-  constructor(public requestService: RequestService,public eventService: EventService, public messageService:MessageService,public logic: Logic, private route: ActivatedRoute,public snackBar: MatSnackBar ) {
+  @ViewChild("sidenav") sidenav;
+
+  constructor(public requestService: RequestService,public eventService: EventService, public messageService:MessageService,
+              public logic: Logic, private route: ActivatedRoute,public snackBar: MatSnackBar ) {
     this.eventService.panelCreatorEvent.subscribe((val) => this.panelCreatorUpdated(val));
     this.eventService.loginEvent.subscribe((val) => this.loginUpdated(val));
     this.eventService.subscribeEvent.subscribe((val) => this.subscribeUpdated(val))
@@ -55,5 +58,10 @@ export class AppComponent   {
   }
   loginUpdated(val: boolean) {
     this.showLogin = val;
+  }
+  closeMenu(){
+    this.sidenav.toggle();
+    this.eventService.isMenuPinned=false;
+    this.eventService.isMenuDisplayed=!this.eventService.isMenuDisplayed
   }
 }

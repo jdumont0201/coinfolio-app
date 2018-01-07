@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Injectable, ViewChild} from '@angular/core';
+  import {Component, Input, OnInit, Injectable, ViewChild} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
@@ -37,8 +37,8 @@ export class AppTwitterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.symbol = this.symbol == "GLOBAL" ? "cryptocurrency" : this.symbol;
-    this.symbol
+    this.symbol = this.symbol === "GLOBAL" ? "cryptocurrency" : this.symbol;
+
     this.load(this.symbol, (res) => {
 
     });
@@ -67,6 +67,7 @@ export class AppTwitterComponent implements OnInit {
   }
   load(q: string, f: Function) {
     this.logic.getTweets(q, (res) => {
+      console.log("tw",q,res);
       let A = this.parseTweets(res);
       this.tweets = A;
       f(A)

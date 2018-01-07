@@ -2,101 +2,107 @@
 
     <mat-horizontal-stepper linear #stepper>
         <mat-step label="Welcome">
-            <div class="logo-in" routerlink="/" tabindex="0" ng-reflect-router-link="/">
-                <span id="logo" class="logo-bottom"> </span>
-            </div><div id="welcome-in">
-
-                <div id="welcome-desc">
+            <div class="welcome-banner">
+                <div class="welcome-left">
+                    <span id="logo" class="logo-bottom"> </span>
                     <span class="line">Made by traders. For the traders.</span>
-                    <div class="left"><h2>See all your crypto data, news & tweets on dedicated dashboards</h2>
-                    <span></span>
-                    </div>
-
+                </div>
+                <div class="welcome-right"><span class="welcome-message">Welcome to Coinamics</span>
+                    <h2>See all your crypto data, news & tweets on dedicated dashboards</h2>
                     <h2>Access extensive market data</h2>
                     <span></span>
                     <h2>Learn optimal portofolio allocation</h2>
                     <span></span>
                     <h2>Edit & customize your boards</h2>
-                    <span></span>
+                    <span></span></div>
+
+            </div>
+            <div id="welcome-in">
+                <div id="welcome-desc">
+
                 </div>
             </div>
-                <br>
+            <br>
             <div class="disclaimer">DISCLAIMER<br>
                 CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford to lose.
             </div>
             <div class="centered">
-                <button class="centered large" mat-raised-button color="accent" (click)="stepper.next()">Continue</button>
+                <button class="centered large" mat-raised-button color="accent" (click)="stepper.next()">Enter Coinamics</button>
             </div>
 
         </mat-step>
         <mat-step label="Plans">
             <div class="padded">
-            <h3>Choose a plan</h3>
+                <h3>Choose a plan</h3>
                 <span>Premium plan is paid in BTC.</span>
-            <table>
-                <tr>
-                    <td></td>
-                    <td>Guests</td>
-                    <td colspan="3">Subscribers</td>
-                </tr>
-                <tr>
-                    <td>Access data boards</td>
-                    <td>
-                        <mat-icon class="valpos">check_circle</mat-icon>
-                    </td>
-                    <td colspan="3">
-                        <mat-icon class="valpos">check_circle</mat-icon>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Access portfolio optimization boards</td>
-                    <td>
-                        <mat-icon class="valneg">not_interested</mat-icon>
-                    </td>
-                    <td colspan="3">
-                        <mat-icon class="valpos">check_circle</mat-icon>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Customize widgets</td>
-                    <td>
-                        <mat-icon class="valneg">not_interested</mat-icon>
-                    </td>
-                    <td colspan="3">
-                        <mat-icon class="valpos">check_circle</mat-icon>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Receive alerts</td>
-                    <td>
-                        <mat-icon class="valneg">not_interested</mat-icon>
-                    </td>
-                    <td colspan="3">
-                        <mat-icon class="valpos">check_circle</mat-icon>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Subscription time</td>
-                    <td *ngFor="let p of plans">
-                        <span *ngIf="p.amount>0">        {{p.length}} days</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Price</td>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>Guests</td>
+                        <td colspan="3">Subscribers</td>
+                    </tr>
+                    <tr>
+                        <td>Access data boards</td>
+                        <td>
+                            <mat-icon class="valpos">check_circle</mat-icon>
+                        </td>
+                        <td colspan="3">
+                            <mat-icon class="valpos">check_circle</mat-icon>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Access portfolio optimization boards</td>
+                        <td>
+                            <mat-icon class="valneg">not_interested</mat-icon>
+                        </td>
+                        <td colspan="3">
+                            <mat-icon class="valpos">check_circle</mat-icon>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Customize widgets</td>
+                        <td>
+                            <mat-icon class="valneg">not_interested</mat-icon>
+                        </td>
+                        <td colspan="3">
+                            <mat-icon class="valpos">check_circle</mat-icon>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Receive alerts</td>
+                        <td>
+                            <mat-icon class="valneg">not_interested</mat-icon>
+                        </td>
+                        <td colspan="3">
+                            <mat-icon class="valpos">check_circle</mat-icon>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Subscription time</td>
+                        <td *ngFor="let p of plans">
+                            <span *ngIf="p.amount>0">        {{p.length}} days</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
 
-                    <td *ngFor="let p of plans">
-                        <span *ngIf="p.amount>0">        ${{p.amount}}<br>{{p.btcamount}}BTC</span>
-                        <span *ngIf="p.amount==0"> Free</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Choose</td>
-                    <td *ngFor="let p of plans">
-                        <div *ngIf="p.amount==0"><button mat-raised-button [color]="'primary'" (click)="close()">Stay as guest</button></div>
-                        <div *ngIf="p.amount>0">                              <button mat-raised-button  color="accent"  (click)="processChoice(p,stepper)">Subscribe now</button></div>
-                    </td>
-                </tr>
-            </table>
+                        <td *ngFor="let p of plans">
+                            <span *ngIf="p.amount>0">        ${{p.amount}}<br>{{p.btcamount}}BTC</span>
+                            <span *ngIf="p.amount==0"> Free</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Choose</td>
+                        <td *ngFor="let p of plans">
+                            <div *ngIf="p.amount==0">
+                                <button mat-raised-button [color]="'primary'" (click)="close()">Stay as guest</button>
+                            </div>
+                            <div *ngIf="p.amount>0">
+                                <button mat-raised-button color="accent" (click)="processChoice(p,stepper)">Subscribe now</button>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </mat-step>
 
@@ -119,46 +125,46 @@
                             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                         </mat-form-field>
                     </div>
-                    <button mat-raised-button="" class="large"[disabled]="!form.valid" (click)="submit()" color="primary">Continue</button>
+                    <button mat-raised-button="" class="large" [disabled]="!form.valid" (click)="submit()" color="primary">Continue</button>
                 </form>
             </div>
 
         </mat-step>
         <mat-step label="Pay">
             <div class="padded">
-            Send payment to this address:
-            <div class="subscribe-address">
-                <div>{{bitcoinAddress}}</div>
-                <div>Amount: {{amount}} BTC</div>
+                Send payment to this address:
+                <div class="subscribe-address">
+                    <div>{{bitcoinAddress}}</div>
+                    <div>Amount: {{amount}} BTC</div>
 
 
-                <qr-code *ngIf="qrcode" [value]="qrcode" [size]="150"></qr-code>
-                <div *ngIf="addressExpirationCountdown">The address will expire in {{addressExpirationCountdownMin}}min
-                    {{addressExpirationCountdownSec}}s
+                    <qr-code *ngIf="qrcode" [value]="qrcode" [size]="150"></qr-code>
+                    <div *ngIf="addressExpirationCountdown">The address will expire in {{addressExpirationCountdownMin}}min
+                        {{addressExpirationCountdownSec}}s
+                    </div>
                 </div>
-            </div>
-            <br>
-            The transaction will be automatically scanned until confirmation.<br><br><br>
-            Status: {{isPaid?"Paid":"Waiting for payment confirmation"}}<br>
-            Balance: {{paymentStatus?paymentStatus?.balance:"Checking..."}}
+                <br>
+                The transaction will be automatically scanned until confirmation.<br><br><br>
+                Status: {{isPaid?"Paid":"Waiting for payment confirmation"}}<br>
+                Balance: {{paymentStatus?paymentStatus?.balance:"Checking..."}}
                 <br/><br/><br/>
-                <button mat-raised-button=""  (click)="returntoplan()" color="primary">Change plan</button>
+                <button mat-raised-button="" (click)="returntoplan()" color="primary">Change plan</button>
 
             </div>
         </mat-step>
-        <mat-step label="Confirmed !" >
+        <mat-step label="Confirmed !">
             <div class="padded">
-            <h3>Payment status</h3>
-            <div>
-                Status: {{isPaid?"Paid":"Waiting for payment confirmation"}}<br>
-                Balance: {{paymentStatus?.balance}}
+                <h3>Payment status</h3>
+                <div>
+                    Status: {{isPaid?"Paid":"Waiting for payment confirmation"}}<br>
+                    Balance: {{paymentStatus?.balance}}
 
-                <div *ngIf="isPaid">Your payment has been received. Thank you for subscribing. <br>
-                    <div class="centered">
-                        <button class="centered" mat-raised-button color="primary" (click)="close()">Continue to premium account</button>
+                    <div *ngIf="isPaid">Your payment has been received. Thank you for subscribing. <br>
+                        <div class="centered">
+                            <button class="centered" mat-raised-button color="primary" (click)="close()">Continue to premium account</button>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </mat-step>
 
