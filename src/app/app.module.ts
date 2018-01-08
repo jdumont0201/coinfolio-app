@@ -73,6 +73,7 @@ import {AppAdminPage} from "../pages/admin-all/component"
 import {AppAllocationPage} from "../pages/allocation/component"
 import {AppGenericPage} from "../pages/generic/component"
 import {AppSymbolAllPage} from "../pages/symbol-all/component";
+import {AppTradesPage} from "../pages/trades/component";
 import {AppSymbolItemPage} from "../pages/symbol-item/component";
 import {AppPairItemPage} from "../pages/pair/component";
 
@@ -127,7 +128,7 @@ import {Logic} from "../logic/Logic";
     declarations: [
         AppComponent, AppMenuList,AppDisconnectedComponent,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,
-        AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,
+        AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,
         AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
