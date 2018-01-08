@@ -2,11 +2,11 @@ import {Component, Injectable, ViewChild}         from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
-import {StockChart, Chart} from 'angular-highcharts';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 import {Logic} from "../../logic/Logic";
 import {Crypto } from "../../lib/localton/utils/utils";
 import {TradingService} from "../../lib/localton/services/trading.service";
+import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component";
 
 @Component({
     selector: 'app-listing',
@@ -14,11 +14,14 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 
 })
 @Injectable()
-export class AppSymbolAllPage {
+export class AppSymbolAllPage extends PageWithTabs{
     listing = [];
     supports=['BNB','BTC','ETH','USDT']
     isLoading=true;
+    showGraphs=false;
+
     constructor(public requestService: RequestService, public tradingService:TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic) {
+        super()
         this.tradingService.reload()
         this.logic.BinanceGetLivePrices((listing) => {
             this.isLoading=false
@@ -37,5 +40,9 @@ export class AppSymbolAllPage {
             });
             console.log("this",this.listing)
         })
+    }
+    setGraphView(){
+
+        this.showGraphs=!this.showGraphs
     }
 }

@@ -1,13 +1,8 @@
 import {Component, Input, OnInit, Injectable, ViewChild} from '@angular/core';
-import {RequestService} from '../../lib/globalton/core/services/request.service';
-import {DataService} from "../../lib/localton/services/data.service";
-
-import {StockChart, Chart} from 'angular-highcharts';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {FormControl} from '@angular/forms';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
+import {Crypto } from "../../lib/localton/utils/utils";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
@@ -18,12 +13,16 @@ import {EventService} from "../../lib/localton/services/event.service";
 
 })
 @Injectable()
-export class AppLivePriceWidget extends DataAndChartTemplate {
+export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit{
     displayedColumns = ['ts', 'open', 'high', 'low', 'close'];
     isLoading = true;
     @Input() pair: string
     @Input() period: string = "1m"
     @Input() base: string = "USD"
+    @Input() showTitle: boolean = false;
+    infra;
+    supra;
+
     source: string = "binance"
     possiblePeriods=['1m','5m','15m','30m','1h','2h','4h','1d','1w']
     options = {
@@ -87,15 +86,18 @@ export class AppLivePriceWidget extends DataAndChartTemplate {
     }
 
     ngOnInit() {
+        const pair=Crypto.getSymbolsFromPair(this.pair)
+        this.supra=pair.supra;
+        this.infra=pair.infra;
         this.updateData()
     }
 
     getRange() {
-        let nb = 150;
-        if (this.period == "1m") return 1000 * 60 * nb
-        else if (this.period == "5m") return 1000 * 60 * 5 * nb;
-        else if (this.period == "15m") return 1000 * 60 * 15 * nb
-        else if (this.period == "1h") return 1000 * 60 * 60 * nb
+        let nb = 250;
+        if (this.period === "1m") return 1000 * 60 * nb
+        else if (this.period === "5m") return 1000 * 60 * 5 * nb;
+        else if (this.period === "15m") return 1000 * 60 * 15 * nb
+        else if (this.period === "1h") return 1000 * 60 * 60 * nb
     }
 
     updateData() {
@@ -104,10 +106,13 @@ export class AppLivePriceWidget extends DataAndChartTemplate {
             this.checkData();
             let D = [];
             let minVal = 10000000;
+            let plotBands= [];
+
             for (let i = 0; i < res.length; ++i) {
                 const line = [parseInt(res[i][0]), parseFloat(res[i][1]), parseFloat(res[i][2]), parseFloat(res[i][3]), parseFloat(res[i][4])];
                 minVal = Math.min(minVal, parseFloat(res[i][3]))
                 D.push(line);
+
             }
             let diff=D[D.length-1][0]-D[D.length-2][0];
             for(var i=0;i<12;++i){
@@ -116,7 +121,6 @@ export class AppLivePriceWidget extends DataAndChartTemplate {
             }
             this.dataSource = new MatTableDataSource(res);
             this.data = D;
-            let range
             this.updateOptions({
                 exporting: {enabled: false},
                 yAxis: {
@@ -141,7 +145,8 @@ export class AppLivePriceWidget extends DataAndChartTemplate {
                     crosshair:{snap:false,color:'#437173'},
                     range: this.getRange(),
                     labels: {style: {backgroundColor: "red",
-                        color:"#ccc"}}
+                        color:"#ccc"}},
+                    plotBands:[{}]
                 },
                 scrollbar:{
                     barBackgroundColor:"#0e9ba1",

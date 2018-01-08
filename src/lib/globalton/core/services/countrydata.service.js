@@ -12,16 +12,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 // import * as countrydata from 'country-data';
 require("rxjs/add/operator/map");
+var SelectData = (function () {
+    function SelectData() {
+    }
+    return SelectData;
+}());
+exports.SelectData = SelectData;
 var CountryDataService = (function () {
     function CountryDataService() {
         console.log("+ CountryDataService");
         // console.log("data",countrydata   .countries);
     }
+    CountryDataService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [])
+    ], CountryDataService);
     return CountryDataService;
 }());
-CountryDataService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [])
-], CountryDataService);
 exports.CountryDataService = CountryDataService;
 //# sourceMappingURL=countrydata.service.js.map

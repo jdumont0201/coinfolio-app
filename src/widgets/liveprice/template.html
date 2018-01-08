@@ -1,6 +1,6 @@
 
 <section class="widget price">
-    <h5>Price
+    <h5>{{showTitle?(supra+" / "+infra):""}} Price
         <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu2">  {{period}}     <mat-icon>expand_more</mat-icon>    </span></div>
     </h5>
     <mat-menu #appMenu2="matMenu">

@@ -33,11 +33,11 @@ var CookieService = (function () {
         }
         this.cookies.set(name, value, options);
     };
+    CookieService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [])
+    ], CookieService);
     return CookieService;
 }());
-CookieService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [])
-], CookieService);
 exports.CookieService = CookieService;
 //# sourceMappingURL=cookie.service.js.map

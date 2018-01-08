@@ -43,16 +43,17 @@ var FacebookService = (function () {
             _this.logged = true;
             _this.userId = result.authResponse.userID;
             _this.token = result.authResponse.accessToken;
-            _this.authService.loginFB(_this.userId, _this.token, function (response) {
-                if (response.error) {
-                }
-                else {
-                    if (response.success) {
+            /*this.authService.loginFB(this.userId,this.token,(response)=>{
+                if(response.error){
+
+                }else{
+                    if(response.success){
+
+                    }else{
+
                     }
-                    else {
-                    }
                 }
-            });
+            });ù*/
         }, { scope: 'user_friends' });
     };
     FacebookService.prototype.logout = function () {
@@ -71,11 +72,11 @@ var FacebookService = (function () {
             }
         });
     };
+    FacebookService = __decorate([
+        __param(0, core_1.Inject(auth_service_1.AuthService)),
+        __metadata("design:paramtypes", [auth_service_1.AuthService])
+    ], FacebookService);
     return FacebookService;
 }());
-FacebookService = __decorate([
-    __param(0, core_1.Inject(auth_service_1.AuthService)),
-    __metadata("design:paramtypes", [auth_service_1.AuthService])
-], FacebookService);
 exports.FacebookService = FacebookService;
 //# sourceMappingURL=facebook.service.js.map

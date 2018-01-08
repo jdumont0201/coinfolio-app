@@ -1,27 +1,41 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 <mat-toolbar>
-  <h3>Listing </h3>
+    <h3>Listing </h3>
 </mat-toolbar>
 
 <div *ngIf="!isLoading && listing.length==0">Configure broker connections in your settings to show broker trade data.</div>
-
-
-<mat-tab-group>
-  <mat-tab *ngFor="let sup of supports" label="{{sup}}">
-
-    <mat-list>
-      <ng-container *ngFor="let s of listing">
-        <ng-container *ngIf="s.infra==sup">
-      <mat-list-item link routerLink="/pair/{{s.symbol}}"  matLine  mat-list-item  class="listing">
-
-        <div class="marker-in-ptf {{tradingService?.isInPortfolio(s.supra)?'':'marker-hidden'}}"><mat-icon >lens</mat-icon></div>
-        <div class="listing-row"><div >{{s.supra}} / {{s.infra}} </div><div> {{s.price}}</div></div>
-
-      </mat-list-item>
+<button (click)="setGraphView()">Graph view</button>
+<mat-tab-group (selectedTabChange)="tabChanged($event)">
+    <mat-tab *ngFor="let sup of supports;let index=index" label="{{sup}}">
+        <ng-container *ngIf="tabIndex==index">{{index}}
+            <mat-list>
+                <ng-container *ngIf="showGraphs">
+                    <div class="chart-grid">
+                        <ng-container *ngFor="let s of listing">
+                        <ng-container *ngIf="s.infra==sup">
+                            <div class="chart-grid-item"><app-live-price [showTitle]='true' [pair]="s.symbol" [period]="'15m'"></app-live-price>
+                               </div>
+                        </ng-container>
+                    </ng-container>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="!showGraphs">
+                    <ng-container *ngFor="let s of listing">
+                        <ng-container *ngIf="s.infra==sup">
+                            <mat-list-item link routerLink="/pair/{{s.symbol}}" matLine mat-list-item class="listing">
+                                <div class="marker-in-ptf {{tradingService?.isInPortfolio(s.supra)?'':'marker-hidden'}}">
+                                    <mat-icon>lens</mat-icon>
+                                </div>
+                                <div class="listing-row">
+                                    <div>{{s.supra}} / {{s.infra}}</div>
+                                    <div> {{s.price}}</div>
+                                </div>
+                            </mat-list-item>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </mat-list>
         </ng-container>
-      </ng-container>
-    </mat-list>
 
-
-  </mat-tab>
+    </mat-tab>
 </mat-tab-group>

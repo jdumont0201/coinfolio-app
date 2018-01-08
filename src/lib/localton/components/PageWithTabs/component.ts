@@ -8,10 +8,10 @@ import {AppConfigService} from "../../../../lib/localton/services/appconfig.serv
 import {MatTableDataSource} from '@angular/material';
 
 export abstract class PageWithTabs implements OnInit {
-  tabIndex:number;
+  tabIndex:number=0;
   tabChanged(event){
-
     this.tabIndex=event.index
+    console.log("tabchanged",this.tabIndex)
   }
 ngOnInit(){
 

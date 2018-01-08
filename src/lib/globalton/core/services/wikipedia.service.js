@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var request_service_1 = require("./request.service");
-var http_1 = require("@angular/http");
+var http_1 = require("@angular/common/http");
 var WikipediaService = (function () {
     function WikipediaService(requestService) {
         this.requestService = requestService;
@@ -19,18 +19,18 @@ var WikipediaService = (function () {
     WikipediaService.prototype.getSummary = function (title, f) {
         var ftitle = title;
         var url = "https://fr.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=" + ftitle;
-        var h = new http_1.Headers();
+        var h = new http_1.HttpHeaders();
         h.append("Content-Type", "application/json; charset=UTF-8");
         h.append("Accept", "application/json; charset=UTF-8");
         this.requestService.getWithHeaders(url, h, function (res) {
             f(res);
         });
     };
+    WikipediaService = __decorate([
+        core_1.Injectable(),
+        __metadata("design:paramtypes", [request_service_1.RequestService])
+    ], WikipediaService);
     return WikipediaService;
 }());
-WikipediaService = __decorate([
-    core_1.Injectable(),
-    __metadata("design:paramtypes", [request_service_1.RequestService])
-], WikipediaService);
 exports.WikipediaService = WikipediaService;
 //# sourceMappingURL=wikipedia.service.js.map
