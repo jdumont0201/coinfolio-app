@@ -26,7 +26,16 @@ export class AppSymbolAllPage {
             for(let k in listing){
                 let pair=Crypto.getSymbolsFromPair(k)
                 this.listing.push({symbol:k,supra:pair.supra,infra:pair.infra,price:listing[k]});
+
             }
+            console.log("this",this.listing)
+            this.listing.sort(function (a, b) {
+                const keyA = a.supra, keyB = b.supra;
+                if (keyA < keyB) return 1;
+                if (keyA > keyB) return -1;
+                return 0;
+            });
+            console.log("this",this.listing)
         })
     }
 }

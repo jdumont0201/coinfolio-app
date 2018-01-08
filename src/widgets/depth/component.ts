@@ -39,16 +39,13 @@ export class AppDepthWidget {
     nbShow = 20;
 
     constructor(public logic: Logic, public appConfigService: AppConfigService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService) {
-
         this.decimalSpan = [];
         for (let i = 0; i < 10; ++i) this.decimalSpan.push(i)
-
-
     }
 
     ngOnInit() {
         this.initDepth((res) => {
-          //  this.runDepthWS()
+            this.runDepthWS()
         })
 
     }
@@ -60,17 +57,20 @@ export class AppDepthWidget {
         this.nbDecimal = i;
         this.aggregateArrays()
     }
-    aggregateArrays(){
-        this.bidArrayFiltered = this.filterArray(this.bidFilterMethod, this.nbDecimal, this.bidArray,true);
-        this.askArrayFiltered = this.filterArray(this.askFilterMethod, this.nbDecimal, this.askArray,true);
+
+    aggregateArrays() {
+        this.bidArrayFiltered = this.filterArray(this.bidFilterMethod, this.nbDecimal, this.bidArray, true);
+        this.askArrayFiltered = this.filterArray(this.askFilterMethod, this.nbDecimal, this.askArray, true);
     }
+
     iterRefresh = 0;
+    @Input() lastPrice;
+
 
     runDepthWS() {
         const url = "wss://stream.binance.com:9443/ws/" + this.pairId.toLowerCase() + "@depth"
         const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>())
         const messagesSubscription = messages.subscribe((message: string) => {
-
             this.iterRefresh++;
             if (this.iterRefresh == 20) {
                 this.iterRefresh = 0;
@@ -78,13 +78,12 @@ export class AppDepthWidget {
 
                 });
             } else {
-                const m = JSON.parse(message)
+                const m = JSON.parse(message);
                 this.bids = m.b;
                 this.asks = m.a;
                 this.parseTable(this.bids, this.bidLevels);
                 this.parseTable(this.asks, this.askLevels);
                 this.listToArray();
-
                 this.aggregateArrays()
             }
         })
@@ -156,7 +155,7 @@ export class AppDepthWidget {
         });
     }
 
-    filterArray(method: string, nbdecimal, A: { p: number, v: number }[],inverted:boolean): { p: number, v: number }[] {
+    filterArray(method: string, nbdecimal, A: { p: number, v: number }[], inverted: boolean): { p: number, v: number }[] {
         this.maxVol = 0;
         let R = {}
         const d: number = Math.pow(10, nbdecimal)
@@ -166,7 +165,7 @@ export class AppDepthWidget {
             if (method == "floor") pf = Math.floor(d * A[i].p) / d;
             if (method == "ceil") pf = Math.ceil(d * A[i].p) / d;
             if (method == "round") pf = Math.round(d * A[i].p) / d;
-            console.log(A[i].p, "x", d, " --> ", pf)
+            //console.log(A[i].p, "x", d, " --> ", pf)
             if (pf in R && R[pf])
                 R[pf] += A[i].v
             else
@@ -179,7 +178,7 @@ export class AppDepthWidget {
             F.push({p: parseFloat(p), v: v})
             if (v > this.maxVol) this.maxVol = v;
         }
-        this.sortArray(F,inverted);
+        this.sortArray(F, inverted);
         return F;
     }
 }

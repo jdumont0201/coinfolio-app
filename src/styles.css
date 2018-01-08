@@ -972,7 +972,7 @@ mat-nav-list span#logo {
 .depth-bar-ask{width:100%}
 .depth-bar-bid{width:100%}
 .depth-bar-ask .depth-bar-in{background: #640900;color:red;font-weight:bold;height:20px;line-height:20px}
-.depth-bar-bid .depth-bar-in{background: #06370a;color:green;height:20px;line-height:20px}
+.depth-bar-bid .depth-bar-in{background: #06370a;color:#72cb00;font-weight:bold;height:20px;line-height:20px}
 
 
 mat-form-field{width:100%}
@@ -1076,7 +1076,7 @@ section.widget.trades h5{background: #8c7a6f;/*  border: solid 4px #171e46;*/}
   border-radius: 3px;
   font-weight: 800;}
 .bg-sell {background:red}
-.bg-buy {background:green}
+.bg-buy {background:#72cb00}
 
 
 .highcharts-container, .highcharts-container svg { width: 100% !important; }
@@ -1097,3 +1097,15 @@ section.widget.trades h5{background: #8c7a6f;/*  border: solid 4px #171e46;*/}
   background-color: #ffae00;
 }
 mat-progress-bar{height:3px!important;}
+
+
+
+.last-price{font-size:25px!important;text-align: center}
+.ticker-price.ticker-evol-up{color: #72cb00 !important;}
+.ticker-price.ticker-evol-down{color:red!important;}
+
+
+.ticker-evol-up mat-icon{display:inline-block;font-size:20px;color:#72cb00!important;padding-top:7px}
+.ticker-evol-down mat-icon{display:inline-block;font-size:20px;color:red!important;padding-top:7px}
+.ticker-price{font-size:25px!important}
+.ticker{margin-left:50px;display: flex;}

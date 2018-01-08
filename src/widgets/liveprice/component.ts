@@ -82,7 +82,6 @@ export class AppLivePriceWidget extends DataAndChartTemplate {
         }
     }
 
-
     constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
         super(logic,appConfigService,eventService,"stock")
     }
@@ -160,8 +159,6 @@ export class AppLivePriceWidget extends DataAndChartTemplate {
             let maxd = this.data[this.data.length - 1][0];
             let mind = this.data[this.data.length - 10][0];
             console.log("ma", maxd, mind, this.chart)
-//            this.chart.options.xAxis[0].setExtremes(mind,maxd);
-
         })
     }
 

@@ -35,8 +35,8 @@ export class AppPriceComponent extends DataAndChartTemplate {
       }},
     credits: {enabled: false},
     plotOptions: {
-        candlestick: {lineColor:'#666666',color: '#222222', upColor: '#aaaaaa', downColor: '#222222'},
-      series: {
+        candlestick: {lineColor: '#3e91a0', color: '#b18215', upColor: 'transparent', downColor: '#b18215'},
+        series: {
         animation: false
       }
     },navigator: {
@@ -79,12 +79,27 @@ ngOnInit(){
       }
       this.dataSource = new MatTableDataSource(res);
       this.data = D;
-      this.updateOptions({series: [{
+      this.updateOptions({yAxis: {
+          crosshair:{
+              snap:false,
+              color:"#437173",
+              label: {
+                  enabled: true,
+                  padding: 8
+              }},
+          gridLineColor: '#2f5c64',
+          labels: {
+              style: {
+                  color: '#E0E0E3'
+              },opposite:false
+          },
+
+          lineColor: '#707073',
+          minorGridLineColor: '#505053'
+      },series: [{
         name: this.symbol,
         data: D
-      }],yAxis : {
-
-      }})
+      }]})
       this.chart = new StockChart(this.options);
 
     })

@@ -1,12 +1,16 @@
 <div [@.disabled]="true">
     <mat-toolbar>
         <h3>{{supra}}/{{infra}} </h3>
+        <div class="ticker">
+            <div class="ticker-price ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}" >{{lastPrice| number:numberFormat}}</div>
+            <div *ngIf="lastPrice" class="ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}"><mat-icon>{{lastPrice > prevLastPrice?'arrow_upward':'arrow_downward'}}</mat-icon></div>
+        </div>
     </mat-toolbar>
     <mat-tab-group>
         <mat-tab label="Live">
             <div id="live">
                 <div id="live-left">
-                    <app-live-depth [pairId]="pairId"></app-live-depth>
+                    <app-live-depth [lastPrice]="lastPrice" [pairId]="pairId"></app-live-depth>
                 </div>
                 <div id="live-right">
                     <app-live-price [pair]="pairId" [period]="'1m'"></app-live-price>

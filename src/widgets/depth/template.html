@@ -19,7 +19,7 @@
             </div>
         </ng-container>
     </ng-container>
-    <div> PRICE</div>
+    <div class="last-price"> {{lastPrice}}</div>
     <ng-container *ngFor="let b of bidArrayFiltered ; let index=index">
 
         <ng-container *ngIf="bidArrayFiltered.length<nbShow || index<nbShow">

@@ -37,7 +37,7 @@ export class AppPairItemPage {
     bidArrayFiltered;
     nMsg = 0;
     symbol = "ETHBTC"
-    nbDecimal=5;
+    nbDecimal=-1;
     decimalSpan;
 
     supra:string;
@@ -56,11 +56,28 @@ export class AppPairItemPage {
             this.logic.BinanceGetMyTrades(this.pairId,(trades)=>{
                 this.trades=trades;
             })
+            this.runLastPriceWS()
         });
 
 
     }
-
+    prevLastPrice;
+    lastPrice;
+    numberFormat="1.5-5"
+    numberFormatNDecimals:number=5;
+    runLastPriceWS() {
+        const url = "wss://stream.binance.com:9443/ws/" + this.pairId.toLowerCase() + "@aggTrade"
+        const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>())
+        const messagesSubscription = messages.subscribe((message: string) => {
+            //console.log("message", message)
+            const m = JSON.parse(message)
+            this.prevLastPrice = this.lastPrice
+            this.lastPrice = parseFloat(m.p)
+            this.numberFormatNDecimals=6-Math.floor(this.lastPrice).toString().length;
+            this.numberFormat="1."+this.numberFormatNDecimals+"-"+this.numberFormatNDecimals;
+            if(this.nbDecimal==-1) this.nbDecimal=this.numberFormatNDecimals
+        })
+    }
     runPriceWS(){
         const url = "wss://stream.binance.com:9443/ws/" + this.symbol.toLowerCase() + "@kline_1m"
         const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>())

@@ -8,3 +8,4 @@ display:flex;
 #live-right{
     flex-grow:1
 }
+.last-price{font-size:25px;text-align: center}
