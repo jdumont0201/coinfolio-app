@@ -25,7 +25,7 @@ export class AppHeadlinesComponent implements OnInit{
   @Input() symbol;
   tweets;
   key;
-
+    isLoading=true;
   constructor(public logic: Logic, public appConfigService: AppConfigService, public requestService: RequestService) {
 
   }
@@ -54,7 +54,7 @@ export class AppHeadlinesComponent implements OnInit{
     return A;
   }
   load(q: string, f: Function) {
-    this.logic.getNews(q,(res)=>{this.tweets=this.parseNews(res)});
+    this.logic.getNews(q,(res)=>{this.tweets=this.parseNews(res);this.isLoading=false;});
 
   }
 }

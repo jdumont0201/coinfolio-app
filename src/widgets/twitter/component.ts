@@ -30,6 +30,7 @@ export class AppTwitterComponent implements OnInit {
   token = '614294914-1Y5IJr5JIbTjIsJpL1vn4GE7XOazu4l0FztQtz8c';
   tokenSecret = 'krh7tQLXDdEVot4xEK7NdsVwD2Ex9hDvaB6NOHy5BENYw';
   key;
+  isLoading=true;
 
   constructor(public logic: Logic, public appConfigService: AppConfigService, public requestService: RequestService) {
 
@@ -70,6 +71,7 @@ export class AppTwitterComponent implements OnInit {
       console.log("tw",q,res);
       let A = this.parseTweets(res);
       this.tweets = A;
+        this.isLoading=false;
       f(A)
     });
   }

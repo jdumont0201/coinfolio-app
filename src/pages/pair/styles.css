@@ -2,8 +2,8 @@
 display:flex;
 }
 #live-left{
-width:40%
+max-width:300px
 }
 #live-right{
-width:60%
+width:100%
 }

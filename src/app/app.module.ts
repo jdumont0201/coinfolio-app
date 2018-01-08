@@ -29,7 +29,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar'
-
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 /**************************************** EXTERNAL *******************************************/
 import {QRCodeModule} from 'angular2-qrcode';
 
@@ -145,7 +145,7 @@ import {Logic} from "../logic/Logic";
 
         GlobaltonCoreModule,GlobaltonUIModule, LocalModule,        AppRoutingModule,
 
-        MatSlideToggleModule,MatTooltipModule,MatButtonModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
+        MatSlideToggleModule,MatTooltipModule,MatButtonModule,MatProgressBarModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
 
     ],
     entryComponents: [AskNameDialog],

@@ -829,8 +829,10 @@ text-align: center;
   height: 100%;
 }
 #welcome .mat-horizontal-stepper-content{
-  background: linear-gradient(#185694, #106cc8);height:100%
+  background: linear-gradient(90deg,#ffffff, #e4e4e4);
+  height:100%
 }
+#welcome .mat-horizontal-stepper-content[aria-expanded=false]{height:0%}
 #welcome .mat-horizontal-content-container{padding:0;  height: 100%;}
 #welcome .mat-stepper-horizontal{height:100% }
 
@@ -848,13 +850,14 @@ font:bold 25px/35px Roboto
 #welcome #logo{
   color: #444444;}
 .disclaimer{
-  font: normal 15px/35px Roboto;
-  border-top: solid 1px #ddc2a1;
-  border-bottom: solid 1px #ddc2a1;
-  background: #ffead1;
+  font: normal 13px/18px Roboto;
+  border-top: solid 1px #ddc2a152;
+  border-bottom: solid 1px #ddc2a152;
+  background: #ffead157;
   color: #917553;
   font-style: italic;
   text-align: center;
+  padding: 5px 0;
   margin: 20px 0;}
 #veil{
   position: absolute;
@@ -968,3 +971,16 @@ mat-nav-list span#logo {
 .depth-bar-bid{width:100%}
 .depth-bar-ask .depth-bar-in{background:indianred;color:red;height:20px;line-height:20px}
 .depth-bar-bid .depth-bar-in{background: #a1bc9f;color:green;height:20px;line-height:20px}
+
+
+mat-form-field{width:100%}
+.form-invalid {
+  background: #ffbac3;
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #c30808;
+}
+.mat-focused .form-invalid{display:none}
+.tight mat-card-header{margin:0;padding:0}

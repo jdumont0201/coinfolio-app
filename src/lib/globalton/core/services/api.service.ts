@@ -112,10 +112,10 @@ export class ApiService {
         }
     }
 
-    processData(data, f: Function) {
+    processData(url:string,data, f: Function) {
         this.messageService.hideLoading();
         this.messageService.hideSaving();
-        console.log("ApiService processData", data);
+        console.log("[API] processData",url, data);
         if (data.error) {
             this.processError("API_PROCESS", data.errordesc);
         } else {
@@ -232,7 +232,7 @@ export class ApiService {
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(data, f),
+                data => this.processData(url,data, f),
                 err => this.processError("API_POST", err),
                 // err => this.error(err),
                 () => console.log('Done posting.')
@@ -247,7 +247,7 @@ export class ApiService {
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(data, f),
+                data => this.processData(url,data, f),
                 err => this.processError("API_DELETE", err),
                 // err => this.error(err),
                 () => console.log('Done deleting.')
@@ -262,7 +262,7 @@ export class ApiService {
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(data, f),
+                data => this.processData(url,data, f),
                 err => this.processError("API_PUT", err),
                 // err => this.error(err),
                 () => console.log('Done putting.')
@@ -276,7 +276,7 @@ export class ApiService {
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(data, f),
+                data => this.processData(url,data, f),
                 err => this.processError("API_PATCH", err),
                 // err => this.error(err),
                 () => console.log('Done patching.')
@@ -296,7 +296,7 @@ export class ApiService {
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(data, f),
+                data => this.processData(url,data, f),
                 err => this.processError("API_GET", err),
                 // err => this.error(err),
                 () => console.log('Done.')

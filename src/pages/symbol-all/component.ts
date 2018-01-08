@@ -14,9 +14,10 @@ import {Logic} from "../../logic/Logic";
 @Injectable()
 export class AppSymbolAllPage {
     prices = [];
-
+    loaded=false;
     constructor(public requestService: RequestService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic) {
         this.logic.BinanceGetLivePrices((prices) => {
+            this.loaded=true
             console.log(prices)
             for(let k in prices)
             this.prices.push({symbol:k,price:prices[k]});

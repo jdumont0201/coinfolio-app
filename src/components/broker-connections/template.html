@@ -19,7 +19,7 @@
                     <div>
                         <mat-form-field><input name="BinanceAPISecret" matInput [(ngModel)]="user.ConnectionBinanceAPISecret" placeholder="API Secret"></mat-form-field>
                     </div>
-                    <button mat-raised-button="" (click)="submit()" color="primary">Save</button>
+                    <button mat-raised-button="" (click)="submit('binance')" color="primary">Save</button>
                 </form>
             </div>
             <div class="broker-connection-right">
@@ -27,26 +27,22 @@
                     <div class="broker-connection-table-tr">
                         <div>Public data</div>
                         <div>
-                            <mat-icon>{{checks['binance'].publicdata?'check':'cross'}}</mat-icon>
+                            <mat-icon>{{checks['binance']?.publicdata?'check':'cross'}}</mat-icon>
                         </div>
                     </div>
                     <div class="broker-connection-table-tr">
                         <div>Read-only user data</div>
                         <div>
-                            <mat-icon>{{checks['binance'].privatedata?'check':'cross'}}</mat-icon>
+                            <mat-icon>{{checks['binance']?.privatedata?'check':'cross'}}</mat-icon>
                         </div>
                     </div>
                     <div class="broker-connection-table-tr">
                         <div>Send orders</div>
                         <div>
-                            <mat-icon>{{checks['binance'].orders?'check':'cross'}}</mat-icon>
+                            <mat-icon>{{checks['binance']?.orders?'check':'cross'}}</mat-icon>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <mat-form-field><input name="BinanceAPISecret" matInput [(ngModel)]="user.ConnectionBinanceAPISecret" placeholder="API Secret"></mat-form-field>
-                </div>
-                <button mat-raised-button="" (click)="submit('binance')" color="primary">Save</button>
 
             </div>
         </div>
@@ -80,19 +76,19 @@
                     <div class="broker-connection-table-tr">
                         <div>Public data</div>
                         <div>
-                            <mat-icon>{{checks['binance'].publicdata?'check':'cross'}}</mat-icon>
+                            <mat-icon>{{checks['kraken']?.publicdata?'check':'cross'}}</mat-icon>
                         </div>
                     </div>
                     <div class="broker-connection-table-tr">
                         <div>Read-only user data</div>
                         <div>
-                            <mat-icon>{{checks['binance'].privatedata?'check':'cross'}}</mat-icon>
+                            <mat-icon>{{checks['kraken']?.privatedata?'check':'cross'}}</mat-icon>
                         </div>
                     </div>
                     <div class="broker-connection-table-tr">
                         <div>Send orders</div>
                         <div>
-                            <mat-icon>{{checks['binance'].orders?'check':'cross'}}</mat-icon>
+                            <mat-icon>{{checks['kraken']?.orders?'check':'cross'}}</mat-icon>
                         </div>
                     </div>
                 </div>

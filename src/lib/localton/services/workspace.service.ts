@@ -183,16 +183,21 @@ this.init()
 
 
         if (this.currentWorkspace && this.currentWorkspace.panels && this.currentWorkspace.panels.length > 0) {
+this.loadPanelForFirst(0)
 
-            let boardId = this.currentWorkspace.panels[0];
-            if (this.panelsObject && (boardId in this.panelsObject)) {
-                let p = this.panelsObject[boardId];
-                console.log("[WS] MAIN > currentpanel", p)
-                p.tabs = JSON.parse(p.content)
-                return p
-            }
         } else {
             console.log("[WS] empty panels", this.currentWorkspace)
+        }
+    }
+    loadPanelForFirst(n){
+        if(n>=this.currentWorkspace.panels.length) return;
+        let boardId = this.currentWorkspace.panels[n];
+        if (this.panelsObject && (boardId in this.panelsObject)) {
+            let p = this.panelsObject[boardId];
+            if(p.type=="separator") this.loadPanelForFirst(n+1)
+            console.log("[WS] MAIN > currentpanel", p)
+            p.tabs = JSON.parse(p.content)
+            return p
         }
     }
 }

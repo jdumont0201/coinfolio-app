@@ -8,27 +8,28 @@
                     <span class="line">Made by traders. For the traders.</span>
                 </div>
                 <div class="welcome-right"><span class="welcome-message">Welcome to Coinamics</span>
-                    <h2>See all your crypto data, news & tweets on dedicated dashboards</h2>
-                    <h2>Access extensive market data</h2>
+                    <h2>Access all your crypto data, news & tweets on dedicated dashboards</h2>
                     <span></span>
-                    <h2>Learn optimal portofolio allocation</h2>
+                    <h2>Read & customize connected dashboards</h2>
                     <span></span>
-                    <h2>Edit & customize your boards</h2>
-                    <span></span></div>
+                    <h2>Optimize your portofolio allocation</h2>
+                    <span></span>
 
-            </div>
-            <div id="welcome-in">
-                <div id="welcome-desc">
 
                 </div>
+
             </div>
             <br>
-            <div class="disclaimer">DISCLAIMER<br>
-                CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford to lose.
-            </div>
             <div class="centered">
-                <button class="centered large" mat-raised-button color="accent" (click)="stepper.next()">Enter Coinamics</button>
+                <button class="centered large" mat-raised-button color="accent" (click)="stepper.next()">Enter
+                    Coinamics
+                </button>
             </div>
+            <div class="disclaimer">DISCLAIMER<br>
+                CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings
+                cryptocurrencies is risky. Only invest money you can afford to lose.
+            </div>
+
 
         </mat-step>
         <mat-step label="Plans">
@@ -79,56 +80,72 @@
                     </tr>
                     <tr>
                         <td>Subscription time</td>
-                        <td *ngFor="let p of plans">
-                            <span *ngIf="p.amount>0">        {{p.length}} days</span>
-                        </td>
+
+                        <td></td>
+                        <ng-container *ngFor="let p of plans">
+                            <td *ngIf="p.amount>0"> {{p.length}} days</td>
+                        </ng-container>
                     </tr>
                     <tr>
                         <td>Price</td>
+                        <td> Free</td>
+                        <ng-container *ngFor="let p of plans">
 
-                        <td *ngFor="let p of plans">
-                            <span *ngIf="p.amount>0">        ${{p.amount}}<br>{{p.btcamount}}BTC</span>
-                            <span *ngIf="p.amount==0"> Free</span>
-                        </td>
+                            <td *ngIf="p.amount>0"> ${{p.amount}}<br>{{p.btcamount}}BTC</td>
+                        </ng-container>
                     </tr>
                     <tr>
                         <td>Choose</td>
-                        <td *ngFor="let p of plans">
-                            <div *ngIf="p.amount==0">
+                        <ng-container *ngFor="let p of plans">
+                            <td *ngIf="p.amount==0">
                                 <button mat-raised-button [color]="'primary'" (click)="close()">Stay as guest</button>
-                            </div>
-                            <div *ngIf="p.amount>0">
-                                <button mat-raised-button color="accent" (click)="processChoice(p,stepper)">Subscribe now</button>
-                            </div>
-                        </td>
+                            </td>
+                        </ng-container>
+                        <ng-container *ngFor="let p of plans">
+                            <td *ngIf="p.amount>0">
+                                <button mat-raised-button color="accent" (click)="processChoice(p)">Subscribe
+                                    now
+                                </button>
+                            </td>
+                        </ng-container>
                     </tr>
                 </table>
             </div>
         </mat-step>
 
         <mat-step label="Sign up" *ngIf="!authService.isAuthenticated()">
-            <div class="form padded">
+            <div class="padded"><h3>Sign up</h3>
+                <div class="form ">
 
-                <form [formGroup]="form">
-                    <div>
-                        <mat-form-field><input name="email" matInput [formControlName]="'email'" placeholder="email" required></mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field>
-                            <input formControlName="password" name="password" matInput placeholder="Enter your password" type="password" required>
-                            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                        </mat-form-field>
-                    </div>
-                    <div>
-                        <mat-form-field>
-                            <input matInput placeholder="Confirm your password" type="password" required>
-                            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-                        </mat-form-field>
-                    </div>
-                    <button mat-raised-button="" class="large" [disabled]="!form.valid" (click)="submit()" color="primary">Continue</button>
-                </form>
+                    <form [formGroup]="form">
+                        <div>
+                            <mat-form-field><input name="email" matInput [formControlName]="'email'" placeholder="email"                                                   required>
+                            </mat-form-field>
+                            <div class="form-invalid" *ngIf="form.controls.email.dirty && form.controls.email.errors">E-mail is not valid</div>
+
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <input formControlName="password" [type]="hide?'password':'text'" matInput                                       placeholder="Enter your password" name="password" required>
+                                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}                        </mat-icon>
+                            </mat-form-field>
+                            <div class="form-invalid" *ngIf="form.controls.password.dirty && form.controls.password.errors?.minlength">Password must be at least 8 characters</div>
+                        </div>
+                        <div>
+                            <mat-form-field>
+                                <input formControlName="confpassword" name="confpassword" matInput placeholder="Confirm your password"  [type]="hide?'password':'text'" required>
+                                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}   </mat-icon>
+
+                            </mat-form-field>
+                            <div class="form-invalid" *ngIf="form.controls.confpassword.dirty && form.controls.confpassword.errors?.minlength">Password must be at least 8 characters</div>
+                            <div class="form-invalid" *ngIf="form.controls.confpassword.dirty && form.controls.confpassword.errors?.MatchPassword">Passwords must match</div>
+
+                        </div>
+                        <button mat-raised-button="" class="large" [disabled]="!form.valid" (click)="submit()"                                color="primary">Continue
+                        </button>
+                    </form>
+                </div>
             </div>
-
         </mat-step>
         <mat-step label="Pay">
             <div class="padded">
@@ -139,7 +156,8 @@
 
 
                     <qr-code *ngIf="qrcode" [value]="qrcode" [size]="150"></qr-code>
-                    <div *ngIf="addressExpirationCountdown">The address will expire in {{addressExpirationCountdownMin}}min
+                    <div *ngIf="addressExpirationCountdown">The address will expire in
+                        {{addressExpirationCountdownMin}}min
                         {{addressExpirationCountdownSec}}s
                     </div>
                 </div>
@@ -161,7 +179,9 @@
 
                     <div *ngIf="isPaid">Your payment has been received. Thank you for subscribing. <br>
                         <div class="centered">
-                            <button class="centered" mat-raised-button color="primary" (click)="close()">Continue to premium account</button>
+                            <button class="centered" mat-raised-button color="primary" (click)="close()">Continue to
+                                premium account
+                            </button>
                         </div>
                     </div>
                 </div>

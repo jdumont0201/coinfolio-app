@@ -26,6 +26,9 @@ ConnectionBinance=false;
         this.logic.getImports((res)=>{
             this.imports=res;
         })
+        this.logic.getMe((res)=>{
+            this.user=res;
+        })
 
     }
 

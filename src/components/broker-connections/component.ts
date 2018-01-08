@@ -12,53 +12,64 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
-@Component({
-  selector: 'app-broker-connections',
-  templateUrl: 'template.html'
 
+@Component({
+    selector: 'app-broker-connections',
+    templateUrl: 'template.html',
+    styleUrls:['styles.css']
 })
 @Injectable()
-export class AppBrokerConnectionsComponent{
-  user;
-  checks={}
-  constructor(public eventService:EventService,public appConfigService:AppConfigService,public authService:AuthService,public logic:Logic,public snackBar: MatSnackBar){
-    if (this.authService.isAuthenticated()){
-      console.log("logged")
-      this.logic.getMe((user) => {
-        this.user = user;
-        if(!user.ConnectionBinance) user.ConnectionBinance=false;
-        if(!user.ConnectionKraken) user.ConnectionKraken=false;
-        console.log("this.user",this.user)
-      })
-    }else
-      console.log("notlogged")
+export class AppBrokerConnectionsComponent {
+    user;
+    checks = {}
 
-  }
-  canAcccessPublicData(brokerName){
-    return this.checks[brokerName].publicdata;
-  }
-  canAcccessPrivateData(brokerName){
-    return this.checks[brokerName].privatedata;
-  }
-  canSendOrders(brokerName){
-    return this.checks[brokerName].orders;
-  }
-check(name){
-    if(name==="binance"){
-      this.checks["binance"]={publicdata:false,privatedata:false,orders:false}
-      this.logic.BinanceGetAllocation((res)=>{this.checks["binance"].privatedata=true })
-      this.logic.BinanceGetOHLC("ETHBTC","1m",(res)=>{this.checks["binance"].publicdata=true })
-      //this.logic.BinanceGetOHLC("ETHBTC","1m",(res)=>{this.checks["binance"].publicd=true })
+    constructor(public eventService: EventService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar) {
+        if (this.authService.isAuthenticated()) {
+            console.log("logged")
+            this.logic.getMe((user) => {
+                this.user = user;
+                if (!user.ConnectionBinance) user.ConnectionBinance = false;
+                if (!user.ConnectionKraken) user.ConnectionKraken = false;
+                console.log("this.user", this.user)
+            })
+        } else
+            console.log("notlogged")
+
     }
 
-}
-  submit(name) {
-    setTimeout(() => {
-      this.logic.saveUser(this.user, (res) => {
-        this.snackBar.open("User saved",null,{duration:3000})
-        this.check(name)
-      })
-    }, 1000)
-  }
+    canAcccessPublicData(brokerName) {
+        return this.checks[brokerName].publicdata;
+    }
+
+    canAcccessPrivateData(brokerName) {
+        return this.checks[brokerName].privatedata;
+    }
+
+    canSendOrders(brokerName) {
+        return this.checks[brokerName].orders;
+    }
+
+    check(name) {
+        if (name === "binance") {
+            this.checks["binance"] = {publicdata: false, privatedata: false, orders: false}
+            this.logic.BinanceGetAllocation((res) => {
+                this.checks["binance"].privatedata = true
+            })
+            this.logic.BinanceGetOHLC("ETHBTC", "1m", (res) => {
+                this.checks["binance"].publicdata = true
+            })
+            //this.logic.BinanceGetOHLC("ETHBTC","1m",(res)=>{this.checks["binance"].publicd=true })
+        }
+
+    }
+
+    submit(name) {
+        setTimeout(() => {
+            this.logic.saveUser(this.user, (res) => {
+                this.snackBar.open("User saved", null, {duration: 3000})
+                this.check(name)
+            })
+        }, 1000)
+    }
 
 }

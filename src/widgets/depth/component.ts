@@ -34,7 +34,7 @@ export class AppDepthWidget  {
     symbol = "ETHBTC"
     nbDecimal = 5;
     decimalSpan;
-
+    isLoading=true;
 
     constructor(public logic: Logic,public appConfigService:AppConfigService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService) {
        // super(logic, appConfigService, "stock")
@@ -72,6 +72,7 @@ setDecimals(){
 
     initDepth(f: Function) {
         this.logic.BinanceGetDepth(this.symbol, (res) => {
+
             this.parseObject(res.bids, this.bidLevels)
             this.parseObject(res.asks, this.askLevels)
             this.listToArray()
@@ -79,6 +80,7 @@ setDecimals(){
             this.sortArray(this.askArray, true)
             this.bidArrayFiltered = this.filterArray(this.nbDecimal, this.bidArray);
             this.askArrayFiltered = this.filterArray(this.nbDecimal, this.askArray);
+            this.isLoading=false;
             f()
         })
     }

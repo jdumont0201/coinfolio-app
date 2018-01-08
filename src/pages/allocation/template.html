@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 <mat-toolbar>
     <h3>Allocation</h3>
 </mat-toolbar>
@@ -40,12 +41,12 @@
             </ng-container>
 
             <ng-container matColumnDef="price">
-                <mat-header-cell *matHeaderCellDef> Price</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Unit Price (USD)</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.price }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="value">
-                <mat-header-cell *matHeaderCellDef> Value</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.value }}</mat-cell>
+                <mat-header-cell *matHeaderCellDef> Value (USD)</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.value|number:'1.2-2' }}</mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

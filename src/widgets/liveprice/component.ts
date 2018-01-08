@@ -18,29 +18,31 @@ import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/
 @Injectable()
 export class AppLivePriceWidget extends DataAndChartTemplate {
     displayedColumns = ['ts', 'open', 'high', 'low', 'close'];
-
+    isLoading=true;
     @Input() pair: string
     @Input() period: string = "1m"
-    base: string = "USD"
+    @Input() base: string = "USD"
     source: string = "binance"
 
     options = {
         chart: {type: 'candlestick', margin: 0,},
         credits: {enabled: false},
+        exporting:{enabled: false},
         plotOptions: {
             candlestick: {color: 'red', upColor: 'green', downColor: 'red'},
             series: {
                 animation: false
             }
         }, navigator: {
+            enabled: false,
             series: {
-
                 fillColor: '#cccccc',
                 fillOpacity: 0.1,
                 lineColor: 'grey'
             }
         },
         rangeSelector: {
+            enabled:false,
             selected: 4,
             inputEnabled: false,
             buttonTheme: {
@@ -62,6 +64,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate {
 
     updateData() {
         this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
+            this.isLoading=false;
             this.checkData();
             let D = [];
             let minVal = 10000000;
@@ -73,6 +76,8 @@ export class AppLivePriceWidget extends DataAndChartTemplate {
             this.dataSource = new MatTableDataSource(res);
             this.data = D;
             this.updateOptions({
+            exporting:{enabled: false},
+                navigator:{enabled: false},
                 series: [{
                     name: this.pair,
                     data: D
