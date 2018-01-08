@@ -74,6 +74,7 @@ export class ConfigService {
     validationMessages: any = {};
 
     apiURL: string;
+    baseURL: string;
     staticURL: string;
     selectOptions: { SelectOptionSet } | {} = {};
     actionBarRules: any = {};

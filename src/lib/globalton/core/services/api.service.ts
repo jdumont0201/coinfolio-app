@@ -22,6 +22,7 @@ export class ApiService {
     @Output() errorsChanged: EventEmitter<any> = new EventEmitter();
 
     baseurl: string;
+    serverurl: string;
     timer: number;
     timeout: number;
     retry: number;
@@ -39,7 +40,7 @@ export class ApiService {
         this.consoleService.serv("+ ApiService");
         this.timeout = configService.API_TIMEOUT;
         this.retry = configService.API_NB_RETRY;
-    this.baseurl=this.configService.apiURL;
+        this.baseurl=this.configService.apiURL;
         this.ping(function () {
 
         });
@@ -47,6 +48,9 @@ export class ApiService {
     }
     setApiUrl(v:string){
       this.baseurl = v;
+    }
+    setServerUrl(v:string){
+      this.serverurl = v;
     }
 
     setAuthService(authService, f) {
@@ -155,7 +159,7 @@ export class ApiService {
     }
 
     ping(f: Function): void {
-        const fullurl: string = this.baseurl + "ping";
+        const fullurl: string = this.serverurl + "ping";
         console.log("PING", fullurl);
         this.timer = new Date().getTime();
         //const h: HttpHeaders = this.authService.noauthGetHeaders;

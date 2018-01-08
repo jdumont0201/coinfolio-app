@@ -17,6 +17,7 @@ export class AppConfigService {
     constructor(public configService: ConfigService, public consoleService: ConsoleService, public apiService: ApiService, public authService: AuthService, public logic: Logic) {
         this.generateListing();
         this.apiService.setApiUrl("http://34.242.69.165:3001/api/");
+        this.apiService.setServerUrl("http://34.242.69.165:3001/");
         this.consoleService.serv("+ AppConfigService");
         this.configService.app = "comeoncoins"
         this.configService.perSiteConfigured.emit({"type": "general"})
