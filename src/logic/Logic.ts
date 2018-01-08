@@ -26,8 +26,8 @@ export class Logic {
         })
     }
 
-    BinanceGetMyTrades(f: Function) {
-        this.apiService.noauthget("user/getbinancetrades?userId=" + this.authService.userId, (res) => {
+    BinanceGetMyTrades(symbols:string,f: Function) {
+        this.apiService.noauthget("user/getbinancetrades?userId=" + this.authService.userId+"&symbol="+symbols, (res) => {
             if(res.result.success)
                 f(res.result.data)
         })

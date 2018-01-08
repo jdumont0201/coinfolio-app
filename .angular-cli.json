@@ -21,6 +21,7 @@
       "styles": [
         "theme.scss",
         "styles.css",
+        "styles-theme-dark.css",
         "styles-mobile.css"
       ],
       "scripts": [],

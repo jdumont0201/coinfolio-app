@@ -10,6 +10,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
+import {EventService} from "../../lib/localton/services/event.service";
 @Component({
   selector: 'app-marketcap-evol-mini',
   templateUrl:'template.html'
@@ -70,9 +71,8 @@ export class AppMarketCapEvolMiniComponent extends DataAndChartTemplate  {
 
 
 
-  constructor(public logic: Logic, public appConfigService: AppConfigService) {
-    super(logic,appConfigService,"plain")
-
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
+        super(logic,appConfigService,eventService,"plain")
   }
   ngOnInit(){
     this.initDate()

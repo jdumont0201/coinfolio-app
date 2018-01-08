@@ -1,8 +1,6 @@
-<mat-card class="chart-card">
-  <mat-card-header>
-    <mat-card-title>{{symbol}} Price</mat-card-title>
-    <mat-card-subtitle>Candlestick chart by  {{appConfigService.intervalNames[period]}} in {{base}}</mat-card-subtitle>
-  </mat-card-header>
+<section class="widget price">
+  <h5>{{symbol}} Price - Candlestick chart by  {{appConfigService.intervalNames[period]}} in {{base}}</h5>
+
     <div class="options">
       <mat-menu [overlapTrigger]="false" #appMenu1="matMenu">
         <button *ngFor="let val of appConfigService.values" mat-menu-item (click)="setValue(val)"> {{val}} </button>
@@ -34,11 +32,10 @@
     <button mat-button class="showdata"  (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
   </mat-menu>
 
-  <mat-card-content>
+
     <div class="highchart-box" [chart]="chart"></div>
 
     <br class="clear">
-  </mat-card-content>
   <span  *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
     <mat-table #table class="data"  [dataSource]="dataSource" *ngIf="showDataTable">
 
@@ -78,5 +75,5 @@
 
 
 
-</mat-card>
+</section>
 

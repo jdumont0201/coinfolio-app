@@ -16,6 +16,7 @@ export class EventService implements OnInit {
     @Output() panelChangedEvent: EventEmitter<boolean> = new EventEmitter<boolean>()
     @Output() workspaceUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() menuDisplayUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() windowResizedEvent: EventEmitter<any> = new EventEmitter<boolean>()
 
 
     isMenuDisplayed: boolean = true;
@@ -93,6 +94,7 @@ export class EventService implements OnInit {
 
     resized() {
         console.log("[EVENT] resized", window.innerWidth)
+        this.windowResizedEvent.emit({w:window.innerWidth,h:window.innerHeight})
         this.windowResized()
     }
 

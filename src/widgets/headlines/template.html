@@ -1,10 +1,19 @@
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-<mat-card class="tweet-card">
-  <mat-card-header>
-    <mat-card-title>Latest news</mat-card-title>
-    <mat-card-subtitle>Related to #{{symbol}}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
+
+<section class="widget news">
+
+  <h5>Latest news related to
+    <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu2">  {{symbol}}     <mat-icon>expand_more</mat-icon>    </span></div>
+    from
+    <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu">   {{source}}     <mat-icon>expand_more</mat-icon>    </span></div>
+  </h5>
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  <mat-menu #appMenu="matMenu">
+    <button (click)="source=i;init()" mat-menu-item *ngFor="let i of possibleSources">{{i}}</button>
+  </mat-menu>
+  <mat-menu #appMenu2="matMenu">
+    <button (click)="symbol=i;init()" mat-menu-item *ngFor="let i of possibleSymbols">{{i}}</button>
+  </mat-menu>
+
       <ul>
         <li *ngFor="let t of tweets" class="tweet">
           <div>
@@ -23,5 +32,5 @@
           </div>
         </li>
       </ul>
-  </mat-card-content>
-</mat-card>
+
+</section>

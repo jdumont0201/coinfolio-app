@@ -31,10 +31,18 @@ isLoading=true;
     displayedColumns = ['symbol', 'available', 'price', 'value'];
 
     optionsBase = {
-        chart: {type: 'pie', margin: 0,},
+        chart: {type: 'pie', margin: 0,backgroundColor: {
+            linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+            stops: [
+                [0, '#5e5d4d'],
+                [1, '#444338']
+            ]
+        }},
+
         title: {text: "Portfolio"},
         credits: {enabled: false},
         plotOptions: {
+            line:{dataLabels:{style:{textOutline:false}}},
             series: {
                 animation: false
             }
@@ -52,7 +60,7 @@ isLoading=true;
     }
 
     constructor(public authService: AuthService, public appConfigService: AppConfigService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
-        super(logic, appConfigService, "plain")
+        super(logic, appConfigService, eventService,"plain")
 
         this.options = [];
 
@@ -117,27 +125,7 @@ isLoading=true;
 
     addToGlobal(k, p, q) {
         const key: string = "global"
-
-
-        /*let f: boolean = false;
-        let data = [];
-        for (let i = 0; i < this.allocation["global"].length; ++i) {
-            data.push({name: k, y: p * q});
-
-            if (this.allocation["global"][i].symbol === k) {
-                this.allocation["global"][k].available += q;
-                this.allocation["global"][k].value += p * q;
-                f = true;
-                return;
-
-            }
-        }*/
-
         this.allocation[key].push({symbol: k, available: q, price: p, value: p * q})
-     //   this.updateOptions({title: {text: " "}, series: [{name: "Portfolio", data: data}], yAxis: {}}, key)
-//        this.charts[key] = new Chart(this.options[key]);
-  //      console.log("CHART",key,this.options[key]);
-
     }
 
     updateGlobal() {

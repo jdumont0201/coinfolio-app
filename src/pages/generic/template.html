@@ -1,4 +1,5 @@
-<div *ngIf="!eventService.isWelcomeVisible">
+<div [@.disabled]="true">
+  <div *ngIf="!eventService.isWelcomeVisible">
   <mat-toolbar>
   <h3 [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">{{currentPanel?.title}} </h3>
 <div id="customize-button">
@@ -64,4 +65,5 @@
 
 
 
+</div>
 </div>

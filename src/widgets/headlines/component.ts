@@ -22,7 +22,10 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 })
 @Injectable()
 export class AppHeadlinesComponent implements OnInit{
+  @Input() source;
   @Input() symbol;
+  @Input() possibleSymbols;
+  @Input() possibleSources;
   tweets;
   key;
     isLoading=true;
@@ -30,10 +33,14 @@ export class AppHeadlinesComponent implements OnInit{
 
   }
   ngOnInit(){
-    this.symbol=this.symbol=="GLOBAL"?"cryptocurrency":this.symbol;this.symbol
-    this.load(this.symbol,(res)=>{
-
-    });
+    this.init()
+  }
+  init(){
+    this.isLoading=true;
+      this.symbol=this.symbol=="GLOBAL"?"cryptocurrency":this.symbol;this.symbol
+      this.load(this.symbol,(res)=>{
+          this.isLoading=false
+      });
   }
   parseNews(res):any[]{
     console.log(res)
@@ -54,7 +61,11 @@ export class AppHeadlinesComponent implements OnInit{
     return A;
   }
   load(q: string, f: Function) {
-    this.logic.getNews(q,(res)=>{this.tweets=this.parseNews(res);this.isLoading=false;});
+    this.logic.getNews(q,(res)=>{
+      this.tweets=this.parseNews(res);
+
+      f();
+    });
 
   }
 }

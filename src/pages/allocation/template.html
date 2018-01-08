@@ -5,13 +5,9 @@
 
 <mat-tab-group>
     <mat-tab *ngFor="let prov of providers" label="{{prov}}">
-        <mat-card class="chart-card">
-            <mat-card-header>
-                <mat-card-title>{{prov}} portfolio</mat-card-title>
-                <mat-card-subtitle>Current allocation</mat-card-subtitle>
-            </mat-card-header>
-            <div class="options">
-            </div>
+        <section class="widget allocation">
+            <h5>{{prov}} portfolio -Current allocation</h5>
+
             <button class="dots" mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
             </button>
@@ -19,11 +15,9 @@
                 <button mat-button class="showdata"  (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
             </mat-menu>
 
-            <mat-card-content>
                 <div class="highchart-box" [chart]="charts[prov]"></div>
 
                 <br class="clear">
-            </mat-card-content>
 
             <button mat-button (click)="resetSnapshot()" >Reset reference</button>
 
@@ -52,7 +46,7 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
-        </mat-card>
+        </section>
     </mat-tab>
 
 </mat-tab-group>

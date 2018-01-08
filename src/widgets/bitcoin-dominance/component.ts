@@ -10,6 +10,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
+import {EventService} from "../../lib/localton/services/event.service";
 @Component({
   selector: 'app-bitcoin-dominance',
   templateUrl:'template.html'
@@ -70,8 +71,9 @@ export class AppBitcoinDominanceMiniWidget extends DataAndChartTemplate  {
 
 
 
-  constructor(public logic: Logic, public appConfigService: AppConfigService) {
-    super(logic,appConfigService,"plain")
+
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
+        super(logic,appConfigService,eventService,"plain")
 
   }
   ngOnInit(){

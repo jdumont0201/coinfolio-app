@@ -10,6 +10,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
+import {EventService} from "../../lib/localton/services/event.service";
 @Component({
   selector: 'app-price',
   templateUrl: 'template.html'
@@ -25,10 +26,16 @@ export class AppPriceComponent extends DataAndChartTemplate {
   source: string = "kraken"
 
   options = {
-    chart: {type: 'candlestick' ,      margin: 0,},
+      chart: {type: 'candlestick', margin: 0,backgroundColor: {
+          linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+          stops: [
+              [0, '#18565f'],
+              [1, '#023647']
+          ]
+      }},
     credits: {enabled: false},
     plotOptions: {
-      candlestick: {color: 'red', upColor: 'green',downColor: 'red'},
+        candlestick: {lineColor:'#666666',color: '#222222', upColor: '#aaaaaa', downColor: '#222222'},
       series: {
         animation: false
       }
@@ -52,8 +59,9 @@ export class AppPriceComponent extends DataAndChartTemplate {
     }
   }
 
-  constructor(public logic: Logic, public appConfigService: AppConfigService) {
-    super(logic,appConfigService,"stock")
+
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
+        super(logic,appConfigService,eventService,"stock")
   }
 
 ngOnInit(){

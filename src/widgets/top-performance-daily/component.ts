@@ -9,6 +9,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
+import {EventService} from "../../lib/localton/services/event.service";
 @Component({
   selector: 'app-top-performance-daily',
   templateUrl:'template.html'
@@ -35,8 +36,9 @@ export class AppTopPerformanceDailyComponent extends DataAndChartTemplate{
   date = new FormControl(new Date(this.ts*1000));
   serializedDate = new FormControl((new Date()).toISOString());
 
-  constructor(public logic: Logic, public appConfigService: AppConfigService) {
-    super(logic,appConfigService)
+
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
+        super(logic,appConfigService,eventService)
   }
   showData(res?) {
     if (res)

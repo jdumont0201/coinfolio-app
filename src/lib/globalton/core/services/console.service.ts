@@ -76,6 +76,15 @@ export class ConsoleService {
         }
 
     }
+    trade(...arg:any[]) {
+        if(this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c[TRADE]", 'padding:2px 5px;border-radius:3px;background: #0000FF; color: #000;display:block;');
+            preservedConsoleLog.apply(console, args);
+        }
+
+    }
     serv(...arg:any[]) {
         if(this.showConsole) {
             var preservedConsoleLog = console.log;

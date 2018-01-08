@@ -1,15 +1,36 @@
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-<select (change)="setDecimals()" [(ngModel)]="nbDecimal">
-  <option *ngFor="let d of decimalSpan" value="{{d}}">{{d}}</option>
-</select>
-<div class="depth-ask" *ngFor="let b of askArrayFiltered ; let index=index">
-  <div class="depth-bar-ask">
-    <div class="depth-bar-in" [style.width]="b.v/maxVol*100+'%'">{{b.p | number:'1.'+nbDecimal+"-"+nbDecimal}}</div>
-  </div>
-  <span>{{b.v}}</span>
-</div>
-<div class="depth-bid" *ngFor="let b of bidArrayFiltered ; let index=index">
-  <div class="depth-bar-bid">
-    <div class="depth-bar-in" [style.width]="b.v/maxVol*100+'%'">{{b.p | number:'1.'+nbDecimal+"-"+nbDecimal}}</div>
-  </div>
-  <span>{{b.v}}</span></div>
+<section class="widget depth">
+    <h5>Depth with
+        <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu2">  {{nbDecimal   }} dec.    <mat-icon>expand_more</mat-icon>    </span></div>
+    </h5>
+    <mat-menu #appMenu2="matMenu">
+        <button (click)="setDecimals(i)" mat-menu-item *ngFor="let i of decimalSpan">{{i}}</button>
+    </mat-menu>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+    <ng-container *ngFor="let b of askArrayFiltered ; let index=index">
+        <ng-container *ngIf="askArrayFiltered.length<nbShow || index>askArrayFiltered.length-nbShow">
+            <div class="depth-ask">
+                <div class="depth-bar-ask">
+                    <div class="depth-bar-in" [style.width]="b.v/maxVol*100+'%'">{{b.p |
+                        number:'1.'+nbDecimal+"-"+nbDecimal}}
+                    </div>
+                </div>
+                <span>{{b.v | number:"1.3-3"}}</span>
+            </div>
+        </ng-container>
+    </ng-container>
+    <div> PRICE</div>
+    <ng-container *ngFor="let b of bidArrayFiltered ; let index=index">
+
+        <ng-container *ngIf="bidArrayFiltered.length<nbShow || index<nbShow">
+            <div class="depth-bid">
+                <div class="depth-bar-bid">
+                    <div class="depth-bar-in" [style.width]="b.v/maxVol*100+'%'">{{b.p |
+                        number:'1.'+nbDecimal+"-"+nbDecimal}}
+                    </div>
+                </div>
+                <span>{{b.v | number:"1.3-3"}}</span>
+            </div>
+        </ng-container>
+    </ng-container>
+</section>

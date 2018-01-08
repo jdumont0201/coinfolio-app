@@ -10,6 +10,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
+import {EventService} from "../../lib/localton/services/event.service";
 @Component({
   selector: 'app-marketcap',
   templateUrl: 'template.html'
@@ -55,8 +56,9 @@ export class AppMarketCapComponent extends DataAndChartTemplate {
     }
   }
 
-  constructor(public logic: Logic, public appConfigService: AppConfigService) {
-  super(logic,appConfigService)
+
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
+        super(logic,appConfigService,eventService)
   }
 
 

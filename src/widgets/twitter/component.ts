@@ -23,6 +23,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 @Injectable()
 export class AppTwitterComponent implements OnInit {
   @Input() symbol;
+  @Input() possibleSymbols;
 
   tweets;
   consumerKey = '26kAxes56Um1yJ0FV9jQ4Vtb4';
@@ -38,13 +39,17 @@ export class AppTwitterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.symbol = this.symbol === "GLOBAL" ? "cryptocurrency" : this.symbol;
-
-    this.load(this.symbol, (res) => {
-
-    });
+    this.init()
   }
 
+  init(){
+    this.isLoading=true;
+      this.symbol = this.symbol === "GLOBAL" ? "cryptocurrency" : this.symbol;
+
+      this.load(this.symbol, (res) => {
+        this.isLoading=false;
+      });
+  }
   parseTweets(res): any[] {
     console.log(res)
     const R = res.searchTweets.statuses;
@@ -71,7 +76,7 @@ export class AppTwitterComponent implements OnInit {
       console.log("tw",q,res);
       let A = this.parseTweets(res);
       this.tweets = A;
-        this.isLoading=false;
+
       f(A)
     });
   }

@@ -1,34 +1,40 @@
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-<mat-card class="tweet-card">
-  <mat-card-header>
-    <mat-card-title>Latest tweets</mat-card-title>
-    <mat-card-subtitle>Most popular with hashtag #{{symbol}}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-      <ul>
+
+<section class="widget tweets">
+    <h5>Latest tweets - Most popular with hashtag <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu">   #{{symbol}}     <mat-icon>expand_more</mat-icon>    </span></div></h5>
+    <mat-menu #appMenu="matMenu">
+        <button (click)="symbol=i;init()" mat-menu-item *ngFor="let i of possibleSymbols">{{i}}</button>
+    </mat-menu>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+    <ul>
         <li *ngFor="let t of tweets" class="tweet">
-          <div>
-            <a  target="_blank"  href="http://twitter.com/{{t.userscreenname}}">
+            <div>
+                <div>
+                <a target="_blank" href="http://twitter.com/{{t.userscreenname}}">
+                    <div class="tweet-image" [ngStyle]="{'background-image': 'url(' + t.image + ')'}"></div>
+                </a>
+                </div>
+                <div class="user">
+                    <a target="_blank" href="http://twitter.com/{{t.userscreenname}}"><span class="tweet-user">{{t.username}}</span><br>
+                        <span class="tweet-userscreen">@{{t.userscreenname}}</span>
+                    </a>
+                </div>
+                <div class="likes">
+                    <mat-icon>cached</mat-icon>
+                    <span class="tweet-retweets">{{t.retweets}}</span>
+                    <mat-icon>favorite_border</mat-icon>
+                    <span class="tweet-favorites">{{t.favorites}}</span>
+                </div>
+                <div>
+                    <span class="tweet-text">{{t.text}}</span><br>
+                    <span class="tweet-date">{{t.date | date:"medium"}}</span><br>
+                </div>
 
-              <div class="tweet-image" [ngStyle]="{'background-image': 'url(' + t.image + ')'}"></div>
-              <span class="tweet-user">{{t.username}}</span><br>
-              <span class="tweet-userscreen">@{{t.userscreenname}}</span>
-              <br class="clear">
-            </a><br>
-
-            <span class="tweet-text">{{t.text}}</span><br>
-            <br>
-            <span class="tweet-date">{{t.date | date:"medium"}}</span><br>
-            <mat-icon>cached</mat-icon>
-            <span class="tweet-retweets">{{t.retweets}}</span>
-            <mat-icon>favorite_border</mat-icon>
-            <span class="tweet-favorites">{{t.favorites}}</span>
-            <a  target="_blank" href="http://twitter.com/statuses/{{t.id}}" rel="external" class="tweet-url">More...</a>
-          </div>
+                <a target="_blank" href="http://twitter.com/statuses/{{t.id}}" rel="external"
+                   class="tweet-url">More...</a>
+            </div>
         </li>
-      </ul>
+    </ul>
 
 
-  </mat-card-content>
-
-</mat-card>
+</section>

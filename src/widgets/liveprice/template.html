@@ -1,51 +1,14 @@
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-<mat-card class="chart-card tight">
-  <mat-card-header>
-    <mat-card-title>{{symbol}} Price</mat-card-title>
-    <mat-card-subtitle>Candlestick chart by  {{period}} in {{base}}</mat-card-subtitle>
-  </mat-card-header>
 
-  <button class="dots" mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-button class="showdata"  (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
-  </mat-menu>
-
-  <mat-card-content>
-    <div class="highchart-box" [chart]="chart"></div>
-
-    <br class="clear">
-  </mat-card-content>
-  <span  *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
-    <mat-table #table class="data"  [dataSource]="dataSource" *ngIf="showDataTable">
-      <ng-container matColumnDef="ts" >
-        <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-        <mat-cell *matCellDef="let element" >{{element.ts*1000 | date:"medium"}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="open" >
-        <mat-header-cell *matHeaderCellDef> Open ({{base}}) </mat-header-cell>
-        <mat-cell *matCellDef="let element" >{{element.open | number}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="high" >
-        <mat-header-cell *matHeaderCellDef> High ({{base}}) </mat-header-cell>
-        <mat-cell *matCellDef="let element" >{{element.high | number}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="low" >
-        <mat-header-cell *matHeaderCellDef> Low ({{base}}) </mat-header-cell>
-        <mat-cell *matCellDef="let element" >{{element.low | number}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="close" >
-        <mat-header-cell *matHeaderCellDef> Close ({{base}}) </mat-header-cell>
-        <mat-cell *matCellDef="let element" >{{element.close | number}} </mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+<section class="widget price">
+    <h5>Price  
+        <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu2">  {{period}}     <mat-icon>expand_more</mat-icon>    </span></div>
+    </h5>
+    <mat-menu #appMenu2="matMenu">
+        <button (click)="period=i;updateData()" mat-menu-item *ngFor="let i of possiblePeriods">{{i}}</button>
+    </mat-menu>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 
 
+    <div #myChart class="highchart-box" [chart]="chart" (load)="saveInstance($event.context)"></div>
 
-
-
-</mat-card>
-
+</section>

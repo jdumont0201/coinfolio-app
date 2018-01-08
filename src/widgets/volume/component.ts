@@ -10,6 +10,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
+import {EventService} from "../../lib/localton/services/event.service";
 
 @Component({
   selector: 'app-volume',
@@ -28,7 +29,13 @@ export class AppVolumeComponent extends DataAndChartTemplate {
   source: string = "ccc"
 
   options = {
-    chart: {type: 'area'},
+      chart: {type: 'area', margin: 0,backgroundColor: {
+          linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+          stops: [
+              [0, '#205f44'],
+              [1, '#083d16']
+          ]
+      }},
     candlestick: {color: 'green', upColor: 'red'},
     credits: {enabled: false},
     plotOptions: {
@@ -48,8 +55,9 @@ export class AppVolumeComponent extends DataAndChartTemplate {
     }
   }
 
-  constructor(public logic: Logic, public appConfigService: AppConfigService) {
-    super(logic, appConfigService)
+
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
+        super(logic,appConfigService,eventService)
   }
 
   interval =1;
@@ -98,7 +106,13 @@ export class AppVolumeComponent extends DataAndChartTemplate {
           this.dataSource = new MatTableDataSource(this.data);
           this.data = D;
           this.updateOptions({
-            chart: {type: 'area'},
+              chart: {type: 'area', margin: 0,backgroundColor: {
+                  linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                  stops: [
+                      [0, '#205f44'],
+                      [1, '#083d16']
+                  ]
+              }},
             series: [{
               name: this.symbol,
               data: D, color: '#2ca917'

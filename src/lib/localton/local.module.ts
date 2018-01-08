@@ -8,6 +8,7 @@ import {AppConfigService} from "./services/appconfig.service";
 import {ImportService} from "./services/import.service";
 import {EventService} from "./services/event.service";
 import {WorkspaceService} from "./services/workspace.service";
+import {TradingService} from "./services/trading.service";
 
 @NgModule({
     imports: [
@@ -20,7 +21,7 @@ import {WorkspaceService} from "./services/workspace.service";
     ],
     exports: [],
     entryComponents:[],
-    providers: [DataService,AppConfigService,ImportService,EventService,WorkspaceService]
+    providers: [DataService,TradingService,AppConfigService,ImportService,EventService,WorkspaceService]
 })
 export class LocalModule {
 

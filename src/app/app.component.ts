@@ -6,6 +6,7 @@ import {Logic} from "../logic/Logic";
 import {ActivatedRoute, Params} from "@angular/router";
 import {MessageService} from "../lib/globalton/core/services/message.service";
 import {MatSnackBar} from "@angular/material";
+import {TradingService} from "../lib/localton/services/trading.service";
 
 @Component({
   selector: 'app-root',
@@ -26,7 +27,7 @@ export class AppComponent   {
   @ViewChild("sidenav") sidenav;
 
   constructor(public requestService: RequestService,public eventService: EventService, public messageService:MessageService,
-              public logic: Logic, private route: ActivatedRoute,public snackBar: MatSnackBar ) {
+              public logic: Logic, private route: ActivatedRoute,public snackBar: MatSnackBar ,public tradingService:TradingService) {
     this.eventService.panelCreatorEvent.subscribe((val) => this.panelCreatorUpdated(val));
     this.eventService.loginEvent.subscribe((val) => this.loginUpdated(val));
     this.eventService.subscribeEvent.subscribe((val) => this.subscribeUpdated(val))

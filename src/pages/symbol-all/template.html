@@ -1,11 +1,27 @@
-<mat-progress-bar *ngIf="!loaded" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 <mat-toolbar>
   <h3>Listing </h3>
 </mat-toolbar>
 
-<div *ngIf="loaded && prices.length==0">Configure broker connections in your settings to show broker trade data.</div>
-<mat-list>
+<div *ngIf="!isLoading && listing.length==0">Configure broker connections in your settings to show broker trade data.</div>
 
-  <mat-list-item link routerLink="/pair/{{s.symbol}}" *ngFor="let s of prices" matLine  mat-list-item  >{{s.symbol}}{{s.price}}</mat-list-item>
 
-</mat-list>
+<mat-tab-group>
+  <mat-tab *ngFor="let sup of supports" label="{{sup}}">
+
+    <mat-list>
+      <ng-container *ngFor="let s of listing">
+        <ng-container *ngIf="s.infra==sup">
+      <mat-list-item link routerLink="/pair/{{s.symbol}}"  matLine  mat-list-item  class="listing">
+
+        <div class="marker-in-ptf {{tradingService?.isInPortfolio(s.supra)?'':'marker-hidden'}}"><mat-icon >lens</mat-icon></div>
+        <div class="listing-row"><div >{{s.supra}} / {{s.infra}} </div><div> {{s.price}}</div></div>
+
+      </mat-list-item>
+        </ng-container>
+      </ng-container>
+    </mat-list>
+
+
+  </mat-tab>
+</mat-tab-group>

@@ -1,46 +1,70 @@
-<mat-toolbar>
-    <h3>{{supra}}/{{infra}} </h3>
-</mat-toolbar>
-<mat-tab-group>
-    <mat-tab label="Live">
-       <div id="live">
-           <div id="live-left">
-               <app-live-depth [pairId]="pairId"></app-live-depth>
-           </div>
-           <div id="live-right">
-               <app-live-price [pair]="pairId" [period]="'1m'"></app-live-price>
-               <app-live-price [pair]="pairId" [period]="'5m'"></app-live-price>
-               <app-live-price [pair]="pairId" [period]="'15m'"></app-live-price>
-               <app-live-price [pair]="pairId" [period]="'1h'"></app-live-price>
-           </div>
-       </div>
-    </mat-tab>
-    <mat-tab label="Social">
-        <div class="grid grid-2-1">
-            <div class="grid-in left">
-                <app-headlines [symbol]="supra"></app-headlines>
+<div [@.disabled]="true">
+    <mat-toolbar>
+        <h3>{{supra}}/{{infra}} </h3>
+    </mat-toolbar>
+    <mat-tab-group>
+        <mat-tab label="Live">
+            <div id="live">
+                <div id="live-left">
+                    <app-live-depth [pairId]="pairId"></app-live-depth>
+                </div>
+                <div id="live-right">
+                    <app-live-price [pair]="pairId" [period]="'1m'"></app-live-price>
+                    <app-live-price [pair]="pairId" [period]="'5m'"></app-live-price>
+                    <app-live-price [pair]="pairId" [period]="'15m'"></app-live-price>
+                    <app-live-price [pair]="pairId" [period]="'1h'"></app-live-price>
+                    <app-live-price [pair]="pairId" [period]="'1d'"></app-live-price>
+                </div>
             </div>
-            <div class="grid-in right">
-                <app-twitter [symbol]="supra"></app-twitter>
+        </mat-tab>
+        <mat-tab label="Trades">
+            <section class="widget trades">
+                <h5>Trades on {{pairId}}</h5>
+            <div class="table table-trades">
+                <div class="tr">
+                    <div>Direction</div>
+                    <div>Time </div>
+                    <div>Price</div>
+                    <div>Volume</div>
+                </div>
+                <ng-container *ngFor="let t of trades">
+                    <div  class="tr">
+                        <div class="keepcolor bg-{{t.isBuyer ? 'buy':'sell'}}"><span >{{t.isBuyer ? "BUY":"SELL" }}</span></div>
+                        <div>{{t.time | date:"medium"}}</div>
+                        <div>{{t.price}}</div>
+                        <div>{{t.qty}}</div>
+                    </div>
+                </ng-container>
             </div>
-            <br class="clear">
-        </div>
-    </mat-tab>
-    <mat-tab label="Information">
-        <mat-card class="example-card">
-            <mat-card-header>
-                <mat-card-title>Information</mat-card-title>
-                <mat-card-subtitle></mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-list>
-                    <mat-list-item>
-                        Symbol: {{symbolId}}
-                        Supra: {{supra}}
-                        Infra: {{infra}}
-                    </mat-list-item>
-                </mat-list>
-            </mat-card-content>
-        </mat-card>
-    </mat-tab>
-</mat-tab-group>
+            </section>
+        </mat-tab>
+        <mat-tab label="Social">
+            <div class="grid grid-2-1">
+                <div class="grid-in left">
+                    <app-headlines [symbol]="supra"  [possibleSymbols]="[supra,infra,pairId]" [source]="'Google News'" [possibleSources]="['Google News']"></app-headlines>
+                </div>
+                <div class="grid-in right">
+                    <app-twitter [symbol]="supra" [possibleSymbols]="[supra,infra,pairId]"></app-twitter>
+                </div>
+                <br class="clear">
+            </div>
+        </mat-tab>
+        <mat-tab label="Information">
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <mat-card-title>Information</mat-card-title>
+                    <mat-card-subtitle></mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-list>
+                        <mat-list-item>
+                            Symbol: {{symbolId}}
+                            Supra: {{supra}}
+                            Infra: {{infra}}
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card-content>
+            </mat-card>
+        </mat-tab>
+    </mat-tab-group>
+</div>

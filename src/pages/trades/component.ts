@@ -17,13 +17,13 @@ export interface Message {
 }
 
 @Component({
-    selector: 'app-pair-item',
+    selector: 'app-trades',
     templateUrl: 'template.html',
     styleUrls:['styles.css']
 
 })
 @Injectable()
-export class AppPairItemPage {
+export class AppTradesPage {
     pairId: string;
     brokerId: string;
     maxVol = 0;
@@ -42,7 +42,6 @@ export class AppPairItemPage {
 
     supra:string;
     infra:string;
-    trades:any[];
     constructor(public logic: Logic, public tradingService:TradingService,public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute) {
         //console.log("+pair")
         this.decimalSpan= [];
@@ -53,9 +52,7 @@ export class AppPairItemPage {
             this.supra=symbols.supra;
             this.infra=symbols.infra;
             this.brokerId = params["brokerId"];
-            this.logic.BinanceGetMyTrades(this.pairId,(trades)=>{
-                this.trades=trades;
-            })
+
         });
 
 
