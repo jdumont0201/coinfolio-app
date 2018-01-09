@@ -72,7 +72,7 @@ export class AppAllocationPage extends DataAndChartTemplate {
 
     dataSource = [];
 
-
+    hasConnected=false;
     resetSnapshot() {
         this.logic.set("user", {lastsnapshot: Math.round(new Date().getTime() / 1000)}, (res) => {
 
@@ -87,6 +87,7 @@ export class AppAllocationPage extends DataAndChartTemplate {
         this.logic.BinanceGetAllocation((alloc) => {
             this.logic.BinanceGetLivePrices((P) => {
                 //this.logic.BinanceGetMyTrades((P) => {
+                this.hasConnected=true;
                 this.prices[key] = P;
                 let V = 0;
                 let data = [];
@@ -158,6 +159,7 @@ export class AppAllocationPage extends DataAndChartTemplate {
         this.prepareUpdate(key)
         this.logic.KrakenGetAllocation((res) => {
             this.logic.KrakenGetLivePrices((P) => {
+                this.hasConnected=true;
                 this.prices[key] = P;
                 let V = 0;
                 let data = [];

@@ -7,7 +7,7 @@
     <span>Please login or sign up to access your private trading dashboard.</span><br>
     <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
 </div>
-<div *ngIf="authService.isAuthenticated() && !isLoading && listing.length==0" class="alert-configure-broker">
+<div *ngIf="authService.isAuthenticated() && !isLoading && !hasConnected" class="alert-configure-broker">
     <mat-icon>settings</mat-icon>
     <span>Configure broker connections in your settings to show broker trade data.</span><br>
     <button mat-raised-button="" color="primary" routerLink="/config/all">Configure now</button>
