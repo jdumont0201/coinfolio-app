@@ -82,7 +82,7 @@ export class AppSymbolAllPage extends PageWithTabs {
                 const keyA = this.getSortField(a), keyB = this.getSortField(b);
                 if (keyA < keyB) return order;
                 if (keyA > keyB) return -1*order;
-                else return a.supra < b.supra
+                else return a.supra < b.supra ? -1 : 1
 
             });
 
