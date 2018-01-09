@@ -1,15 +1,17 @@
 .welcome-left{
-padding:150px  100px 50px;width:50%
+padding:150px  0px 50px 100px;width:50%;color:white
 }
 .welcome-right{
-padding:150px 20px 50px;width:50%
+padding:150px 20px 50px;width:50%;color:white
 }
-.welcome-banner{display:flex}
+.welcome-banner{display:flex;
+}
 
 
 span.welcome-message {
     font-size: 32px;
-    color: #c90e5a;
+    color: #ff0068;
+    font-family: "Open sans";
     font-weight: 300;
 }
 

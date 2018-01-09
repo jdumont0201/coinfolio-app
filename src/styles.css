@@ -835,7 +835,7 @@ text-align: center;
   height: 100%;
 }
 #welcome .mat-horizontal-stepper-content{
-  background: linear-gradient(90deg,#ffffff, #e4e4e4);
+  background: linear-gradient(to right, #000046, #1cb5e0);
   height:100%
 }
 #welcome .mat-horizontal-stepper-content[aria-expanded=false]{height:0%}
@@ -848,7 +848,11 @@ text-align: center;
 text-align:center;
 }
 #welcome h2{
-font:bold 25px/35px "Open Sans"
+font:bold 25px/35px "Open Sans";
+  font-size: 16px;
+  line-height: 20px;
+  padding-top: 20px;
+  font-weight: 300;
 }
 #welcome-desc span{
   font:bold 15px/20px "Open Sans"
@@ -920,10 +924,10 @@ font:bold 25px/35px "Open Sans"
 .mat-step-label{color:#aaa!important;}
 .mat-step-header .mat-step-label.mat-step-label-active{color:#fff!important}*/
 #logo{font-size:0;background:url("/assets/img/logo-white.png")}
-.logo-bottom{font-size:0;background:url("/assets/img/logo-bottom.png")}
+.logo-bottom{font-size:0;background:url("/assets/img/logo-white.png")}
 #welcome #logo{    color: #444444;
   width: 300px;
-  height: 70px;
+  height: 52px;
   background: url(/assets/img/logo-bottom.png);
   background-size: contain;
   background-repeat: no-repeat;
