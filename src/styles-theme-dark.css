@@ -9,6 +9,7 @@
 .theme-dark .mat-tab-label, .mat-tab-link{
     color:#aaa!important
 ;
+    background: #222;
     border-top: solid 1px #666;
     border-radius: 3px;
     border-right: solid 1px #444;

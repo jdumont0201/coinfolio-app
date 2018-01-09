@@ -8,12 +8,25 @@ import {AppConfigService} from "../../../../lib/localton/services/appconfig.serv
 import {MatTableDataSource} from '@angular/material';
 
 export abstract class PageWithTabs implements OnInit {
-  tabIndex:number=0;
-  tabChanged(event){
-    this.tabIndex=event.index
-    console.log("tabchanged",this.tabIndex)
-  }
-ngOnInit(){
+    tabIndex: number = 0;
 
-}
+    tabChanged(event) {
+        this.tabIndex = event.index
+        console.log("tabchanged", this.tabIndex)
+    }
+
+    @ViewChild("tabGroup") tabGroup;
+
+    setTab(n: number) {
+        console.log("thistg", this.tabGroup)
+        let nbtabs=this.tabGroup._tabs._results.length;
+        if(n<0)
+            n=nbtabs-1;
+
+        this.tabGroup.selectedIndex = n
+    }
+
+    ngOnInit() {
+
+    }
 }

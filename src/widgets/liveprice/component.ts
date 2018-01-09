@@ -1,8 +1,8 @@
-import {Component, Input, OnInit, Injectable, ViewChild} from '@angular/core';
+import {Component,ComponentFactoryResolver , Input, OnInit, Injectable, ViewChild} from '@angular/core';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
-import {MatTableDataSource} from '@angular/material';
+import {MatSnackBar, MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
-import {Crypto } from "../../lib/localton/utils/utils";
+import {Crypto} from "../../lib/localton/utils/utils";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
@@ -13,24 +13,28 @@ import {EventService} from "../../lib/localton/services/event.service";
 
 })
 @Injectable()
-export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit{
+export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
     displayedColumns = ['ts', 'open', 'high', 'low', 'close'];
     isLoading = true;
+    isError = false;
     @Input() pair: string
     @Input() period: string = "1m"
     @Input() base: string = "USD"
     @Input() showTitle: boolean = false;
+    @Input() trades
+    @Input() type="stock";
     infra;
     supra;
 
     source: string = "binance"
-    possiblePeriods=['1m','5m','15m','30m','1h','2h','4h','1d','1w']
+    possiblePeriods = ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '1d', '1w']
     options = {
-        scrollbar:{
-            barBackgroundColor:"#ff00cc"
+        scrollbar: {
+            barBackgroundColor: "#ff00cc"
         },
-        chart: { margin: [0, 0, 0, 0],
-            type: 'candlestick',  backgroundColor: {
+        chart: {
+            margin: [0, 0, 0, 0],
+            type: 'candlestick', backgroundColor: {
                 linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
                 stops: [
                     [0, '#18565f'],
@@ -38,6 +42,8 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit{
                 ]
             }, zoomType: 'none'
         },
+        title:{text:""},
+        legend:{enabled:false},
         credits: {enabled: false},
 
         exporting: {enabled: false},
@@ -81,35 +87,46 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit{
         }
     }
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
-        super(logic,appConfigService,eventService,"stock")
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public snackBar: MatSnackBar) {
+        super(logic, appConfigService, eventService, "stock")
     }
 
     ngOnInit() {
-        const pair=Crypto.getSymbolsFromPair(this.pair)
-        this.supra=pair.supra;
-        this.infra=pair.infra;
+        const pair = Crypto.getSymbolsFromPair(this.pair)
+        this.supra = pair.supra;
+        this.infra = pair.infra;
         this.updateData()
     }
 
     getRange() {
-        let nb = 250;
+        let nb = 150;
         if (this.period === "1m") return 1000 * 60 * nb
         else if (this.period === "5m") return 1000 * 60 * 5 * nb;
         else if (this.period === "15m") return 1000 * 60 * 15 * nb
         else if (this.period === "1h") return 1000 * 60 * 60 * nb
     }
-addRightMarginData(D:any[]){
-    let diff=D[D.length-1][0]-D[D.length-2][0];
-    for(var i=0;i<10;++i){
-        const line = [D[D.length-1][0]+diff*i,null,null,null,null];
-        D.push(line);
-    }
-}
-    updateData() {
-    this.isLoading=true;
-        this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
 
+    addRightMarginData(D: any[]) {
+        let diff = D[D.length - 1][0] - D[D.length - 2][0];
+        for (var i = 0; i < 10; ++i) {
+            const line = [D[D.length - 1][0] + diff * i, null, null, null, null];
+            D.push(line);
+        }
+    }
+
+
+
+    updateData() {
+        this.isLoading = true;
+        this.isError = false;
+        this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
+            console.log("BinanceGetOHLC", res)
+            if (!res || res.error) {
+                this.isError = true;
+                this.isLoading = false;
+                //this.snackBar.open('ErrYou signed off', null, {duration: 3000});
+                return
+            }
             this.checkData();
             let D = [];
             let minVal = 10000000;
@@ -119,6 +136,7 @@ addRightMarginData(D:any[]){
                 minVal = Math.min(minVal, parseFloat(res[i][3]))
                 D.push(line);
             }
+            //if(this.trades)
 
             this.addRightMarginData(D)
             this.dataSource = new MatTableDataSource(res);
@@ -126,35 +144,40 @@ addRightMarginData(D:any[]){
             this.updateOptions({
                 exporting: {enabled: false},
                 yAxis: {
-                    crosshair:{
-                        snap:false,
-                        color:"#437173",
+                    crosshair: {
+                        snap: false,
+                        color: "#437173",
                         label: {
-                        enabled: true,
-                        padding: 8
-                    }},
+                            enabled: true,
+                            padding: 8
+                        }
+                    },
                     gridLineColor: '#2f5c64',
                     labels: {
                         style: {
                             color: '#E0E0E3'
-                        },opposite:false
+                        }, opposite: false
                     },
 
                     lineColor: '#707073',
                     minorGridLineColor: '#505053'
                 },
                 xAxis: {
-                    crosshair:{snap:false,color:'#437173'},
+                    crosshair: {snap: false, color: '#437173'},
                     range: this.getRange(),
                     alternateGridColor: '#184d56',
-                    labels: {style: {backgroundColor: "red",
-                        color:"#ccc"}},
-                    plotBands:[{}]
+                    labels: {
+                        style: {
+                            backgroundColor: "red",
+                            color: "#ccc"
+                        }
+                    },
+                    plotBands: [{}]
                 },
-                scrollbar:{
-                    barBackgroundColor:"#0e9ba1",
-                    trackBackgroundColor:"#437173",
-                    trackBorderColor:"#437173"
+                scrollbar: {
+                    barBackgroundColor: "#0e9ba1",
+                    trackBackgroundColor: "#437173",
+                    trackBorderColor: "#437173"
                 },
                 navigator: {enabled: false},
                 series: [{

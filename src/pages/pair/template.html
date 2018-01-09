@@ -16,7 +16,7 @@
                     <app-live-depth [lastPrice]="lastPrice" [pairId]="pairId"></app-live-depth>
                 </div>
                 <div id="live-right">
-                    <app-live-price [pair]="pairId" [period]="'1m'"></app-live-price>
+                    <app-live-price [pair]="pairId" [trades]="trades" [period]="'1m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'5m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'15m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'1h'"></app-live-price>
@@ -25,25 +25,7 @@
             </div>
         </mat-tab>
         <mat-tab label="Trades">
-            <section class="widget trades">
-                <h5>Trades on {{pairId}}</h5>
-            <div class="table table-trades">
-                <div class="tr">
-                    <div>Direction</div>
-                    <div>Time </div>
-                    <div>Price</div>
-                    <div>Volume</div>
-                </div>
-                <ng-container *ngFor="let t of trades">
-                    <div  class="tr">
-                        <div class="keepcolor bg-{{t.isBuyer ? 'buy':'sell'}}"><span >{{t.isBuyer ? "BUY":"SELL" }}</span></div>
-                        <div>{{t.time | date:"medium"}}</div>
-                        <div>{{t.price}}</div>
-                        <div>{{t.qty}}</div>
-                    </div>
-                </ng-container>
-            </div>
-            </section>
+            <app-my-trades [pairId]="pairId"></app-my-trades>
         </mat-tab>
         <mat-tab label="Social">
             <div class="grid grid-2-1">

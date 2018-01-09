@@ -14,22 +14,24 @@ export class Logic {
 
     BinanceGetAllocation(f: Function) {
         this.apiService.noauthget("user/getbinancebalance?userId=" + this.authService.userId, (res) => {
-            if(res.result.success)
+            if(res && "result" in res && res.result.success)
                 f(res.result.data)
+            else f(null)
         })
     }
 
     BinanceGetLivePrices(f: Function) {
         this.apiService.noauthget("user/getbinanceliveprices?userId=" + this.authService.userId, (res) => {
-            if(res.result.success)
+            if(res && "result" in res && res.result.success)
                 f(res.result.data)
+            else f(null)
         })
     }
     BinanceGetBookTickers(f: Function,symbol?:string) {
         if(!this.authService.isAuthenticated()){ f(null); return}
         const url="user/getbinancebooktickers?userId=" + this.authService.userId+"&symbol="+(symbol?symbol:"all")
         this.apiService.noauthget(url, (res) => {
-            if(res.result.success)
+            if(res && "result" in res && res.result.success)
                 f(res.result.data)
             else
                 f(null)
@@ -38,34 +40,39 @@ export class Logic {
 
     BinanceGetMyTrades(symbols:string,f: Function) {
         this.apiService.noauthget("user/getbinancetrades?userId=" + this.authService.userId+"&symbol="+symbols, (res) => {
-            if(res.result.success)
+            if(res && "result" in res && res.result.success)
                 f(res.result.data)
+            else f(null)
         })
     }
     BinanceGetDepth(symbol:string,f: Function) {
         this.apiService.noauthget("user/getbinancedepth?symbol="+symbol+"&userId=" + this.authService.userId, (res) => {
-            if(res.result.success)
+            if(res && "result" in res && res.result.success)
                 f(res.result.data)
+            else f(null)
         })
     }
     BinanceGetOHLC(symbol:string,interval:string,f: Function) {
         this.apiService.noauthget("user/getbinanceohlc?symbol="+symbol+"&interval="+interval+"&userId=" + this.authService.userId, (res) => {
-            if(res.result.success)
+            if(res && "result" in res && res.result.success)
                 f(res.result.data)
+            else f(null)
         })
     }
 
     KrakenGetAllocation(f: Function) {
         this.apiService.noauthget("user/getkrakenbalance?userId=" + this.authService.userId, (res) => {
-            if(res.result.success)
+            if(res && "result" in res && res.result.success)
                 f(res.result.data)
+            else f(null)
         })
     }
 
     KrakenGetLivePrices(f: Function) {
         this.apiService.noauthget("user/getkrakenliveprices?userId=" + this.authService.userId, (res) => {
-            if(res.result.success)
+            if(res && "result" in res && res.result.success)
                 f(res.result.data)
+            else f(null)
         })
     }
 

@@ -1,4 +1,4 @@
-import {Component, ElementRef, Injectable, OnInit, ViewChild} from '@angular/core';
+import {Component, ComponentFactoryResolver, ElementRef, Injectable, OnInit, ViewChild} from '@angular/core';
 import {RequestService} from '../../../../lib/globalton/core/services/request.service';
 import {DataService} from "../../../../lib/localton/services/data.service";
 
@@ -17,12 +17,14 @@ export abstract class DataAndChartTemplate implements OnInit {
     options: any;
     chart;
     isDataSourceArray;
+
     saveInstance(chartInstance) {
         this.highchart = chartInstance;
     }
-    highchart;
 
-    @ViewChild( 'myChart') myChart: ElementRef;
+    highchart;
+    isZoomed = false;
+    @ViewChild('myChart') myChart: ElementRef;
     stockChartDefOptions = {
 
         chart: {
@@ -91,13 +93,45 @@ export abstract class DataAndChartTemplate implements OnInit {
         })
     }
 
+    oldParentViewContainerRef;
+    newParentViewContainerRef;
+
+    zoom() {
+        this.isZoomed = !this.isZoomed
+        if (this.isZoomed) {
+            this.scrollY = window.scrollY;
+            window.scrollTo(0, 0);
+            this.eventService.enableFullscreen()
+        }
+        else {
+
+            window.scrollTo(0, this.scrollY)
+            this.eventService.disableFullscreen()
+        }
+            setTimeout(() => {
+                this.draw()
+            }, 100)
+
+    }
+
+    backupData;
+
+    setData(data, options) {
+        this.data = data;
+        this.backupData = data;
+
+    }
+
+    scrollY = window.scrollY;
+
     draw() {
+        this.options = JSON.parse(this.backupOptions);
         if (this.type == "stock")
             this.chart = new StockChart(this.options);
         else
             this.chart = new Chart(this.options);
-
-        console.log("[CHART] draw", this.options,this.type,this.chart,this.myChart)
+        //console.log("draw" ,JSON.stringify(this.options))
+        console.log("[CHART] draw", this.options, this.type, this.chart, this.myChart, this.backupOptions)
 
     }
 
@@ -105,34 +139,36 @@ export abstract class DataAndChartTemplate implements OnInit {
      *
      * RESIZE
      */
-    isResizing=false;
+    isResizing = false;
     lastResize;
     redrawInterval;
-    isResizeListenerStarted=false;
-    startResizeListener(){
-        this.isResizeListenerStarted=true;
-        this.redrawInterval=setInterval(()=>{
-            let d=new Date().getTime();
-            console.log("lastresize",this.redrawInterval,d,this.lastResize,d-this.lastResize)
-            if(d-this.lastResize>1000 ){
-                console.log("reflow && clear",this.redrawInterval)
+    isResizeListenerStarted = false;
+
+    startResizeListener() {
+        this.isResizeListenerStarted = true;
+        this.redrawInterval = setInterval(() => {
+            let d = new Date().getTime();
+            console.log("lastresize", this.redrawInterval, d, this.lastResize, d - this.lastResize)
+            if (d - this.lastResize > 1000) {
+                console.log("reflow && clear", this.redrawInterval)
                 //this.draw()
                 this.highchart.reflow()
                 this.highchart.redraw()
-                this.isResizing=false;
+                this.isResizing = false;
                 //for (var i = 1; i < this.redrawInterval; i++)
-                    //window.clearInterval(i);
+                //window.clearInterval(i);
                 window.clearInterval(this.redrawInterval)
-                this.isResizeListenerStarted=false
+                this.isResizeListenerStarted = false
             }
-        },1000)
+        }, 1000)
     }
+
     windowResized(val) {
         /**this.lastResize=new Date().getTime();
-        this.isResizing=true;
-        if(!this.isResizeListenerStarted)
-            this.startResizeListener();
-*/
+         this.isResizing=true;
+         if(!this.isResizeListenerStarted)
+         this.startResizeListener();
+         */
 
     }
 
@@ -152,12 +188,17 @@ export abstract class DataAndChartTemplate implements OnInit {
             this.dataSource = new MatTableDataSource(this.data);
     }
 
+    backupOptions: string;
+
     updateOptions(opt, key?) {
         if (key) {
             this.options[key] = this.optionsBase
             this.options[key] = Object.assign(this.options[key], opt);
         } else
             this.options = Object.assign(this.options, opt);
+        console.log("upd", this.options)
+        this.backupOptions = JSON.stringify(this.options)
+
     };
 
     findLastUpdate() {

@@ -17,6 +17,7 @@ export class EventService implements OnInit {
     @Output() workspaceUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() menuDisplayUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() windowResizedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
 
 
     isMenuDisplayed: boolean = true;
@@ -25,8 +26,15 @@ export class EventService implements OnInit {
     isVeilVisible: boolean = false;
     isLoadingVisible: boolean = true;
     isWelcomeVisible: boolean = false;
-
-
+    isFullscreen:boolean=false;
+    enableFullscreen(){
+        this.isFullscreen=true
+        this.isFullscreenEvent.emit(true)
+    }
+    disableFullscreen(){
+        this.isFullscreen=false
+        this.isFullscreenEvent.emit(false)
+    }
     showWelcome() {
         this.consoleService.ui("showwelcome");
         this.isWelcomeVisible = true

@@ -1,12 +1,14 @@
 
-<section class="widget price">
+<section class="widget price {{isZoomed?'zoomed':''}}">
     <h5>{{showTitle?(supra+" / "+infra):""}} Price
         <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu2">  {{period}}     <mat-icon>expand_more</mat-icon>    </span></div>
+        <div class="right"><mat-icon class="button-zoom" (click)="zoom()">{{isZoomed?'zoom_out':'zoom_in'}}</mat-icon></div>
     </h5>
     <mat-menu #appMenu2="matMenu">
         <button (click)="period=i;updateData()" mat-menu-item *ngFor="let i of possiblePeriods">{{i}}</button>
     </mat-menu>
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <div class="errorbar" *ngIf="isError" ></div>
 
 
     <div #myChart class="highchart-box" [chart]="chart" (load)="saveInstance($event.context)"></div>

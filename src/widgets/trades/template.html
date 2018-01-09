@@ -1,0 +1,20 @@
+<section class="widget trades">
+    <h5>Trades on {{pairId}}</h5>
+    <div class="table table-trades">
+        <div class="tr">
+            <div>Direction</div>
+            <div>Time </div>
+            <div>Price</div>
+            <div>Volume</div>
+        </div>
+        <span *ngIf="trades.length ==0 && !isLoading">You have made no trades with this pair.</span>
+        <ng-container *ngFor="let t of trades">
+            <div  class="tr">
+                <div class="keepcolor bg-{{t.isBuyer ? 'buy':'sell'}}"><span >{{t.isBuyer ? "BUY":"SELL" }}</span></div>
+                <div>{{t.time | date:"medium"}}</div>
+                <div>{{t.price}}</div>
+                <div>{{t.qty}}</div>
+            </div>
+        </ng-container>
+    </div>
+</section>

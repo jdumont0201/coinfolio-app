@@ -74,20 +74,24 @@ export class ApiService {
      });
      */
 
-    processError(errorCode: string, err,f?:Function) {
+    processError(errorCode: string,url:string, err,f?:Function) {
         this.messageService.hideLoading();
         this.messageService.hideSaving();
-        console.error(errorCode, err);
+        console.error("API processError",errorCode, err,f);
         let desc: string;
+
+
         if(!err){
             this.messageService.addError("API_ERROR", null, "No error desc available");
-
+            f({error:true,desc:"Api error",url:url})
         }
 
         if (err.name === "TimeoutError") {
             this.messageService.addError("API_DOWN", null, "API is unreachable.");
+            f({error:true,desc:"Request has timed out.",url:url})
         }else if (err.message === "Unauthorized") {
             this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource.");
+            f({error:true,desc:"Request has timed out.",url:url})
         }else{
             console.log("other error",errorCode,err);
             if (err && err._body && typeof err._body === "string") {
@@ -110,7 +114,7 @@ export class ApiService {
                 }
             }
             this.messageService.addError(errorCode,"","");
-
+            f({error:true,desc:err,url:url});
             /*          let toast = this.toastCtrl.create({
                           message: errorCode + " " + err + " " + (desc ? desc.toString() : ""),
                           cssClass: "red",
@@ -120,7 +124,7 @@ export class ApiService {
                       toast.present();
           */
         }
-        f(err.err)
+
     }
 
     processData(url:string,data, f: Function) {
@@ -128,7 +132,7 @@ export class ApiService {
         this.messageService.hideSaving();
         console.log("[API] processData",url, data);
         if (data.error) {
-            this.processError("API_PROCESS", data.errordesc);
+            this.processError("API_PROCESS",url, data.errordesc);
         } else {
             f(data);
         }
@@ -244,7 +248,7 @@ export class ApiService {
             .retry(this.retry)
             .subscribe(
                 data => this.processData(url,data, f),
-                err => this.processError("API_POST", err,f),
+                err => this.processError("API_POST",  url,err,f),
                 // err => this.error(err),
                 () => console.log('Done posting.')
             );
@@ -259,7 +263,7 @@ export class ApiService {
             .retry(this.retry)
             .subscribe(
                 data => this.processData(url,data, f),
-                err => this.processError("API_DELETE", err),
+                err => this.processError("API_DELETE", url, err),
                 // err => this.error(err),
                 () => console.log('Done deleting.')
             );
@@ -274,7 +278,7 @@ export class ApiService {
             .retry(this.retry)
             .subscribe(
                 data => this.processData(url,data, f),
-                err => this.processError("API_PUT", err),
+                err => this.processError("API_PUT", url, err),
                 // err => this.error(err),
                 () => console.log('Done putting.')
             );
@@ -288,7 +292,7 @@ export class ApiService {
             .retry(this.retry)
             .subscribe(
                 data => this.processData(url,data, f),
-                err => this.processError("API_PATCH", err),
+                err => this.processError("API_PATCH", url,err,f),
                 // err => this.error(err),
                 () => console.log('Done patching.')
             );
@@ -308,7 +312,7 @@ export class ApiService {
             .retry(this.retry)
             .subscribe(
                 data => this.processData(url,data, f),
-                err => this.processError("API_GET", err),
+                err => this.processError("API_GET",  url,err,f),
                 // err => this.error(err),
                 () => console.log('Done.')
             );

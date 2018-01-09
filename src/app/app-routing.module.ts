@@ -5,7 +5,7 @@ import {AppDashboardPage} from "../pages/dashboard/component";
 import {AppConfigAllPage} from "../pages/config-all/component";
 import {AppAccountPage} from "../pages/account/component";
 import  {AppGenericPage} from "../pages/generic/component"
-import {AppSymbolAllPage} from "../pages/symbol-all/component";
+import {AppSymbolAllPage} from "../pages/listing/component";
 import {AppPairItemPage} from "../pages/pair/component";
 import {AppSymbolItemPage} from "../pages/symbol-item/component";
 import {AppAllocationPage} from "../pages/allocation/component"
