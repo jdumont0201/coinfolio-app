@@ -27,22 +27,24 @@ export class AppAllocationPage extends DataAndChartTemplate {
     type = "plain"
     showDataTable = true;
     providers = ["global"]
-isLoading=true;
+    isLoading = true;
     displayedColumns = ['symbol', 'available', 'price', 'value'];
 
     optionsBase = {
-        chart: {type: 'pie', margin: 0,backgroundColor: {
-            linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-            stops: [
-                [0, '#5e5d4d'],
-                [1, '#444338']
-            ]
-        }},
+        chart: {
+            type: 'pie', margin: 0, backgroundColor: {
+                linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
+                stops: [
+                    [0, '#5e5d4d'],
+                    [1, '#444338']
+                ]
+            }
+        },
 
         title: {text: "Portfolio"},
         credits: {enabled: false},
         plotOptions: {
-            line:{dataLabels:{style:{textOutline:false}}},
+            line: {dataLabels: {style: {textOutline: false}}},
             series: {
                 animation: false
             }
@@ -60,7 +62,7 @@ isLoading=true;
     }
 
     constructor(public authService: AuthService, public appConfigService: AppConfigService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
-        super(logic, appConfigService, eventService,"plain")
+        super(logic, appConfigService, eventService, "plain")
 
         this.options = [];
 
@@ -89,12 +91,12 @@ isLoading=true;
                 let V = 0;
                 let data = [];
                 for (let k in alloc)
-                    if (parseFloat(alloc[k].available)+parseFloat(alloc[k].onOrder) > 0) {
-                        let q = parseFloat(alloc[k].available)+parseFloat(alloc[k].onOrder);
+                    if (parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder) > 0) {
+                        let q = parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder);
                         let p;
                         if (k === "USDT") {
                             p = 1;
-                        }else if (k === "BTC") {
+                        } else if (k === "BTC") {
                             p = parseFloat(P["BTCUSDT"]);
                         } else if ((k + "USDT") in this.prices) {
                             p = parseFloat(P[k + "USDT"]);
@@ -114,9 +116,9 @@ isLoading=true;
                 this.dataSource[key] = new MatTableDataSource(this.allocation[key]);
                 this.updateOptions({title: {text: " "}, series: [{name: "Portfolio", data: data}], yAxis: {}}, key)
                 this.chart = new Chart(this.options[key]);
-                console.log("CHART",key,this.options[key]);
+                console.log("CHART", key, this.options[key]);
                 this.charts[key] = new Chart(this.options[key]);
-                this.isLoading=false;
+                this.isLoading = false;
                 this.updateGlobal()
                 //     });
             });
@@ -146,7 +148,7 @@ isLoading=true;
     prepareUpdate(key) {
         if (this.providers.indexOf(key) === -1)
             this.providers.push(key)
-        this.options[key]=this.optionsBase;
+        this.options[key] = this.optionsBase;
         this.allocation[key] = [];
     }
 

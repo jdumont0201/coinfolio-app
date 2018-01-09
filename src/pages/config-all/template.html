@@ -7,7 +7,7 @@
         <mat-tab label="Profile">
             E-mail: {{user?.email}}<br>
             userId: {{user?.id}}<br>
-            <button mat-button (click)="logout()">Sign off</button>
+            <button mat-raised-button (click)="logout()">Sign off</button>
         </mat-tab>
 
         <mat-tab label="Subscription">Premium expires on {{
@@ -40,7 +40,7 @@
         </mat-tab>
     </mat-tab-group>
 </div>
-<div *ngIf="!authService?.isAuthenticated()" class="padded">
+<div *ngIf="!authService?.isAuthenticated()" class="">
 
     <app-login [popup]="false"></app-login>
 

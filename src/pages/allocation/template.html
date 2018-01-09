@@ -2,6 +2,16 @@
 <mat-toolbar>
     <h3>Allocation</h3>
 </mat-toolbar>
+<div *ngIf="!authService.isAuthenticated()" class="alert-configure-broker">
+    <mat-icon>lock</mat-icon>
+    <span>Please login or sign up to access your private trading dashboard.</span><br>
+    <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
+</div>
+<div *ngIf="authService.isAuthenticated() && !isLoading && listing.length==0" class="alert-configure-broker">
+    <mat-icon>settings</mat-icon>
+    <span>Configure broker connections in your settings to show broker trade data.</span><br>
+    <button mat-raised-button="" color="primary" routerLink="/config/all">Configure now</button>
+</div>
 
 <mat-tab-group>
     <mat-tab *ngFor="let prov of providers" label="{{prov}}">

@@ -6,6 +6,7 @@ import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {Logic} from "../../logic/Logic";
 
 import {ApiService} from "../../lib/globalton/core/services/api.service";
+import {MatSnackBar} from "@angular/material";
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ import {ApiService} from "../../lib/globalton/core/services/api.service";
 @Injectable()
 export class AppLoginComponent {
   @Input() popup;
-  hide:boolean=false
+  hide:boolean=true
   form = new FormGroup({
     email: new FormControl('', {
       validators: [Validators.required, Validators.pattern("[^ @]*@[^ @]*")]
@@ -23,7 +24,7 @@ export class AppLoginComponent {
     password: new FormControl('', {validators: [Validators.required, Validators.minLength(8)]})
   });
 
-  constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService,  public apiService: ApiService) {
+  constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService,  public apiService: ApiService, public snackBar: MatSnackBar) {
 
   }
 
@@ -37,6 +38,18 @@ export class AppLoginComponent {
 
     })
   }
+
+
+    login() {
+        console.log("Submit");
+        let obj = {}
+        for (let k in this.form.controls)
+            obj[k] = this.form.controls[k].value
+        console.log("CONTROLS", this.form.controls, "OBJ", obj)
+        this.logic.loginUser(obj, (res) => {
+            if(res.error) this.snackBar.open('Login failed. Please check your credentials.', null, {panelClass:"warning",duration: 3000});
+        })
+    }
 
   close() {
     this.eventService.hideLogin()

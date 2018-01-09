@@ -28,7 +28,11 @@ export class AppConfigAllPage extends PageWithTabs {
         this.logic.getMe((res) => {
             this.user = res;
         })
-
+        this.authService.loginChanged.subscribe((val)=>{
+            this.logic.getMe((res) => {
+                this.user = res;
+            })
+        })
     }
 
     logout() {

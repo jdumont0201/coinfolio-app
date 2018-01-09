@@ -1,41 +1,105 @@
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-<mat-toolbar>
+<div [@.disabled]="true"><mat-toolbar>
     <h3>Listing </h3>
 </mat-toolbar>
 
-<div *ngIf="!isLoading && listing.length==0">Configure broker connections in your settings to show broker trade data.</div>
-<button (click)="setGraphView()">Graph view</button>
-<mat-tab-group (selectedTabChange)="tabChanged($event)">
-    <mat-tab *ngFor="let sup of supports;let index=index" label="{{sup}}">
-        <ng-container *ngIf="tabIndex==index">{{index}}
-            <mat-list>
-                <ng-container *ngIf="showGraphs">
-                    <div class="chart-grid">
-                        <ng-container *ngFor="let s of listing">
-                        <ng-container *ngIf="s.infra==sup">
-                            <div class="chart-grid-item"><app-live-price [showTitle]='true' [pair]="s.symbol" [period]="'15m'"></app-live-price>
-                               </div>
-                        </ng-container>
+<div *ngIf="!authService.isAuthenticated()" class="alert-configure-broker">
+    <mat-icon>lock</mat-icon>
+    <span>Please login or sign up to access your private trading dashboard.</span><br>
+    <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
+</div>
+<div *ngIf="authService.isAuthenticated() && !isLoading && listing.length==0" class="alert-configure-broker">
+    <mat-icon>settings</mat-icon>
+    <span>Configure broker connections in your settings to show broker trade data.</span><br>
+    <button mat-raised-button="" color="primary" routerLink="/config/all">Configure now</button>
+</div>
+<ng-container *ngIf="listing.length>0">
+    <button id="listing-view" mat-button (click)="setGraphView()">
+        <mat-icon class="switch">{{showGraphs?"view_list":"insert_chart"}}</mat-icon>
+    </button>
+    <mat-tab-group (selectedTabChange)="tabChanged($event)">
+        <mat-tab *ngFor="let sup of supports;let index=index" label="{{sup}}">
+            <ng-container *ngIf="tabIndex==index">
+                <mat-list>
+                    <ng-container *ngIf="showGraphs">
+                        <div class="chart-grid">
+                            <ng-container *ngFor="let s of listing;let index=index">
+                                <ng-container *ngIf="s.infra==sup">
+                                    <div class="chart-grid-item" *ngIf="canShowItem(index,s)">
+                                        <app-live-price [showTitle]='true' [pair]="s.symbol"
+                                                        [period]="'15m'"></app-live-price>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
                     </ng-container>
-                    </div>
-                </ng-container>
-                <ng-container *ngIf="!showGraphs">
-                    <ng-container *ngFor="let s of listing">
-                        <ng-container *ngIf="s.infra==sup">
-                            <mat-list-item link routerLink="/pair/{{s.symbol}}" matLine mat-list-item class="listing">
-                                <div class="marker-in-ptf {{tradingService?.isInPortfolio(s.supra)?'':'marker-hidden'}}">
-                                    <mat-icon>lens</mat-icon>
+                    <ng-container *ngIf="!showGraphs">
+                        <div class="table lighten">
+                            <div class="tr keepcolor">
+                                <div>
+                                    In PFT
                                 </div>
-                                <div class="listing-row">
-                                    <div>{{s.supra}} / {{s.infra}}</div>
-                                    <div> {{s.price}}</div>
-                                </div>
-                            </mat-list-item>
-                        </ng-container>
-                    </ng-container>
-                </ng-container>
-            </mat-list>
-        </ng-container>
 
-    </mat-tab>
-</mat-tab-group>
+                                <div>Pair</div>
+                                <div>Bid</div>
+                                <div>Ask</div>
+                                <div>
+                                    Bids Volume/Asks Volume
+                                </div>
+                            </div>
+                            <div class="tr options keepcolor">
+                                <div></div>
+                                <div class="keepcolor options" style="column-span: 5">
+                                    <h5 class="options">Sort by
+                                        <div class="header-select"><span class="header-button"
+                                                                         [matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span>
+                                        </div>
+                                    </h5>
+                                    <mat-menu #appMenu="matMenu">
+                                        <button (click)="sortby=i;sort()" mat-menu-item
+                                                *ngFor="let i of possibleSorts">{{i}}
+                                        </button>
+                                    </mat-menu>
+                                </div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <ng-container *ngFor="let s of listing">
+                                <ng-container *ngIf="s.infra==sup">
+                                    <div class="tr" routerLink="/pair/{{s.symbol}}">
+                                        <div class="td marker-in-ptf {{s.inptf?'':'marker-hidden'}}">
+                                            <mat-icon>lens</mat-icon>
+                                        </div>
+
+                                        <div class="td"><span class="supra">{{s.supra}}</span><span class="infra"> / {{s.infra}}</span>
+                                        </div>
+                                        <div class="td"> {{s.bid}}</div>
+                                        <div class="td"> {{s.ask}}</div>
+                                        <div class="td ">
+                                            <div class="bidaskbar">
+                                                <div class="bidaskbar-bid">
+                                                    <div class="bidaskbar-bid-in"
+                                                         [style.width]="s.bids/(s.bids+s.asks)*100+'%'">{{s.bids}}
+                                                    </div>
+                                                </div>
+                                                <div class="bidaskbar-ask">
+                                                    <div class="bidaskbar-ask-in"
+                                                         [style.width]="s.asks/(s.bids+s.asks)*100+'%'">{{s.asks}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </mat-list>
+            </ng-container>
+
+        </mat-tab>
+    </mat-tab-group>
+</ng-container>
+</div>

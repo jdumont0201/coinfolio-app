@@ -1,5 +1,5 @@
 .theme-dark .mat-drawer-content {
-    background: #000000!important;
+    background: #000000!important;    min-height: 500px;
 
 }
 .theme-dark h3.title, .theme-dark  mat-toolbar h3 {
@@ -15,6 +15,7 @@
 }
 .theme-dark .mat-tab-label-active{background:#444!important;}
 .theme-dark *{    color: white;font-size:12px}
+.theme-dark mat-icon { font-size:19px}
 .theme-dark select,.theme-dark option{    color: black;}
 .theme-dark *:not(.mat-icon){    font-family:"Open Sans"}
 .theme-dark .mat-card{background: #000000}
@@ -30,3 +31,40 @@ body {background:black}
 }
 .theme-dark .trade-buy{color:green;}
 .theme-dark .trade-sell{color:red}
+.theme-dark .mat-expansion-panel{background:#444}
+.theme-dark .mat-expansion-panel-header-description,.theme-dark .mat-expansion-indicator::after{color:white}
+.theme-dark .form{
+    background: #232323;
+    border-color: #666;border:0;
+    background: #0997a7;}
+
+.theme-dark input {
+    background: #1dadbd;
+    line-height: 30px;
+    box-sizing: border-box;
+    padding: 5px;
+    border: solid 1px #57cfdc;
+    border-radius: 3px;
+    border-left-width: 10px;
+}
+.theme-dark  .mat-form-field-label{color:wheat!important;font-size:12px!important;}
+.theme-dark .mat-focused .mat-form-field-label{color:wheat!important;font-size:12px!important; }
+.theme-dark  .mat-form-field-label-wrapper{left: 15px!important;    top: 2px!important; }
+.theme-dark .mat-focused .mat-form-field-label-wrapper{left: 0px!important;    top: -8px!important;font-size:12px!important; }
+.theme-dark .mat-form-field-ripple{background-color:wheat!important }
+
+h5.form-header mat-icon {
+    position: relative;
+    top: 4px;
+}
+h5.form-header {
+    background: #444;background: #3de8fb;
+}
+.theme-dark span.info{
+    background: #675200;
+    border-top: solid 1px #926500;
+    border-bottom: solid 1px #a97500;
+
+    color: #b9a03c;}
+.theme-dark .mat-raised-button{
+    background-color: #444;}

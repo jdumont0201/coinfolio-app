@@ -384,7 +384,8 @@ h3{padding-top:10px;padding-bottom:20px}
   top: -7px;
   right: -4px;}
 
-.chart-grid  {display:flex}
+.chart-grid  {display:flex;
+  flex-wrap: wrap;}
 .chart-grid-item  {width:33%}
 
 .panel-edit-button{position: absolute!important;top:10px;right:10px}
@@ -955,6 +956,9 @@ mat-nav-list span#logo {
 .red{
   background: #c90000 !important;
 }
+.warning{
+  background: #c99400 !important;
+}
 #welcome{    width: 100%;
   top: 0;}
 #welcome .mat-horizontal-stepper-header-container {
@@ -1031,6 +1035,7 @@ box-sizing: content-box;
 
 
 section.widget.price{background: #0a4350;/*  border: solid 4px #171e46;*/}
+section.widget.price .highchart-box{/*  border: solid 4px #171e46;*/  height: 250px;}
 section.widget.news{background: #062d35;/*  border: solid 4px #171e46;*/}
 section.widget.news h5{background: #0a4350;/*  border: solid 4px #171e46;*/}
 section.widget.allocation{background: #5e5d4d;/*  border: solid 4px #171e46;*/}
@@ -1061,11 +1066,17 @@ section.widget.trades h5{background: #8c7a6f;/*  border: solid 4px #171e46;*/}
 
 .table  {display: table;width:100%}
 .table .tr{display:table-row}
-.table .tr div{padding:6px 5px;    border-bottom: solid 1px rgba(255,255,255,0.1);
-  display: table-cell;
+.table .tr > div{padding:6px 5px;    border-bottom: solid 1px rgba(255,255,255,0.1);  display: table-cell;
 }
-.table .tr:hover div:not(.keepcolor){
+.table .tr:not(.keepcolor):hover > div:not(.keepcolor){
   background:rgba(0,0,0,0.1)
+}
+.table .tr > div.options{
+  padding:0
+}
+.tr.options > div{background: #483d1e;}
+.table.lighten .tr:not(.keepcolor):hover > div:not(.keepcolor){
+  background:rgba(255,255,255,0.2);cursor:pointer
 }
 .table .tr:hover div.bg-buy{
   background: rgba(0, 128, 0, 0.6);
@@ -1107,8 +1118,60 @@ mat-progress-bar{height:3px!important;}
 .ticker-price.ticker-evol-up{color: #72cb00 !important;}
 .ticker-price.ticker-evol-down{color:red!important;}
 
-
 .ticker-evol-up mat-icon{display:inline-block;font-size:20px;color:#72cb00!important;padding-top:7px}
 .ticker-evol-down mat-icon{display:inline-block;font-size:20px;color:red!important;padding-top:7px}
 .ticker-price{font-size:25px!important}
 .ticker{margin-left:50px;display: flex;}
+
+.bidaskbar{width:200px;display:flex;height:20px;}
+.bidaskbar-ask{width:50%;}
+.bidaskbar-bid{width:50%;}
+.bidaskbar-ask-in{background:red;height:100%;padding-left: 3px;}
+.bidaskbar-bid-in{background: #72cb00;
+  height: 100%;
+  margin-left: auto;
+  margin-right: 0;
+  padding-right: 3px;
+  box-sizing: border-box;}
+
+.switch{font-size:35px!important;}
+
+
+.alert-configure-broker{    padding: 100px 20px;
+  display: block;
+  text-align: center;
+  max-width: 500px;
+  margin: auto;
+  background: #40a5ff;
+  border-radius: 10px;}
+.alert-configure-broker > span{padding:40px 0;display:block}
+.alert-configure-broker mat-icon{font-size: 120px!important;color:wheat!important;display:inline}
+
+mat-sidenav .mat-list-item-content mat-icon {
+  position: absolute;
+  right: 0;
+  top: 11px;
+}
+
+#menu-pin:hover{background-color:wheat}
+#menu-pin{background-image: url(/assets/icons/pin-white.png);
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0;
+  width: 60px;
+  height: 60px;
+  background-size: 22px;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;}
+#listing-view{position:absolute;top:10px;right:10px}
+h5.options {
+  background: #483d1e;
+}
+span.supra {
+  font-size: 17px;
+}
+span.infra {
+  color:#aaa
+}

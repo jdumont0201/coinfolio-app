@@ -1,40 +1,45 @@
 <div id="{{popup?'login':''}}">
   <div *ngIf="popup" class="close" (click)="close()">X</div>
-
+  <mat-toolbar><h3 class="title">Authenticate</h3></mat-toolbar>
+  <div class="padded">
   <mat-tab-group>
     <mat-tab label="Login">
 
-      <h3 class="title">Login</h3>
       <span class="info">You need to login to access this page</span>
+
+      <h5 class="form-header"><mat-icon>create</mat-icon>Login form</h5>
       <div class="form">
+        <form [formGroup]="form">
         <div>
           <mat-form-field>
-            <input matInput placeholder="email">
+            <input formControlName="email"  matInput placeholder="Your e-mail..." required>
           </mat-form-field>
         </div>
         <div>
           <mat-form-field>
-            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" type="password" required>
+            <input formControlName="password" matInput placeholder="Enter your password..." [type]="hide ? 'password' : 'text'" required>
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
           </mat-form-field>
         </div>
-        <button mat-raised-button="" color="primary">Send</button>
+        <button mat-raised-button="" (click)="login()" color="primary">Send</button>
+        </form>
       </div>
+
     </mat-tab>
     <mat-tab label="Sign up">
 
-      <h3 class="title">Sign up</h3><br><br>
 
+      <h5 class="form-header"><mat-icon>create</mat-icon>Register form</h5>
       <div class="form">
         <form [formGroup]="form">
 
           <div>
-            <mat-form-field><input matInput formControlName="email" placeholder="email" required></mat-form-field>
+            <mat-form-field><input matInput formControlName="email" placeholder="Your e-mail..." required></mat-form-field>
           </div>
 
           <div>
             <mat-form-field>
-              <input formControlName="password" matInput placeholder="Enter your password" type="password" required>
+              <input formControlName="password" matInput placeholder="Enter your password..." type="password" required>
               <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
             </mat-form-field>
           </div>
@@ -50,4 +55,5 @@
       </div>
     </mat-tab>
   </mat-tab-group>
+  </div>
 </div>

@@ -42,7 +42,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit{
 
         exporting: {enabled: false},
         plotOptions: {
-            candlestick: {lineColor: '#3e91a0', color: '#b18215', upColor: 'transparent', downColor: '#b18215'},
+            candlestick: this.appConfigService.ohlcColors['spec'],
 
             series: {
                 animation: false
@@ -99,26 +99,28 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit{
         else if (this.period === "15m") return 1000 * 60 * 15 * nb
         else if (this.period === "1h") return 1000 * 60 * 60 * nb
     }
-
+addRightMarginData(D:any[]){
+    let diff=D[D.length-1][0]-D[D.length-2][0];
+    for(var i=0;i<10;++i){
+        const line = [D[D.length-1][0]+diff*i,null,null,null,null];
+        D.push(line);
+    }
+}
     updateData() {
+    this.isLoading=true;
         this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
-            this.isLoading = false;
+
             this.checkData();
             let D = [];
             let minVal = 10000000;
-            let plotBands= [];
 
             for (let i = 0; i < res.length; ++i) {
                 const line = [parseInt(res[i][0]), parseFloat(res[i][1]), parseFloat(res[i][2]), parseFloat(res[i][3]), parseFloat(res[i][4])];
                 minVal = Math.min(minVal, parseFloat(res[i][3]))
                 D.push(line);
+            }
 
-            }
-            let diff=D[D.length-1][0]-D[D.length-2][0];
-            for(var i=0;i<12;++i){
-                const line = [D[D.length-1][0]+diff*i,null,null,null,null];
-                D.push(line);
-            }
+            this.addRightMarginData(D)
             this.dataSource = new MatTableDataSource(res);
             this.data = D;
             this.updateOptions({
@@ -144,6 +146,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit{
                 xAxis: {
                     crosshair:{snap:false,color:'#437173'},
                     range: this.getRange(),
+                    alternateGridColor: '#184d56',
                     labels: {style: {backgroundColor: "red",
                         color:"#ccc"}},
                     plotBands:[{}]
@@ -164,6 +167,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit{
             let maxd = this.data[this.data.length - 1][0];
             let mind = this.data[this.data.length - 10][0];
             console.log("ma", maxd, mind, this.chart)
+            this.isLoading = false;
         })
     }
 

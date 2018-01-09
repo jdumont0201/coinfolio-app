@@ -5,6 +5,9 @@
             <div class="ticker-price ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}" >{{lastPrice| number:numberFormat}}</div>
             <div *ngIf="lastPrice" class="ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}"><mat-icon>{{lastPrice > prevLastPrice?'arrow_upward':'arrow_downward'}}</mat-icon></div>
         </div>
+        <select id="pair-select-source">
+            <option>Binance</option>
+        </select>
     </mat-toolbar>
     <mat-tab-group>
         <mat-tab label="Live">
@@ -48,7 +51,7 @@
                     <app-headlines [symbol]="supra"  [possibleSymbols]="[supra,infra,pairId]" [source]="'Google News'" [possibleSources]="['Google News']"></app-headlines>
                 </div>
                 <div class="grid-in right">
-                    <app-twitter [symbol]="supra" [possibleSymbols]="[supra,infra,pairId]"></app-twitter>
+                    <app-twitter [symbol]="supra" [possibleSymbols]="[supra,('$'+supra),(supra+' coin'),infra,pairId]"></app-twitter>
                 </div>
                 <br class="clear">
             </div>

@@ -83,7 +83,7 @@ export class EventService implements OnInit {
             this.isMobile = true;
         else
             this.isMobile = false;
-        if (this.isMobile) this.isMenuDisplayed = false; else this.isMenuDisplayed = true;
+        if (this.isMobile) this.isMenuDisplayed = false; else this.isMenuDisplayed = this.isMenuPinned?true:false;
     }
 
     init() {

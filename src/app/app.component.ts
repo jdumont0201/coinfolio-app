@@ -65,4 +65,11 @@ export class AppComponent   {
     this.eventService.isMenuPinned=false;
     this.eventService.isMenuDisplayed=!this.eventService.isMenuDisplayed
   }
+  processPin(){
+      this.eventService.isMenuPinned=!this.eventService.isMenuPinned;
+      if(this.eventService.isMenuPinned)
+        this.eventService.isMenuDisplayed=true;
+      else
+          this.eventService.isMenuDisplayed=false
+  }
 }

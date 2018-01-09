@@ -1,6 +1,8 @@
 
 <section class="widget tweets">
-    <h5>Latest tweets - Most popular with hashtag <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu">   #{{symbol}}     <mat-icon>expand_more</mat-icon>    </span></div></h5>
+    <h5>Latest tweets - Most popular with hashtag
+        <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu">   #{{symbol}}     <mat-icon>expand_more</mat-icon>    </span></div>
+    </h5>
     <mat-menu #appMenu="matMenu">
         <button (click)="symbol=i;init()" mat-menu-item *ngFor="let i of possibleSymbols">{{i}}</button>
     </mat-menu>

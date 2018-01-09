@@ -25,6 +25,16 @@ export class Logic {
                 f(res.result.data)
         })
     }
+    BinanceGetBookTickers(f: Function,symbol?:string) {
+        if(!this.authService.isAuthenticated()){ f(null); return}
+        const url="user/getbinancebooktickers?userId=" + this.authService.userId+"&symbol="+(symbol?symbol:"all")
+        this.apiService.noauthget(url, (res) => {
+            if(res.result.success)
+                f(res.result.data)
+            else
+                f(null)
+        })
+    }
 
     BinanceGetMyTrades(symbols:string,f: Function) {
         this.apiService.noauthget("user/getbinancetrades?userId=" + this.authService.userId+"&symbol="+symbols, (res) => {
@@ -63,12 +73,29 @@ export class Logic {
     registerUser(obj, f) {
         console.log("Register ", obj)
         this.apiService.noauthpost("user", obj, (res) => {
-            if (res.token) {
+            if (res && "token" in res) {
                 this.authService.loginResponse = res;
                 this.authService.postLogin();
                 f({success: true})
             } else {
                 f({success: false, error: true})
+            }
+        })
+
+    }
+    loginUser(obj, f) {
+        console.log("Register ", obj)
+        this.apiService.noauthpost("user/login/app", obj, (res) => {
+            console.log("received",res)
+            if (res && "login" in res) {
+
+                this.authService.loginResponse = res.login;
+                this.authService.postLogin();
+                f({success: true})
+            } else {
+
+                f({success: false, error: true})
+
             }
         })
 
@@ -116,6 +143,7 @@ export class Logic {
     }
 
     getMe(f: Function) {
+        if(!this.authService.isAuthenticated()) {f(null);return}
         this.apiService.noauthget("user/" + this.authService.userId, f)
     }
 

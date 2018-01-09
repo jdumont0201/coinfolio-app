@@ -41,10 +41,15 @@ export class ApiService {
         this.timeout = configService.API_TIMEOUT;
         this.retry = configService.API_NB_RETRY;
         this.baseurl=this.configService.apiURL;
+        this.configService.perSiteConfigured.subscribe((val)=>this.perSiteConfigured(val))
+
+
+    }
+
+    perSiteConfigured(val){
         this.ping(function () {
 
         });
-
     }
     setApiUrl(v:string){
       this.baseurl = v;
@@ -69,14 +74,15 @@ export class ApiService {
      });
      */
 
-    processError(errorCode: string, err) {
+    processError(errorCode: string, err,f?:Function) {
         this.messageService.hideLoading();
         this.messageService.hideSaving();
         console.error(errorCode, err);
         let desc: string;
         if(!err){
             this.messageService.addError("API_ERROR", null, "No error desc available");
-        return}
+
+        }
 
         if (err.name === "TimeoutError") {
             this.messageService.addError("API_DOWN", null, "API is unreachable.");
@@ -114,6 +120,7 @@ export class ApiService {
                       toast.present();
           */
         }
+        f(err.err)
     }
 
     processData(url:string,data, f: Function) {
@@ -237,7 +244,7 @@ export class ApiService {
             .retry(this.retry)
             .subscribe(
                 data => this.processData(url,data, f),
-                err => this.processError("API_POST", err),
+                err => this.processError("API_POST", err,f),
                 // err => this.error(err),
                 () => console.log('Done posting.')
             );

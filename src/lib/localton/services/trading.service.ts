@@ -26,9 +26,11 @@ trades;
         this.loadTrades("BTCUSDT",(res) => {            })
     }
     reload(){
+        if(this.authService.isAuthenticated()){
         this.consoleService.trade(" reload")
         this.loadPortfolio((res) => {            })
         this.loadTrades("BTCUSDT",(res) => {            })
+        }
 
     }
     loadPortfolio(f: Function) {
