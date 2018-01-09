@@ -12,3 +12,10 @@ span.welcome-message {
     color: #c90e5a;
     font-weight: 300;
 }
+
+@media screen and (max-width: 640px) {
+
+    #welcome-banner{display:block}
+    #welcome-left{padding:20px;width:100%}
+    #welcome-right{padding:20px;width:100%}
+}

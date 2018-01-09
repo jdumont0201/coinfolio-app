@@ -34,8 +34,10 @@ export class AppSymbolAllPage extends PageWithTabs {
             for (let k in listing) {
                 let pair = Crypto.getSymbolsFromPair(k)
                 if (k !== "123456") {
+
                     let b = Math.ceil(parseFloat(listing[k].bids));
                     let a = Math.ceil(parseFloat(listing[k].asks))
+                    console.log(k,listing[k].bids,listing[k].asks,b,a,b/(a+b))
                     this.listing.push({
                         symbol: k,
                         supra: pair.supra,

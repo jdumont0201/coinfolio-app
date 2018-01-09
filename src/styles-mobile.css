@@ -1,4 +1,4 @@
 @media screen and (max-width: 640px) {
     .mat-drawer{ }
-
+    .panel-content-2{width:100%}
 }
