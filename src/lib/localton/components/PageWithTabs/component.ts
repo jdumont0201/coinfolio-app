@@ -6,8 +6,9 @@ import {Logic} from "../../../../logic/Logic";
 import {StockChart, Chart} from 'angular-highcharts';
 import {AppConfigService} from "../../../../lib/localton/services/appconfig.service";
 import {MatTableDataSource} from '@angular/material';
+import {RefreshedPage} from "../RefreshedPage/component";
 
-export abstract class PageWithTabs implements OnInit {
+export abstract class PageWithTabs extends RefreshedPage implements OnInit {
     tabIndex: number = 0;
 
     tabChanged(event) {

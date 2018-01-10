@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Injectable, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, Injectable, ViewChild, OnDestroy} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
@@ -19,7 +19,7 @@ import {ActivatedRoute} from "@angular/router";
 
 })
 @Injectable()
-export class AppDepthWidget {
+export class AppDepthWidget implements OnDestroy{
     @Input() pairId: string;
     brokerId: string;
     maxVol = 0;
@@ -66,11 +66,14 @@ export class AppDepthWidget {
     iterRefresh = 0;
     @Input() lastPrice;
 
-
+    ngOnDestroy(){
+        this.messagesSubscription.unsubscribe()
+    }
+    messagesSubscription
     runDepthWS() {
         const url = "wss://stream.binance.com:9443/ws/" + this.pairId.toLowerCase() + "@depth"
         const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>())
-        const messagesSubscription = messages.subscribe((message: string) => {
+        this.messagesSubscription = messages.subscribe((message: string) => {
             this.iterRefresh++;
             if (this.iterRefresh == 20) {
                 this.iterRefresh = 0;

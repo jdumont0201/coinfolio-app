@@ -188,7 +188,7 @@ export class AuthService {
     }
 
     processLogin(data, rememberme: boolean, f): any {
-        console.log(" > authService processLogin");
+        this.consoleService.auth("processLogin");
         if (data.error) {
             f({error: data.error, errordesc: data.errordesc, user: null});
         } else {
@@ -210,7 +210,7 @@ export class AuthService {
     }
 
     processLoginFB(data, f): any {
-        console.log(" > authService processLoginFB",data);
+        this.consoleService.auth("processLoginFB",data);
 
         if (data.error) {
             f({error: data.error, errordesc: data.errordesc, user: null});
@@ -236,7 +236,7 @@ export class AuthService {
     }
 
     createAuthHeaders(): void {
-        console.log(" > authService createAuthHeaders");
+        this.consoleService.auth("createAuthHeaders");
         this.authGetHeaders = new HttpHeaders();
         if (this.token) {
             this.authGetHeaders=this.authGetHeaders.set('Authorization', this.token);
@@ -251,7 +251,7 @@ export class AuthService {
     }
 
     createNoAuthHeaders(): void {
-        console.log(" > authService createNoAuthHeaders");
+        this.consoleService.auth("createNoAuthHeaders");
         this.noauthPostHeaders = new HttpHeaders();
         this.noauthPostHeaders=this.noauthPostHeaders.set('Content-Type', 'application/json');
         this.noauthGetHeaders = new HttpHeaders();
@@ -267,7 +267,7 @@ export class AuthService {
     }
 
     private emitAuthStatus(): void {
-        console.log("authService emitAuthStatus user=", this.user, "auth=",this.authenticated);
+        this.consoleService.auth("authService emitAuthStatus user=", this.user, "auth=",this.authenticated);
         this.loginChanged.emit({authentificated: this.authenticated, isTourDone: this.isTourDone, user: this.user});
     }
 
@@ -294,7 +294,7 @@ export class AuthService {
         this.facebookUserId=response.authResponse.userID;
 
         let url = "user/login/app/fb?token=" + this.facebookAccessToken+ "&userId=" + this.facebookUserId+"&force=false";
-        console.log(" > authService loginWithFacebook", url);
+        this.consoleService.auth("loginWithFacebook", url);
         this.apiService.noauthget(url, (data) => {
             console.log("Answ",data);
                 if("login" in data) data=data.login;
@@ -312,7 +312,7 @@ export class AuthService {
         this.facebookUserId=response.authResponse.userID;
         let url = "user/auth/app/fb/link";//?p="+password+"&token=" + this.facebookAccessToken+ "&userId=" + this.facebookUserId+"&force=true";
         let data={p:password,token:this.facebookAccessToken,userId:this.facebookUserId}
-        console.log(" > authService fblogin", url);
+        this.consoleService.auth("fblogin", url);
         this.apiService.noauthrawpost(url, data,(data) => {
             console.log("linkWithFacebook answ",data)
             if("login" in data) data=data.login;

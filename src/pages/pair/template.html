@@ -5,6 +5,11 @@
             <div class="ticker-price ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}" >{{lastPrice| number:numberFormat}}</div>
             <div *ngIf="lastPrice" class="ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}"><mat-icon>{{lastPrice > prevLastPrice?'arrow_upward':'arrow_downward'}}</mat-icon></div>
         </div>
+        <div class="refresh-box" *ngIf="!isLoading">
+            <div class="refresh-datadate">Data date {{loadTime | date:'HH:mm:ss'}}</div>
+            <div hidden class="refresh-in">Refreshing in {{refreshTimer/1000 }}s</div>
+            <mat-progress-bar [color]="primary" [value]="100*(refreshEvery-refreshTimer)/refreshEvery" mode="determinate"></mat-progress-bar>
+        </div>
         <select id="pair-select-source">
             <option>Binance</option>
         </select>
@@ -16,8 +21,8 @@
                     <app-live-depth [lastPrice]="lastPrice" [pairId]="pairId"></app-live-depth>
                 </div>
                 <div id="live-right">
-                    <app-live-price [pair]="pairId" [trades]="trades" [period]="'1m'"></app-live-price>
-                    <app-live-price [pair]="pairId" [period]="'5m'"></app-live-price>
+                    <app-live-price [refresh]="true" [pair]="pairId" [trades]="trades" [period]="'1m'"></app-live-price>
+                    <app-live-price [refresh]="true"  [pair]="pairId" [period]="'5m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'15m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'1h'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'1d'"></app-live-price>
@@ -48,8 +53,8 @@
                     <mat-list>
                         <mat-list-item>
                             Symbol: {{pairId}}
-                            Supra: {{supra}}
-                            Infra: {{infra}}
+                            Supra: <a class="link" [routerLink]="'/symbol/'+supra">{{supra}}</a>
+                            Infra: <a class="link"  [routerLink]="'/symbol/'+infra">{{infra}}</a>
                         </mat-list-item>
                     </mat-list>
                 </mat-card-content>

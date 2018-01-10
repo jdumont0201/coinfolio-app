@@ -16,10 +16,10 @@
 
     <div class="grid grid-2-1">
       <div class="grid-in left">
-        <app-headlines [symbol]="symbolId"></app-headlines>
+        <app-headlines [symbol]="symbolId"   [possibleSymbols]="[symbolId]" [source]="'Google News'" [possibleSources]="['Google News']"></app-headlines>
       </div>
       <div class="grid-in right">
-        <app-twitter [symbol]="symbolId"></app-twitter>
+        <app-twitter [symbol]="symbolId"[possibleSymbols]="[symbolId,('$'+symbolId),(symbolId+' coin')]"></app-twitter>
       </div>
       <br class="clear">
     </div>

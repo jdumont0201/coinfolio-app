@@ -6,6 +6,8 @@ import {Logic} from "../../logic/Logic";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {WorkspaceService} from "../../lib/localton/services/workspace.service";
 import {Router} from "@angular/router";
+import {TradingService} from "../../lib/localton/services/trading.service";
+import {ApiService} from "../../lib/globalton/core/services/api.service";
 
 @Component({
     selector: 'app-menu-list',
@@ -27,7 +29,7 @@ export class AppMenuList implements OnInit {
     myPanels = {}
     panels = [];
 
-    constructor(public appConfigService: AppConfigService, public eventService: EventService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService,public router:Router) {
+    constructor(public appConfigService: AppConfigService, public eventService: EventService,  public tradingService: TradingService, public apiService:ApiService,public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService,public router:Router) {
         console.log("+ MENU")
 
         this.loadWorkspaceData()

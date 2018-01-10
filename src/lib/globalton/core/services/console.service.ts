@@ -44,7 +44,7 @@ export class ConsoleService {
         if(this.showConsole) {
             var preservedConsoleLog = console.log;
             var args = Array.prototype.slice.call(arguments);
-            args.unshift("%c[SERVI]", 'padding:2px 5px;border-radius:3px;background: #69D0FF; color: #000;display:block;');
+            args.unshift("%c[AUTH]", 'padding:2px 5px;border-radius:3px;background: #FFFFFF; color: #00ffff;display:block;');
             preservedConsoleLog.apply(console, args);
         }
 
@@ -80,7 +80,16 @@ export class ConsoleService {
         if(this.showConsole) {
             var preservedConsoleLog = console.log;
             var args = Array.prototype.slice.call(arguments);
-            args.unshift("%c[TRADE]", 'padding:2px 5px;border-radius:3px;background: #0000FF; color: #000;display:block;');
+            args.unshift("%c[TRADE]", 'padding:2px 5px;border-radius:3px;background: #4444FF; color: #000;display:block;');
+            preservedConsoleLog.apply(console, args);
+        }
+
+    }
+    event(...arg:any[]) {
+        if(this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c[EVENT]", 'padding:2px 5px;border-radius:3px;background: #cccccc; color: #ff0000;display:block;');
             preservedConsoleLog.apply(console, args);
         }
 
@@ -135,6 +144,15 @@ export class ConsoleService {
             var preservedConsoleLog = console.log;
             var args = Array.prototype.slice.call(arguments);
             args.unshift("%c[CANVAS]", 'padding:2px 5px;border-radius:3px;background: #666666; color: #000;display:block;');
+            preservedConsoleLog.apply(console, args);
+        }
+
+    }
+    ws(...arg:any[]) {
+        if(this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c[WS]", 'padding:2px 5px;border-radius:3px;background: #dddddd; color: #ffff00;display:block;');
             preservedConsoleLog.apply(console, args);
         }
 

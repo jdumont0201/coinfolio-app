@@ -6,7 +6,9 @@ import {ConfigService} from "../../globalton/core/services/config.service";
 import {EventService} from "./event.service";
 import {AppConfigService} from "./appconfig.service";
 import {AuthService} from "../../globalton/core/services/auth.service";
-import {appendArrayToObject,appendArrayToArray} from "../../globalton/core/utils/utils"
+import {appendArrayToObject, appendArrayToArray} from "../../globalton/core/utils/utils"
+import {ConsoleService} from "../../globalton/core/services/console.service";
+
 @Injectable()
 export class WorkspaceService {
     @Output() workspacesLoaded: EventEmitter<any> = new EventEmitter();
@@ -31,48 +33,50 @@ export class WorkspaceService {
             , "5a464552996ced000eacecfa"],
         name: "Default workspace"
     }]
-    isLoaded=false;
-    constructor(public logic: Logic, public authService: AuthService, public configService: ConfigService, public eventService: EventService, public appConfigService: AppConfigService) {
-        console.log("[WS] MENU > Loading Sidebar")
+    isLoaded = false;
+
+    constructor(public logic: Logic, public authService: AuthService, public configService: ConfigService, public eventService: EventService, public appConfigService: AppConfigService, public consoleService: ConsoleService) {
+        this.consoleService.ws("MENU > Loading Sidebar")
         this.init();
-        this.authService.loginChanged.subscribe((val)=>this.loginChanged(val) )
+        this.authService.loginChanged.subscribe((val) => this.loginChanged(val))
     }
 
-    loginChanged(val){
-this.init()
-}
+    loginChanged(val) {
+        this.init()
+    }
+
     init() {
 
         if (this.authService.isAuthenticated()) {
-            console.log("[WS] loading my panels")
+            this.consoleService.ws("loading my panels")
             this.logic.loadMyPanels((res) => {
-                console.log("[WS] loading my panels my",res)
-            this.logic.loadTemplatePanels((res2) => {
-                console.log("[WS] loading my panels template" ,res2)
-                appendArrayToArray(res2,res.array);
-                appendArrayToObject(res2,res.object);
+                this.consoleService.ws("loading my panels my", res)
+                this.logic.loadTemplatePanels((res2) => {
+                    this.consoleService.ws("loading my panels template", res2)
+                    appendArrayToArray(res2, res.array);
+                    appendArrayToObject(res2, res.object);
 
-                this.panelsObject = res.object;
-                this.panelsArray = res.array;
-                this.setSpecialPanels()
-                this.loadWorkspaces(() => {
-                    this.isLoaded=true;
-                    this.eventService.workspaceUpdatedEvent.emit(true);
-                });
+                    this.panelsObject = res.object;
+                    this.panelsArray = res.array;
+                    this.setSpecialPanels()
+                    this.loadWorkspaces(() => {
+                        this.isLoaded = true;
+                        this.eventService.workspaceUpdatedEvent.emit(true);
+                    });
                 });
             })
         } else {
-            console.log("[WS] loading default panels")
-            this.logic.loadTemplatePanels( (res) => {
-                console.log("[WS] res ",res)
-                res.object={}
-                res.array=[]
-                appendArrayToArray(res,res.array);
-                appendArrayToObject(res,res.object);
+            this.consoleService.ws("loading default panels")
+            this.logic.loadTemplatePanels((res) => {
+                this.consoleService.ws("res ", res)
+                res.object = {}
+                res.array = []
+                appendArrayToArray(res, res.array);
+                appendArrayToObject(res, res.object);
                 this.panelsObject = res.object;
                 this.panelsArray = res.array;
                 this.loadDefaultWorkspace(() => {
-                    this.isLoaded=true
+                    this.isLoaded = true
                     this.eventService.workspaceUpdatedEvent.emit(true);
                 })
             })
@@ -92,16 +96,16 @@ this.init()
         this.currentWorkspace = this.defaultWorkspace[0];
         this.currentWorkspace.id = id;
 
-        let defaultPanelIds=this.defaultWorkspace[0].panels
-        for(let i=0;i<defaultPanelIds.length;++i){
+        let defaultPanelIds = this.defaultWorkspace[0].panels
+        for (let i = 0; i < defaultPanelIds.length; ++i) {
 
         }
 
 
         this.logic.loadPanels(this.defaultWorkspace[0].panels, (res) => {
-        this.logic.saveWorkspace(this.currentWorkspace, (res) => {
-            this.init()
-        })
+            this.logic.saveWorkspace(this.currentWorkspace, (res) => {
+                this.init()
+            })
         });
     }
 
@@ -113,18 +117,18 @@ this.init()
 
     }
 
-      getCurrentWorkspace() {
-        console.log("[WS] GETCUR", this.currentWorkspace)
+    getCurrentWorkspace() {
+        this.consoleService.ws("GETCUR", this.currentWorkspace)
         return this.currentWorkspace
     }
 
     getPanelArray() {
-        console.log("[WS] getPanelArray", this.panelsArray)
+        this.consoleService.ws("getPanelArray", this.panelsArray)
         return this.panelsArray
     }
 
     getPanelsObject() {
-        console.log("[WS] getPanelsObject", this.panelsObject)
+        this.consoleService.ws("getPanelsObject", this.panelsObject)
         return this.panelsObject
     }
 
@@ -133,7 +137,7 @@ this.init()
     }
 
     getPanel(boardId: string): any {
-        console.log("[WS] this.getpanel", boardId, this.panelsObject)
+        this.consoleService.ws("this.getpanel", boardId, this.panelsObject)
         if (boardId)
             if (this.panelsObject && boardId in this.panelsObject) {
                 let p = this.panelsObject[boardId];
@@ -157,9 +161,9 @@ this.init()
     }
 
     loadWorkspaces(f) {
-        console.log("[WS] MENU > loading workspaces")
+        this.consoleService.ws("MENU > loading workspaces")
         this.logic.getMyWorkspaces((res) => {
-            console.log("[WS] MENU > WORKSPACES", res)
+            this.consoleService.ws("MENU > WORKSPACES", res)
             this.workspaces = res;
             if (this.workspaces.length == 0)
                 this.logic.saveWorkspace({panels: [], name: "Main workspace"}, (res) => {
@@ -179,23 +183,24 @@ this.init()
     }
 
     getFirstPanel() {
-        console.log("[WS] MENU > loadFirstPanel", this.currentWorkspace, this.panelsObject)
+        this.consoleService.ws("MENU > loadFirstPanel", this.currentWorkspace, this.panelsObject)
 
 
         if (this.currentWorkspace && this.currentWorkspace.panels && this.currentWorkspace.panels.length > 0) {
-this.loadPanelForFirst(0)
+            this.loadPanelForFirst(0)
 
         } else {
-            console.log("[WS] empty panels", this.currentWorkspace)
+            this.consoleService.ws("empty panels", this.currentWorkspace)
         }
     }
-    loadPanelForFirst(n){
-        if(n>=this.currentWorkspace.panels.length) return;
+
+    loadPanelForFirst(n) {
+        if (n >= this.currentWorkspace.panels.length) return;
         let boardId = this.currentWorkspace.panels[n];
         if (this.panelsObject && (boardId in this.panelsObject)) {
             let p = this.panelsObject[boardId];
-            if(p.type=="separator") this.loadPanelForFirst(n+1)
-            console.log("[WS] MAIN > currentpanel", p)
+            if (p.type == "separator") this.loadPanelForFirst(n + 1)
+            this.consoleService.ws("MAIN > currentpanel", p)
             p.tabs = JSON.parse(p.content)
             return p
         }

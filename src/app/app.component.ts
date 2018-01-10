@@ -33,11 +33,16 @@ export class AppComponent {
         this.eventService.subscribeEvent.subscribe((val) => this.subscribeUpdated(val))
         this.eventService.workspaceUpdatedEvent.subscribe((val) => this.workspaceUpdated(val))
         this.eventService.isFullscreenEvent.subscribe((val) => this.fullscreenUpdated(val))
+        this.eventService.brokerLoadedEvent.subscribe((val) => this.brokerLoaded(val))
         this.messageService.errorsChanged.subscribe((val) => this.errorsUpdated(val))
+        this.eventService.showLoading()
     }
     fullscreenUpdated(val){
 
 
+    }
+    brokerLoaded(val){
+        this.eventService.hideLoading()
     }
     errorsUpdated(msg: any) {
         console.log("error changed", msg)

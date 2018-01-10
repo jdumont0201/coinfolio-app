@@ -20,15 +20,19 @@
     <div *ngIf="!isLoaded(p)">Panel {{p}} not loaded
     </div>
   </div>
-    <a (click)="goToLink('allocation')" matLine mat-list-item >Allocation<mat-icon>lock</mat-icon></a>
+
   <div  mat-list-item class="mat-list-item  menu-separator">Trade</div>
+  <a (click)="goToLink('allocation')" matLine mat-list-item >Allocation<mat-icon>lock</mat-icon></a>
     <a (click)="goToLink('listing')" matLine mat-list-item >Listing<mat-icon>lock</mat-icon></a>
+    <a (click)="goToLink('trades')" matLine mat-list-item >Trades<mat-icon>lock</mat-icon></a>
+    <a (click)="goToLink('positions')" matLine mat-list-item >Position<mat-icon>lock</mat-icon></a>
 
     <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
   <button mat-button *ngIf="!authService.isSubscriptionActive()"  (click)="eventService.showSubscribe()"  id="button-editmode">Edit dashboards...<span class="subscriber-feature">+</span></button>
-  <div class="logo-in" routerLink="/">
-    <span id="logo"> Coinamics  </span>
-  </div>
+  <div class="monitor-{{tradingService.isAnyBrokerConfigured()?'ok':'wait'}}" >Brokers :{{tradingService.isAnyBrokerConfigured()?"Connected":"Awaiting..."}}</div>
+  <div class="monitor-{{apiService.isUp?'ok':'wait'}}">API connection : {{apiService.isUp?"Up":"Unreachable"}}</div>
+
+
 
 </mat-nav-list>
 

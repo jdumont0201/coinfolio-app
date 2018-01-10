@@ -1,0 +1,10 @@
+#live{
+display:flex;
+    width:100%
+}
+#live-left{
+
+}
+#live-right{
+    flex-grow:1
+}

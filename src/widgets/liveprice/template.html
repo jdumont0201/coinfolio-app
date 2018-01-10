@@ -1,8 +1,9 @@
 
 <section class="widget price {{isZoomed?'zoomed':''}}">
-    <h5>{{showTitle?(supra+" / "+infra):""}} Price
+    <h5 (click)="barClick()">{{showTitle?(supra+" / "+infra):""}} Price
         <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu2">  {{period}}     <mat-icon>expand_more</mat-icon>    </span></div>
-        <div class="right"><mat-icon class="button-zoom" (click)="zoom()">{{isZoomed?'zoom_out':'zoom_in'}}</mat-icon></div>
+
+        <div class="right"><span class="last-refreshed">Last refreshed : {{loadTime | date:"HH:mm:ss"}}</span> <mat-icon class="button-zoom" (click)="zoom()">{{isZoomed?'zoom_out':'zoom_in'}}</mat-icon></div>
     </h5>
     <mat-menu #appMenu2="matMenu">
         <button (click)="period=i;updateData()" mat-menu-item *ngFor="let i of possiblePeriods">{{i}}</button>

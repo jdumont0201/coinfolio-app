@@ -28,7 +28,8 @@
 body {background:black}
 .row{  border-bottom-color:  rgba(255,255,255,0.2)}
 .theme-dark .data,.theme-dark  mat-table.data ,.theme-dark .source{
-    background: #58554e;
+
+    background: linear-gradient(#1a5e8c, #106cc8);
 }
 .theme-dark .trade-buy{color:green;}
 .theme-dark .trade-sell{color:red}
@@ -69,3 +70,4 @@ h5.form-header {
     color: #b9a03c;}
 .theme-dark .mat-raised-button{
     background-color: #444;}
+.theme-dark .table{background: linear-gradient(#073b4a, #106cc8);}

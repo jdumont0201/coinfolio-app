@@ -30,6 +30,10 @@ export class AppBrokerConnectionsComponent {
                 this.user = user;
                 if (!user.ConnectionBinance) user.ConnectionBinance = false;
                 if (!user.ConnectionKraken) user.ConnectionKraken = false;
+                this.appConfigService.possibleBrokers.forEach((b)=>{
+                    this.check(b)
+                })
+
                 console.log("this.user", this.user)
             })
         } else
@@ -51,13 +55,14 @@ export class AppBrokerConnectionsComponent {
 
     check(name) {
         if (name === "binance") {
-            this.checks["binance"] = {publicdata: false, privatedata: false, orders: false}
+            this.checks[name] = {publicdata: false, privatedata: false, orders: false}
             this.logic.BinanceGetAllocation((res) => {
-                this.checks["binance"].privatedata = true
+                this.checks[name].privatedata = true
             })
             this.logic.BinanceGetOHLC("ETHBTC", "1m", (res) => {
-                this.checks["binance"].publicdata = true
+                this.checks[name].publicdata = true
             })
+
             //this.logic.BinanceGetOHLC("ETHBTC","1m",(res)=>{this.checks["binance"].publicd=true })
         }
 
@@ -71,5 +76,7 @@ export class AppBrokerConnectionsComponent {
             })
         }, 1000)
     }
-
+    goTo(link){
+        window.open(link, "_blank");
+    }
 }

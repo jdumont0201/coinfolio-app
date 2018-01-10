@@ -2,6 +2,7 @@ export class Crypto{
 
  static getSymbolsFromPair(pair:string){
     let a,b;
+    if(!pair) return
     const n=pair.length;
     const right=pair.substring(n-3,n);
     const rightB=pair.substring(n-4,n);

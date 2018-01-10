@@ -23,6 +23,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
     @Input() showTitle: boolean = false;
     @Input() trades
     @Input() type="stock";
+    @Input() refresh=false;
     infra;
     supra;
 
@@ -95,9 +96,21 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         const pair = Crypto.getSymbolsFromPair(this.pair)
         this.supra = pair.supra;
         this.infra = pair.infra;
+        if(this.refresh)
+        this.initRefresh()
+        this.firstLoadData()
+    }
+    refreshData(){
+        this.isRefreshing=true;
         this.updateData()
     }
-
+    firstLoadData(){
+        this.isLoading=true;
+        this.updateData()
+    }
+    barClick(){
+        //this.zoom()
+    }
     getRange() {
         let nb = 150;
         if (this.period === "1m") return 1000 * 60 * nb
@@ -120,6 +133,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         this.isLoading = true;
         this.isError = false;
         this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
+            this.loadTime=new Date().getTime()
             console.log("BinanceGetOHLC", res)
             if (!res || res.error) {
                 this.isError = true;

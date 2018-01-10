@@ -1,4 +1,4 @@
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
 <div [@.disabled]="true">
     <mat-toolbar>
         <h3>Listing </h3>
@@ -14,7 +14,7 @@
         <span>Please login or sign up to access your private trading dashboard.</span><br>
         <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
     </div>
-    <div *ngIf="authService.isAuthenticated() && !isLoading && !isRefreshing && listing.length==0" class="alert-configure-broker">
+    <div *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()" class="alert-configure-broker">
         <mat-icon>settings</mat-icon>
         <span>Configure broker connections in your settings to show broker trade data.</span><br>
         <button mat-raised-button="" color="primary" routerLink="/config/all">Configure now</button>
@@ -40,9 +40,11 @@
                             </div>
                         </ng-container>
                         <ng-container *ngIf="!showGraphs">
+                            <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
                             <div class="table lighten">
                                 <div class="tr keepcolor">
-                                    <div>                                        In PFT                                    </div>
+                                    <div>                                     Been Traded ?                                   </div>
+                                    <div>                                     In PTF ?                                   </div>
                                     <div>Pair</div>
                                     <div>Bid</div>
                                     <div>Ask</div>
@@ -50,11 +52,21 @@
                                 </div>
                                 <div class="tr options keepcolor">
                                     <div></div>
+                                    <div></div>
                                     <div class="keepcolor options" style="column-span: 5">
-                                        <h5 class="options">Sort by                                            <div class="header-select"><span class="header-button"[matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span>                                            </div>                                        </h5>
+                                        <h5 class="options">Sort by
+                                            <div class="header-select"><span class="header-button"[matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span>                                            </div>
+                                            View price <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu2">   {{priceview}}     <mat-icon>expand_more</mat-icon>    </span>                                            </div>
+                                        </h5>
+
                                         <mat-menu #appMenu="matMenu">
                                             <button (click)="sortby=i;sort()" mat-menu-item
                                                     *ngFor="let i of possibleSorts">{{i}}
+                                            </button>
+                                        </mat-menu>
+                                        <mat-menu #appMenu2="matMenu">
+                                            <button (click)="priceview=i;sort()" mat-menu-item
+                                                    *ngFor="let i of possiblePriceviews">{{i}}
                                             </button>
                                         </mat-menu>
                                     </div>
@@ -65,10 +77,11 @@
                                 <ng-container *ngFor="let s of listing">
                                     <ng-container *ngIf="s.infra==sup">
                                         <div class="tr" routerLink="/pair/{{s.symbol}}">
-                                            <div class="td marker-in-ptf {{s.inptf?'':'marker-hidden'}}">                                                <mat-icon>lens</mat-icon>                                            </div>
+                                            <div class="td smallcol marker-has-traded {{s.hasTraded?'':'marker-hidden'}}">                                                <mat-icon  [matTooltip]="'You have traded this pair'">lens</mat-icon>                                            </div>
+                                            <div class="td smallcol marker-in-ptf {{s.inptf?'':'marker-hidden'}}">                                                <mat-icon [matTooltip]="'You have this value in portfolio'">lens</mat-icon>                                            </div>
                                             <div class="td"><span class="supra">{{s.supra}}</span><span class="infra"> / {{s.infra}}</span>                                            </div>
-                                            <div class="td "><span class="{{s.oldbid!=s.bid?(s.oldbid>s.bid?'valneg':'valpos'):''}}"> {{s.bid}} <mat-icon>{{s.oldbid!=s.bid?(s.oldbid>s.bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></span> ${{s.usdbid | number :'1.2-5'}}</div>
-                                            <div class="td "><span class="{{s.oldask!=s.ask?(s.oldask>s.ask?'valneg':'valpos'):''}}"> {{s.ask}} <mat-icon>{{s.oldask!=s.ask?(s.oldask>s.ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>${{s.usdask | number :'1.2-5'}}</div>
+                                            <div class="td listing-price {{s.oldbid!=s.bid?(s.oldbid>s.bid?'valneg':'valpos'):''}} "><span *ngIf="priceview=='both' || priceview=='crypto'" class=""> {{s.bid}} </span><span *ngIf="priceview=='both' || priceview=='usd'"> ${{s.usdbid | number :'1.2-5'}}</span><mat-icon>{{s.oldbid!=s.bid?(s.oldbid>s.bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></div>
+                                            <div class="td listing-price {{s.oldask!=s.ask?(s.oldask>s.ask?'valneg':'valpos'):''}} "><span *ngIf="priceview=='both' || priceview=='crypto'"  class=""> {{s.ask}} </span><span *ngIf="priceview=='both' || priceview=='usd'"> ${{s.usdask | number :'1.2-5'}}</span> <mat-icon>{{s.oldask!=s.ask?(s.oldask>s.ask?"arrow_downward":"arrow_upward"):''}}</mat-icon></div>
                                             <div class="td ">
                                                 <div class="bidaskbar">
                                                     <div class="bidaskbar-bid">                                                        <div class="bidaskbar-bid-in"                                                             [style.width]="s.bids/(s.bids+s.asks)*100+'%'">{{s.bids}}                                                        </div>                                                    </div>

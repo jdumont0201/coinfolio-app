@@ -20,6 +20,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material"
@@ -76,7 +77,8 @@ import {AppSymbolAllPage} from "../pages/listing/component";
 import {AppTradesPage} from "../pages/trades/component";
 import {AppSymbolItemPage} from "../pages/symbol-item/component";
 import {AppPairItemPage} from "../pages/pair/component";
-
+import {AppPositionsPage}from "../pages/positions/component"
+import {AppConfigBrokersPage} from "../pages/config-brokers/component"
 /*CANVAS*/
 import {AppMenuList} from "../canvas/menu/component";
 
@@ -127,7 +129,7 @@ import {Logic} from "../logic/Logic";
 
 @NgModule({
     declarations: [
-        AppComponent, AppMenuList,AppDisconnectedComponent,
+        AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,
@@ -147,7 +149,7 @@ import {Logic} from "../logic/Logic";
 
         GlobaltonCoreModule,GlobaltonUIModule, LocalModule,        AppRoutingModule,
 
-        MatSlideToggleModule,MatTooltipModule,MatButtonModule,MatProgressBarModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
+        MatSlideToggleModule,MatTooltipModule,MatChipsModule,MatButtonModule,MatProgressBarModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
 
     ],
     entryComponents: [AskNameDialog],

@@ -43,7 +43,12 @@ export class AppPairItemPage implements OnDestroy {
     supra: string;
     infra: string;
     trades: any[];
+
     loadTime;
+    refreshInterval
+    refreshTimerInterval
+    refreshTimer;
+    refreshEvery = 4000;
 
     constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute) {
         //console.log("+pair")
@@ -55,6 +60,8 @@ export class AppPairItemPage implements OnDestroy {
             this.supra = symbols.supra;
             this.infra = symbols.infra;
             this.brokerId = params["brokerId"];
+
+
             this.logic.BinanceGetMyTrades(this.pairId, (trades) => {
                 this.trades = trades;
             })
@@ -79,14 +86,14 @@ export class AppPairItemPage implements OnDestroy {
     runLastPriceWS() {
         const url = "wss://stream.binance.com:9443/ws/" + this.pairId.toLowerCase() + "@aggTrade"
         const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>())
-        console.log("connectionStatus", connectionStatus)
+        //console.log("connectionStatus", connectionStatus)
         const connectionStatusSubscription = connectionStatus.subscribe(numberConnected => {
             console.log('number of connected websockets:', numberConnected)
         })
 
 
         this.messagesSubscription = messages.subscribe((message: string) => {
-            console.log("runLastPriceWS", message)
+          //  console.log("runLastPriceWS", message)
             const m = JSON.parse(message)
             this.prevLastPrice = this.lastPrice
             this.lastPrice = parseFloat(m.p)

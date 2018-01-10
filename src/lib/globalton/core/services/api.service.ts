@@ -130,7 +130,7 @@ export class ApiService {
     processData(url:string,data, f: Function) {
         this.messageService.hideLoading();
         this.messageService.hideSaving();
-        console.log("[API] processData",url, data);
+        this.consoleService.api("processData",url, data);
         if (data.error) {
             this.processError("API_PROCESS",url, data.errordesc);
         } else {
@@ -314,7 +314,7 @@ export class ApiService {
                 data => this.processData(url,data, f),
                 err => this.processError("API_GET",  url,err,f),
                 // err => this.error(err),
-                () => console.log('Done.')
+                () => {}
             );
     }
 }

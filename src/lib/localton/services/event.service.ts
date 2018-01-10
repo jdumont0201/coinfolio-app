@@ -17,6 +17,7 @@ export class EventService implements OnInit {
     @Output() workspaceUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() menuDisplayUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() windowResizedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() brokerLoadedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
 
 
@@ -59,8 +60,13 @@ export class EventService implements OnInit {
         this.consoleService.ui("hideLoading");
         this.isLoadingVisible = false;
     }
+showLoading() {
+        this.consoleService.ui("showLoading");
+        this.isLoadingVisible = true;
+    }
 
     constructor(public consoleService: ConsoleService, public authService: AuthService, public appConfigService: AppConfigService, public configService: ConfigService,public messageService:MessageService,public snackBar: MatSnackBar) {
+        this.consoleService.event("+")
         this.init();
 //    this.configService.perSiteConfigured.subscribe(value => this.postConfigEvent(value), error => console.log("Error postConfigEvent" + error), () => console.log('done'));
         this.messageService.errorsChanged.subscribe((err)=>this.errorsUpdated(err))
@@ -70,12 +76,12 @@ export class EventService implements OnInit {
         this.snackBar.open(err.code,null,{duration:3000});
     }
     ngOnInit() {
-        console.log("[EVENT] ONINIT")
+        this.consoleService.event("ONINIT")
         this.authService.loginChanged.subscribe(value => this.loginChanged(value), error => console.log("Error postConfigEvent" + error), () => console.log('done'));
     }
 
     loginChanged(value?) {
-        console.log("[EVENT] POSTCONFIG")
+        this.consoleService.event("loginChanged")
         if (this.authService.isAuthenticated())
             this.hideLoading();
         else {
@@ -95,13 +101,13 @@ export class EventService implements OnInit {
     }
 
     init() {
-        console.log("[EVENT] initEvent")
+        this.consoleService.event("init")
         this.windowResized()
         this.loginChanged()
     }
 
     resized() {
-        console.log("[EVENT] resized", window.innerWidth)
+        this.consoleService.event("resized", window.innerWidth)
         this.windowResizedEvent.emit({w:window.innerWidth,h:window.innerHeight})
         this.windowResized()
     }
@@ -111,17 +117,17 @@ export class EventService implements OnInit {
     }
 
     hidePanelCreator() {
-        console.log("[EVENT] > hidePanelCreator")
+        this.consoleService.event("hidePanelCreator")
         this.panelCreatorEvent.emit({display: false})
     }
 
     loadPanelCreator(p) {
-        console.log("[EVENT] > loadPanelCreator", p)
+        this.consoleService.event("loadPanelCreator", p)
         this.panelCreatorEvent.emit({load: p})
     }
 
     unloadPanelCreator() {
-        console.log("EVENT > unloadPanelCreator")
+        this.consoleService.event("unloadPanelCreator")
         this.panelCreatorEvent.emit({unload: true})
     }
 
@@ -146,7 +152,7 @@ export class EventService implements OnInit {
     }
 
     setPanel(p) {
-        console.log("set panel", p)
+        this.consoleService.event("set panel", p)
         this.showPanel(p)
     }
 }

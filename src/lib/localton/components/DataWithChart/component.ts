@@ -7,8 +7,9 @@ import {StockChart, Chart} from 'angular-highcharts';
 import {AppConfigService} from "../../../../lib/localton/services/appconfig.service";
 import {MatTableDataSource} from '@angular/material';
 import {EventService} from "../../services/event.service";
+import {RefreshedPage} from "../RefreshedPage/component";
 
-export abstract class DataAndChartTemplate implements OnInit {
+export abstract class DataAndChartTemplate extends RefreshedPage implements OnInit {
 
     displayedColumns
     dataSource;
@@ -79,6 +80,7 @@ export abstract class DataAndChartTemplate implements OnInit {
     optionsBase: any;
 
     constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public type?) {
+        super()
         /*if (type === "stock") this.chart = new StockChart(this.stockChartDefOptions)
         if (type === "plain") this.chart = new Chart(this.plainChartDefOptions)
         else this.chart = new StockChart(this.stockChartDefOptions)
@@ -131,7 +133,7 @@ export abstract class DataAndChartTemplate implements OnInit {
         else
             this.chart = new Chart(this.options);
         //console.log("draw" ,JSON.stringify(this.options))
-        console.log("[CHART] draw", this.options, this.type, this.chart, this.myChart, this.backupOptions)
+        //console.log("[CHART] draw", this.options, this.type, this.chart, this.myChart, this.backupOptions)
 
     }
 
@@ -196,7 +198,7 @@ export abstract class DataAndChartTemplate implements OnInit {
             this.options[key] = Object.assign(this.options[key], opt);
         } else
             this.options = Object.assign(this.options, opt);
-        console.log("upd", this.options)
+        console.log("updateOptions", this.options)
         this.backupOptions = JSON.stringify(this.options)
 
     };
