@@ -276,8 +276,12 @@ button:hover .crypto-iconed{filter:grayscale(0)}
   border-bottom: dashed 1px #eee;
   }
 .mini-card .row{border-top: dashed 1px #eee;}
+
 .valpos{color:#72cb00!important;}
 .valneg{color:red!important;}
+.tag-valpos,.tag-valneg{padding:3px 5px ;border-radius:3px}
+.tag-valpos{background:#72cb00!important;color:white!important;}
+.tag-valneg{background:red!important;color:white!important;}
 
 .mini{text-align: center;
   padding: 10px 20px}
@@ -1117,9 +1121,7 @@ section.widget.trades h5{background: #8c7a6f;/*  border: solid 4px #171e46;*/}
   padding:0
 }
 .tr.options > div{background: #483d1e;}
-.table.lighten .tr:not(.keepcolor):hover > div:not(.keepcolor){
-  background:rgba(255,255,255,0.2);cursor:pointer
-}
+mat-table.lighten mat-row:hover mat-cell, .table.lighten .tr:not(.keepcolor):hover > div:not(.keepcolor){  background:rgba(255,255,255,0.2);cursor:pointer}
 .table .tr:hover div.bg-buy{
   background: rgba(0, 128, 0, 0.6);
 }
@@ -1315,3 +1317,21 @@ section.widget{    border-left: 0;
   margin-right: 3px;
   margin-bottom: 3px;}
 .smallcol{width:50px}
+
+.addplus:before{content:"+"}
+.volume-bar{width:100px;height:20px;}
+.volume-bar-in{height:20px;background:#ffffff80}
+
+div#ticker {
+  background: #020202;
+  z-index: 3000;
+  position: absolute;
+  width: 100%;
+  height:20px;top:0;
+  border-bottom: solid 1px #065b8c;
+}
+
+.ticker-visible #underticker{
+  margin-top:20px;
+  position: relative;
+}

@@ -30,9 +30,9 @@ export class AppAllocationPage extends DataAndChartTemplate {
     showDataTable = true;
     providers = ["global"]
     isLoading = true;
-    displayedColumns = ['symbol', 'available', 'price', 'value','pairs'];
+    displayedColumns = ['symbol', 'available', 'price', 'value',  'pairs'];
     show = "hide_small_balances"
-    possibleShow = ["hide_small_assets", "show_all_balances"]
+    possibleShow = ["hide_small_assets",  "show_all_balances"]
     optionsBase = {
         chart: {
             type: 'pie', margin: 0, backgroundColor: {
@@ -65,14 +65,15 @@ export class AppAllocationPage extends DataAndChartTemplate {
         }
     }
 
+
     constructor(public authService: AuthService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
         super(logic, appConfigService, eventService, "plain")
 
         this.eventService.brokerLoadedEvent.subscribe((val) => {
             this.brokerLoaded(val)
-            this.hasConnected=true;
+            this.hasConnected = true;
         })
-        console.log("TEST",this.authService.isAuthenticated(),!this.isLoading,!this.hasConnected)
+        console.log("TEST", this.authService.isAuthenticated(), !this.isLoading, !this.hasConnected)
         this.options = [];
 
     }
@@ -83,9 +84,8 @@ export class AppAllocationPage extends DataAndChartTemplate {
     }
 
 
-
     charts = [];
-    portfolios={}
+    portfolios = {}
     dataSource = [];
     fdata = []
     hasConnected = false;
@@ -96,23 +96,6 @@ export class AppAllocationPage extends DataAndChartTemplate {
         })
     }
 
-    getUSDValue(k, P) {
-        let p;
-
-        if (k === "USDT") {
-            p = 1;
-        } else if (k === "BTC") {
-            p = parseFloat(P["BTCUSDT"]);
-        } else if ((k + "USDT") in this.prices) {
-            p = parseFloat(P[k + "USDT"]);
-        } else {
-            let pb = parseFloat(P[k + "BTC"]);
-            let btcv = pb;
-            let b = parseFloat(P["BTCUSDT"]);
-            p = btcv * b;
-        }
-        return p;
-    }
 
     data;
 
@@ -120,24 +103,37 @@ export class AppAllocationPage extends DataAndChartTemplate {
         console.log("updatealloc", key)
         this.prepareUpdate(key)
         if (this.tradingService.isBrokerLoaded(key)) {
-            this.tradingService.getBrokerByName("binance").getPortfolio().refresh(true);
             let P = this.tradingService.getBrokerByName(key).getPortfolio();
-            let alloc = P.getAllocation(this.isShowingAllBalances() ? null : 15)
-            console.log("alloc",key,alloc)
-            alloc.gridData.push({symbol:"TOTAL",value:P.getTotalUSDValue()})
-            this.portfolios[key]=P;
-            this.dataSource[key] = new MatTableDataSource(alloc.gridData);
-            this.updateOptions({
-                title: {text: " "},
-                series: [{name: "Portfolio", data: alloc.chartData}],
-                yAxis: {}
-            }, key)
-            this.charts[key] = new Chart(this.options[key]);
-            this.isLoading=false
-            console.log("TEST",this.authService.isAuthenticated(),!this.isLoading,!this.hasConnected)
+            console.log("alloc", key, this.isShowingAllBalances() ? null : 15, JSON.stringify(P.content))
+            if (key == "global")
+                this.processData(key, P)
+            else
+                P.refresh(() => {
+
+                    this.processData(key, P)
+                });
+
         } else {
             console.log("broker", key, "not ready")
         }
+    }
+
+    processData(key, P) {
+        console.log("alloc refresh", key, this.isShowingAllBalances() ? null : 15, JSON.stringify(P.content))
+
+        let alloc = P.getAllocation(this.isShowingAllBalances() ? null : 15)
+        console.log("alloc getalloc", key, this.isShowingAllBalances() ? null : 15, alloc, JSON.stringify(P.content))
+        alloc.gridData.push({symbol: "TOTAL", value: P.getTotalUSDValue()})
+        this.portfolios[key] = P;
+        this.dataSource[key] = new MatTableDataSource(alloc.gridData);
+        this.updateOptions({
+            title: {text: " "},
+            series: [{name: "Portfolio", data: alloc.chartData}],
+            yAxis: {}
+        }, key)
+        this.charts[key] = new Chart(this.options[key]);
+        this.isLoading = false
+        console.log("TEST", this.authService.isAuthenticated(), !this.isLoading, !this.hasConnected)
     }
 
     isShowingAllBalances() {
@@ -145,12 +141,11 @@ export class AppAllocationPage extends DataAndChartTemplate {
     }
 
     refreshFilter(key) {
-        for(let keyb in this.tradingService.getConfiguredBrokers())
-        this.update(keyb)
+        for (let keyb in this.tradingService.getConfiguredBrokers())
+            this.update(keyb)
 
         this.update("global")
     }
-
 
 
     prepareUpdate(key) {
@@ -167,6 +162,8 @@ export class AppAllocationPage extends DataAndChartTemplate {
         this.allocation["global"] = [];
         if (this.authService.isAuthenticated()) {
             this.logic.getMe((user) => {
+
+
                 console.log("logged", user)
                 if (user.ConnectionBinance)
                     this.update("binance")

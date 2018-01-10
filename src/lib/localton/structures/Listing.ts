@@ -3,23 +3,22 @@ import {EventService} from "../services/event.service";
 import {Crypto as C} from "../utils/utils"
 import {TradingService} from "../services/trading.service";
 
-export type Crypto = { symbol: string, bids?: number, bid?: number,oldask?:number,oldbid?:number, asks?: number, usdask: number,hasTraded?:boolean, usdbid: number, ask?: number, ratio?: number, infra: string, supra: string, inptf?: boolean }
+export type CryptoPair = { pair: string, bids?: number, bid?: number,oldask?:number,oldbid?:number, asks?: number, usdask: number,hasTraded?:boolean, usdbid: number, ask?: number, ratio?: number, infra: string, supra: string, inptf?: boolean ,volume?:number,change?:number,changelastprice?:number,pricemoy?:number,changelasttime?:number,relativeVolume?:number}
 
 export class Listing {
-    content: { [name: string]: Crypto } = {}
+    content: { [name: string]: CryptoPair } = {}
     dataTime: Date;
     isLoaded:boolean
     constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService, public key: string) {
 
     }
 
-    has(symbol): boolean {
-        return symbol in this.content
+    has(pair): boolean {
+        return pair in this.content
     }
 
     refresh() {
-        this.load(() => {
-        })
+        this.load(() => {        })
     }
 
     load(f: Function) {
@@ -40,7 +39,7 @@ export class Listing {
                     if (k !== "123456") {
                         let pair = C.getSymbolsFromPair(k)
 
-                        let inptf = this.tradingService.globalBroker.getPortfolio().has(pair.supra)
+                        let inptf = this.tradingService.globalBroker.getPortfolio().has(pair.supra,20)
                         let hasTraded = this.tradingService.globalBroker.getTrades().hasTraded(k)
                         let usdref = this.getUSDValue(pair.infra, listing)
 
@@ -53,7 +52,14 @@ export class Listing {
             }
         })
     }
-
+    bases=["USDT","BTC","BNB","ETH"]
+    getBasePair(symbol:string):string{
+        this.bases.forEach((b)=>{
+            if(this.has(symbol+"b"))
+                return symbol+"b";
+        })
+        return null
+    }
     getUSDValue(infra: string, listing: any[]): { ask: number, bid: number } {
         const pair = infra + "USDT"
         if (pair in listing)
@@ -63,26 +69,26 @@ export class Listing {
             console.log("err", "unknown pair in listing", pair, listing)
     }
 
-    getSortField(sortby, a) {
+    getSortField(sortby:string, a) {
         if (sortby === "name") return a.supra;
         else if (sortby === "bid_ask_volume_ratio") return a.ratio
         else if (sortby === "has_some_in_portfolio") return a.inptf
         else if (sortby === "has_been_traded") return a.hasTraded
     }
 
-    getSortOrder(sortby): number {
+    getSortOrder(sortby:string): number {
         if (sortby === "name") return -1;
         else if (sortby === "bid_ask_volume_ratio") return 1
         else if (sortby === "has_some_in_portfolio") return 1
         else if (sortby === "has_been_traded") return 1
     }
 
-    sort(sortby) {
+    sort(sortby:string) :any[]{
         console.log("SORTA", this.content)
         let order = this.getSortOrder(sortby)
         let C = [];
-        for (var k in this.content) C.push(this.content[k])
-        C.sort((a: Crypto, b: Crypto) => {
+        for (let k in this.content) C.push(this.content[k])
+        C.sort((a: CryptoPair, b: CryptoPair) => {
             const keyA = this.getSortField(sortby, a), keyB = this.getSortField(sortby, b);
             if (keyA < keyB) return order;
             if (keyA > keyB) return -1 * order;
@@ -91,26 +97,28 @@ export class Listing {
         return C;
     }
 
-    getList(sortby) {
-        return this.sort(sortby)
+    getList(sortby,format?:string) :CryptoPair[]{
+        let res=this.sort(sortby);
+        if(format=="change") this.tradingService.getBrokerByName(this.key).getTicker().appendChange(res)
+        return res;
     }
 
-    add(symbol: string, bid: number, ask: number, bids: number, asks: number, infra: string, supra: string, inptf: boolean, usdask, usdbid,hasTraded) {
-        if (symbol in this.content) {
-            this.content[symbol].oldask = this.content[symbol].ask;
-            this.content[symbol].oldbid = this.content[symbol].bid;
-            this.content[symbol].ask = ask;
-            this.content[symbol].bid = bid;
-            this.content[symbol].asks = asks;
-            this.content[symbol].bids = bids;
-            this.content[symbol].hasTraded = hasTraded;
-            this.content[symbol].usdbid = usdbid;
-            this.content[symbol].usdask = usdask;
-            this.content[symbol].inptf = inptf;
-            this.content[symbol].ratio = bids / (asks + bids);
+    add(pair: string, bid: number, ask: number, bids: number, asks: number, infra: string, supra: string, inptf: boolean, usdask, usdbid,hasTraded) {
+        if (pair in this.content) {
+            this.content[pair].oldask = this.content[pair].ask;
+            this.content[pair].oldbid = this.content[pair].bid;
+            this.content[pair].ask = ask;
+            this.content[pair].bid = bid;
+            this.content[pair].asks = asks;
+            this.content[pair].bids = bids;
+            this.content[pair].hasTraded = hasTraded;
+            this.content[pair].usdbid = usdbid;
+            this.content[pair].usdask = usdask;
+            this.content[pair].inptf = inptf;
+            this.content[pair].ratio = bids / (asks + bids);
         } else {
-            this.content[symbol] = {
-                symbol: symbol,
+            this.content[pair] = {
+                pair: pair,
                 inptf: inptf,
                 infra: infra,
                 supra: supra,

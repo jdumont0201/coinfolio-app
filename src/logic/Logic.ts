@@ -46,6 +46,15 @@ export class Logic {
             else f(null)
         })
     }
+    BinanceGet24hChange(pair:string,f: Function) {
+        if(!pair) f(null)
+        this.apiService.noauthget("user/getbinance25hchange?userId=" + this.authService.userId+"&symbol="+pair, (res) => {
+
+            if(res && "result" in res && res.result.success)
+                f(res.result.data)
+            else f(null)
+        })
+    }
     BinanceGetDepth(symbol:string,f: Function) {
         this.apiService.noauthget("user/getbinancedepth?symbol="+symbol+"&userId=" + this.authService.userId, (res) => {
             if(res && "result" in res && res.result.success)

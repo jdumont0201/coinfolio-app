@@ -81,6 +81,7 @@ import {AppPositionsPage}from "../pages/positions/component"
 import {AppConfigBrokersPage} from "../pages/config-brokers/component"
 /*CANVAS*/
 import {AppMenuList} from "../canvas/menu/component";
+import {AppTicker} from "../canvas/ticker/component";
 
 /*WIDGETS*/
 import {AppTopPerformanceComponent} from "../widgets/top-performance/component"
@@ -110,6 +111,7 @@ import {AppLoginComponent} from "../components/login/component"
 import {AppBrokerConnectionsComponent} from "../components/broker-connections/component"
 import {AppWelcomeComponent} from "../components/welcome/component"
 import {AppLoadingComponent} from "../components/loading/component"
+import {AppPairTickComponent} from "../components/pair-tick/component"
 import {AppSubscribeComponent} from "../components/subscribe/component"
 import {AppVeilComponent} from "../components/veil/component"
 import {AppDisconnectedComponent} from "../components/disconnected/component"
@@ -130,7 +132,7 @@ import {Logic} from "../logic/Logic";
 @NgModule({
     declarations: [
         AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,
-        AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,
+        AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,
         AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,

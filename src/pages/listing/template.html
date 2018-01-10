@@ -24,6 +24,21 @@
             <mat-icon class="switch">{{showGraphs?"view_list":"insert_chart"}}</mat-icon>
             {{showGraphs?"Chart view":"Ask / bid view"}}
         </button>
+        <h5 class="options">Sort by
+            <div class="header-select"><span class="header-button"[matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span>                                            </div>
+            View price <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu2">   {{priceview}}     <mat-icon>expand_more</mat-icon>    </span>                                            </div>
+        </h5>
+
+        <mat-menu #appMenu="matMenu">
+            <button (click)="sortby=i;sort()" mat-menu-item
+                    *ngFor="let i of possibleSorts">{{i}}
+            </button>
+        </mat-menu>
+        <mat-menu #appMenu2="matMenu">
+            <button (click)="priceview=i;sort()" mat-menu-item
+                    *ngFor="let i of possiblePriceviews">{{i}}
+            </button>
+        </mat-menu>
         <mat-tab-group #tabGroup (selectedTabChange)="tabChanged($event)">
             <mat-tab *ngFor="let sup of supports;let index=index" label="{{sup}}">
                 <ng-container *ngIf="tabIndex==index">
@@ -46,40 +61,21 @@
                                     <div>                                     Been Traded ?                                   </div>
                                     <div>                                     In PTF ?                                   </div>
                                     <div>Pair</div>
+                                    <div>24h Volume</div>
+                                    <div>24h Evol</div>
                                     <div>Bid</div>
                                     <div>Ask</div>
                                     <div>                                        Bids Volume/Asks Volume                                    </div>
                                 </div>
-                                <div class="tr options keepcolor">
-                                    <div></div>
-                                    <div></div>
-                                    <div class="keepcolor options" style="column-span: 5">
-                                        <h5 class="options">Sort by
-                                            <div class="header-select"><span class="header-button"[matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span>                                            </div>
-                                            View price <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu2">   {{priceview}}     <mat-icon>expand_more</mat-icon>    </span>                                            </div>
-                                        </h5>
 
-                                        <mat-menu #appMenu="matMenu">
-                                            <button (click)="sortby=i;sort()" mat-menu-item
-                                                    *ngFor="let i of possibleSorts">{{i}}
-                                            </button>
-                                        </mat-menu>
-                                        <mat-menu #appMenu2="matMenu">
-                                            <button (click)="priceview=i;sort()" mat-menu-item
-                                                    *ngFor="let i of possiblePriceviews">{{i}}
-                                            </button>
-                                        </mat-menu>
-                                    </div>
-                                    <div></div>
-                                    <div></div>
-                                    <div></div>
-                                </div>
                                 <ng-container *ngFor="let s of listing">
                                     <ng-container *ngIf="s.infra==sup">
-                                        <div class="tr" routerLink="/pair/{{s.symbol}}">
+                                        <div class="tr" routerLink="/pair/{{s.pair}}">
                                             <div class="td smallcol marker-has-traded {{s.hasTraded?'':'marker-hidden'}}">                                                <mat-icon  [matTooltip]="'You have traded this pair'">lens</mat-icon>                                            </div>
                                             <div class="td smallcol marker-in-ptf {{s.inptf?'':'marker-hidden'}}">                                                <mat-icon [matTooltip]="'You have this value in portfolio'">lens</mat-icon>                                            </div>
                                             <div class="td"><span class="supra">{{s.supra}}</span><span class="infra"> / {{s.infra}}</span>                                            </div>
+                                            <div class="td"><div *ngIf="s.volume" class="volume-bar"><div class="volume-bar-in" [style.width]="(s.relativeVolume*100)+'%'"></div></div><span class="">{{s.volume }} </span> </div>
+                                            <div class="td"><span [matTooltip]="'Yesterday price was '+s.changelastprice" class="{{s.change?((s.pricemoy/s.changelastprice)>1?'tag-valpos':'tag-valneg'):''}}">{{(s.pricemoy/s.changelastprice)>1?"+":""}}{{100*(s.pricemoy/s.changelastprice -1)| number:'1.2-2'}}{{s.pricemoy?'%':'...'}} </span> </div>
                                             <div class="td listing-price {{s.oldbid!=s.bid?(s.oldbid>s.bid?'valneg':'valpos'):''}} "><span *ngIf="priceview=='both' || priceview=='crypto'" class=""> {{s.bid}} </span><span *ngIf="priceview=='both' || priceview=='usd'"> ${{s.usdbid | number :'1.2-5'}}</span><mat-icon>{{s.oldbid!=s.bid?(s.oldbid>s.bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></div>
                                             <div class="td listing-price {{s.oldask!=s.ask?(s.oldask>s.ask?'valneg':'valpos'):''}} "><span *ngIf="priceview=='both' || priceview=='crypto'"  class=""> {{s.ask}} </span><span *ngIf="priceview=='both' || priceview=='usd'"> ${{s.usdask | number :'1.2-5'}}</span> <mat-icon>{{s.oldask!=s.ask?(s.oldask>s.ask?"arrow_downward":"arrow_upward"):''}}</mat-icon></div>
                                             <div class="td ">
@@ -102,25 +98,18 @@
                     <div class="tr keepcolor">
                         <div>                            In PFT                        </div>
                         <div>Pair</div>
+                        <div>24h Change </div>
                         <div>Bid</div>
                         <div>Ask</div>
                         <div>                            Bids Volume/Asks Volume                        </div>
                     </div>
-                    <div class="tr options keepcolor">
-                        <div></div>
-                        <div class="keepcolor options" style="column-span: 5">
-                            <h5 class="options">Sort by                                <div class="header-select"><span class="header-button"[matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span>                                </div>                            </h5>
-                            <mat-menu #appMenu="matMenu">                                <button (click)="sortby=i;sort()" mat-menu-item                                        *ngFor="let i of possibleSorts">{{i}}                                </button>                            </mat-menu>
-                        </div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+
                     <ng-container *ngFor="let s of searched">
 
-                            <div class="tr" routerLink="/pair/{{s.symbol}}">
+                            <div class="tr" routerLink="/pair/{{s.pair}}">
                                 <div class="td marker-in-ptf {{s.inptf?'':'marker-hidden'}}">                                    <mat-icon>lens</mat-icon>                                </div>
                                 <div class="td"><span class="supra">{{s.supra}}</span><span class="infra"> / {{s.infra}}</span>                                </div>
+                                <div class="td"><span class="{{s.change?(s.change>0?'valpos':'valneg'):''}}">{{s.change}}</span> </div>
                                 <div class="td "><span class="{{s.oldbid>s.bid?'valneg':'valpos'}}"> {{s.bid}} <mat-icon>{{s.oldbid>s.bid?"arrow_downward":"arrow_upward"}}</mat-icon></span> ${{s.usdbid | number :'1.2-5'}}</div>
                                 <div class="td "><span class="{{s.oldask>s.ask?'valneg':'valpos'}}"> {{s.ask}} <mat-icon>{{s.oldask>s.ask?"arrow_downward":"arrow_upward"}}</mat-icon> </span>${{s.usdask | number :'1.2-5'}}</div>
                                 <div class="td ">

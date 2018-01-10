@@ -67,6 +67,7 @@ export class AppDepthWidget implements OnDestroy{
     @Input() lastPrice;
 
     ngOnDestroy(){
+        if(this.messagesSubscription)
         this.messagesSubscription.unsubscribe()
     }
     messagesSubscription

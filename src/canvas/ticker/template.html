@@ -1,0 +1,8 @@
+<div id="ticker" *ngIf="eventService.isTickerVisible">
+  <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
+    TOTAL VALUE : ${{tradingService.globalBroker.getPortfolio().getTotalUSDValue()}}
+  </ng-container>
+  <ng-container *ngIf="!tradingService.isAnyBrokerConfigured()">
+    Connecting to brokers...
+  </ng-container>
+</div>

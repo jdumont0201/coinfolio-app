@@ -58,9 +58,10 @@
                     <mat-header-cell *matHeaderCellDef> Value (USD)</mat-header-cell>
                     <mat-cell *matCellDef="let element">{{element.value|number:'1.2-2' }}</mat-cell>
                 </ng-container>
+
                 <ng-container  matColumnDef="pairs">
-                    <mat-header-cell *matHeaderCellDef> Pairs</mat-header-cell>
-                    <mat-cell *matCellDef="let element"><mat-chip class="chips-link" *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [routerLink]="'/pair/'+p">{{p}}</mat-chip></mat-cell>
+                    <mat-header-cell *matHeaderCellDef> 24h evol</mat-header-cell>
+                    <mat-cell *matCellDef="let element"></mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -70,5 +71,5 @@
     </mat-tab>
 
 </mat-tab-group>
-
+    <app-pair-tick [pair]="'ETHUSD'" [broker]="'binance'"></app-pair-tick>
 </div>

@@ -20,7 +20,7 @@ export class EventService implements OnInit {
     @Output() brokerLoadedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
 
-
+    isTickerVisible:boolean=true;
     isMenuDisplayed: boolean = true;
     isMobile: boolean = false;
     isMenuPinned: boolean = true;

@@ -18,7 +18,7 @@
             <h5>{{prov}} Trades - Analysed : {{progress[prov]?.analysed}} / {{progress[prov]?.total}}
                 ({{progress[prov]?.ratio}}) </h5>
             <mat-progress-bar *ngIf="isLoading" mode="determinate" [value]="progress[prov]?.ratio"></mat-progress-bar>
-            <mat-table #table class="data" [dataSource]="dataSource[prov]">
+            <mat-table #table class="lighten data" [dataSource]="dataSource[prov]">
 
 
                 <ng-container matColumnDef="symbol">

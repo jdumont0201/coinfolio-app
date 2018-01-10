@@ -13,6 +13,7 @@ export class Trades {
     dataTime: Date;
     progress: number;
     symbolCount = {}
+    mostTradedPairs;
 
     constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService, public key: string) {
 
@@ -34,7 +35,7 @@ export class Trades {
         }
     }
 
-    getTrades(): any[] {
+    getTrades(): Trade[] {
 
         let r = []
         for (let k in this.content)
@@ -62,6 +63,7 @@ export class Trades {
             console.log("MOSTTRADED",me.mostTradedPairs)
             let mt=me.mostTradedPairs
             if(mt) mt=JSON.parse(mt)
+            this.mostTradedPairs=mt
            f(mt);
         });
     }
@@ -78,9 +80,7 @@ export class Trades {
     }
     loadCount=0
     loadBinance(f: Function) {
-
         let L = this.tradingService.getBrokerByName(this.key).getListing();
-
         let max = 4;
         let count = 0;
         let keys = Object.keys(L.content);
@@ -109,9 +109,6 @@ export class Trades {
             console.log("TRADE LOAD TRADES BINANCE", L.content, L.isLoaded, keys)
 
         })
-
-
-
     }
 
     loadBinanceSymbol(symbol: string, f: Function) {

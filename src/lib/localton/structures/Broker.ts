@@ -34,8 +34,8 @@ export class Broker {
 
     constructor(public logic:Logic,public name:string,public eventService:EventService,public tradingService:TradingService){
         console.log("NEW BROKER ",name)
-        this.portfolio=new Portfolio(this.logic,this.name)
-        this.ticker=new Ticker(this.logic,this.name)
+        this.portfolio=new Portfolio(this.logic,this.tradingService,this.name)
+        this.ticker=new Ticker(this.logic,this.tradingService,this.name)
         this.listing=new Listing(this.logic,this.eventService,this.tradingService,this.name)
         this.trades=new Trades(this.logic,this.eventService,this.tradingService,this.name)
     }
@@ -48,6 +48,7 @@ export class Broker {
 
                 this.listing.load((res2)=>{
                     this.trades.load(()=>{})
+                    this.ticker.load24ChangeBinance(()=>{})
                     this.isLoaded=true;
                     f(this)
 

@@ -1,7 +1,8 @@
 import {Logic} from "../../../logic/Logic";
 import {Ticker} from "./Ticker";
 import {Crypto} from "../utils/utils"
-export type Asset = { symbol: string, q: number, usdvalue?:number ,unitvalue?:number}
+import {TradingService} from "../services/trading.service";
+export type Asset = { symbol: string, q: number, usdvalue?:number ,unitvalue?:number,broker:string}
 
 
 export class Portfolio {
@@ -10,22 +11,23 @@ export class Portfolio {
     connected: boolean = false;
     active: boolean = true;
     dataTime:Date;
-    constructor(public logic: Logic, key: string) {
+    constructor(public logic: Logic, public tradingService:TradingService,key: string) {
         console.log("NEW BROKER PTF",key)
         this.key = key;
         this.content = {}
     }
     getTotalUSDValue():number{
+
         let res=0;
         for(let k in this.content) res+=this.content[k].usdvalue
-        return res;
+        return Math.round(100*res)/100;
     }
-    refresh(force:boolean){
+    refresh(f,force?:boolean){
         if(force) this.content={}
-        this.load(()=>{})
+        this.load(f)
     }
     load(f: Function) {
-        console.log("TRADE : LOAD PTF",this.key)
+        console.log("TRADE PTF LOAD",this.key)
         if (this.key == "binance") {
             this.loadBinance(f);
         }
@@ -37,51 +39,62 @@ export class Portfolio {
             else
                 this.content[k]=P.content[k]
         }
-
     }
-    add(symbol: string, q: number) {
+    add(symbol: string, q: number,broker:string) {
+        console.log("TRADE PTF ADD ",symbol,q)
         if (symbol in this.content)
             this.content[symbol].q += q;
         else{
-            this.content[symbol] = {symbol:symbol,q: q}
+            this.content[symbol] = {symbol:symbol,q: q,broker:broker}
         }
 
     }
     setLivePrices(ticker:Ticker){
         for(let s in this.content){
             let asset:Asset=this.content[s]
-            //this.content[s].value=ticker.getPrice(s)
             this.content[s].usdvalue=ticker.getUSDValue(s)*asset.q
             this.content[s].unitvalue=ticker.getUSDValue(s)
         }
 
     }
-    has(symbol):boolean{
+    has(symbol,threshold?):boolean{
+        if(!threshold)
         return symbol in this.content
+        else{
+            //let usdvalue=this.tradingService.getBrokerByName(this.key).getTicker().getUSDValue(symbol);
+
+            return symbol in this.content && this.content[symbol].usdvalue>threshold
+        }
+
+
     }
     getAllocation(threshold?:number):{chartData:any[],gridData:any[]}{
         let resData=[];
         let gridData=[];
+
+    //    this.setLivePrices(this.tradingService.getBrokerByName(this.key).getTicker());
         for( let k in this.content){
             let asset=this.content[k];
 
+            let T=this.tradingService.getBrokerByName(asset.broker).getTicker();
             if(!threshold || asset.usdvalue > threshold){
-                resData.push({name:asset.symbol,y:asset.usdvalue})
-                gridData.push({symbol:asset.symbol,available:asset.q,price:asset.unitvalue,value:asset.usdvalue})
+                let v=T.getUSDValue(asset.symbol)
+                resData.push({name:asset.symbol,y:v*asset.q,change:T.getSymbolChange(asset.symbol)})
+                gridData.push({symbol:asset.symbol,available:asset.q,price:v,value:v*asset.q,broker:asset.broker})
             }
         }
         return {chartData:resData,gridData:gridData}
     }
     loadBinance(f: Function) {
-        console.log("TRADE LOAD BINANCE")
+        console.log("TRADE PTF LOAD BINANCE")
         this.logic.BinanceGetAllocation((alloc) => {
             this.dataTime=new Date();
-            console.log("LOADBIN RES", alloc)
+            console.log("TRADE PTF LOAD BINANCE RES", alloc)
             if (alloc) {
                 for (let k in alloc)
                     if (parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder) > 0) {
                         let q = parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder);
-                        this.add(k, q)
+                        this.add(k, q,this.key)
                     }
                 this.connected = true;
                 f(this.connected);
@@ -101,7 +114,7 @@ export class Portfolio {
         return this.getAsset(s) ? true : false;
     }
 }
-
+/*
 export class PortfolioCollection {
     portfolios: Portfolio[] = []
     isLoaded = false;
@@ -170,7 +183,7 @@ export class PortfolioCollection {
     }
 
     create(name: string) {
-        let P = new Portfolio(this.logic, name);
+        let P = new Portfolio(this.logic, this.tradingService,name);
     }
 
     load(f: Function) {
@@ -181,4 +194,4 @@ export class PortfolioCollection {
             });
         })
     }
-}
+}*/

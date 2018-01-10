@@ -1,5 +1,7 @@
 
-<div  (window:resize)="eventService.resized($event)" id="maincanvas" class="theme-dark {{eventService?.isFullscreen?'isFullscreen':''}}" *ngIf="!showPanelCreator && !eventService.isWelcomeVisible" [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">
+<div  (window:resize)="eventService.resized($event)" id="maincanvas" class="{{eventService.isTickerVisible?'ticker-visible':''}} theme-dark {{eventService?.isFullscreen?'isFullscreen':''}}" *ngIf="!showPanelCreator && !eventService.isWelcomeVisible" [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">
+  <app-ticker></app-ticker>
+  <div id="underticker">
   <mat-icon  [matTooltip]="eventService.isMenuDisplayed?'Close menu':'Open menu'" id="menu-switch" (click)="closeMenu()">{{eventService.isMenuDisplayed?"chevron_left":"menu"}}</mat-icon>
   <mat-sidenav-container fullscreen (backdropClick)="sidenav.close();eventService.isMenuDisplayed=false" >
     <mat-sidenav #sidenav [opened]="eventService.isMenuDisplayed" [mode]="eventService.isMenuPinned?'side':(eventService.isMobile?'over':'side')" opened="true" disableClose="true" mode="side">
@@ -7,10 +9,11 @@
       <app-menu-list></app-menu-list>
     </mat-sidenav>
     <mat-sidenav-content>
+
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
-
+  </div>
 </div>
 
 <app-panel-creator  *ngIf="showPanelCreator" [editedPanel]="editedPanel"></app-panel-creator>

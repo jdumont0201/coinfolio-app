@@ -10,6 +10,7 @@ import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {RefreshedPage} from "../../lib/localton/components/RefreshedPage/component";
 import {EventService} from "../../lib/localton/services/event.service";
+import {CryptoPair} from "../../lib/localton/structures/Listing";
 
 @Component({
     selector: 'app-listing',
@@ -18,7 +19,7 @@ import {EventService} from "../../lib/localton/services/event.service";
 })
 @Injectable()
 export class AppSymbolAllPage extends PageWithTabs implements OnDestroy {
-    listing: any[] = new Array();
+    listing: CryptoPair[] = new Array();
     supports = ['BNB', 'BTC', 'ETH', 'USDT']
     isLoading = true;
 
@@ -29,6 +30,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnDestroy {
     possiblePriceviews = ["crypto", "usd", "both"]
     priceview = "both"
 
+    maxVolume={}
     getUSDPrice(infra: string, listing: any[]): { ask: number, bid: number } {
         const pair = infra + "USDT"
         if (pair in listing)
@@ -91,11 +93,9 @@ export class AppSymbolAllPage extends PageWithTabs implements OnDestroy {
     addToSearch(word: string) {
         console.log("add", word)
         for (let i = 0; i < this.listing.length; ++i) {
-            let a: string = this.listing[i].symbol.toLowerCase();
+            let a: string = this.listing[i].pair.toLowerCase();
             let b: string = word.toLowerCase();
-            //console.log("check",a,b,a.indexOf(b)>-1)
             if (a.indexOf(b) > -1) {
-
                 this.searched.push(this.listing[i])
             }
         }
@@ -108,7 +108,15 @@ export class AppSymbolAllPage extends PageWithTabs implements OnDestroy {
 
     loadData() {
         this.tradingService.getBrokerByName("binance").getListing().refresh();
-        this.listing = this.tradingService.getBrokerByName("binance").getListing().getList(this.sortby);
+        this.listing = this.tradingService.getBrokerByName("binance").getListing().getList(this.sortby,"change");
+        this.maxVolume=this.tradingService.getBrokerByName("binance").getTicker().maxVolume;
+        this.listing.forEach((l)=>{
+            if(l.infra && l.infra in this.maxVolume && l.volume){
+                //console.log("lvol",l.volume,this.maxVolume,this.maxVolume[l.infra],l.volume/this.maxVolume[l.infra])
+                l.relativeVolume=l.volume / this.maxVolume[l.infra];
+
+            } else l.relativeVolume=-1
+        })
         this.loadTime = new Date()
         this.refreshTimer = this.refreshEvery;
         this.isRefreshing = false
