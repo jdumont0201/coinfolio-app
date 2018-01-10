@@ -1,10 +1,12 @@
 import {Logic} from "../../../logic/Logic";
 import {TradingService} from "../services/trading.service";
 
-export type Tick = { p: number, volume?: number, change?: number, changepips?: number, changelastprice?: number, changelasttime?: number }
+export type Tick = { p: number, volume?: number, change?: number, changepips?: number, changelastprice?: number, changelasttime?: number,changeCloseTime?:number, changeLastTime?:number}
 import * as async from 'async';
 import {CryptoPair} from "./Listing";
-export type Raw24hTicker={symbol, quoteVolume, priceChange, priceChangePercent, prevClosePrice}
+
+export type Raw24hTicker = { symbol, quoteVolume, priceChange, priceChangePercent, prevClosePrice }
+
 function getUSDValue(k, P) {
     let p;
 
@@ -37,29 +39,36 @@ export class Ticker {
         this.content = {}
     }
 
-    getPairChange(pair: string,f) {
-        console.log("gpc","pair",pair)
+    getPairChange(pair: string, f) {
         if (pair in this.content) {
-            if (this.content[pair].change){
-                console.log("gpc get existing",pair, this.content[pair].change)
-                f( this.content[pair].change)
-            }
-
-            else{
-                console.log("gpc get new",pair, this.content[pair].change)
-                this.loadBinance24ChangeSymbol(pair, (res:Raw24hTicker)=>{
-                    this.content[pair].change=res.priceChange;
-                    console.log("gpc get new res",pair, this.content[pair].change)
-                    f(res);
+            let c=this.content[pair];
+            if (c.change) {
+                f({last: c.changelastprice, change: c.change,current:c.p,changeCloseTime:c.changeCloseTime,changeLastTime:c.changeLastTime})
+            } else {
+                this.load24hChangePerPair(pair, (res) => {
+                    c.change = res.change;
+                    c.p = res.current;
+                    c.changeCloseTime=res.closeTime;
+                    c.changeLastTime=res.lastTime;
+                    c.changelastprice = res.last;
+                    f({last: res.last,current:res.current, change: res.change});
                 });
             }
-
         }
     }
 
     load(f: Function) {
         if (this.key == "binance") {
-            this.loadBinance(f);
+            this.loadBinance((success)=>{
+                if(success){
+                    this.tradingService.PriceUpdatedEvent.emit({pair:"all",broker:this.key})
+                    f(true)
+                }else{
+                    f(false)
+                }
+            });
+        }else if(this.key =="kraken"){
+            f(false)
         }
     }
 
@@ -69,8 +78,10 @@ export class Ticker {
         }
     }
 
-    add(symbol: string, p: number) {
-        this.content[symbol] = {p: p};
+    add(pair: string, p: number) {
+
+        this.content[pair] = {p: p};
+        this.tradingService.PriceUpdatedEvent.emit({broker: this.key, pair: pair, price: p})
     }
 
     loadBinance(f: Function) {
@@ -85,23 +96,38 @@ export class Ticker {
                 }
                 this.connected = true;
                 f(this.connected);
+            }else{
+                f(null)
             }
         });
     }
 
-    processLoad(e, cb) {
+    processLoadBinance(e, cb) {
         setTimeout(() => {
             this.loadBinance24ChangeSymbol(typeof e == "string" ? e : e.symbol, (res) => {
                 cb()
             })
-        }, 300)
+        }, 3000)
+    }
+
+    load24hChangePerPair(pair, f: Function) {
+        if (this.key == "binance")
+            this.loadBinance24ChangeSymbol(pair, (res) => {
+                f({last: res.prevClosePrice, change: res.priceChange,current:res.lastPrice,lastTime:res.openTime,closeTime:res.closeTime})
+            })
+        else
+            console.error("not configured")
+
     }
 
     loadBinance24ChangeSymbol(pair: string, f: Function) {
         this.logic.BinanceGet24hChange(pair, (ticker) => {
+            console.log(" -> gpc=", ticker)
             if (ticker) {
                 this.add24hChange(ticker.symbol, ticker.quoteVolume, ticker.priceChange, ticker.priceChangePercent, ticker.prevClosePrice)
                 f(ticker);
+            } else {
+                f(null)
             }
         })
     }
@@ -127,14 +153,14 @@ export class Ticker {
         this.tradingService.getBrokerByName(this.key).getTrades().getMostTraded((res) => {
             console.log("MOSTTRADED", res)
             async.eachSeries(res, (e, cb) => {
-                this.processLoad(e, cb)
+                this.processLoadBinance(e, cb)
             }, (e) => {
                 console.log("MOSTTRADED END LIST", keys)
                 async.eachSeries(keys, (e, cb) => {
                     if (res.indexOf(e) > -1) {
                         cb()
                     } else {
-                        this.processLoad(e, cb)
+                        this.processLoadBinance(e, cb)
 
                     }
 
@@ -150,16 +176,18 @@ export class Ticker {
     }
 
     setMaxVolume(pair: string, volume: number) {
-        let infra = this.tradingService.getBrokerByName(this.key).getListing().content[pair].infra;
+        let L = this.tradingService.getBrokerByName(this.key).getListing();
+        let infra = pair in L.content ? L.content[pair].infra : null;
         //console.log("setmaxvol",this.maxVolume,infra in this.maxVolume)
-        if (!(infra in this.maxVolume)) {
-            //console.log("setmaxvol newinfra",infra,volume);
-            this.maxVolume[infra] = volume
-        } else {
-            // console.log("setmaxvol pair" ,pair,infra,this.maxVolume[infra],volume)
-            this.maxVolume[infra] = Math.max(volume, this.maxVolume[infra])
-            // console.log("  setmaxvol pair af" ,pair,infra,this.maxVolume[infra],volume)
-        }
+        if (infra)
+            if (!(infra in this.maxVolume)) {
+                //console.log("setmaxvol newinfra",infra,volume);
+                this.maxVolume[infra] = volume
+            } else {
+                // console.log("setmaxvol pair" ,pair,infra,this.maxVolume[infra],volume)
+                this.maxVolume[infra] = Math.max(volume, this.maxVolume[infra])
+                // console.log("  setmaxvol pair af" ,pair,infra,this.maxVolume[infra],volume)
+            }
 
     }
 

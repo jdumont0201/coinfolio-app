@@ -141,7 +141,7 @@ export class AppAllocationPage extends DataAndChartTemplate {
     }
 
     refreshFilter(key) {
-        for (let keyb in this.tradingService.getConfiguredBrokers())
+        for (let keyb in this.tradingService.getConnectedBrokers())
             this.update(keyb)
 
         this.update("global")

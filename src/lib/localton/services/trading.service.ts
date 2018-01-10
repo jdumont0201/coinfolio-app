@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from "@angular/core"
+import {EventEmitter, Injectable, OnInit, Output} from "@angular/core"
 import {AuthService} from "../../globalton/core/services/auth.service";
 import {Logic} from "../../../logic/Logic";
 import {ConsoleService} from "../../globalton/core/services/console.service";
@@ -10,19 +10,27 @@ import {AppConfigService} from "./appconfig.service";
 export class TradingService {
     brokers: BrokerCollection;
     globalBroker: Broker;
-    brokersConnected=false;
-    constructor(public authService: AuthService, public appConfigService:AppConfigService,public consoleService: ConsoleService, public eventService: EventService, public logic: Logic) {
+    brokersConnected = false;
+
+
+    @Output() BidAskUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() PriceUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+
+
+    constructor(public authService: AuthService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public logic: Logic) {
         consoleService.trade("+", this.authService, this.authService.loginChanged)
-        this.consoleService.trade(" init tradingservice", this.authService, this.authService.loginChanged)
+        this.consoleService.trade(" + tradingservice", this.authService, this.authService.loginChanged)
         this.authService.loginChanged.subscribe(value => this.loginUpdated(value), error => console.log("Error reading loginupdated" + error), () => console.log('done'));
 
         //this.portfolioCollection=new PortfolioCollection(logic)
-        this.brokers = new BrokerCollection(logic, eventService,this);
-        this.globalBroker = new Broker(logic, "global",eventService,this)
+        this.brokers = new BrokerCollection(logic, eventService, this);
+        this.globalBroker = new Broker(logic, "global", eventService, this)
         if (this.authService.isAuthenticated())
             this.init()
         else
+            this.brokers.createAll(this.appConfigService.possibleBrokers)
             this.consoleService.trade("waiting for auth")
+        this.eventService.hideLoading()
     }
 
     isBrokerLoaded(key: string) {
@@ -38,12 +46,17 @@ export class TradingService {
     init() {
         this.consoleService.trade(" init")
         this.brokers.init(this.appConfigService.possibleBrokers, (broker: Broker) => {
-            console.log("combine")
             this.globalBroker.combineWith(broker.getPortfolio())
             this.globalBroker.isLoaded = true
-            this.brokersConnected=true;
-            this.eventService.brokerLoadedEvent.emit({key: broker.name, loaded: true})
+            this.brokersConnected = true;
+            this.eventService.brokerLoadedEvent.emit({key: "global", loaded: true})
         })
+    }
+    loadingFinished(){
+        this.eventService.hideLoading()
+    }
+    getGlobalBroker() {
+        return this.getBrokerByName("global")
     }
 
     getBrokerByName(name: string): Broker {
@@ -52,14 +65,15 @@ export class TradingService {
     }
 
     isAnyBrokerConfigured() {
-        return this.brokersConnected;// Object.keys(this.getConfiguredBrokers()).length > 0
+        return this.brokersConnected;
     }
 
-    getConfiguredBrokers(): { [name: string]: Broker } {
-
+    getConnectedBrokers(): { [name: string]: Broker } {
         return this.brokers.getConnectedBrokers()
     }
-
+    getConnectedBrokersArray(): string[] {
+        return this.brokers.connectedBrokersArray;
+    }
     reload() {
         if (this.authService.isAuthenticated()) {
             this.consoleService.trade(" reload")
@@ -78,7 +92,6 @@ export class TradingService {
             }
             return A;
         }
-
     }
 
     checkIfPairExists(pair): boolean {

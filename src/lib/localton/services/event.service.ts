@@ -25,7 +25,7 @@ export class EventService implements OnInit {
     isMobile: boolean = false;
     isMenuPinned: boolean = true;
     isVeilVisible: boolean = false;
-    isLoadingVisible: boolean = true;
+    private isLoadingVisible: boolean = true;
     isWelcomeVisible: boolean = false;
     isFullscreen:boolean=false;
     enableFullscreen(){
@@ -64,7 +64,10 @@ showLoading() {
         this.consoleService.ui("showLoading");
         this.isLoadingVisible = true;
     }
-
+getIsLoadingVisible(){
+        console.log("getisloading",this.isLoadingVisible)
+        return this.isLoadingVisible
+}
     constructor(public consoleService: ConsoleService, public authService: AuthService, public appConfigService: AppConfigService, public configService: ConfigService,public messageService:MessageService,public snackBar: MatSnackBar) {
         this.consoleService.event("+")
         this.init();
@@ -85,8 +88,8 @@ showLoading() {
         if (this.authService.isAuthenticated())
             this.hideLoading();
         else {
-            this.showWelcome()
-            this.showVeil()
+//            this.showWelcome()
+  //          this.showVeil()
         }
 
         //this.isWelcomeVisible=this.isVeilVisible= this.authService.isAuthenticated()?false:true;

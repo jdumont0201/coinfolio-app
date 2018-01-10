@@ -35,7 +35,7 @@ export class AppComponent {
         this.eventService.isFullscreenEvent.subscribe((val) => this.fullscreenUpdated(val))
         this.eventService.brokerLoadedEvent.subscribe((val) => this.brokerLoaded(val))
         this.messageService.errorsChanged.subscribe((val) => this.errorsUpdated(val))
-        this.eventService.showLoading()
+        //this.eventService.showLoading()
     }
     fullscreenUpdated(val){
 

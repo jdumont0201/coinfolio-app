@@ -1,5 +1,5 @@
 
-<div  (window:resize)="eventService.resized($event)" id="maincanvas" class="{{eventService.isTickerVisible?'ticker-visible':''}} theme-dark {{eventService?.isFullscreen?'isFullscreen':''}}" *ngIf="!showPanelCreator && !eventService.isWelcomeVisible" [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">
+<div  (window:resize)="eventService.resized($event)" id="maincanvas" class="{{eventService.isTickerVisible?'ticker-visible':''}} theme-dark {{eventService?.isFullscreen?'isFullscreen':''}}" *ngIf="!showPanelCreator" [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">
   <app-ticker></app-ticker>
   <div id="underticker">
   <mat-icon  [matTooltip]="eventService.isMenuDisplayed?'Close menu':'Open menu'" id="menu-switch" (click)="closeMenu()">{{eventService.isMenuDisplayed?"chevron_left":"menu"}}</mat-icon>

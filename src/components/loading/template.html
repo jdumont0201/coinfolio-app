@@ -1,5 +1,19 @@
-<div id="loading" *ngIf="eventService.isLoadingVisible">
+<div id="loading" *ngIf="eventService && eventService?.getIsLoadingVisible()">
     <span id="logo" class="logo-bottom"> </span>
     <span class="line">Made by traders. For the traders.</span>
-    Connecting to brokers...
+    <ul>
+    <li *ngIf="apiService.isUp">Connected to API <mat-icon >check</mat-icon></li>
+    <li *ngIf="authService?.isAuthenticated()">Connected to your account <mat-icon >check</mat-icon></li>
+        <ng-container *ngFor="let b of appConfigService?.possibleBrokers">
+            {{b}}
+            PTF{{tradingService?.brokers.loadStatus[b]?.portfolio?"ok":"not"}}
+            Ticker{{tradingService?.brokers.loadStatus[b]?.ticker?"ok":"not"}}
+
+            <ng-container *ngIf="authService?.loginResponse">
+        <li *ngIf="authService?.loginResponse['hasConnection'+b]">Connecting to {{b}}...</li>
+        <li *ngIf="tradingService?.getBrokerByName(b)?.isLoaded">Connected to {{b}}...</li>
+            </ng-container>
+        </ng-container>
+        Ticker{{tradingService?.brokers.hasAttemptedLoginAllBrokers?"yes":"no"}}
+    </ul>
 </div>

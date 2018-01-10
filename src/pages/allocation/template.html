@@ -60,8 +60,8 @@
                 </ng-container>
 
                 <ng-container  matColumnDef="pairs">
-                    <mat-header-cell *matHeaderCellDef> 24h evol</mat-header-cell>
-                    <mat-cell *matCellDef="let element"></mat-cell>
+                    <mat-header-cell *matHeaderCellDef> 24h Evolution</mat-header-cell>
+                    <mat-cell *matCellDef="let element"><ng-container *ngIf="element.symbol !=='TOTAL'"><app-pair-tick *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [pair]="p" [broker]="element.broker"></app-pair-tick></ng-container></mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -71,5 +71,5 @@
     </mat-tab>
 
 </mat-tab-group>
-    <app-pair-tick [pair]="'ETHUSD'" [broker]="'binance'"></app-pair-tick>
+
 </div>

@@ -1183,12 +1183,12 @@ mat-progress-bar{height:2px!important;}
 .switch{font-size:35px!important;}
 
 
-.alert-configure-broker{    padding: 100px 20px;
+.alert-configure-broker{   padding: 20px 20px;
   display: block;
   text-align: center;
   max-width: 500px;
   margin: auto;
-  background: #40a5ff;
+  background: linear-gradient(#00bcff,#1dfbe1);
   border-radius: 10px;}
 .alert-configure-broker > span{padding:40px 0;display:block}
 .alert-configure-broker mat-icon{font-size: 120px!important;color:wheat!important;display:inline}

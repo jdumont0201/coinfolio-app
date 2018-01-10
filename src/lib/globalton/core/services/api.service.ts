@@ -82,15 +82,15 @@ export class ApiService {
 
 
         if(!err){
-            this.messageService.addError("API_ERROR", null, "No error desc available");
+            this.messageService.addError("API_ERROR_UNKNOWN", null, "No error desc available"+url);
             f({error:true,desc:"Api error",url:url})
         }
 
         if (err.name === "TimeoutError") {
-            this.messageService.addError("API_DOWN", null, "API is unreachable.");
+            this.messageService.addError("API_TIMEOUT", null, "API is unreachable."+url,);
             f({error:true,desc:"Request has timed out.",url:url})
         }else if (err.message === "Unauthorized") {
-            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource.");
+            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource."+url);
             f({error:true,desc:"Request has timed out.",url:url})
         }else{
             console.log("other error",errorCode,err);
@@ -115,14 +115,7 @@ export class ApiService {
             }
             this.messageService.addError(errorCode,"","");
             f({error:true,desc:err,url:url});
-            /*          let toast = this.toastCtrl.create({
-                          message: errorCode + " " + err + " " + (desc ? desc.toString() : ""),
-                          cssClass: "red",
-                          dismissOnPageChange: true, showCloseButton: true,
-                          position: 'bottom'
-                      });
-                      toast.present();
-          */
+
         }
 
     }

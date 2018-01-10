@@ -12,6 +12,7 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
+import {TradingService} from "../../lib/localton/services/trading.service";
 
 @Component({
     selector: 'app-broker-connections',
@@ -23,7 +24,7 @@ export class AppBrokerConnectionsComponent {
     user;
     checks = {}
 
-    constructor(public eventService: EventService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar) {
+    constructor(public eventService: EventService,public tradingService:TradingService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar) {
         if (this.authService.isAuthenticated()) {
             console.log("logged")
             this.logic.getMe((user) => {
@@ -71,8 +72,11 @@ export class AppBrokerConnectionsComponent {
     submit(name) {
         setTimeout(() => {
             this.logic.saveUser(this.user, (res) => {
-                this.snackBar.open("User saved", null, {duration: 3000})
+                this.snackBar.open("User saved. Loading broker...", null, {duration: 3000})
                 this.check(name)
+                this.tradingService.getBrokerByName(name).load((res)=>{
+                    this.snackBar.open("Broker loaded", null, {duration: 3000})
+                })
             })
         }, 1000)
     }

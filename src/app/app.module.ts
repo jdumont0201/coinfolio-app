@@ -119,8 +119,9 @@ import {AppMarketCapEvolMiniComponent} from "../widgets/marketcap-evol-mini/comp
 import {AppSubscriberFeatureComponent} from "../components/subscriber-feature/component";
 import {AppRegisterComponent} from "../components/register/component";
 import {AppPanelCreatorComponent, AskNameDialog} from "../components/panel-creator/component";
-
+import {AppPortfolioRecapComponent} from "../components/portfolio-recap/component"
 import {GlobalErrorHandler} from "../lib/globalton/core/handlers/GlobalErrorHandler";
+import {AppPortfolioValueComponent} from "../components/portfolio-value/component"
 
 /*ROUTER*/
 import {AppRoutingModule, routes} from './app-routing.module';
@@ -131,9 +132,9 @@ import {Logic} from "../logic/Logic";
 
 @NgModule({
     declarations: [
-        AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,
+        AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,
-        AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,
+        AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,
         AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
@@ -143,16 +144,12 @@ import {Logic} from "../logic/Logic";
         BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
         RouterModule.forRoot(routes),
         HttpClientModule,
-
         RestangularModule.forRoot(RestangularConfigFactory),
         ChartModule,
         DndModule.forRoot(),
         QRCodeModule,
-
         GlobaltonCoreModule,GlobaltonUIModule, LocalModule,        AppRoutingModule,
-
         MatSlideToggleModule,MatTooltipModule,MatChipsModule,MatButtonModule,MatProgressBarModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
-
     ],
     entryComponents: [AskNameDialog],
     providers: [

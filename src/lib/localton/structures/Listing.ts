@@ -25,6 +25,8 @@ export class Listing {
         console.log("TRADE : LOAD LISTING", this.key)
         if (this.key == "binance") {
             this.loadBinance(f);
+        }else{
+
         }
     }
 
@@ -48,7 +50,9 @@ export class Listing {
 
                 }
                 this.isLoaded=true
-                f();
+                f(true);
+            }else{
+                f(false)
             }
         })
     }

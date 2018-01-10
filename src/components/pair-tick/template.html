@@ -1,1 +1,1 @@
-<mat-chip class="chips-link"  [routerLink]="'/pair/'+pair">{{pair}}<span class="{{getChange()>0?'valpos addplus':'valneg'}}">{{value}}%</span></mat-chip>
+<mat-chip [matTooltip]="'Was: '+lastprice+' Now:'+currentprice +(closeTime?(' Updated:'+closeTime):'')" class="chips-link"  [routerLink]="'/pair/'+pair">{{pair}} <span class="{{value>0?'valpos addplus':'valneg'}}">{{value | number:"1.2-2"}}{{value?'%':'...'}}</span></mat-chip>

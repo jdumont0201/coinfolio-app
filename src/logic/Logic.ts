@@ -5,6 +5,33 @@ import {ApiService} from "../lib/globalton/core/services/api.service";
 import {AuthService} from "../lib/globalton/core/services/auth.service";
 import {RequestService} from "../lib/globalton/core/services/request.service";
 
+export class UniversalLoader{
+    static load(broker: string, task: string, data: any) {
+        if (task == "allocation") {
+            let A = {}
+            if (broker == "binance") {
+                for (let symbol in data) {
+                    A[symbol] = {
+                        available: data[symbol].available,
+                        onorder: data[symbol].onOrder,
+                        total: data[symbol].available + data[symbol].onOrder
+                    }
+                }
+            }
+            if (broker == "kraken") {
+                for (let symbol in data) {
+                    A[symbol] = {
+                        available: null,
+                        onorder: null,
+                        total: data[symbol]
+                    }
+                }
+            }
+            return A;
+        }
+    }
+}
+
 @Injectable()
 export class Logic {
     constructor(public requestService: RequestService, public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
@@ -13,74 +40,90 @@ export class Logic {
 
 
     BinanceGetAllocation(f: Function) {
-        this.apiService.noauthget("user/getbinancebalance?userId=" + this.authService.userId, (res) => {
-            if(res && "result" in res && res.result.success)
+        this.apiService.noauthget("user/connect/binance/balance?userId=" + this.authService.userId, (res) => {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
         })
     }
 
     BinanceGetLivePrices(f: Function) {
-        this.apiService.noauthget("user/getbinanceliveprices?userId=" + this.authService.userId, (res) => {
-            if(res && "result" in res && res.result.success)
+        this.apiService.noauthget("user/connect/binance/liveprices?userId=" + this.authService.userId, (res) => {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
         })
     }
-    BinanceGetBookTickers(f: Function,symbol?:string) {
-        if(!this.authService.isAuthenticated()){ f(null); return}
-        const url="user/getbinancebooktickers?userId=" + this.authService.userId+"&symbol="+(symbol?symbol:"all")
+
+    BinanceGetBookTickers(f: Function, symbol?: string) {
+        if (!this.authService.isAuthenticated()) {
+            f(null);
+            return
+        }
+        const url = "user/connect/binance/booktickers?userId=" + this.authService.userId + "&symbol=" + (symbol ? symbol : "all")
         this.apiService.noauthget(url, (res) => {
-            if(res && "result" in res && res.result.success)
+            if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else
                 f(null)
         })
     }
 
-    BinanceGetMyTrades(symbols:string,f: Function) {
-        if(!symbols) f(null)
-        this.apiService.noauthget("user/getbinancetrades?userId=" + this.authService.userId+"&symbol="+symbols, (res) => {
-            if(res && "result" in res && res.result.success)
+    BinanceGetMyTrades(symbols: string, f: Function) {
+        if (!symbols) f(null)
+        this.apiService.noauthget("user/connect/binance/trades?userId=" + this.authService.userId + "&symbol=" + symbols, (res) => {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data.reverse())
             else f(null)
         })
     }
-    BinanceGet24hChange(pair:string,f: Function) {
-        if(!pair) f(null)
-        this.apiService.noauthget("user/getbinance25hchange?userId=" + this.authService.userId+"&symbol="+pair, (res) => {
 
-            if(res && "result" in res && res.result.success)
+    BinanceGet24hChange(pair: string, f: Function) {
+        if (!pair) f(null)
+        this.apiService.noauthget("user/connect/binance/25hchange?userId=" + this.authService.userId + "&symbol=" + pair, (res) => {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
         })
     }
-    BinanceGetDepth(symbol:string,f: Function) {
-        this.apiService.noauthget("user/getbinancedepth?symbol="+symbol+"&userId=" + this.authService.userId, (res) => {
-            if(res && "result" in res && res.result.success)
+
+    BinanceGetDepth(symbol: string, f: Function) {
+        this.apiService.noauthget("user/connect/binance/depth?symbol=" + symbol + "&userId=" + this.authService.userId, (res) => {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
         })
     }
-    BinanceGetOHLC(symbol:string,interval:string,f: Function) {
-        this.apiService.noauthget("user/getbinanceohlc?symbol="+symbol+"&interval="+interval+"&userId=" + this.authService.userId, (res) => {
-            if(res && "result" in res && res.result.success)
+
+    BinanceGetOHLC(symbol: string, interval: string, f: Function) {
+        this.apiService.noauthget("user/connect/binance/ohlc?symbol=" + symbol + "&interval=" + interval + "&userId=" + this.authService.userId, (res) => {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
         })
     }
 
     KrakenGetAllocation(f: Function) {
-        this.apiService.noauthget("user/getkrakenbalance?userId=" + this.authService.userId, (res) => {
-            if(res && "result" in res && res.result.success)
+        this.apiService.noauthget("user/connect/kraken/balance?userId=" + this.authService.userId, (res) => {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
         })
     }
 
+    getFromBroker(broker, task, f: Function,query:string) {
+        this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId, (res) => {
+            if (res && "result" in res && res.result.success)
+                f(UniversalLoader.load(broker, task, res.result.data))
+            else f(null)
+        })
+    }
+
+
+
     KrakenGetLivePrices(f: Function) {
-        this.apiService.noauthget("user/getkrakenliveprices?userId=" + this.authService.userId, (res) => {
-            if(res && "result" in res && res.result.success)
+        this.apiService.noauthget("user/connect/kraken/liveprices?userId=" + this.authService.userId, (res) => {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
         })
@@ -100,10 +143,11 @@ export class Logic {
         })
 
     }
+
     loginUser(obj, f) {
         console.log("Register ", obj)
         this.apiService.noauthpost("user/login/app", obj, (res) => {
-            console.log("received",res)
+            console.log("received", res)
             if (res && "login" in res) {
 
                 this.authService.loginResponse = res.login;
@@ -117,8 +161,9 @@ export class Logic {
         })
 
     }
-    set(url:string,obj,f){
-        this.apiService.authpatch("user",obj,f)
+
+    set(url: string, obj, f) {
+        this.apiService.authpatch("user", obj, f)
     }
 
     saveUser(obj, f: Function) {
@@ -160,7 +205,10 @@ export class Logic {
     }
 
     getMe(f: Function) {
-        if(!this.authService.isAuthenticated()) {f(null);return}
+        if (!this.authService.isAuthenticated()) {
+            f(null);
+            return
+        }
         this.apiService.noauthget("user/" + this.authService.userId, f)
     }
 
