@@ -39,7 +39,7 @@ export class AppPairItemPage implements OnDestroy {
     symbol = "ETHBTC"
     nbDecimal = -1;
     decimalSpan;
-
+isLoading=true;
     supra: string;
     infra: string;
     trades: any[];

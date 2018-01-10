@@ -3,7 +3,8 @@ import {EventService} from "../services/event.service";
 import {Crypto as C} from "../utils/utils"
 import {TradingService} from "../services/trading.service";
 
-var async = require("async")
+
+import * as async from 'async';
 
 export type Trade = { id: string, price: number, symbol: string, direction: string, time: number, commission: number, commissionunit: string, q: number, broker: string }
 

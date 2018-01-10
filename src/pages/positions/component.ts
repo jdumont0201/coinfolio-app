@@ -32,7 +32,7 @@ export class AppPositionsPage extends DataAndChartTemplate {
     providers = ["global"]
     hasConnected = false;
     trades = []
-
+isLoading=true;
     constructor(public logic: Logic, public tradingService: TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute) {
         super(logic, appConfigService, eventService, "plain")
 
