@@ -14,7 +14,7 @@ import {Refreshing} from "../../lib/localton/components/Refreshing/component";
 @Component({
     selector: 'app-ticker',
     templateUrl: 'template.html',
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
 export class AppTicker extends Refreshing implements OnInit, OnDestroy {
@@ -45,8 +45,6 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
         })
     }
 
-    dataRefreshSubscription = {}
-    poolDefinedSubscription = {}
 
     subscribeToBrokerUpdates() {
         console.log("subs",this.tradingService.enabledBrokers);
@@ -63,8 +61,9 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.tradingService.enabledBrokers.forEach((b) => {
-            if (this.dataRefreshSubscription[b])
-                this.refreshService.getEventByKey("-ticker").unsubscribe()
+            this.unsubscribeToRefresh(b + "-portfolio")
+            this.unsubscribeToRefresh(b + "-ticker")
+
         })
     }
 

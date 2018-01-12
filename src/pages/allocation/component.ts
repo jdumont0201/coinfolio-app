@@ -172,7 +172,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
 
         });
         for (let k in alloc.objData) { //check new symbols
-            
+
             let o=alloc.objData[k];
             let idx=Structures.getIndexByProperty(this.dataSource[key].data,"symbol",k);
             if(idx==-1)
