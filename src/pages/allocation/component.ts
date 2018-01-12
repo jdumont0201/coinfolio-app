@@ -16,6 +16,7 @@ import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 import {TradingService} from "../../lib/localton/services/trading.service";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+import {Structures} from "../../lib/globalton/core/utils/utils";
 
 @Component({
     selector: 'app-allocation',
@@ -81,6 +82,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
             this.consoleService.eventReceived("POOL-ticker --> allocation")
             if (this.tradingService.enabledBrokers)
                 this.tradingService.enabledBrokers.forEach((b) => {
+
                     console.log("POOL REFRESHED!")
                     this.update(b, false)
 
@@ -93,6 +95,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
             });
         else
             console.log("!!brokers not ready alloca")
+        updateForAllBrokers("a")
     }
 
     ngOnDestroy() {
@@ -151,17 +154,31 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         }
     }
     mergeData(key,alloc){
-        this.dataSource[key].data.forEach((r) => {
-            for (let k in r) {
+        this.dataSource[key].data.forEach((r,idx) => {
+            let found=false;
+            for (let k in r) {//check matching by symbol
                 console.log("updatedta", r, r.symbol, alloc.objData)
                 if (r.symbol in alloc.objData) {
+                    found=true;
                     let o = alloc.objData[r.symbol]
                     r.available = o.available;
                     r.price = o.price;
                     r.value = o.value;
                 }
             }
+            if(!found){//symbol has been removed
+                r.splice(idx,1)
+            }
+
         });
+        for (let k in alloc.objData) { //check new symbols
+            
+            let o=alloc.objData[k];
+            let idx=Structures.getIndexByProperty(this.dataSource[key].data,"symbol",k);
+            if(idx==-1)
+                this.dataSource[key].data.push({symbol:o.symbol,price:o.price,value:o.value,available:o.available})
+
+        }
 
 
     }
