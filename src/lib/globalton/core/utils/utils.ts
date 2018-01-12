@@ -39,9 +39,9 @@ export class Structures {
     }
 
     static getIndexByProperty(A: Object[], key: string, value): number {
-        A.forEach((a, index) => {
-            if (a[key] == value) return index
-        })
+        for(let i=0;i<A.length;++i){
+            if (A[i][key] == value) return i
+        }
         return -1
     }
 

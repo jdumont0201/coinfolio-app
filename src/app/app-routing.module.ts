@@ -28,7 +28,7 @@ export const routes: Routes = [
   { path: 'listing', component: AppSymbolAllPage },
   { path: 'dashboard', component: AppDashboardPage },
   { path: 'account', component: AppAccountPage },
-  { path: 'social', component: AppSocialPage },
+  { path: 'social/twitter', component: AppSocialPage },
   { path: 'news', component: AppNewsPage },
   { path: 'config/all', component: AppConfigAllPage },
   { path: 'config/brokers', component: AppConfigBrokersPage},

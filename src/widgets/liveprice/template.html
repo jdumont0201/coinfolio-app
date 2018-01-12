@@ -9,6 +9,7 @@
         <button (click)="period=i;updateData()" mat-menu-item *ngFor="let i of possiblePeriods">{{i}}</button>
     </mat-menu>
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <div class="progressbar-placeholder" *ngIf="!isLoading" ></div>
     <div class="errorbar" *ngIf="isError" ></div>
 
 

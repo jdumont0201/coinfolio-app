@@ -7,6 +7,7 @@
     <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu">   {{source}}     <mat-icon>expand_more</mat-icon>    </span></div>
   </h5>
   <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  <div class="progressbar-placeholder" *ngIf="!isLoading" ></div>
   <mat-menu #appMenu="matMenu"  >
     <button (click)="source=i;init()" mat-menu-item *ngFor="let i of possibleSources">{{i}}</button>
   </mat-menu>

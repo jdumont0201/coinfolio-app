@@ -1,8 +1,7 @@
-Portfolio<br>
+<div>Portfolio</div>
 <ul>
 <ng-container *ngFor="let b of tradingService.enabledBrokers">
-    <li> {{b}} $
-        <app-portfolio-value [broker]="b"></app-portfolio-value>
+    <li [routerLink]="'/allocation'"> <span class="broker-{{b}}"></span> $<app-portfolio-value [broker]="b"></app-portfolio-value>
     </li>
 </ng-container>
 </ul>

@@ -3,11 +3,7 @@
         <div class="logo-img">
             <mat-icon>trending_up</mat-icon>
         </div>
-        <br>
-        <button mat-button (click)="goToLink('/config/all')">
-            <mat-icon>settings</mat-icon>
-            {{authService.isAuthenticated()?"Settings":"Sign in"}}
-        </button>
+
         <app-portfolio-recap></app-portfolio-recap>
     </div>
     <div>
@@ -25,11 +21,9 @@
     </div>
     </ng-container>
     <div mat-list-item class="mat-list-item  menu-separator">Opinions</div>
-    <a (click)="goToLink('news')" matLine mat-list-item>News
+    <a (click)="goToLink('news')" matLine mat-list-item><mat-icon>whatshot</mat-icon>News    </a>
 
-    </a>
-
-    <a (click)="goToLink('social')" matLine mat-list-item>Social
+    <a (click)="goToLink('social/twitter')" matLine mat-list-item ><mat-icon>public</mat-icon>Social
 
     </a>
 
@@ -46,6 +40,11 @@
     <a (click)="goToLink('positions')" matLine mat-list-item>Position
         <mat-icon>lock</mat-icon>
     </a>
+    <div mat-list-item class="mat-list-item  menu-separator">Administration</div>
+    <a (click)="goToLink('/config/all')" matLine mat-list-item>Settings
+        <mat-icon>settings</mat-icon>
+    </a>
+
 
     <ng-container *ngIf="appConfigService.isCustomDashboardEnabled">
     <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>

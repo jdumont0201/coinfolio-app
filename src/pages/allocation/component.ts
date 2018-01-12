@@ -109,7 +109,6 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
 
     constructor(public authService: AuthService, public consoleService: ConsoleService, public refreshService: RefreshService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, private cd: ChangeDetectorRef) {
         super(refreshService, logic, appConfigService, eventService, "plain")
-
         this.eventService.brokerLoadedEvent.subscribe((val) => {
             this.brokerLoaded(val)
             this.brokers = tradingService.getConnectedBrokersKeys();
@@ -119,16 +118,13 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
             this.initRefresh2()
         })
         this.brokers = tradingService.getConnectedBrokersKeys();
-        console.log("TEST", this.authService.isAuthenticated(), !this.isLoading, !this.hasConnected)
         this.options = [];
-
     }
 
     brokerLoaded(val: { key: string, loaded: boolean }) {
         this.update(val.key, true)
         //this.update("global")
     }
-
 
     charts = [];
     portfolios = {}
@@ -140,7 +136,6 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
 
         })
     }
-
 
     data;
 
@@ -154,10 +149,11 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         }
     }
     mergeData(key,alloc){
+        console.log("mergeData", JSON.stringify(this.dataSource[key].data))
+
         this.dataSource[key].data.forEach((r,idx) => {
             let found=false;
             for (let k in r) {//check matching by symbol
-                console.log("updatedta", r, r.symbol, alloc.objData)
                 if (r.symbol in alloc.objData) {
                     found=true;
                     let o = alloc.objData[r.symbol]
@@ -169,35 +165,28 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
             if(!found){//symbol has been removed
                 r.splice(idx,1)
             }
-
         });
+        console.log("mergeData2", JSON.stringify(this.dataSource[key].data))
         for (let k in alloc.objData) { //check new symbols
-
             let o=alloc.objData[k];
             let idx=Structures.getIndexByProperty(this.dataSource[key].data,"symbol",k);
             if(idx==-1)
                 this.dataSource[key].data.push({symbol:o.symbol,price:o.price,value:o.value,available:o.available})
-
         }
-
-
+        console.log("mergeData3 ", JSON.stringify(this.dataSource[key].data))
     }
     processData(key, P) {
         let alloc = P.getAllocation(this.isShowingAllBalances() ? null : 15)
-        //alloc.gridData.push({symbol: "TOTAL", value: P.getTotalUSDValue()})
+        console.log("alloc", alloc)
         this.portfolios[key] = P;
         if (!this.dataSource[key]) {
-            console.log("createdata")
+            console.log("createdata", alloc)
             this.dataSource[key] = new MatTableDataSource(alloc.gridData);
         } else {
-            console.log("updatedata")
+            console.log("updatedata",alloc )
             this.mergeData(key,alloc)
-
         }
-
-
-        console.log("ddata", this.dataSource[key])
-
+        console.log("update data resdata", this.dataSource[key])
         this.updateOptions({
             title: {text: " "},
             series: [{name: "Portfolio", data: alloc.chartData}],
@@ -205,22 +194,16 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         }, key)
         this.charts[key] = new Chart(this.options[key]);
         this.isLoading = false
-        console.log("alloca", alloc)
         this.cd.markForCheck()
     }
-
     isShowingAllBalances() {
         return this.show == "show_all_balances"
     }
-
     refreshFilter(key) {
         for (let keyb in this.tradingService.getConnectedBrokers())
             this.update(keyb, true)
-
         //this.update("global")
     }
-
-
     prepareUpdate(key) {
         this.options[key] = this.optionsBase;
         this.allocation[key] = [];
@@ -231,7 +214,6 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         this.allocation = [];
         if (this.authService.isAuthenticated()) {
             this.logic.getMe((user) => {
-                console.log("logged", user)
                 if (user.ConnectionBinance)
                     this.update("binance", false)
                 if (user.ConnectionKraken)

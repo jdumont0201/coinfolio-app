@@ -108,13 +108,12 @@ export class Portfolio {
         //    this.setUSDValues(this.tradingService.getBrokerByName(this.key).getTicker());
         for (let k in this.content) {
             let asset = this.content[k];
-
             let T = this.tradingService.getBrokerByName(asset.broker).getTicker();
             if (!threshold || asset.usdvalue > threshold) {
-                let v = T.getUSDValue(asset.symbol)
-                let r={name: asset.symbol, y: v * asset.q, change: T.getSymbolChange(asset.symbol)};
-                resData.push(r)
-                let rr={symbol: asset.symbol, available: asset.q, price: v, value: v * asset.q, broker: asset.broker}
+                let v = Math.round(100*T.getUSDValue(asset.symbol))/100;
+                let r={name: asset.symbol, y: Math.round(100*v * asset.q)/100, change: T.getSymbolChange(asset.symbol)};
+                resData.push(r);
+                let rr={symbol: asset.symbol, available: asset.q, price: v, value: Math.round(100*v * asset.q)/100, broker: asset.broker}
                 gridData.push(rr)
                 objData[asset.symbol]=rr;
             }

@@ -10,6 +10,21 @@
   font-family: "London";
   src: url("/assets/fonts/UniversLTStd-BoldCn.otf") format('opentype');
 }
+@font-face {
+  font-family: "LondonLightCn";
+  src: url("/assets/fonts/Univers-LT-Std-47-Light-Condensed_46333.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "LondonLight";
+  src: url("/assets/fonts/Univers-LT-Std-45-Light_46331.ttf") format('truetype');
+}
+
+
+@font-face {
+  font-family: "LondonLightUltraCn";
+  src: url("/assets/fonts/Univers-LT-Std-49-Light-Ultra-Condensed_46334.ttf") format('truetype');
+}
 
 @font-face {
   font-family: "FinancierReg";
@@ -669,18 +684,20 @@ mat-nav-list .mat-list-item-content{
   display: block;outline:none;
   }
 .logo-img{width:100%;height:100px;
-  height: 50px;
+  height: 60px;
   visibility: hidden;}
 
 
 #logo{color:white}
 
 
-.library-separator,.mat-nav-list .mat-list-item.menu-separator{text-transform: none;
-  font: normal 18px/25px "Open Sans"!important;
+.library-separator,.mat-nav-list .mat-list-item.menu-separator{    text-transform: none;
+  font: normal 16px/16px "Open Sans"!important;
   color: #8dc0f3!important;
   padding-left: 10px;
-  border-bottom: 0!important;}
+  border-bottom: 0!important;
+  margin-top: 23px;
+}
 #panel-creator-mypanels-box .menu-separator{
   font: normal 18px/25px "Open Sans"!important;text-transform: none;
 }
@@ -1326,7 +1343,7 @@ div#ticker {
   z-index: 0;
   position: absolute;
   width: 100%;
-  height:20px;top:0;
+  height:60px;top:0;
   border-bottom: solid 1px #065b8c;
   line-height: 20px;
   padding-left: 4px;
@@ -1335,7 +1352,7 @@ div#ticker {
 }
 #ticker .col-2b-2 button{min-height: initial;line-height:initial;width:initial;height:initial;}
 .ticker-visible #underticker{
-  margin-top:20px;
+  margin-top:60px;
   position: relative;
 }
 
@@ -1376,9 +1393,19 @@ font-size:13px;
 }
 app-portfolio-recap {
   background: linear-gradient(black,#1f1f1f);
-  display: block;
-  padding: 5px;
-}mat-table.data mat-row {
+  display: block;    font-family: London!important;
+  text-transform: uppercase;
+  padding: 0px 0px ;
+}
+app-portfolio-recap ul li{
+  cursor:pointer;
+  padding: 5px!important
+}app-portfolio-recap ul li:hover{
+  background:#444
+}
+app-portfolio-recap div{padding:5px 5px}
+
+mat-table.data mat-row {
    min-height: initial;
    padding: 0;
  }
@@ -1393,3 +1420,20 @@ app-portfolio-recap {
   height: 100%;}
 .mat-chip:not(.mat-basic-chip), .mat-chip:not(.mat-basic-chip) span{background-color: #e0e0e0;
   color: rgba(0, 0, 0, 0.87);}
+
+.header-button-selected{border:solid 1px orange;
+  background: #ffa5004f;}
+.header-button-unselected{border: solid 1px transparent}
+
+.progressbar-placeholder{width:100%;height:2px}
+.chips-link,.chips-link span{
+
+  font-family: London!important;;}
+
+.broker-binance{width:32px;height:32px;background:url(/assets/icons/brokers.png);background-size:cover;    height: 32px;
+  background: url(/assets/icons/brokers.png);
+  background-size: contain;
+  display: inline;min-width:32px;
+  background-repeat: no-repeat;
+  padding-left: 21px;}
+

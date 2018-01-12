@@ -3,12 +3,14 @@
     <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
         <div class="col-2b">
             <div class="col-2b-1">
-                <span *ngFor="let b of tradingService?.enabledBrokers">{{b}} ${{tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue()}}</span>
+                <span *ngFor="let b of tradingService?.enabledBrokers"><span class="broker-{{b}}">{{b}}</span> ${{tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue()}}</span>
                 <app-pair-tick *ngFor="let f of authService.favoritePairs" [broker]="f.broker" [pair]="f.pair"></app-pair-tick>
             </div>
             <div class="col-2b-2">
+                <button mat-icon-button><mat-icon >hourglass</mat-icon></button>
+                <button mat-icon-button><mat-icon >bell</mat-icon></button>
                 <button class="" mat-icon-button [matMenuTriggerFor]="menu">
-                    <mat-icon>settings</mat-icon>
+                    <mat-icon>dots</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
                     <button mat-button [routerLink]="'/config/favorites'">Configure favorites</button>
