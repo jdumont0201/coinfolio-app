@@ -59,7 +59,7 @@ export class FacebookService{
     }
 
     me() {
-        FB.api('/me?fields=id,name,first_name,gender,picture.width(150).height(150),age_range,friends',
+        FB.api('/me?fields=id,key,first_name,gender,picture.width(150).height(150),age_range,friends',
             (result)=> {
                 if (result && !result.error) {
                     this.user = result;

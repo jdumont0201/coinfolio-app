@@ -1,48 +1,39 @@
-import {Component, Input, OnInit, Injectable, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {RequestService} from '../../lib/globalton/core/services/request.service';
-import {DataService} from "../../lib/localton/services/data.service";
-
-import {StockChart, Chart} from 'angular-highcharts';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {FormControl} from '@angular/forms';
-import {AppConfigService} from "../../lib/localton/services/appconfig.service"
-import {MatTableDataSource} from '@angular/material';
-import {Logic} from "../../logic/Logic";
-
-import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
+import {Component, Input, OnInit, Injectable, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {TradingService} from "../../lib/localton/services/trading.service";
 import {EventService} from "../../lib/localton/services/event.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-portfolio-value',
     templateUrl: 'template.html',
-//    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.Default
 })
 @Injectable()
-export class AppPortfolioValueComponent implements OnInit {
+export class AppPortfolioValueComponent implements OnInit,OnDestroy {
     value;
     @Input() broker;
 
-    constructor(public tradingService: TradingService, public eventService:EventService, private cd: ChangeDetectorRef) {
-        this.tradingService.PriceUpdatedEvent.subscribe((param) => this.priceUpdated(param))
-        this.eventService.brokerLoadedEvent.subscribe((param) => this.priceUpdated(param))
+    refreshSubscription;
+    constructor(public tradingService: TradingService, public eventService:EventService, public consoleService:ConsoleService, public refreshService:RefreshService, private cd: ChangeDetectorRef) {
+
     }
 
+    ngOnDestroy(){
+        if(this.refreshSubscription)
+            this.refreshService.getEventByKey(this.broker+"-portfolio-ticker").unsubscribe()
+    }
     ngOnInit() {
-        console.log("apvc:",this.broker ,"init")
-        //this.update("pairtick ini")
+        this.consoleService.eventReceived("POOL-"+this.broker+"-portfolio-ticker --> Portfoliovalue")
+        this.refreshSubscription=this.refreshService.getEventByKey(this.broker+"-portfolio-ticker").subscribe((param2) => this.poolUpdated(param2))
         this.update("init");
     }
-
-    priceUpdated(param:{pair:string,broker:string}) {
-        console.log("apvc:",this.broker,"param",param,param.broker,param.pair == "all" &&  (param.broker==this.broker || this.broker =="global"))
-        if (param.pair == "all" && (param.broker==this.broker || this.broker =="global"))
-            this.update("update")
+    poolUpdated(param){
+        this.update("updatepool")
     }
 
     update(t) {
         this.value = this.tradingService.getBrokerByName(this.broker).getTotalUSDValue()
-        console.log("APVC:",t,this.broker,JSON.stringify(this.tradingService.getBrokerByName("global").getPortfolio().content))
         this.cd.markForCheck();
     }
 }

@@ -121,7 +121,7 @@ export class ConfigService {
 
     //API CONFIG
     API_TIMEOUT: number = 5000; //timeout in ms
-    API_NB_RETRY: number = 0;
+    API_NB_RETRY: number = 3;
     APIMODELKEYS = {};
     API_USE_ENTITY_PREFIX = {};
     API_RETURN_MODE: ReturnMode = API_RETURN_MODES.HASH;//HASH OR OBJECT
@@ -608,7 +608,7 @@ screenInformation:any;
      }
 
      let link=actionBarButton.link;
-     var o = new OptionsBarItem(actionBarButton.name, actionBarButton.icon, [actionBarButton.component, loadedParams]);
+     var o = new OptionsBarItem(actionBarButton.key, actionBarButton.icon, [actionBarButton.component, loadedParams]);
      res.push(o);
      } else {
      console.error("no actionbarbutton");
@@ -638,7 +638,7 @@ screenInformation:any;
      }
      }
 
-     var o = new OptionsBarItem(actionBarButton.name, actionBarButton.icon, actionBarButton.link, actionBarButton.popup);
+     var o = new OptionsBarItem(actionBarButton.key, actionBarButton.icon, actionBarButton.link, actionBarButton.popup);
      res.push(o);
 
      }

@@ -1,8 +1,28 @@
 <div id="ticker" *ngIf="eventService.isTickerVisible">
-  <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
-    TOTAL VALUE : ${{tradingService.globalBroker.getPortfolio().getTotalUSDValue()}}
-  </ng-container>
-  <ng-container *ngIf="!tradingService.isAnyBrokerConfigured()">
-    Connecting to brokers...
-  </ng-container>
+    <ng-container *ngIf="authService.isAuthenticated()">
+    <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
+        <div class="col-2b">
+            <div class="col-2b-1">TOTAL VALUE : ${{tradingService.globalBroker.getPortfolio().getTotalUSDValue()}}
+                <app-pair-tick *ngFor="let f of authService.favoritePairs" [broker]="f.broker" [pair]="f.pair"></app-pair-tick>
+            </div>
+            <div class="col-2b-2">
+                <button class="" mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>settings</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-button [routerLink]="'/config/favorites'">Configure favorites</button>
+                </mat-menu>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!tradingService.isAnyBrokerConfigured()">
+        Connecting to brokers...
+    </ng-container>
+    </ng-container>
+    <ng-container *ngIf="!authService.isAuthenticated()">
+        <div class="col-2b">
+            <div class="col-2b-1">Login to activate ticker</div>
+
+        </div>
+    </ng-container>
 </div>

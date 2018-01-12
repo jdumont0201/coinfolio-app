@@ -70,6 +70,9 @@ import {AppComponent} from './app.component';
 import {AppDashboardPage} from "../pages/dashboard/component";
 import {AppConfigAllPage} from "../pages/config-all/component";
 import {AppAccountPage} from "../pages/account/component";
+
+import {AppSocialPage} from "../pages/social/component"
+import {AppNewsPage} from "../pages/news/component"
 import {AppAdminPage} from "../pages/admin-all/component"
 import {AppAllocationPage} from "../pages/allocation/component"
 import {AppGenericPage} from "../pages/generic/component"
@@ -79,6 +82,11 @@ import {AppSymbolItemPage} from "../pages/symbol-item/component";
 import {AppPairItemPage} from "../pages/pair/component";
 import {AppPositionsPage}from "../pages/positions/component"
 import {AppConfigBrokersPage} from "../pages/config-brokers/component"
+
+import {AppConfigFavoritesPage} from "../pages/config-favorites/component";
+import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
+import {AppConfigImportsPage} from "../pages/config-imports/component";
+import {AppConfigInterfacePage} from "../pages/config-interface/component";
 /*CANVAS*/
 import {AppMenuList} from "../canvas/menu/component";
 import {AppTicker} from "../canvas/ticker/component";
@@ -111,6 +119,7 @@ import {AppLoginComponent} from "../components/login/component"
 import {AppBrokerConnectionsComponent} from "../components/broker-connections/component"
 import {AppWelcomeComponent} from "../components/welcome/component"
 import {AppLoadingComponent} from "../components/loading/component"
+import {AppConfigureBrokerComponent} from "../components/configure-broker/component"
 import {AppPairTickComponent} from "../components/pair-tick/component"
 import {AppSubscribeComponent} from "../components/subscribe/component"
 import {AppVeilComponent} from "../components/veil/component"
@@ -128,13 +137,14 @@ import {AppRoutingModule, routes} from './app-routing.module';
 
 /* LOGIC */
 import {Logic} from "../logic/Logic";
+import {AppConfigProfilePage} from "../pages/config-profile/component";
 
 
 @NgModule({
     declarations: [
-        AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,
-        AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,
-        AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,
+        AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,
+        AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
+        AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,
         AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent

@@ -34,8 +34,9 @@ export class AuthService {
 
     userId: ObjectId;
     isPostConfigured: boolean = false;
-    loginResponse: { token: string, lang: string, currency: string, timezone: string, cartId: ObjectId, user: any, userId: ObjectId, entityId: ObjectId };
+    loginResponse: { token: string, lang: string, currency: string, timezone: string, cartId: ObjectId, user: any, userId: ObjectId, entityId: ObjectId ,favoritePairs:string};
 
+    favoritePairs;
     token: string;
     data: any;
     user: any;
@@ -60,7 +61,10 @@ export class AuthService {
     version: 'v2.8'
 };
     localStorageKey: string;
-
+    logic:Logic;
+    setLogic(l){
+        this.logic=l
+    }
     constructor(
                 public messageService: MessageService,
                 private fb: FacebookService,
@@ -107,7 +111,7 @@ export class AuthService {
         if (appname) {
             this.localStorageKey = sitename + "-" + appname + "-jwt";
         } else {
-            console.error("Error no app name")
+            console.error("Error no app key")
         }
     }
 
@@ -126,10 +130,11 @@ export class AuthService {
         this.translateService.use(this.loginResponse.lang);
         this.user = this.loginResponse.user;
         this.userId = this.loginResponse.userId;
+
         this.entityId = this.loginResponse.entityId;
         this.token = this.loginResponse.token;
         this.cartId = this.loginResponse.cartId;
-
+        this.favoritePairs = this.loginResponse.favoritePairs?JSON.parse(this.loginResponse.favoritePairs):[];
 
     }
 
@@ -141,6 +146,11 @@ export class AuthService {
         this.authenticated = true;
         console.log("[AUTH] postlogin userid=", this.userId, "authenticated=",this.authenticated);
         this.configService.setEntityPrefix("entity/" + this.entityId + "/");
+
+        if(!this.user) this.logic.getMe((user)=>{
+            this.user=user;
+            this.favoritePairs=user.favoritePairs
+        })
         this.emitAuthStatus();
         this.updateLocalStorage()
 

@@ -14,6 +14,7 @@ import {Logic} from "../../../logic/Logic";
 export class AppConfigService {
 
 
+
     constructor(public configService: ConfigService, public consoleService: ConsoleService, public apiService: ApiService, public authService: AuthService, public logic: Logic) {
         consoleService.serv('APPCONFIG')
         this.generateListing();
@@ -29,7 +30,9 @@ export class AppConfigService {
                 console.log("active", this.authService.isSubscriptionActive(), this.authService.authenticated, this.authService.paymentExpiration, this.authService.paymentExpiration > new Date().getTime() / 1000)
             })
     }
-    possibleBrokers=["binance","kraken"]
+    isCustomDashboardEnabled=false;
+
+    possibleBrokers:string[]=["binance","kraken"]
     brokersLinks={"binance":{signup:"",api:"https://www.binance.com/userCenter/createApi.html"},"kraken":{api:"",signup:""}}
     ohlcColors = {
         orange: {
@@ -48,7 +51,7 @@ export class AppConfigService {
 
         spec: {
             lineColor: '#becbcc',
-            color: '#b19903',
+            color: '#b12400',
             upColor: '#46c53e',
             downColor: '#b11c11'
         }

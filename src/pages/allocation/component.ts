@@ -1,4 +1,4 @@
-import {Component, Injectable, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, ViewChild} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
@@ -17,7 +17,8 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 
 @Component({
     selector: 'app-allocation',
-    templateUrl: 'template.html'
+    templateUrl: 'template.html',
+    changeDetection: ChangeDetectionStrategy.Default
 
 })
 @Injectable()
@@ -28,11 +29,12 @@ export class AppAllocationPage extends DataAndChartTemplate {
     prices = [];
     type = "plain"
     showDataTable = true;
-    providers = ["global"]
+
+
     isLoading = true;
-    displayedColumns = ['symbol', 'available', 'price', 'value',  'pairs'];
+    displayedColumns = ['symbol', 'available', 'price', 'value', 'pairs'];
     show = "hide_small_balances"
-    possibleShow = ["hide_small_assets",  "show_all_balances"]
+    possibleShow = ["hide_small_assets", "show_all_balances"]
     optionsBase = {
         chart: {
             type: 'pie', margin: 0, backgroundColor: {
@@ -65,29 +67,31 @@ export class AppAllocationPage extends DataAndChartTemplate {
         }
     }
 
+    brokers: string[] = []
 
-    constructor(public authService: AuthService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
+    constructor(public authService: AuthService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, private cd: ChangeDetectorRef) {
         super(logic, appConfigService, eventService, "plain")
 
         this.eventService.brokerLoadedEvent.subscribe((val) => {
             this.brokerLoaded(val)
+            this.brokers = tradingService.getConnectedBrokersKeys();
             this.hasConnected = true;
         })
+        this.brokers = tradingService.getConnectedBrokersKeys();
         console.log("TEST", this.authService.isAuthenticated(), !this.isLoading, !this.hasConnected)
         this.options = [];
 
     }
 
     brokerLoaded(val: { key: string, loaded: boolean }) {
-        this.update(val.key)
-        this.update("global")
+        this.update(val.key, true)
+        //this.update("global")
     }
 
 
     charts = [];
     portfolios = {}
     dataSource = [];
-    fdata = []
     hasConnected = false;
 
     resetSnapshot() {
@@ -99,19 +103,21 @@ export class AppAllocationPage extends DataAndChartTemplate {
 
     data;
 
-    update(key) {
-        console.log("updatealloc", key)
+    update(key, isInitial) {
+
         this.prepareUpdate(key)
         if (this.tradingService.isBrokerLoaded(key)) {
             let P = this.tradingService.getBrokerByName(key).getPortfolio();
-            console.log("alloc", key, this.isShowingAllBalances() ? null : 15, JSON.stringify(P.content))
-            if (key == "global")
-                this.processData(key, P)
-            else
-                P.refresh(() => {
 
+            if (key == "global" || isInitial)
+                this.processData(key, P)
+            else{
+                this.processData(key, P)
+                P.refresh(() => {
                     this.processData(key, P)
                 });
+            }
+
 
         } else {
             console.log("broker", key, "not ready")
@@ -119,10 +125,7 @@ export class AppAllocationPage extends DataAndChartTemplate {
     }
 
     processData(key, P) {
-        console.log("alloc refresh", key, this.isShowingAllBalances() ? null : 15, JSON.stringify(P.content))
-
         let alloc = P.getAllocation(this.isShowingAllBalances() ? null : 15)
-        console.log("alloc getalloc", key, this.isShowingAllBalances() ? null : 15, alloc, JSON.stringify(P.content))
         alloc.gridData.push({symbol: "TOTAL", value: P.getTotalUSDValue()})
         this.portfolios[key] = P;
         this.dataSource[key] = new MatTableDataSource(alloc.gridData);
@@ -133,7 +136,7 @@ export class AppAllocationPage extends DataAndChartTemplate {
         }, key)
         this.charts[key] = new Chart(this.options[key]);
         this.isLoading = false
-        console.log("TEST", this.authService.isAuthenticated(), !this.isLoading, !this.hasConnected)
+        this.cd.markForCheck()
     }
 
     isShowingAllBalances() {
@@ -142,15 +145,13 @@ export class AppAllocationPage extends DataAndChartTemplate {
 
     refreshFilter(key) {
         for (let keyb in this.tradingService.getConnectedBrokers())
-            this.update(keyb)
+            this.update(keyb, true)
 
-        this.update("global")
+        //this.update("global")
     }
 
 
     prepareUpdate(key) {
-        if (this.providers.indexOf(key) === -1)
-            this.providers.push(key)
         this.options[key] = this.optionsBase;
         this.allocation[key] = [];
         this.filteredAllocation[key] = [];
@@ -158,20 +159,14 @@ export class AppAllocationPage extends DataAndChartTemplate {
 
     updateData() {
         this.allocation = [];
-
-        this.allocation["global"] = [];
         if (this.authService.isAuthenticated()) {
             this.logic.getMe((user) => {
-
-
                 console.log("logged", user)
                 if (user.ConnectionBinance)
-                    this.update("binance")
-
+                    this.update("binance", false)
                 if (user.ConnectionKraken)
-                    this.update("kraken")
-                this.update("global")
-
+                    this.update("kraken", false)
+                // this.update("global")
             });
 
         }

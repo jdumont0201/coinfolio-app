@@ -15,9 +15,7 @@
         <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
     </div>
     <div *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()" class="alert-configure-broker">
-        <mat-icon>settings</mat-icon>
-        <span>Configure broker connections in your settings to show broker trade data.</span><br>
-        <button mat-raised-button="" color="primary" routerLink="/config/all">Configure now</button>
+        <app-configure-broker></app-configure-broker>
     </div>
     <ng-container *ngIf="listing.length>0 || isRefreshing">
         <button id="listing-view" mat-raised-button (click)="setGraphView()">
@@ -93,7 +91,7 @@
                 </ng-container>
 
             </mat-tab>
-            <mat-tab label="Searched {{searched.length}}" *ngIf="searchedText?.length>0">
+            <mat-tab label="Searched ({{searched.length}})" *ngIf="searchedText?.length>0">
                 <div class="table lighten">
                     <div class="tr keepcolor">
                         <div>                            In PFT                        </div>

@@ -97,7 +97,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         this.supra = pair.supra;
         this.infra = pair.infra;
         if(this.refresh)
-        this.initRefresh()
+        //this.initRefresh()
         this.firstLoadData()
     }
     refreshData(){

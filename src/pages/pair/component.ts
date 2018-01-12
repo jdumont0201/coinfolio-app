@@ -97,24 +97,10 @@ isLoading=true;
             const m = JSON.parse(message)
             this.prevLastPrice = this.lastPrice
             this.lastPrice = parseFloat(m.p)
-            this.setNbFormat()
+            this.numberFormat=Crypto.getNbFormat(this.lastPrice)
         })
     }
 
-    setNbFormat() {
-        if (this.lastPrice > 10000) {this.numberFormat = "1.1-1";this.nbDecimal=1}
-        else if (this.lastPrice > 1000){ this.numberFormat = "1.2-2";this.nbDecimal=2}
-        else if (this.lastPrice > 100) {this.numberFormat = "1.3-3";this.nbDecimal=3}
-        else if (this.lastPrice > 10) {this.numberFormat = "1.4-4";this.nbDecimal=4}
-        else if (this.lastPrice > 1) {this.numberFormat = "1.5-5";this.nbDecimal=5}
-        else if (this.lastPrice > 0.1){ this.numberFormat = "1.6-6";this.nbDecimal=6}
-        else if (this.lastPrice > 0.01){ this.numberFormat = "1.7-7";this.nbDecimal=7}
-        else{ this.numberFormat = "1.7-7";this.nbDecimal=7}
-        console.log(this.lastPrice, this.numberFormatNDecimals, this.numberFormat)
-
-
-
-    }
 
 
 }

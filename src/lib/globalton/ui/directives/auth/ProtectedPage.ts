@@ -68,7 +68,7 @@ export abstract class ProtectedPage {
         //console.log("ISPROTECTED",this.protected);
         this.pageService = pageService;
        // this.router=router;
-        //this.pagename=this.classname = this.__proto__.constructor.name;
+        //this.pagename=this.classname = this.__proto__.constructor.key;
         this.pagename=this.classname = Object.getPrototypeOf(this).constructor.name;
         this.console=this.pageService.consoleService;
         this.console.constr(this.classname);

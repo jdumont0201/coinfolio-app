@@ -34,7 +34,7 @@ export class AppTradesPage extends DataAndChartTemplate implements OnDestroy {
     hasConnected = false;
     trades = []
     isLoading = true;
-    displayedColumns = ['symbol', 'direction', 'time', 'price'];
+    displayedColumns = ['symbol', 'direction', 'time', 'price','qty','total'];
     displayedColumns2 = ['symbol', 'count'];
     dataSource2;
 

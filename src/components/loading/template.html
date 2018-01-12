@@ -4,10 +4,10 @@
     <ul>
     <li *ngIf="apiService.isUp">Connected to API <mat-icon >check</mat-icon></li>
     <li *ngIf="authService?.isAuthenticated()">Connected to your account <mat-icon >check</mat-icon></li>
-        <ng-container *ngFor="let b of appConfigService?.possibleBrokers">
-            {{b}}
-            PTF{{tradingService?.brokers.loadStatus[b]?.portfolio?"ok":"not"}}
-            Ticker{{tradingService?.brokers.loadStatus[b]?.ticker?"ok":"not"}}
+        <ng-container *ngFor="let b of tradingService?.enabledBrokers">
+            <li>{{b}}</li>
+            <li>Portfolio {{tradingService?.brokers.loadStatus[b]?.portfolio?"Done.":"Loading..."}}</li>
+            <li>Ticker {{tradingService?.brokers.loadStatus[b]?.ticker?"Done.":"Loading..."}}</li>
 
             <ng-container *ngIf="authService?.loginResponse">
         <li *ngIf="authService?.loginResponse['hasConnection'+b]">Connecting to {{b}}...</li>

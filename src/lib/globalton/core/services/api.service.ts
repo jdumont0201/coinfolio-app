@@ -63,16 +63,6 @@ export class ApiService {
         f();
     }
 
-    //TEST WHETHER API IS LIVE
-    /*if (this.pingOnError) {
-     this.ping((isUp) => {
-     if (isUp) {
-     this.doProcessError(errorCode,err);
-     } else {
-     this.messageService.addError("API_DOWN", null, "API is unreachable.");
-     }
-     });
-     */
 
     processError(errorCode: string,url:string, err,f?:Function) {
         this.messageService.hideLoading();
@@ -82,15 +72,15 @@ export class ApiService {
 
 
         if(!err){
-            this.messageService.addError("API_ERROR_UNKNOWN", null, "No error desc available"+url);
+            this.messageService.addError("API_ERROR_UNKNOWN", null, "No error desc available "+url);
             f({error:true,desc:"Api error",url:url})
         }
 
         if (err.name === "TimeoutError") {
-            this.messageService.addError("API_TIMEOUT", null, "API is unreachable."+url,);
+            this.messageService.addError("API_TIMEOUT", null, "API is unreachable. "+url);
             f({error:true,desc:"Request has timed out.",url:url})
         }else if (err.message === "Unauthorized") {
-            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource."+url);
+            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource. "+url);
             f({error:true,desc:"Request has timed out.",url:url})
         }else{
             console.log("other error",errorCode,err);
@@ -193,11 +183,11 @@ export class ApiService {
         this.put(fullurl, ser, h, f);
     }
 
-    authpatch(url: string, model: Model|any, f: Function): void {
+     authpatch(url: string, model: Model|any, f: Function): void {
         const fullurl: string = this.baseurl + url;
         const h: HttpHeaders = this.authService.authPostHeaders;
         const ser: string = typeof model =="object"?JSON.stringify(model):model.serialize();
-        this.patch(fullurl, model,  h, f);
+        this.patch(fullurl,ser,  h, f);
     }
 
     authpost(url: string, model: Model|any, f: Function): void {

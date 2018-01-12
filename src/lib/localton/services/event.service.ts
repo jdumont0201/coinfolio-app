@@ -19,6 +19,7 @@ export class EventService implements OnInit {
     @Output() windowResizedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() brokerLoadedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() favoriteUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
 
     isTickerVisible:boolean=true;
     isMenuDisplayed: boolean = true;
@@ -65,7 +66,7 @@ showLoading() {
         this.isLoadingVisible = true;
     }
 getIsLoadingVisible(){
-        console.log("getisloading",this.isLoadingVisible)
+        //console.log("getisloading",this.isLoadingVisible)
         return this.isLoadingVisible
 }
     constructor(public consoleService: ConsoleService, public authService: AuthService, public appConfigService: AppConfigService, public configService: ConfigService,public messageService:MessageService,public snackBar: MatSnackBar) {
@@ -85,9 +86,9 @@ getIsLoadingVisible(){
 
     loginChanged(value?) {
         this.consoleService.event("loginChanged")
-        if (this.authService.isAuthenticated())
-            this.hideLoading();
-        else {
+        if (this.authService.isAuthenticated()){
+            //this.hideLoading();
+        }else {
 //            this.showWelcome()
   //          this.showVeil()
         }
@@ -157,5 +158,8 @@ getIsLoadingVisible(){
     setPanel(p) {
         this.consoleService.event("set panel", p)
         this.showPanel(p)
+    }
+    updateFavorites(favorites){
+        this.favoriteUpdatedEvent.emit(favorites);
     }
 }

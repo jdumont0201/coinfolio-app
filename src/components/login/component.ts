@@ -16,6 +16,7 @@ import {MatSnackBar} from "@angular/material";
 @Injectable()
 export class AppLoginComponent {
   @Input() popup;
+  @Input() redirect:string;
   hide:boolean=true
   form = new FormGroup({
     email: new FormControl('', {

@@ -2,6 +2,8 @@ import {Logic} from "../../../logic/Logic";
 import {EventService} from "../services/event.service";
 import {Crypto as C} from "../utils/utils"
 import {TradingService} from "../services/trading.service";
+import {RefreshService} from "../services/refresh.service";
+import {ConsoleService} from "../../globalton/core/services/console.service";
 
 export type CryptoPair = { pair: string, bids?: number, bid?: number,oldask?:number,oldbid?:number, asks?: number, usdask: number,hasTraded?:boolean, usdbid: number, ask?: number, ratio?: number, infra: string, supra: string, inptf?: boolean ,volume?:number,change?:number,changelastprice?:number,pricemoy?:number,changelasttime?:number,relativeVolume?:number}
 
@@ -9,7 +11,7 @@ export class Listing {
     content: { [name: string]: CryptoPair } = {}
     dataTime: Date;
     isLoaded:boolean
-    constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService, public key: string) {
+    constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService,  public refreshService:RefreshService,public key: string,public consoleService:ConsoleService) {
 
     }
 
@@ -18,13 +20,21 @@ export class Listing {
     }
 
     refresh() {
-        this.load(() => {        })
+        this.loadListing(() => {        })
     }
 
-    load(f: Function) {
+    loadListing(f: Function) {
         console.log("TRADE : LOAD LISTING", this.key)
         if (this.key == "binance") {
-            this.loadBinance(f);
+            this.loadBinance((success)=>{
+                if(success){
+                    this.consoleService.eventSent("ListingUpdatedEvent <-- Listing",{broker:this.key})
+                    this.tradingService.ListingUpdatedEvent.emit({broker:this.key})
+                    f(true)
+                }else{
+                    f(false)
+                }
+            });
         }else{
 
         }
@@ -34,7 +44,7 @@ export class Listing {
         console.log("TRADE LOAD LISTING BINANCE")
         this.logic.BinanceGetBookTickers((listing) => {
             this.dataTime = new Date();
-            console.log("LOADBINLIST RES", listing)
+            console.log("TRADE LOAD LISTING BINANCE RES", listing)
             if (listing) {
                 for (let k in listing) {
                     let l = listing[k]
@@ -47,7 +57,6 @@ export class Listing {
 
                         this.add(k, parseFloat(l.bid), parseFloat(l.ask), parseFloat(l.bids), parseFloat(l.asks), pair.infra, pair.supra, inptf, usdref.ask, usdref.bid,hasTraded)
                     }
-
                 }
                 this.isLoaded=true
                 f(true);

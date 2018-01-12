@@ -1,0 +1,11 @@
+<div *ngIf="!authService?.isAuthenticated()" class="">
+    <app-login [redirect]="'/config/subscription'" [popup]="false"></app-login>
+</div>
+<div *ngIf="authService?.isAuthenticated()">
+    <mat-toolbar>
+        <h3>Config > Subscription </h3>
+    </mat-toolbar>
+    Premium expires on {{
+    user?.currentPaymentExpiration | date:"medium"}}
+
+</div>

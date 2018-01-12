@@ -53,7 +53,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnDestroy {
         //this.tradingService.reload()
         this.isLoading = true;
         this.firstloadData();
-        this.initRefresh()
+        //this.initRefresh()
     }
     brokerLoaded(val: { key: string, loaded: boolean }) {
         this.loadData()

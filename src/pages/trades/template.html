@@ -6,11 +6,8 @@
     <span>Please login or sign up to access your private trading dashboard.</span><br>
     <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
 </div>
-<div *ngIf="authService.isAuthenticated() && !tradingService?.isAnyBrokerConfigured() " class="alert-configure-broker">
-    <mat-icon>settings</mat-icon>
-    <span>Configure broker connections in your settings to show broker trade data.</span><br>
-    <button mat-raised-button="" color="primary" routerLink="/config/all">Configure now</button>
-</div>
+
+<app-configure-broker *ngIf="authService.isAuthenticated() && !tradingService?.isAnyBrokerConfigured() "></app-configure-broker>
 
 <mat-tab-group>
     <mat-tab *ngFor="let prov of providers" label="{{prov}}">
@@ -27,7 +24,7 @@
                 </ng-container>
                 <ng-container matColumnDef="direction">
                     <mat-header-cell *matHeaderCellDef> Direction</mat-header-cell>
-                    <mat-cell *matCellDef="let element"><span class=" {{element.direction=='long'?valpos:valneg}}">{{element.direction }}</span>
+                    <mat-cell *matCellDef="let element"><span class=" {{element.direction=='long'?'valpos':'valneg'}}">{{element.direction | uppercase }}</span>
                     </mat-cell>
                 </ng-container>
 
@@ -37,9 +34,17 @@
                 </ng-container>
                 <ng-container matColumnDef="price">
                     <mat-header-cell *matHeaderCellDef> Price</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.price }}</mat-cell>
+                    <mat-cell *matCellDef="let element">{{element.price }} {{tradingService.getInfra(element.symbol)}}</mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="qty">
+                    <mat-header-cell *matHeaderCellDef> Qty</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.q }} {{tradingService.getSupra(element.symbol)}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="total">
+                    <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.price*element.q  | number:"1.5-5"}} {{tradingService.getInfra(element.symbol)}}</mat-cell>
+                </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>

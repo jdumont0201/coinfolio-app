@@ -1,9 +1,11 @@
 import {Logic} from "../../../logic/Logic";
 import {TradingService} from "../services/trading.service";
 
-export type Tick = { p: number, volume?: number, change?: number, changepips?: number, changelastprice?: number, changelasttime?: number,changeCloseTime?:number, changeLastTime?:number}
+export type Tick = { p: number, volume?: number, change?: number, changepips?: number, changelastprice?: number, changelasttime?: number,changeCloseTime?:number, changeLastTime?:number,usdvalue?:number,unitvalue?:number}
 import * as async from 'async';
 import {CryptoPair} from "./Listing";
+import {RefreshService} from "../services/refresh.service";
+import {ConsoleService} from "../../globalton/core/services/console.service";
 
 export type Raw24hTicker = { symbol, quoteVolume, priceChange, priceChangePercent, prevClosePrice }
 
@@ -33,34 +35,41 @@ export class Ticker {
 
     maxVolume: Object = {};
 
-    constructor(public logic: Logic, public tradingService: TradingService, key: string) {
+    constructor(public logic: Logic, public tradingService: TradingService, public refreshService:RefreshService,key: string, public consoleService:ConsoleService) {
         console.log("NEW BROKER TICKER", key)
         this.key = key;
         this.content = {}
     }
 
-    getPairChange(pair: string, f) {
-        if (pair in this.content) {
-            let c=this.content[pair];
-            if (c.change) {
-                f({last: c.changelastprice, change: c.change,current:c.p,changeCloseTime:c.changeCloseTime,changeLastTime:c.changeLastTime})
+    getPairChange(pair: string, f,force?:boolean) {
+        //console.log("getpairchange",pair);
+        let c:Tick=this.getTick(pair)
+        if (c) {
+          //  console.log("getpairchange exist ?" ,pair,JSON.stringify(c));
+            if (c.change && !force) { //*if tick change data is already loaded
+                f({last: c.changelastprice, change: c.change,current:c.p,changeCloseTime:c.changeCloseTime,changeLastTime:c.changeLastTime,p:c.p})
             } else {
                 this.load24hChangePerPair(pair, (res) => {
+                    /*add tick change data*/
                     c.change = res.change;
                     c.p = res.current;
                     c.changeCloseTime=res.closeTime;
                     c.changeLastTime=res.lastTime;
                     c.changelastprice = res.last;
-                    f({last: res.last,current:res.current, change: res.change});
+            //        console.log("getpairchange update" ,pair,JSON.stringify(this.content[pair]));
+                    f({last: res.last,current:res.current, change: res.change,p:c.p,changeCloseTime:c.changeCloseTime,changeLastTime:c.changeLastTime});
                 });
             }
+        }else{
+            f(null)
         }
     }
-
-    load(f: Function) {
+    loadTicker(f: Function) {
+        console.log("TICKER LOAD ")
         if (this.key == "binance") {
             this.loadBinance((success)=>{
                 if(success){
+                    this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker",{broker:this.key,pair:"all"})
                     this.tradingService.PriceUpdatedEvent.emit({pair:"all",broker:this.key})
                     f(true)
                 }else{
@@ -79,29 +88,47 @@ export class Ticker {
     }
 
     add(pair: string, p: number) {
-
+        let sendEvent=false;
+        if(pair in this.content)
+            this.content[pair].p = p;
+            else
         this.content[pair] = {p: p};
+        if(sendEvent){
+        this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker",{broker: this.key, pair: pair, price: p})
         this.tradingService.PriceUpdatedEvent.emit({broker: this.key, pair: pair, price: p})
+        }
     }
 
     loadBinance(f: Function) {
-        console.log("TICKER LOADBIN")
+        console.log("TICKER LOAD BIN")
         this.logic.BinanceGetLivePrices((prices) => {
             this.dataTime = new Date();
-            console.log("LOADBIN RES", prices)
+            console.log("TICKER LOAD BIN RES", prices)
             if (prices) {
                 for (let symbol in prices) {
-                    let p = parseFloat(prices[symbol])
+                    const p = parseFloat(prices[symbol])
                     this.add(symbol, p)
                 }
-                this.connected = true;
+                this.afterLoad()
                 f(this.connected);
             }else{
                 f(null)
             }
         });
     }
-
+    afterLoad() {
+        this.connected = true;
+        this.refreshService.create(this.key + "-ticker")
+        this.refreshService.create(this.key + "-portfolio-ticker")
+    }
+    refresh(f, force?: boolean) {
+        console.log("TICKER ",this.key,"refresh")
+        if (force) this.content = {}
+        this.loadTicker(()=>{
+            this.tradingService.getBrokerByName(this.key).getPortfolio().refreshTotal();
+            f();
+        })
+    }
     processLoadBinance(e, cb) {
         setTimeout(() => {
             this.loadBinance24ChangeSymbol(typeof e == "string" ? e : e.symbol, (res) => {
@@ -111,6 +138,7 @@ export class Ticker {
     }
 
     load24hChangePerPair(pair, f: Function) {
+        console.log("load24hChangePerPair")
         if (this.key == "binance")
             this.loadBinance24ChangeSymbol(pair, (res) => {
                 f({last: res.prevClosePrice, change: res.priceChange,current:res.lastPrice,lastTime:res.openTime,closeTime:res.closeTime})
@@ -121,17 +149,18 @@ export class Ticker {
     }
 
     loadBinance24ChangeSymbol(pair: string, f: Function) {
+        console.log("loadBinance24ChangeSymbol")
         this.logic.BinanceGet24hChange(pair, (ticker) => {
-            console.log(" -> gpc=", ticker)
+            //console.log(" -> gpc=", ticker)
             if (ticker) {
-                this.add24hChange(ticker.symbol, ticker.quoteVolume, ticker.priceChange, ticker.priceChangePercent, ticker.prevClosePrice)
+                this.add24hChange(ticker.symbol, ticker.quoteVolume, ticker.priceChange, ticker.priceChangePercent, ticker.prevClosePrice,ticker.lastPrice)
                 f(ticker);
             } else {
                 f(null)
             }
         })
     }
-
+    /* adds the changes data from Ticker to the Listing Cryptopair*/
     appendChange(L: CryptoPair[]) {
         L.forEach((l) => {
             const t = this.content[l.pair]
@@ -191,18 +220,20 @@ export class Ticker {
 
     }
 
-    add24hChange(pair: string, volume: number, priceChange: number, priceChangePercent: number, ChangeLastPrice: number) {
+    add24hChange(pair: string, volume: number, priceChange: number, priceChangePercent: number, ChangeLastPrice: number,lastPrice:number) {
         this.setMaxVolume(pair, volume);
         if (!pair) {
             console.log("ticker no pair");
             return
         }
-        console.log("add change", pair, priceChangePercent, "vol=", volume)
+
         if (pair in this.content) {
             this.content[pair].volume = volume;
             this.content[pair].changepips = priceChange;
+            this.content[pair].p = lastPrice;
             this.content[pair].change = priceChangePercent;
             this.content[pair].changelastprice = ChangeLastPrice;
+            this.tradingService.PriceChangeUpdatedEvent.emit({pair:pair,broker:this.key})
         } else {
             console.log("ticker new item at live", pair)
         }
@@ -231,6 +262,17 @@ export class Ticker {
         else return null;
     }
 
+    getPair(symbol){
+        if (symbol == "USDT") return "USDT";
+        let candidate = symbol + "USDT";
+        if (this.hasPair(candidate))
+            return candidate;
+        else if (this.hasPair(symbol + "BTC"))
+            return symbol + "BTC"
+        else if (this.hasPair(symbol + "BNB"))
+            return symbol + "BNB"
+        else console.log("cannot find pair for symbol"+symbol)
+    }
     getUSDValue(symbol: string): number {
         if (symbol == "USDT") return 1;
         let candidate = symbol + "USDT";
@@ -239,78 +281,12 @@ export class Ticker {
         else if (this.hasPair(symbol + "BTC"))
             return this.getPrice(symbol + "BTC") * this.getPrice("BTCUSDT");
         else if (this.hasPair(symbol + "BNB"))
-            return this.getPrice(symbol + "BNB") * this.getPrice("BTCUSDT");
-
-
+            return this.getPrice(symbol + "BNB") * this.getPrice("BNBUSDT");
     }
+    /*getUSDValuePair(pair:string):number{
+        let L=this.tradingService.getBrokerByName(this.key).getListing()
+        let p=L[pair];
 
+    }*/
 }
 
-/*
-export class TickerCollection {
-    portfolios: Ticker[] = []
-    isLoaded = false;
-
-    getConnected(): Ticker[] {
-        return this.portfolios.filter((p: Ticker) => {
-            return p.connected;
-        })
-    }
-
-    constructor(public logic: Logic,public tradingService) {
-
-    }
-
-    init(keys: string[], f: Function) {
-
-        this.create("global")
-        keys.forEach((k: string) => {
-            this.create(k)
-        })
-
-
-        this.load(f);
-    }
-
-    add(key: string, symbol: string, q: number) {
-        this.getPortfolioByName(key).add(symbol, q);
-        this.getPortfolioByName("global").add(symbol, q);
-    }
-
-    addBatch(key: string, batch: { symbol: string, q: number }[]) {
-        let idx = this.getPortofolioIndex(key);
-        batch.forEach((b) => {
-            this.portfolios[idx].add(b.symbol, b.q)
-        })
-    }
-
-    getPortfolioByName(key): Ticker {
-        return this.portfolios[this.getPortofolioIndex(key)];
-    }
-
-    getPortofolioIndex(key): number {
-        let res = -1;
-        this.portfolios.forEach((p: Ticker, i: number) => {
-            if (p.key == key) res = i;
-        })
-        return res;
-    }
-
-    reset() {
-        this.portfolios = [];
-    }
-
-
-    create(name: string) {
-        let P = new Ticker(this.logic,this.tradingService, name);
-    }
-
-    load(f: Function) {
-
-        this.portfolios.forEach((p: Ticker) => {
-            p.load((res) => {
-                if (res) this.isLoaded = true
-            });
-        })
-    }
-}*/

@@ -5,6 +5,7 @@ import {TradingService} from "../services/trading.service";
 
 
 import * as async from 'async';
+import {RefreshService} from "../services/refresh.service";
 
 export type Trade = { id: string, price: number, symbol: string, direction: string, time: number, commission: number, commissionunit: string, q: number, broker: string }
 
@@ -15,7 +16,7 @@ export class Trades {
     symbolCount = {}
     mostTradedPairs;
 
-    constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService, public key: string) {
+    constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService, public refreshService:RefreshService, public key: string) {
 
     }
 

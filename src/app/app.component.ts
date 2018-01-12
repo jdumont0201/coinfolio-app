@@ -42,7 +42,7 @@ export class AppComponent {
 
     }
     brokerLoaded(val){
-        this.eventService.hideLoading()
+        //this.eventService.hideLoading()
     }
     errorsUpdated(msg: any) {
         console.log("error changed", msg)

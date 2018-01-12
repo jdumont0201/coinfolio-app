@@ -74,7 +74,7 @@ export class AppBrokerConnectionsComponent {
             this.logic.saveUser(this.user, (res) => {
                 this.snackBar.open("User saved. Loading broker...", null, {duration: 3000})
                 this.check(name)
-                this.tradingService.getBrokerByName(name).load((res)=>{
+                this.tradingService.getBrokerByName(name).loadBroker((res)=>{
                     this.snackBar.open("Broker loaded", null, {duration: 3000})
                 })
             })

@@ -2,7 +2,37 @@
     <mat-toolbar>
         <h3>Settings </h3>
     </mat-toolbar>
-
+<a class="config-link" [routerLink]="'/config/profile'">
+    <div class="left"><mat-icon >face</mat-icon></div>
+    <div class="right"><div class="title">Profile</div>
+    <div class="sub">Edit your personal settings</div>
+    </div>
+</a>
+    <a class="config-link" [routerLink]="'/config/subscription'">
+    <div class="left"><mat-icon >payment</mat-icon></div>
+    <div class="right"><div class="title">Subscription</div>
+    <div class="sub">Modify your subscription</div>
+    </div>
+</a>
+    <a class="config-link" [routerLink]="'/config/favorites'">
+    <div class="left"><mat-icon >star</mat-icon></div>
+    <div class="right"><div class="title">Favorites</div>
+    <div class="sub">Highlight your favorite pairs</div>
+    </div>
+</a>
+    <a class="config-link" [routerLink]="'/config/interface'">
+        <div class="left"><mat-icon >tab</mat-icon></div>
+        <div class="right"><div class="title">Interface</div>
+            <div class="sub">Change your display settings</div>
+        </div>
+    </a>
+    <a class="config-link" [routerLink]="'/config/brokers'">
+        <div class="left"><mat-icon >swap_horiz</mat-icon></div>
+        <div class="right"><div class="title">Broker connections</div>
+            <div class="sub">Connect to your favorite brokers.</div>
+        </div>
+    </a>
+<ng-container *ngIf="false">
     <mat-tab-group (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Profile">
             E-mail: {{user?.email}}<br>
@@ -23,23 +53,12 @@
             </div>
         </mat-tab>
         <mat-tab label="Latest imports">
-            <table>
-                <thead>
-                <td>Date</td>
-                <td>Import type</td>
-                <td>Lines</td>
-                </thead>
-                <tbody>
-                <tr *ngFor="let i of imports" class="import-line">
-                    <td>{{i.ts*1000 | date:"medium"}}</td>
-                    <td> {{i.code}}</td>
-                    <td> {{i.nlines}}</td>
-                </tr>
-                </tbody>
-            </table>
+
         </mat-tab>
-    </mat-tab-group>
+    </mat-tab-group></ng-container>
+
 </div>
+
 <div *ngIf="!authService?.isAuthenticated()" class="">
 
     <app-login [popup]="false"></app-login>

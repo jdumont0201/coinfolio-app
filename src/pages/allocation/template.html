@@ -8,27 +8,23 @@
     <span>Please login or sign up to access your private trading dashboard.</span><br>
     <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
 </div>
-<div *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"
-     class="alert-configure-broker">
-    <mat-icon>settings</mat-icon>
-    <span>Configure broker connections in your settings to show broker trade data.</span><br>
-    <button mat-raised-button="" color="primary" routerLink="/config/all">Configure now</button>
-</div>
+
+<app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>
 
 <mat-tab-group>
-    <mat-tab *ngFor="let prov of providers" label="{{prov=='global'?'All brokers':prov}}">
+    <mat-tab *ngFor="let b of brokers" label="{{b}}">
         <section class="widget allocationg">
-            <h5>{{prov.substring(0,1).toUpperCase()+prov.substring(1,prov.length) }} portfolio
+            <h5>{{b.substring(0,1).toUpperCase()+b.substring(1,b.length) }} portfolio
                 <div class="header-select"> Showing <span class="header-button" [matMenuTriggerFor]="appMenu">   #{{show}}     <mat-icon>expand_more</mat-icon>    </span>
                 </div>
             </h5>
             <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
             <mat-menu #appMenu="matMenu">
-                <button (click)="show=i;refreshFilter(prov)" mat-menu-item *ngFor="let i of possibleShow">{{i}}</button>
+                <button (click)="show=i;refreshFilter(b)" mat-menu-item *ngFor="let i of possibleShow">{{i}}</button>
             </mat-menu>
-            <span *ngIf="!isLoading" class="alloc-total">Approx. USD value<br>${{portfolios[prov]?.getTotalUSDValue() | number:"1.2-2"}}</span>
+            <span *ngIf="!isLoading" class="alloc-total">Approx. USD value<br>$<app-portfolio-value [broker]="b"></app-portfolio-value></span>
 
-            <div class="highchart-box" [chart]="charts[prov]"></div>
+            <div class="highchart-box" [chart]="charts[b]"></div>
 
             <br class="clear">
 
@@ -37,9 +33,9 @@
 
         </section>
         <section class="widget allocation">
-            <h5>Data - {{prov=='global'?'Combined sources':prov}}</h5>
+            <h5>Data - {{b=='global'?'Combined sources':b}}</h5>
             <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-            <mat-table #table class="data" [dataSource]="dataSource[prov]" *ngIf="showDataTable">
+            <mat-table #table class="data" [dataSource]="dataSource[b]" *ngIf="showDataTable">
                 <ng-container matColumnDef="symbol">
                     <mat-header-cell *matHeaderCellDef> Symbol</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.symbol}}</mat-cell>

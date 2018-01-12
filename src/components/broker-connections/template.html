@@ -5,7 +5,7 @@
                 <section class="widget info ">
                     <h5>Connect</h5>
                     <div class="padded">
-                    <mat-slide-toggle [color]="accent" [(ngModel)]="user.ConnectionBinance"> Enable</mat-slide-toggle>
+                    <mat-slide-toggle [color]="accent" [(ngModel)]="user['Connection'+b.charAt(0).toUpperCase() + b.slice(1)]"> Enable</mat-slide-toggle>
                         <div class="">
                             <button mat-raised-button="" (click)="goTo(appConfigService.brokersLinks[b].signup)" >Sign up at {{b}}</button>
                             <button mat-raised-button="" (click)="goTo(appConfigService.brokersLinks[b].api)" >Create an API token </button>

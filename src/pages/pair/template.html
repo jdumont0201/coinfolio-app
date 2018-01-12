@@ -2,8 +2,10 @@
     <mat-toolbar>
         <h3>{{supra}}/{{infra}} </h3>
         <div class="ticker">
-            <div class="ticker-price ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}" >{{lastPrice| number:numberFormat}}</div>
-            <div *ngIf="lastPrice" class="ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}"><mat-icon>{{lastPrice > prevLastPrice?'arrow_upward':'arrow_downward'}}</mat-icon></div>
+            <div class="ticker-price ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}">{{lastPrice| number:numberFormat}}</div>
+            <div *ngIf="lastPrice" class="ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}">
+                <mat-icon>{{lastPrice > prevLastPrice?'arrow_upward':'arrow_downward'}}</mat-icon>
+            </div>
         </div>
         <div class="refresh-box" *ngIf="!isLoading">
             <div class="refresh-datadate">Data date {{loadTime | date:'HH:mm:ss'}}</div>
@@ -22,7 +24,7 @@
                 </div>
                 <div id="live-right">
                     <app-live-price [refresh]="true" [pair]="pairId" [trades]="trades" [period]="'1m'"></app-live-price>
-                    <app-live-price [refresh]="true"  [pair]="pairId" [period]="'5m'"></app-live-price>
+                    <app-live-price [refresh]="true" [pair]="pairId" [period]="'5m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'15m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'1h'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'1d'"></app-live-price>
@@ -32,16 +34,16 @@
         <mat-tab label="Trades">
             <app-my-trades [pairId]="pairId"></app-my-trades>
         </mat-tab>
+        <mat-tab label="News">
+
+            <app-headlines [symbol]="supra" [possibleSymbols]="[supra,infra,pairId]" [source]="'Google News'" [possibleSources]="['Google News']"></app-headlines>
+
+
+        </mat-tab>
         <mat-tab label="Social">
-            <div class="grid grid-2-1">
-                <div class="grid-in left">
-                    <app-headlines [symbol]="supra"  [possibleSymbols]="[supra,infra,pairId]" [source]="'Google News'" [possibleSources]="['Google News']"></app-headlines>
-                </div>
-                <div class="grid-in right">
-                    <app-twitter [symbol]="supra" [possibleSymbols]="[supra,('$'+supra),(supra+' coin'),infra,pairId]"></app-twitter>
-                </div>
-                <br class="clear">
-            </div>
+
+            <app-twitter [symbol]="supra" [possibleSymbols]="[supra,('$'+supra),(supra+' coin'),infra,pairId]"></app-twitter>
+
         </mat-tab>
         <mat-tab label="Information">
             <mat-card class="example-card">
@@ -52,9 +54,11 @@
                 <mat-card-content>
                     <mat-list>
                         <mat-list-item>
-                            Symbol: {{pairId}}
-                            Supra: <a class="link" [routerLink]="'/symbol/'+supra">{{supra}}</a>
-                            Infra: <a class="link"  [routerLink]="'/symbol/'+infra">{{infra}}</a>
+                            <ul>
+                                <li>Symbol: {{pairId}}</li>
+                                <li><a class="link" [routerLink]="'/symbol/'+supra">{{supra}}</a></li>
+                                <li><a class="link" [routerLink]="'/symbol/'+infra">{{infra}}</a></li>
+                            </ul>
                         </mat-list-item>
                     </mat-list>
                 </mat-card-content>

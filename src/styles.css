@@ -1012,14 +1012,12 @@ mat-nav-list span#logo {
   display: flex;padding:3px;
   justify-content: space-between;border-bottom: solid 1px #fafafa}
 .depth-ask span,.depth-bid span{display:block}
-.depth-ask{padding:0;
-}
-.depth-bid{padding:0;
-}
-.depth-bar-ask{width:100%}
-.depth-bar-bid{width:100%}
-.depth-bar-ask .depth-bar-in{background: #640900;color:red;font-weight:bold;height:20px;line-height:20px}
-.depth-bar-bid .depth-bar-in{background: #06370a;color:#72cb00;font-weight:bold;height:20px;line-height:20px}
+.depth-ask{padding:0 ;}
+.depth-bid{padding:0  ;}
+.depth-bar-ask{width:100%;}
+.depth-bar-bid{width:100%;}
+.depth-bar-ask .depth-bar-in{background: #640900;color:red;font-weight:bold;height:20px;line-height:20px;padding-left:3px}
+.depth-bar-bid .depth-bar-in{background: #06370a;color:#72cb00;font-weight:bold;height:20px;line-height:20px;padding-left:3px}
 
 
 mat-form-field{width:100%}
@@ -1088,8 +1086,8 @@ section.widget.volume{background: #0a3515;/*  border: solid 4px #171e46;*/}
 section.widget.volume h5{background: #1b501b;/*  border: solid 4px #171e46;*/}
 section.widget.tweets{background: #0f0229;/*  border: solid 4px #171e46;*/}
 section.widget.tweets h5{background: #171e46;/*  border: solid 4px #171e46;*/}
-section.widget.depth{background: #000000;/*  border: solid 4px #171e46;*/}
-section.widget.depth h5{background: #444;/*  border: solid 4px #171e46;*/}
+section.widget.depth{background: #214165;/*  border: solid 4px #171e46;*/}
+section.widget.depth h5{background: #28628d;/*  border: solid 4px #171e46;*/}
 section.widget.trades{background: #7e6c61;/*  border: solid 4px #171e46;*/}
 section.widget.trades h5{background: #8c7a6f;/*  border: solid 4px #171e46;*/}
 
@@ -1319,19 +1317,80 @@ section.widget{    border-left: 0;
 .smallcol{width:50px}
 
 .addplus:before{content:"+"}
-.volume-bar{width:100px;height:20px;}
+.volume-bar{width:100px;height:20px;
+  display: inline;
+  position: absolute;}
 .volume-bar-in{height:20px;background:#ffffff80}
 
 div#ticker {
   background: #020202;
-  z-index: 3000;
+  z-index: 0;
   position: absolute;
   width: 100%;
   height:20px;top:0;
   border-bottom: solid 1px #065b8c;
-}
+  line-height: 20px;
+  padding-left: 4px;
 
+  box-sizing: border-box;
+}
+#ticker .col-2b-2 button{min-height: initial;line-height:initial;width:initial;height:initial;}
 .ticker-visible #underticker{
   margin-top:20px;
   position: relative;
 }
+
+
+.config-link{
+  display:flex;border-bottom: solid 1px #666;padding:5px;
+  text-decoration: none;
+}
+.config-link:hover{
+  background: #333!important;
+  cursor: pointer;
+}
+.config-link .left{
+  width: 20%;
+  text-align: right;
+  padding-right: 22px;
+  box-sizing: border-box;
+  padding-top: 12px;
+  max-width: 50px;
+  padding-left: 10px;
+}
+.config-link .right{
+  width:80%;
+}
+.config-link mat-icon{    background: white;
+  border-radius: 4px;
+  color: black;
+  padding: 2px;
+  text-align: center;
+  padding-top: 2px;
+  box-sizing: border-box;}
+.config-link .title{
+  font-size:18px;text-decoration: none;
+}
+.config-link .sub{
+font-size:13px;
+
+}
+app-portfolio-recap {
+  background: linear-gradient(black,#1f1f1f);
+  display: block;
+  padding: 5px;
+}mat-table.data mat-row {
+   min-height: initial;
+   padding: 0;
+ }
+
+.col-2{display:flex}
+.col-2-1{width:50%}
+.col-2-2{width:50%}
+.col-2b{display:flex;justify-content: space-between}
+.col-2b-1{
+  height: 100%;}
+.col-2b-2{
+  height: 100%;}
+.mat-chip:not(.mat-basic-chip), .mat-chip:not(.mat-basic-chip) span{background-color: #e0e0e0;
+  color: rgba(0, 0, 0, 0.87);}

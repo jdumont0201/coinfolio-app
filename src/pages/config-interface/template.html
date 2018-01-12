@@ -1,0 +1,10 @@
+<div *ngIf="!authService?.isAuthenticated()" class="">
+    <app-login [redirect]="'/config/interface'" [popup]="false"></app-login>
+</div>
+<div *ngIf="authService?.isAuthenticated()">
+    <mat-toolbar>
+        <h3>Config > Interface </h3>
+    </mat-toolbar>
+    Language: en_US
+
+</div>

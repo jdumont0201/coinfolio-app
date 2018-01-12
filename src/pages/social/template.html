@@ -1,0 +1,8 @@
+
+<div [@.disabled]="true">
+    <mat-toolbar>
+        <h3>News </h3>
+        <input type="text" [(ngModel)]="searchedText" placeholder="Search pairs..." (keyup)="search()" id="listing-search"/>
+    </mat-toolbar>
+    <app-twitter [symbol]="supra" [possibleSymbols]="[supra,('$'+supra),(supra+' coin'),infra,pairId]"></app-twitter>
+</div>

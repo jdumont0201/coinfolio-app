@@ -1,0 +1,13 @@
+<div *ngIf="!authService?.isAuthenticated()" class="">
+    <app-login [redirect]="'/config/profile'" [popup]="false"></app-login>
+</div>
+<div *ngIf="authService?.isAuthenticated()">
+    <mat-toolbar>
+        <h3>Config > Profile </h3>
+    </mat-toolbar>
+
+    E-mail: {{user?.email}}<br>
+    userId: {{user?.id}}<br>
+    <button mat-raised-button (click)="logout()">Sign off</button>
+
+</div>

@@ -8,9 +8,7 @@
     <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
 </div>
 <div *ngIf="authService.isAuthenticated() && !tradingService?.isAnyBrokerConfigured() " class="alert-configure-broker">
-    <mat-icon>settings</mat-icon>
-    <span>Configure broker connections in your settings to show broker trade data.</span><br>
-    <button mat-raised-button="" color="primary" routerLink="/config/all">Configure now</button>
+    <app-configure-broker></app-configure-broker>
 </div>
 
 <mat-tab-group>

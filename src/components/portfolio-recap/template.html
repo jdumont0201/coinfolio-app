@@ -1,10 +1,6 @@
 Portfolio<br>
 <ul>
-
-
-<li>Total $<app-portfolio-value [broker]="'global'"></app-portfolio-value>
-</li>
-<ng-container *ngFor="let b of tradingService.brokers.getConnected()">
+<ng-container *ngFor="let b of tradingService.getConnectedBrokersKeys()">
     <li> {{b}} $
         <app-portfolio-value [broker]="b"></app-portfolio-value>
     </li>

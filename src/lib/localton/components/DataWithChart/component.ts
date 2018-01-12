@@ -181,7 +181,7 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
     abstract updateData()
 
     checkData(): boolean {
-        console.log("checkData data=", this.data)
+
         if (!this.data || this.data.length === 0) {
             this.showNotEnoughData()
             return false
@@ -193,12 +193,12 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
     backupOptions: string;
 
     updateOptions(opt, key?) {
-        if (key) {
+
+       if (key) {
             this.options[key] = this.optionsBase
             this.options[key] = Object.assign(this.options[key], opt);
         } else
             this.options = Object.assign(this.options, opt);
-        console.log("updateOptions", this.options)
         this.backupOptions = JSON.stringify(this.options)
 
     };

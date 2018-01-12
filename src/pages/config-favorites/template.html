@@ -1,0 +1,34 @@
+<div *ngIf="authService?.isAuthenticated()">
+    <mat-toolbar>
+        <h3>Config > Favorites </h3>
+    </mat-toolbar>
+    <div class="col-2 padded">
+        <div class="col-2-1">
+            <div *ngFor="let f of user?.favoritePairs">
+                <div class="">{{f.pair}}
+                    <br>
+                    <button mat-raised-button="" (click)="remove(f)">
+                        <mat-icon>remove</mat-icon>
+                        {{f.broker}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-2-1">
+            <div *ngFor="let p of listing">
+                <ul class="">
+                    <li>
+                        <span *ngFor="let b of p.brokers">
+                            <button mat-raised-button="" (click)="add(p.name,b)"><mat-icon>add</mat-icon>{{p.name}} {{b}}</button></span><br><br>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="!authService?.isAuthenticated()" class="">
+
+    <app-login [redirect]="'/config/favorites'" [popup]="false"></app-login>
+
+</div>

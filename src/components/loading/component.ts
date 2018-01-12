@@ -6,6 +6,7 @@ import {AppSubscribeComponent} from "../subscribe/component";
 import {Logic} from "../../logic/Logic";
 import {RequestService} from "../../lib/globalton/core/services/request.service";
 import {ApiService} from "../../lib/globalton/core/services/api.service";
+import {TradingService} from "../../lib/localton/services/trading.service";
 
 @Component({
   selector: 'app-loading',
@@ -14,8 +15,9 @@ import {ApiService} from "../../lib/globalton/core/services/api.service";
 })
 @Injectable()
 export class AppLoadingComponent extends AppSubscribeComponent{
-  constructor(public logic: Logic,  public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+  constructor(public logic: Logic, public tradingService:TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
     super(logic,authService,appConfigService,eventService,apiService,requestService)
+
   }
   close(){
     this.eventService.hideLoading();

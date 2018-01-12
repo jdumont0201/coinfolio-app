@@ -35,7 +35,7 @@ export class UniversalLoader{
 @Injectable()
 export class Logic {
     constructor(public requestService: RequestService, public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
-
+        this.authService.setLogic(this)
     }
 
 
@@ -168,9 +168,13 @@ export class Logic {
 
     saveUser(obj, f: Function) {
         if (obj.id)
-            this.apiService.authput("user", obj, f)
+            this.apiService.authpatch("user/"+this.authService.userId, obj, f)
         else
             this.apiService.noauthpost("user", obj, f)
+    }
+    patchUser(obj, f: Function) {
+       this.apiService.authpatch("user/"+this.authService.userId, obj, f)
+
     }
 
     /* PAYMENT */

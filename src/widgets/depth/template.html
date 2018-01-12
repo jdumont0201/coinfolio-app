@@ -7,7 +7,12 @@
     </mat-menu>
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 
+    <div class="depth-ask">
+        <div class="depth-bar-ask">&nbsp;Price</div>
+        <span>Volume</span>
+    </div>
     <ng-container *ngFor="let b of askArrayFiltered ; let index=index">
+
         <ng-container *ngIf="askArrayFiltered.length<nbShow || index>askArrayFiltered.length-nbShow">
             <div class="depth-ask">
                 <div class="depth-bar-ask">

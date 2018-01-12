@@ -16,7 +16,7 @@ export class ProtectedDirective implements OnDestroy {
         console.log("protected");
 /*
         if (!authService.isAuthenticated()) {
-            let originRoute=router.hostComponent.name;
+            let originRoute=router.hostComponent.key;
             console.log("protected not auth");
             this.location.replaceState('/'); // clears browser history so they can't navigate with back button
             this.router.navigate(['Login', {redirect:originRoute}]);

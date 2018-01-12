@@ -71,3 +71,9 @@ h5.form-header {
 .theme-dark .mat-raised-button{
     background-color: #444;}
 .theme-dark .table{background: linear-gradient(#073b4a, #106cc8);}
+.theme-dark .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
+    border-color: rgb(255, 255, 255);
+}
+.theme-dark  .mat-tab-header-pagination-chevron {
+    border-color: rgb(255, 255, 255);
+}

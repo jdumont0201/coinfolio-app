@@ -30,7 +30,7 @@ export class AppPortfolioRecapComponent implements OnInit {
 
     }
     brokerLoaded(val){
-        console.log("rr",this.tradingService.brokers.getConnectedBrokers())
+        //console.log("rr",this.tradingService.brokers.getConnectedBrokers())
         this.cd.markForCheck()
 
     }
