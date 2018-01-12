@@ -34,7 +34,7 @@ export class AppSocialPage extends PageWithTabs implements OnDestroy {
     }
 
     search(){
-        
+
     }
     ngOnDestroy() {
 

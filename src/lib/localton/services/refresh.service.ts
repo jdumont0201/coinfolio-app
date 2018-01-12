@@ -17,38 +17,49 @@ export class Pool {
     delay: number;
     interval;
     f: Function;
-
-    constructor(public name: string, public refreshService: RefreshService, public consoleService: ConsoleService) {
+    lastTriggered:Date;
+    outcome:number=-1;
+    status:string;
+    constructor(public name: string, public refreshService: RefreshService, public eventService: EventService, public consoleService: ConsoleService) {
 
     }
 
     enable() {
         this.consoleService.refresh("POOL enable ", this.name)
-        if(!this.f || !this.delay) this.consoleService.refresh("POOL error no f or delay")
+        if (!this.f || !this.delay) this.consoleService.refresh("POOL error no f or delay")
         this.active = true;
-        if (!this.refreshService.isPaused)
+        if (this.refreshService.isRunning)
             this.interval = setInterval(() => {
-                this.consoleService.refresh("POOL run ",this.name)
-                this.f(() => {
-                    this.event.emit({refreshed: true, name: name})
-                });
+                this.consoleService.refresh("POOL run ", this.name)
+                if(!this.refreshService.isRunning || !this.active) this.stop()
+                else{
+                    this.outcome=-1;
+                    this.status="EXECUTING"
+                    this.f(() => {
+                        this.status="WAITING"
+                        this.outcome=1;
+                        this.lastTriggered=new Date()
+                        this.consoleService.eventSent("POOL-" + this.name)
+                        this.event.emit({refreshed: true, name: name})
+                    });
+                }
 
             }, this.delay)
     }
 
     define(delay, f) {
-        this.consoleService.refresh("POOL define ", this.name,delay)
+        this.status="READY"
+        this.consoleService.refresh("POOL define ", this.name, delay)
         this.delay = delay;
         this.f = f;
+        this.eventService.poolDefinedEvent.emit({name: this.name, delay: this.delay})
     }
 
-    disable() {
-        this.active = false;
-        clearInterval(this.interval);
-    }
 
     stop() {
-
+        this.consoleService.refresh("POOL-"+this.name+" STOP")
+        this.status="STOPPED";
+        this.active=false;
         clearInterval(this.interval);
     }
 
@@ -56,7 +67,7 @@ export class Pool {
 
 @Injectable()
 export class RefreshService {
-    isPaused = false;
+    isRunning = true;
     pools: { [name: string]: Pool } = {}
 
     stopRefresh() {
@@ -69,6 +80,19 @@ export class RefreshService {
             if (this.pools[k].active)
                 this.pools[k].enable();
     }
+    getPools(){
+        return this.pools
+    }
+    subscribe(key, f) {
+        if (!this.getPool(key).delay || !this.getPool(key).f) {
+            this.consoleService.refresh(" !!! pool subscribe but not defined", key);
+            return null;
+        }
+        else {
+            this.consoleService.refresh("pool" + key + " subscribed");
+            return this.getPool(key).event.subscribe(f)
+        }
+    }
 
     getEventByKey(key): EventEmitter<any> {
         if (key in this.pools)
@@ -79,7 +103,8 @@ export class RefreshService {
     }
 
     constructor(public authService: AuthService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public logic: Logic) {
-        this.eventService.brokerLoadedEvent.subscribe((val) => this.brokerLoaded(val))
+        //this.eventService.brokerLoadedEvent.subscribe((val) => this.brokerLoaded(val))
+
         this.init();
     }
 
@@ -87,43 +112,32 @@ export class RefreshService {
 
     setTradingService(t: TradingService) {
         this.tradingService = t;
-        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => this.allBrokersLoaded(val))
+        //this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => this.allBrokersLoaded(val))
+        this.tradingService.TickerUpdatedEvent.subscribe((val) => this.tickerCreated(val))
+        this.tradingService.PortfolioUpdatedEvent.subscribe((val) => this.portfolioCreated(val))
     }
 
     allBrokersLoaded(val) {
-        let k = "ticker"
-        if (!(k in this.pools)) this.create(k)
-        this.getPool(k).define(5000, (f) => {
+        let pool = "ticker"
+        this.getPool(pool).define(5000, (f) => {
             this.tradingService.enabledBrokers.forEach((b) => {
                 this.tradingService.getBrokerByName(b).getPortfolio().refresh(() => {
                     this.tradingService.getBrokerByName(b).getTicker().refresh(() => {
                         this.tradingService.getBrokerByName(b).getPortfolio().setUSDValues(this.tradingService.getBrokerByName(b).getTicker())
+                        f()
                     })
                 })
             })
-
-            /*let L=this.tradingService.getListTickerRefresh();
-            async.eachSeries(L,(l:{pair:string,broker:string},cb:Function)=>{
-                let T=this.tradingService.getBrokerByName(l.broker).getTicker();
-                T.getPairChange(l.pair,(res)=>{
-                    if(res)
-                        console.log("  Refreshed",l,res.current)
-
-                    cb()
-                })
-            },(err)=>{
-                this.tradingService.enabledBrokers.forEach((b)=>{
-                    this.tradingService.getBrokerByName(b).getPortfolio().setUSDValues(this.tradingService.getBrokerByName(b).getTicker())
-                })
-                f();
-            })*/
         })
-        this.getPool(k).enable()
+        this.getPool(pool).enable()
     }
 
 
     getPool(k) {
-        if (!(k in this.pools)) this.create(k)
+        if (!(k in this.pools)) {
+            console.log("!!! POOL" +k+" getPool pool not created");
+            this.createPool(k)
+        }
         return this.pools[k]
     }
 
@@ -133,17 +147,42 @@ export class RefreshService {
             let B = this.tradingService.getBrokerByName(broker.key)
             B.getPortfolio().refresh(() => {
                 B.getTicker().refresh(() => {
-                    console.log("refreshed")
                     f()
                 })
             })
         })
         this.getPool(k).enable()
-
+    }
+    portfolioCreated(val: { broker: string, success: boolean }) {
+        this.consoleService.eventReceived("portfolioUpdated --> refreshService",val)
+        let k = val.broker + "-portfolio";
+        this.getPool(k).define(5000, (f: Function) => {
+            let B = this.tradingService.getBrokerByName(val.broker)
+            B.getPortfolio().refresh(() => {
+                    f()
+            })
+        })
+        this.getPool(k).enable()
+    }
+    tickerCreated(val: { broker: string, success: boolean }) {
+        this.consoleService.eventReceived("tickerUpdated --> refreshService",val)
+        let k = val.broker + "-ticker";
+        this.getPool(k).define(5000, (f: Function) => {
+            let B = this.tradingService.getBrokerByName(val.broker)
+            B.getTicker().refresh(() => {
+                B.getPortfolio().setUSDValues(B.getTicker())
+                    f()
+            })
+        })
+        this.getPool(k).enable()
     }
 
-    create(key: string) {
-        this.pools[key] = new Pool(key, this, this.consoleService)
+    createPool(key: string) {
+        if(!(key in this.pools)){
+            this.consoleService.refresh("POOL "+key+" CREATE")
+            this.pools[key] = new Pool(key, this,this.eventService, this.consoleService)
+        }    else
+            this.consoleService.refresh("POOL "+key+" CREATING POOL BUT ALREADY EXISTING")
 
     }
 

@@ -32,6 +32,12 @@
             <div class="sub">Connect to your favorite brokers.</div>
         </div>
     </a>
+    <a class="config-link" [routerLink]="'/config/workers'">
+        <div class="left"><mat-icon >swap_horiz</mat-icon></div>
+        <div class="right"><div class="title">Data refresh options</div>
+            <div class="sub">Review and pace the background workers refreshing data.</div>
+        </div>
+    </a>
 <ng-container *ngIf="false">
     <mat-tab-group (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Profile">

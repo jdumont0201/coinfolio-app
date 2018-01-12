@@ -14,6 +14,8 @@ import {StockChart, Chart} from 'angular-highcharts';
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 import {TradingService} from "../../lib/localton/services/trading.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-allocation',
@@ -68,8 +70,42 @@ export class AppAllocationPage extends DataAndChartTemplate {
     }
 
     brokers: string[] = []
+    poolDefinedSubscription
+    dataRefreshSubscription
 
-    constructor(public authService: AuthService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, private cd: ChangeDetectorRef) {
+    ngOnInit() {
+
+        let updateForAllBrokers = (val) => {
+            this.consoleService.eventReceived("POOL-ticker --> allocation")
+            this.tradingService.enabledBrokers.forEach((b) => {
+                console.log("POOL REFRESHED!")
+                this.update(b, false)
+            });
+        }
+        let pool = "binance-portfolio-ticker"
+        this.dataRefreshSubscription=this.refreshService.subscribe(pool, updateForAllBrokers)
+        console.log("init try pool subscription",this.dataRefreshSubscription)
+        if (!this.dataRefreshSubscription)
+            this.poolDefinedSubscription = this.eventService.poolDefinedEvent.subscribe((val: { name: string, delay: number }) => {
+                //console.log("allocation new pool defined checking", val.name)
+                if (val.name == pool) {
+                    console.log("allocation new pool defined", val.name)
+                    this.dataRefreshSubscription = this.refreshService.subscribe(pool, updateForAllBrokers)
+                    console.log("pool " + pool + " successfully subscribed", this.dataRefreshSubscription)
+                }
+            })
+    }
+
+    ngOnDestroy() {
+        console.log("pool def unsubscribe")
+        if (this.poolDefinedSubscription)
+            this.poolDefinedSubscription.unsubscribe()
+        console.log("pool unsubscribe")
+        if (this.dataRefreshSubscription)
+            this.dataRefreshSubscription.unsubscribe()
+    }
+
+    constructor(public authService: AuthService, public consoleService: ConsoleService, public refreshService: RefreshService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, private cd: ChangeDetectorRef) {
         super(logic, appConfigService, eventService, "plain")
 
         this.eventService.brokerLoadedEvent.subscribe((val) => {
@@ -111,7 +147,7 @@ export class AppAllocationPage extends DataAndChartTemplate {
 
             if (key == "global" || isInitial)
                 this.processData(key, P)
-            else{
+            else {
                 this.processData(key, P)
                 P.refresh(() => {
                     this.processData(key, P)

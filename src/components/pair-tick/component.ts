@@ -40,7 +40,7 @@ export class AppPairTickComponent implements OnInit,OnDestroy{
         console.log("AppPairTickComponent init" );
         //this.tradingService.PriceChangeUpdatedEvent.subscribe((param) => this.priceUpdated(param))
         let k=this.broker+"-"+this.pair+"tick";
-        this.refreshService.create(k);
+        this.refreshService.createPool(k);
         this.refreshService.getPool(k).define(4000,(f)=>{
             let T = this.tradingService.getBrokerByName(this.broker).getTicker();
             T.getPairChange(this.pair, (res) => {
@@ -53,7 +53,9 @@ export class AppPairTickComponent implements OnInit,OnDestroy{
                     this.p=res.p;
                     let v=((this.currentprice-res.last)/res.last)*100;
                     this.value = v; this.cd.markForCheck();
+
                 }
+                f();
             },true)
         })
         this.refreshService.getPool(k).enable()

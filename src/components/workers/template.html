@@ -1,0 +1,28 @@
+<mat-toolbar>
+    <h3>Config > Workers</h3>
+</mat-toolbar>
+<div id="workers" class="padded">
+    <h4>Service</h4>
+    <mat-slide-toggle [color]="accent" [(ngModel)]="refreshService.isRunning">{{refreshService.isRunning?"Running":"Disabled"}} </mat-slide-toggle>
+
+
+    <h5>Workers</h5>
+    <ul class="table">
+        <li class="tr">
+            <div >Enabled ?</div>
+            <div >Name</div>
+            <div >Refresh rate (ms)</div>
+
+            <div >Status</div>
+            <div >Last refresh</div>
+        </li>
+        <li *ngFor="let p of pools" class="tr">
+            <div><mat-slide-toggle  (change)="!p.active?p.enable():p.stop()"  [color]="accent" [ngModel]="p.active"></mat-slide-toggle></div>
+            <div >{{p.name}}</div>
+            <div >{{p.delay}}</div>
+            <div >{{p.status}}</div>
+            <div >{{p.lastTriggered | date:'medium'}}</div>
+
+        </li>
+    </ul>
+</div>

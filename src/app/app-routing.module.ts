@@ -11,7 +11,7 @@ import {AppTradesPage} from "../pages/trades/component";
 import {AppSymbolItemPage} from "../pages/symbol-item/component";
 import {AppAllocationPage} from "../pages/allocation/component"
 import {AppConfigBrokersPage} from "../pages/config-brokers/component"
-
+import {AppConfigWorkersPage} from "../pages/config-workers/component";
 import {AppPositionsPage}from "../pages/positions/component"
 import {AppConfigFavoritesPage} from "../pages/config-favorites/component";
 import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
@@ -36,6 +36,7 @@ export const routes: Routes = [
   { path: 'config/subscription', component: AppConfigSubscriptionPage},
   { path: 'config/imports', component: AppConfigImportsPage},
   { path: 'config/interface', component: AppConfigInterfacePage},
+  { path: 'config/workers', component: AppConfigWorkersPage},
   { path: 'config/profile', component: AppConfigProfilePage},
 
   { path: 'symbol/all', component: AppSymbolAllPage },

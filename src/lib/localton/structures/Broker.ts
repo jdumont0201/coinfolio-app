@@ -67,11 +67,11 @@ export class Broker {
 
     loadBroker(f: (Broker) => any) {
         console.log("LOAD BROKER", this.key)
-        this.refreshService.create(this.key+"-ticker")
-        this.refreshService.create(this.key+"-portfolio-ticker")
-        this.refreshService.create(this.key+"-portfolio")
+        this.refreshService.createPool(this.key+"-ticker")
+        this.refreshService.createPool(this.key+"-portfolio-ticker")
+        this.refreshService.createPool(this.key+"-portfolio")
 
-        this.portfolio.load((isSuccess) => {
+        this.portfolio.loadPortfolio((isSuccess) => {
             this.ticker.loadTicker((isSuccess2) => {
                 this.portfolio.setUSDValues(this.ticker);
                 if (isSuccess && isSuccess2)

@@ -2,7 +2,8 @@
     <ng-container *ngIf="authService.isAuthenticated()">
     <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
         <div class="col-2b">
-            <div class="col-2b-1">TOTAL VALUE : ${{tradingService.globalBroker.getPortfolio().getTotalUSDValue()}}
+            <div class="col-2b-1">
+                <span *ngFor="let b of tradingService?.enabledBrokers">{{b}} ${{tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue()}}</span>
                 <app-pair-tick *ngFor="let f of authService.favoritePairs" [broker]="f.broker" [pair]="f.pair"></app-pair-tick>
             </div>
             <div class="col-2b-2">

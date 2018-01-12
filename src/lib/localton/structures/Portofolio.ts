@@ -12,7 +12,8 @@ export class Portfolio {
     content: { [symbol: string]: Asset } = {}
     connected: boolean = false;
     dataTime: Date;
-    totalUSDValue:number;
+    totalUSDValue: number;
+
     constructor(public logic: Logic, public tradingService: TradingService, public refreshService: RefreshService, key: string) {
         console.log("NEW BROKER PTF", key)
         this.key = key;
@@ -21,24 +22,31 @@ export class Portfolio {
 
     getTotalUSDValue(): number {
         let res = 0;
-        for (let k in this.content) res += this.content[k].usdvalue
+        console.log(this.key + " getTotalUSDValue")
+        for (let k in this.content) {
+            res += this.content[k].usdvalue
+    //        console.log("  ", k, "=", this.content[k].usdvalue)
+        }
         return Math.round(100 * res) / 100;
     }
 
     refresh(f, force?: boolean) {
         if (force) this.content = {}
-        this.load(()=>{
+        this.loadPortfolio(() => {
             this.refreshTotal()
             f()
         })
     }
-    refreshTotal(){
-        this.totalUSDValue=this.getTotalUSDValue()
+
+    refreshTotal() {
+        this.totalUSDValue = this.getTotalUSDValue()
     }
-    getSymbols(){
-            return Object.keys(this.content)
+
+    getSymbols() {
+        return Object.keys(this.content)
     }
-    load(f: Function) {
+
+    loadPortfolio(f: Function) {
         console.log("  PTF LOAD")
         if (this.key == "binance") {
             this.loadBinance(f);
@@ -68,16 +76,17 @@ export class Portfolio {
 
     setUSDValues(ticker: Ticker) {
         for (let s in this.content) {
-            this.setUSDValue(ticker,s)
+            this.setUSDValue(ticker, s)
         }
     }
-    setUSDValue(ticker:Ticker,s:string){
+
+    setUSDValue(ticker: Ticker, s: string) {
         const asset: Asset = this.content[s]
-        const USD=ticker.getUSDValue(s)
+        const USD = ticker.getUSDValue(s)
 
         this.content[s].usdvalue = USD * asset.q
         this.content[s].unitvalue = USD
-        console.log("setusdvalue ",s," USDunit=",USD,"q=","USDVal=",asset.q,this.content[s].usdvalue)
+        //console.log("setusdvalue ",s," USDunit=",USD,"q=","USDVal=",asset.q,this.content[s].usdvalue)
     }
 
     has(symbol, threshold?): boolean {
@@ -130,15 +139,22 @@ export class Portfolio {
     }
 
     afterLoad() {
+        let isInitialLoad = !this.connected
+        if (isInitialLoad) {
+            this.refreshService.createPool(this.key + "-portfolio")
+            this.tradingService.PortfolioUpdatedEvent.emit({broker: this.key, success: true})
+        }
+
         this.connected = true;
-        this.refreshService.create(this.key + "-portfolio")
+
+
     }
 
     loadKraken(f: Function) {
         //console.log("TRADE PTF LOAD BINANCE")
         this.logic.KrakenGetAllocation((alloc) => {
             this.dataTime = new Date();
-          //  console.log("TRADE PTF LOAD BINANCE RES", alloc)
+            //  console.log("TRADE PTF LOAD BINANCE RES", alloc)
             if (alloc) {
                 for (let k in alloc)
                     if (parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder) > 0) {

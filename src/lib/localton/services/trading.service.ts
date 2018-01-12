@@ -24,6 +24,8 @@ export class TradingService {
     @Output() EnabledBrokersLoadingFinishedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() PriceUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() ListingUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() PortfolioUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() TickerUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
 
 
     constructor(public authService: AuthService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public refreshService: RefreshService, public logic: Logic) {
@@ -40,7 +42,7 @@ export class TradingService {
             this.consoleService.trade("waiting for auth")
             this.eventService.hideLoading()
         }
-        this.refreshService.create("ticker")
+        //this.refreshService.createPool("ticker")
     }
 
     getInfraSupra(pair: string) {

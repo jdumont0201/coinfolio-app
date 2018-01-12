@@ -24,11 +24,12 @@ export class AppPortfolioValueComponent implements OnInit,OnDestroy {
             this.refreshService.getEventByKey(this.broker+"-portfolio-ticker").unsubscribe()
     }
     ngOnInit() {
-        this.consoleService.eventReceived("POOL-"+this.broker+"-portfolio-ticker --> Portfoliovalue")
-        this.refreshSubscription=this.refreshService.getEventByKey(this.broker+"-portfolio-ticker").subscribe((param2) => this.poolUpdated(param2))
+
+        this.refreshSubscription=this.refreshService.subscribe(this.broker+"-portfolio-ticker",(param2) => this.poolUpdated(param2))
         this.update("init");
     }
     poolUpdated(param){
+        this.consoleService.eventReceived("POOL-"+this.broker+"-portfolio-ticker --> Portfoliovalue")
         this.update("updatepool")
     }
 

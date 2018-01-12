@@ -14,23 +14,19 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 @Component({
     selector: 'app-ticker',
     templateUrl: 'template.html',
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
-export class AppTicker implements OnInit,OnDestroy {
+export class AppTicker implements OnInit, OnDestroy {
 
     favorites;
 
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
         console.log("+ TOPTICKER")
-        let T = this.tradingService.globalBroker.getTicker()
-        let P = this.tradingService.globalBroker.getPortfolio().getTotalUSDValue()
         this.eventService.favoriteUpdatedEvent.subscribe((val) => {
             this.consoleService.eventReceived("favoriteUpdatedEvent --> ticker")
-
             this.favorites = val;
         })
-
         this.logic.getMe((user) => {
             if (user)
                 this.favorites = user.favoritePairs
@@ -42,20 +38,54 @@ export class AppTicker implements OnInit,OnDestroy {
                     this.favorites = user.favoritePairs
             })
         })
+        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
+            this.cd.markForCheck()
+            this.subscribeToBrokerUpdates()
+        })
     }
 
-    refreshSubscription
+    dataRefreshSubscription = {}
+    poolDefinedSubscription = {}
+
+    subscribeToBrokerUpdates() {
+        console.log("subs",this.tradingService.enabledBrokers);
+        this.tradingService.enabledBrokers.forEach((b) => {
+
+            let f = (val) => {
+                //this.consoleService.eventReceived("POOL " + pool + " --> ticker val=",val)
+                //this.consoleService.eventReceived("POOL " + pool + " --> ticker", this.tradingService.getBrokerByName(b).getPortfolio().content['BTC'],this.tradingService.getBrokerByName(b).getTicker().content['BTCUSDT'])
+                this.cd.markForCheck()
+            };
+            let pool = b + "-portfolio"
+            this.dataRefreshSubscription[b]={portfolio:null,ticker:null}
+            this.dataRefreshSubscription[b].portfolio = this.refreshService.getEventByKey(pool).subscribe(f)
+            if (!this.dataRefreshSubscription[b].portfolio) {
+                this.poolDefinedSubscription[b].portfolio = this.eventService.poolDefinedEvent.subscribe((val: { name: string, delay: number }) => {
+                    if(val.name==pool)
+                    this.dataRefreshSubscription[b].portfolio = this.refreshService.getEventByKey(pool).subscribe(f)
+                });
+            }
+            pool = b + "-ticker"
+            this.dataRefreshSubscription[b].ticker = this.refreshService.getEventByKey(pool).subscribe(f)
+            if (!this.dataRefreshSubscription[b].ticker) {
+                this.poolDefinedSubscription[b].ticker = this.eventService.poolDefinedEvent.subscribe((val: { name: string, delay: number }) => {
+                    if(val.name==pool)
+                    this.dataRefreshSubscription[b].ticker = this.refreshService.getEventByKey(pool).subscribe(f)
+                });
+            }
+        })
+    }
 
     ngOnDestroy() {
-        if (this.refreshSubscription)
-            this.refreshService.getEventByKey("-ticker").unsubscribe()
+        this.tradingService.enabledBrokers.forEach((b) => {
+            if (this.dataRefreshSubscription[b])
+                this.refreshService.getEventByKey("-ticker").unsubscribe()
+        })
     }
 
     ngOnInit() {
-        this.consoleService.eventReceived("POOL-ticker --> ticker")
-        this.refreshSubscription = this.refreshService.getPool("ticker").event.subscribe((val) => {
-            this.cd.markForCheck()
-        })
+
+
     }
 
 }

@@ -84,6 +84,7 @@ import {AppPositionsPage}from "../pages/positions/component"
 import {AppConfigBrokersPage} from "../pages/config-brokers/component"
 
 import {AppConfigFavoritesPage} from "../pages/config-favorites/component";
+import {AppConfigWorkersPage} from "../pages/config-workers/component";
 import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
 import {AppConfigImportsPage} from "../pages/config-imports/component";
 import {AppConfigInterfacePage} from "../pages/config-interface/component";
@@ -122,6 +123,7 @@ import {AppLoadingComponent} from "../components/loading/component"
 import {AppConfigureBrokerComponent} from "../components/configure-broker/component"
 import {AppPairTickComponent} from "../components/pair-tick/component"
 import {AppSubscribeComponent} from "../components/subscribe/component"
+import {AppWorkersComponent} from "../components/workers/component"
 import {AppVeilComponent} from "../components/veil/component"
 import {AppDisconnectedComponent} from "../components/disconnected/component"
 import {AppMarketCapEvolMiniComponent} from "../widgets/marketcap-evol-mini/component"
@@ -145,7 +147,7 @@ import {AppConfigProfilePage} from "../pages/config-profile/component";
         AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,
-         AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,
+         AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,
         AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
     ],

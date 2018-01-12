@@ -20,6 +20,7 @@ export class EventService implements OnInit {
     @Output() brokerLoadedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() favoriteUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() poolDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
 
     isTickerVisible:boolean=true;
     isMenuDisplayed: boolean = true;
