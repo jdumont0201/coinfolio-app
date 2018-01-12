@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, ViewChild} from '@angular/core';
+import {Component, Injectable, Input, OnDestroy, ViewChild} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
@@ -19,15 +19,24 @@ import {CryptoPair} from "../../lib/localton/structures/Listing";
 })
 @Injectable()
 export class AppSocialPage extends PageWithTabs implements OnDestroy {
-    possibleSymbols=['BTC','ETH','BNB'];
-searchedText="";
-    supra="BTC";
-    constructor(public requestService: RequestService, public eventService:EventService,public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
+    possibleSymbols = ['BTC', 'ETH', 'BNB'];
+    searchedText = "";
+    supra = "BTC";
+    infra = "USDT";
+    @Input() pairId;
+
+    constructor(public requestService: RequestService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
         super()
 
+        let p=Crypto.getSymbolsFromPair(this.pairId)
+        this.supra=p.supra;
+        this.infra=p.infra
     }
 
-    ngOnDestroy(){
+    search(){
+        
+    }
+    ngOnDestroy() {
 
     }
 

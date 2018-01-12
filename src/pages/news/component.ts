@@ -31,5 +31,7 @@ export class AppNewsPage extends PageWithTabs implements OnDestroy {
 
     }
 
+search(){
 
+}
 }
