@@ -8,6 +8,7 @@ import {AppConfigService} from "../../../../lib/localton/services/appconfig.serv
 import {MatTableDataSource} from '@angular/material';
 import {EventService} from "../../services/event.service";
 import {RefreshedPage} from "../RefreshedPage/component";
+import {RefreshService} from "../../services/refresh.service";
 
 export abstract class DataAndChartTemplate extends RefreshedPage implements OnInit {
 
@@ -79,8 +80,8 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
     }
     optionsBase: any;
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public type?) {
-        super()
+    constructor(public refreshService:RefreshService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public type?) {
+        super(refreshService,eventService)
         /*if (type === "stock") this.chart = new StockChart(this.stockChartDefOptions)
         if (type === "plain") this.chart = new Chart(this.plainChartDefOptions)
         else this.chart = new StockChart(this.stockChartDefOptions)

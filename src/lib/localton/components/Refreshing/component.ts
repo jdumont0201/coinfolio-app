@@ -16,7 +16,7 @@ export abstract class Refreshing {
 
     }
     subscribeToRefresh(pool:string,f:Function){
-
+        console.log("subscribe pool ",pool)
         this.dataRefreshSubscription[pool] = this.refreshService.getEventByKey(pool).subscribe(f)
         if (!this.dataRefreshSubscription[pool]) {
             this.poolDefinedSubscription[pool] = this.eventService.poolDefinedEvent.subscribe((val: { name: string, delay: number }) => {
@@ -26,7 +26,11 @@ export abstract class Refreshing {
         }
     }
     unsubscribeToRefresh(pool){
-        if (this.dataRefreshSubscription[pool])
-            this.refreshService.getEventByKey(pool).unsubscribe()
+        if (this.dataRefreshSubscription[pool]){
+
+            this.dataRefreshSubscription[pool].unsubscribe()
+            console.log("unsubscribe pool ",pool)
+        }else console.log("non need unsub")
+
     }
 }

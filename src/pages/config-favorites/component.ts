@@ -16,12 +16,12 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
     templateUrl: 'template.html'
 })
 @Injectable()
-export class AppConfigFavoritesPage extends PageWithTabs {
+export class AppConfigFavoritesPage {
     user;
     listing
 
     constructor(public authService: AuthService, public tradingService: TradingService, public requestService: RequestService, public consoleService:ConsoleService,public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
-        super()
+
         console.log("favinit")
         this.logic.getMe((res) => {
             this.user = res;

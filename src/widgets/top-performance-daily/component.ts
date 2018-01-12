@@ -10,6 +10,7 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";
 @Component({
   selector: 'app-top-performance-daily',
   templateUrl:'template.html'
@@ -37,8 +38,8 @@ export class AppTopPerformanceDailyComponent extends DataAndChartTemplate{
   serializedDate = new FormControl((new Date()).toISOString());
 
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
-        super(logic,appConfigService,eventService)
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
+        super(refreshService,logic,appConfigService,eventService)
   }
   showData(res?) {
     if (res)

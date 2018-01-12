@@ -11,6 +11,7 @@ import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {RefreshedPage} from "../../lib/localton/components/RefreshedPage/component";
 import {EventService} from "../../lib/localton/services/event.service";
 import {CryptoPair} from "../../lib/localton/structures/Listing";
+import {RefreshService} from "../../lib/localton/services/refresh.service";
 
 @Component({
     selector: 'app-social',
@@ -25,8 +26,8 @@ export class AppSocialPage extends PageWithTabs implements OnDestroy {
     infra = "USDT";
     @Input() pairId;
 
-    constructor(public requestService: RequestService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
-        super()
+    constructor(public requestService: RequestService,public refreshService:RefreshService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
+        super(refreshService,eventService)
 
         let p=Crypto.getSymbolsFromPair(this.pairId)
         this.supra=p.supra;

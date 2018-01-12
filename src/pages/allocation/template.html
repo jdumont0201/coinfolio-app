@@ -11,6 +11,8 @@
 
 <app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>
 
+
+
 <mat-tab-group>
     <mat-tab *ngFor="let b of brokers" label="{{b}}">
         <section class="widget allocationg">
@@ -35,7 +37,7 @@
         <section class="widget allocation">
             <h5>Portfolio composition - {{b=='global'?'Combined sources':b}}</h5>
             <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-            <mat-table #table class="data" [dataSource]="dataSource[b]" *ngIf="showDataTable">
+            <mat-table #table class="data" [dataSource]="dataSource[b]" >
                 <ng-container matColumnDef="symbol">
                     <mat-header-cell *matHeaderCellDef> Symbol</mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.symbol}}</mat-cell>
@@ -48,7 +50,7 @@
 
                 <ng-container matColumnDef="price">
                     <mat-header-cell *matHeaderCellDef> Unit Price (USD)</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.price }}</mat-cell>
+                    <mat-cell *matCellDef="let element">{{element.price | price }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="value">
                     <mat-header-cell *matHeaderCellDef> Value (USD)</mat-header-cell>
@@ -57,11 +59,12 @@
 
                 <ng-container  matColumnDef="pairs">
                     <mat-header-cell *matHeaderCellDef> 24h Evolution</mat-header-cell>
-                    <mat-cell *matCellDef="let element"><ng-container *ngIf="element.symbol !=='TOTAL'"><app-pair-tick *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [pair]="p" [broker]="element.broker"></app-pair-tick></ng-container></mat-cell>
+                    <mat-cell *matCellDef="let element"><app-pair-tick *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [pair]="p" [broker]="element.broker"></app-pair-tick></mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
+
         </section>
 
     </mat-tab>

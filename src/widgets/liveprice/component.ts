@@ -6,6 +6,7 @@ import {Crypto} from "../../lib/localton/utils/utils";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";
 
 @Component({
     selector: 'app-live-price',
@@ -88,8 +89,8 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         }
     }
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public snackBar: MatSnackBar) {
-        super(logic, appConfigService, eventService, "stock")
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
+        super(refreshService,logic,appConfigService,eventService, "stock")
     }
 
     ngOnInit() {

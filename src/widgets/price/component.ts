@@ -11,6 +11,7 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";
 @Component({
   selector: 'app-price',
   templateUrl: 'template.html'
@@ -60,8 +61,8 @@ export class AppPriceComponent extends DataAndChartTemplate {
   }
 
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
-        super(logic,appConfigService,eventService,"stock")
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
+        super(refreshService,logic,appConfigService,eventService,"stock")
   }
 
 ngOnInit(){

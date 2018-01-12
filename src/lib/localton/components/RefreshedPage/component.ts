@@ -6,8 +6,11 @@ import {Logic} from "../../../../logic/Logic";
 import {StockChart, Chart} from 'angular-highcharts';
 import {AppConfigService} from "../../../../lib/localton/services/appconfig.service";
 import {MatTableDataSource} from '@angular/material';
+import {Refreshing} from "../Refreshing/component";
+import {RefreshService} from "../../services/refresh.service";
+import {EventService} from "../../services/event.service";
 
-export abstract class RefreshedPage {
+export abstract class RefreshedPage extends Refreshing {
     loadTime;
     refreshInterval
     refreshTimerInterval
@@ -30,5 +33,8 @@ export abstract class RefreshedPage {
     }
     refreshData(){
 
+    }
+    constructor(public refreshService:RefreshService,public eventService:EventService){
+        super(refreshService,eventService)
     }
 }

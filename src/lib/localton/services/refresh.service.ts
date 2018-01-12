@@ -25,26 +25,32 @@ export class Pool {
     }
 
     enable() {
+        if(this.active) return
         this.consoleService.refresh("POOL enable ", this.name)
         if (!this.f || !this.delay) this.consoleService.refresh("POOL error no f or delay")
         this.active = true;
-        if (this.refreshService.isRunning)
-            this.interval = setInterval(() => {
-                this.consoleService.refresh("POOL run ", this.name)
-                if(!this.refreshService.isRunning || !this.active) this.stop()
-                else{
-                    this.outcome=-1;
-                    this.status="EXECUTING"
-                    this.f(() => {
-                        this.status="WAITING"
-                        this.outcome=1;
-                        this.lastTriggered=new Date()
-                        this.consoleService.eventSent("POOL-" + this.name)
-                        this.event.emit({refreshed: true, name: name})
-                    });
-                }
+        let exec:Function=() => {
+            this.consoleService.refresh("POOL run ", this.name)
+            if(!this.refreshService.isRunning || !this.active) this.stop()
+            else{
+                this.outcome=-1;
+                this.status="EXECUTING"
+                this.f(() => {
+                    this.status="WAITING"
+                    this.outcome=1;
+                    this.lastTriggered=new Date()
+                    this.consoleService.eventSent("POOL-" + this.name)
+                    this.event.emit({refreshed: true, name: name})
+                });
+            }
 
-            }, this.delay)
+        };
+
+        if (this.refreshService.isRunning) {
+            exec();
+            clearInterval(this.interval)
+            this.interval = setInterval(exec, this.delay)
+        }
     }
 
     define(delay, f) {

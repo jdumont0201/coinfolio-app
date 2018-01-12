@@ -101,10 +101,10 @@ export class Portfolio {
 
     }
 
-    getAllocation(threshold?: number): { chartData: any[], gridData: any[] } {
+    getAllocation(threshold?: number): { chartData: any[], gridData: any[] ,objData:Object} {
         let resData = [];
         let gridData = [];
-
+        let objData={}
         //    this.setUSDValues(this.tradingService.getBrokerByName(this.key).getTicker());
         for (let k in this.content) {
             let asset = this.content[k];
@@ -112,11 +112,14 @@ export class Portfolio {
             let T = this.tradingService.getBrokerByName(asset.broker).getTicker();
             if (!threshold || asset.usdvalue > threshold) {
                 let v = T.getUSDValue(asset.symbol)
-                resData.push({name: asset.symbol, y: v * asset.q, change: T.getSymbolChange(asset.symbol)})
-                gridData.push({symbol: asset.symbol, available: asset.q, price: v, value: v * asset.q, broker: asset.broker})
+                let r={name: asset.symbol, y: v * asset.q, change: T.getSymbolChange(asset.symbol)};
+                resData.push(r)
+                let rr={symbol: asset.symbol, available: asset.q, price: v, value: v * asset.q, broker: asset.broker}
+                gridData.push(rr)
+                objData[asset.symbol]=rr;
             }
         }
-        return {chartData: resData, gridData: gridData}
+        return {chartData: resData, gridData: gridData, objData:objData}
     }
 
     loadBinance(f: Function) {

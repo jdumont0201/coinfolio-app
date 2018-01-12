@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, OnDestroy, ViewChild, OnInit} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
@@ -6,7 +6,7 @@ import {EventService} from "../../lib/localton/services/event.service";
 import {Logic} from "../../logic/Logic";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {MatSnackBar, MatTableDataSource} from "@angular/material";
-import {FormGroup} from "@angular/forms";
+
 
 import {StockChart, Chart} from 'angular-highcharts';
 
@@ -20,11 +20,11 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 @Component({
     selector: 'app-allocation',
     templateUrl: 'template.html',
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 @Injectable()
-export class AppAllocationPage extends DataAndChartTemplate {
+export class AppAllocationPage extends DataAndChartTemplate implements OnInit, OnDestroy {
     allocation = [];
     filteredAllocation = [];
     isDataSourceArray = true;
@@ -70,48 +70,50 @@ export class AppAllocationPage extends DataAndChartTemplate {
     }
 
     brokers: string[] = []
-    poolDefinedSubscription
-    dataRefreshSubscription
 
     ngOnInit() {
+        this.initRefresh2()
 
+    }
+
+    initRefresh2() {
         let updateForAllBrokers = (val) => {
             this.consoleService.eventReceived("POOL-ticker --> allocation")
-            this.tradingService.enabledBrokers.forEach((b) => {
-                console.log("POOL REFRESHED!")
-                this.update(b, false)
-            });
+            if (this.tradingService.enabledBrokers)
+                this.tradingService.enabledBrokers.forEach((b) => {
+                    console.log("POOL REFRESHED!")
+                    this.update(b, false)
+
+                });
         }
-        let pool = "binance-portfolio-ticker"
-        this.dataRefreshSubscription=this.refreshService.subscribe(pool, updateForAllBrokers)
-        console.log("init try pool subscription",this.dataRefreshSubscription)
-        if (!this.dataRefreshSubscription)
-            this.poolDefinedSubscription = this.eventService.poolDefinedEvent.subscribe((val: { name: string, delay: number }) => {
-                //console.log("allocation new pool defined checking", val.name)
-                if (val.name == pool) {
-                    console.log("allocation new pool defined", val.name)
-                    this.dataRefreshSubscription = this.refreshService.subscribe(pool, updateForAllBrokers)
-                    console.log("pool " + pool + " successfully subscribed", this.dataRefreshSubscription)
-                }
-            })
+        if (this.tradingService.enabledBrokers)
+            this.tradingService.enabledBrokers.forEach((b) => {
+                this.subscribeToRefresh(b + "-portfolio", updateForAllBrokers)
+                this.subscribeToRefresh(b + "-ticker", updateForAllBrokers)
+            });
+        else
+            console.log("!!brokers not ready alloca")
     }
 
     ngOnDestroy() {
-        console.log("pool def unsubscribe")
-        if (this.poolDefinedSubscription)
-            this.poolDefinedSubscription.unsubscribe()
-        console.log("pool unsubscribe")
-        if (this.dataRefreshSubscription)
-            this.dataRefreshSubscription.unsubscribe()
+        console.log("destroy allocatin")
+        if (this.tradingService.enabledBrokers)
+            this.tradingService.enabledBrokers.forEach((b) => {
+                this.unsubscribeToRefresh(b + "-portfolio")
+                this.unsubscribeToRefresh(b + "-ticker")
+            });
     }
 
     constructor(public authService: AuthService, public consoleService: ConsoleService, public refreshService: RefreshService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, private cd: ChangeDetectorRef) {
-        super(logic, appConfigService, eventService, "plain")
+        super(refreshService, logic, appConfigService, eventService, "plain")
 
         this.eventService.brokerLoadedEvent.subscribe((val) => {
             this.brokerLoaded(val)
             this.brokers = tradingService.getConnectedBrokersKeys();
             this.hasConnected = true;
+        })
+        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
+            this.initRefresh2()
         })
         this.brokers = tradingService.getConnectedBrokersKeys();
         console.log("TEST", this.authService.isAuthenticated(), !this.isLoading, !this.hasConnected)
@@ -140,31 +142,45 @@ export class AppAllocationPage extends DataAndChartTemplate {
     data;
 
     update(key, isInitial) {
-
         this.prepareUpdate(key)
         if (this.tradingService.isBrokerLoaded(key)) {
             let P = this.tradingService.getBrokerByName(key).getPortfolio();
-
-            if (key == "global" || isInitial)
-                this.processData(key, P)
-            else {
-                this.processData(key, P)
-                P.refresh(() => {
-                    this.processData(key, P)
-                });
-            }
-
-
+            this.processData(key, P)
         } else {
             console.log("broker", key, "not ready")
         }
     }
+    mergeData(key,alloc){
+        this.dataSource[key].data.forEach((r) => {
+            for (let k in r) {
+                console.log("updatedta", r, r.symbol, alloc.objData)
+                if (r.symbol in alloc.objData) {
+                    let o = alloc.objData[r.symbol]
+                    r.available = o.available;
+                    r.price = o.price;
+                    r.value = o.value;
+                }
+            }
+        });
 
+
+    }
     processData(key, P) {
         let alloc = P.getAllocation(this.isShowingAllBalances() ? null : 15)
-        alloc.gridData.push({symbol: "TOTAL", value: P.getTotalUSDValue()})
+        //alloc.gridData.push({symbol: "TOTAL", value: P.getTotalUSDValue()})
         this.portfolios[key] = P;
-        this.dataSource[key] = new MatTableDataSource(alloc.gridData);
+        if (!this.dataSource[key]) {
+            console.log("createdata")
+            this.dataSource[key] = new MatTableDataSource(alloc.gridData);
+        } else {
+            console.log("updatedata")
+            this.mergeData(key,alloc)
+
+        }
+
+
+        console.log("ddata", this.dataSource[key])
+
         this.updateOptions({
             title: {text: " "},
             series: [{name: "Portfolio", data: alloc.chartData}],
@@ -172,6 +188,7 @@ export class AppAllocationPage extends DataAndChartTemplate {
         }, key)
         this.charts[key] = new Chart(this.options[key]);
         this.isLoading = false
+        console.log("alloca", alloc)
         this.cd.markForCheck()
     }
 

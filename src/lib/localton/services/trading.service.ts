@@ -200,7 +200,7 @@ export class TradingService {
             let A = [symbol + "USDT", symbol + "BTC", symbol + "BNB", symbol + "ETH"]
             let B = []
             for (let i = 0; i < A.length; ++i) {
-                if (this.checkIfPairExists(A[i])) {
+                if (this.checkIfPairExists(A[i])=="yes") {
                     B.push(A[i])
                 }
             }
@@ -208,8 +208,12 @@ export class TradingService {
         }
     }
 
-    checkIfPairExists(pair): boolean {
-        return this.getBrokerByName("binance").getTicker().hasPair(pair)
+    checkIfPairExists(pair): string {
+        let B=this.getBrokerByName("binance");
+        if(B)
+        return B.getTicker().hasPair(pair)?"yes":"no"
+        else
+            return null;
     }
 
 

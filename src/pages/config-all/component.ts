@@ -14,14 +14,14 @@ import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component
     templateUrl: 'template.html'
 })
 @Injectable()
-export class AppConfigAllPage extends PageWithTabs {
+export class AppConfigAllPage{
     user;
     imports;
     ConnectionBinance = false;
     formBinance: FormGroup;
 
     constructor(public authService: AuthService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
-        super()
+
         this.logic.getImports((res) => {
             this.imports = res;
         })

@@ -11,6 +11,7 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";
 
 @Component({
   selector: 'app-trending-lastweek',
@@ -50,8 +51,8 @@ export class AppTrendingLastWeekComponent extends DataAndChartTemplate {
   }
 
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService) {
-        super(logic,appConfigService,eventService)
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
+        super(refreshService,logic,appConfigService,eventService)
   }
 
 

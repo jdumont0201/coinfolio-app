@@ -3,33 +3,44 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 import {EventService} from "../../lib/localton/services/event.service";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+import {Refreshing} from "../../lib/localton/components/Refreshing/component";
 
 @Component({
     selector: 'app-portfolio-value',
     templateUrl: 'template.html',
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
-export class AppPortfolioValueComponent implements OnInit,OnDestroy {
+export class AppPortfolioValueComponent extends Refreshing implements OnInit, OnDestroy {
     value;
     @Input() broker;
 
-    refreshSubscription;
-    constructor(public tradingService: TradingService, public eventService:EventService, public consoleService:ConsoleService, public refreshService:RefreshService, private cd: ChangeDetectorRef) {
 
+    constructor(public tradingService: TradingService, public eventService: EventService, public consoleService: ConsoleService, public refreshService: RefreshService, private cd: ChangeDetectorRef) {
+        super(refreshService, eventService)
     }
 
-    ngOnDestroy(){
-        if(this.refreshSubscription)
-            this.refreshService.getEventByKey(this.broker+"-portfolio-ticker").unsubscribe()
+    ngOnDestroy() {
+        let b = this.broker;
+        this.unsubscribeToRefresh(b + "-portfolio")
+        this.unsubscribeToRefresh(b + "-ticker")
     }
+
     ngOnInit() {
 
-        this.refreshSubscription=this.refreshService.subscribe(this.broker+"-portfolio-ticker",(param2) => this.poolUpdated(param2))
         this.update("init");
+        let f = () => {
+            this.update("update");
+
+        }
+
+        let b = this.broker;
+        this.subscribeToRefresh(b + "-portfolio", f)
+        this.subscribeToRefresh(b + "-ticker", f)
     }
-    poolUpdated(param){
-        this.consoleService.eventReceived("POOL-"+this.broker+"-portfolio-ticker --> Portfoliovalue")
+
+    poolUpdated(param) {
+        this.consoleService.eventReceived("POOL-" + this.broker + "-portfolio-ticker --> Portfoliovalue")
         this.update("updatepool")
     }
 

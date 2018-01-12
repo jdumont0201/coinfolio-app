@@ -14,12 +14,12 @@ import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component
     templateUrl: 'template.html'
 })
 @Injectable()
-export class AppConfigInterfacePage extends PageWithTabs {
+export class AppConfigInterfacePage  {
     user;
 
 
     constructor(public authService: AuthService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
-        super()
+
         this.logic.getMe((res) => {
             this.user = res;
         })
