@@ -1,16 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-
-
+/*
 @font-face {
   font-family: "Financier";
   src: url("/assets/fonts/Financier_Text_Medium.woff2") format('woff2');
 }
-
+*/
 @font-face {
   font-family: "London";
   src: url("/assets/fonts/UniversLTStd-BoldCn.otf") format('opentype');
 }
-@font-face {
+/*@font-face {
   font-family: "LondonLightCn";
   src: url("/assets/fonts/Univers-LT-Std-47-Light-Condensed_46333.ttf") format('truetype');
 }
@@ -29,7 +28,7 @@
 @font-face {
   font-family: "FinancierReg";
   src: url("/assets/fonts/Financier_Text_Regular.woff2") format('woff2');
-}
+}*/
 
 
 
