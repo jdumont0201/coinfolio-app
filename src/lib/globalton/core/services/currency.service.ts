@@ -47,11 +47,9 @@ export class CurrencyService {
         if(this.configService.renewCurrencyFileAtStartup){
             console.log("CurrencyService loading ", url);
             this.requestService.get(url,function(result){
-              if(result.error){
-                  
-              }else{
-                  this.processFile(result.file);
-              }  
+              if(result)
+                  this.processFile(result);
+
             } , this);
         }
             

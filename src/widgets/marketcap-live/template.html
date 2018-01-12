@@ -1,0 +1,22 @@
+<section class="widget marketcaplive">
+
+    <h5>Top 100 Market caps</h5>
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <mat-table #table class="data" [dataSource]="dataSource">
+
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+            <mat-cell *matCellDef="let element" [routerLink]="'/symbol/'+element.symbol">{{element.name}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="market_cap_usd">
+            <mat-header-cell *matHeaderCellDef> Cap (m{{base}})</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.market_cap_usd /1000000 | number:'1.0-0'}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+</section>
+

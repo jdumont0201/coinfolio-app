@@ -99,6 +99,7 @@ import {AppEvolutionTableComponent} from "../widgets/evolution-table/component";
 import {AppSortedPerformanceComponent} from "../widgets/sorted-perf/component";
 import {AppMarketCapTableComponent} from "../widgets/market-table/component";
 import {AppPerfLastWeekComponent} from "../widgets/perf-lastweek/component";
+import {AppMarketCapLiveWidget} from "../widgets/marketcap-live/component";
 import {AppTrendingLastWeekComponent} from "../widgets/trending-lastweek/component";
 import {AppCapLastWeekComponent} from "../widgets/cap-lastweek/component";
 import {AppPriceComponent} from "../widgets/price/component";
@@ -144,7 +145,7 @@ import {AppConfigProfilePage} from "../pages/config-profile/component";
 
 @NgModule({
     declarations: [
-        AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,
+        AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,

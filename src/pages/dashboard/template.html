@@ -1,20 +1,12 @@
-
-
 <mat-toolbar><h3>Dashboard</h3></mat-toolbar>
 
-  <mat-tab-group  (selectedTabChange)="tabChanged($event)">
+<mat-tab-group (selectedTabChange)="tabChanged($event)">
 
-  <mat-tab label="Overview">
-<app-marketcap-evol-mini></app-marketcap-evol-mini>
-    <app-trending-lastweek></app-trending-lastweek>
+    <mat-tab label="Overview">
+        <app-marketcap-live></app-marketcap-live>
 
-  </mat-tab>
-  <mat-tab label="Top 10">
-    <app-top-performance *ngIf="tabIndex==1"></app-top-performance>
-  </mat-tab>
-  <mat-tab label="Market Cap">
-    <app-marketcap-evol *ngIf="tabIndex==2"></app-marketcap-evol>
-  </mat-tab>
+    </mat-tab>
+
 </mat-tab-group>
 
 
