@@ -24,12 +24,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class AppTwitterComponent implements OnInit {
   @Input() symbol;
   @Input() possibleSymbols;
-
+@Input() mode;
   tweets;
-  consumerKey = '26kAxes56Um1yJ0FV9jQ4Vtb4';
-  consumerSecret = 'FSiP827AQVGdm2G6XivWOKtrAEQGoaubWAFbTqDBksSdnXEK01';
-  token = '614294914-1Y5IJr5JIbTjIsJpL1vn4GE7XOazu4l0FztQtz8c';
-  tokenSecret = 'krh7tQLXDdEVot4xEK7NdsVwD2Ex9hDvaB6NOHy5BENYw';
   key;
   isLoading=true;
 

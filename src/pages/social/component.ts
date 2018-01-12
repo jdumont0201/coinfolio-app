@@ -29,9 +29,15 @@ export class AppSocialPage extends PageWithTabs implements OnDestroy {
     constructor(public requestService: RequestService,public refreshService:RefreshService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
         super(refreshService,eventService)
 
-        let p=Crypto.getSymbolsFromPair(this.pairId)
-        this.supra=p.supra;
-        this.infra=p.infra
+        if(this.pairId){
+            let p=Crypto.getSymbolsFromPair(this.pairId)
+            if(p){
+                this.supra=p.supra;
+                this.infra=p.infra
+            }
+        }
+
+
     }
 
     search(){

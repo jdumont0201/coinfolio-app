@@ -19,7 +19,7 @@
         <app-headlines [symbol]="symbolId"   [possibleSymbols]="[symbolId]" [source]="'Google News'" [possibleSources]="['Google News']"></app-headlines>
       </div>
       <div class="grid-in right">
-        <app-twitter [symbol]="symbolId"[possibleSymbols]="[symbolId,('$'+symbolId),(symbolId+' coin')]"></app-twitter>
+        <app-twitter [mode]="'precise'" [symbol]="symbolId"[possibleSymbols]="[symbolId,('$'+symbolId),(symbolId+' coin')]"></app-twitter>
       </div>
       <br class="clear">
     </div>
