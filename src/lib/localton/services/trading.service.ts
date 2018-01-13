@@ -94,7 +94,7 @@ export class TradingService {
         return C
     }
 
-    enabledBrokers: string[]
+    enabledBrokers: string[]=[]
 
     fetchBrokerEnabledArray(f: Function) {
         let r = [];

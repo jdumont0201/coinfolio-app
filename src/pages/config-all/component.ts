@@ -22,17 +22,7 @@ export class AppConfigAllPage{
 
     constructor(public authService: AuthService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
 
-        this.logic.getImports((res) => {
-            this.imports = res;
-        })
-        this.logic.getMe((res) => {
-            this.user = res;
-        })
-        this.authService.loginChanged.subscribe((val)=>{
-            this.logic.getMe((res) => {
-                this.user = res;
-            })
-        })
+
     }
 
     logout() {

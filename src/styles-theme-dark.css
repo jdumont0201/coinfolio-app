@@ -7,12 +7,13 @@
     color: #fff!important;
 }
 .theme-dark .mat-tab-label, .mat-tab-link{
-    color:#aaa!important
-;
-    background: #222;
-    border-top: solid 1px #666;
-    border-radius: 3px;
-    border-right: solid 1px #444;
+    color: #e6e6e6!important;
+    /* background: #222; */
+    /* border-top: solid 1px #666; */
+    /* border-radius: 3px; */
+    /* border-right: solid 1px #444; */
+    font-family: London!important;
+    font-size: 15px;
 }
 .theme-dark .mat-tab-label-active{background:#444!important;}
 .theme-dark *{    color: white;font-size:12px}

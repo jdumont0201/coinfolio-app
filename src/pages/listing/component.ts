@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, ViewChild} from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
@@ -12,6 +12,8 @@ import {RefreshedPage} from "../../lib/localton/components/RefreshedPage/compone
 import {EventService} from "../../lib/localton/services/event.service";
 import {CryptoPair} from "../../lib/localton/structures/Listing";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {MatTableDataSource, MatSort} from '@angular/material';
+import {Structures} from "../../lib/globalton/core/utils/utils";
 
 @Component({
     selector: 'app-listing',
@@ -19,46 +21,56 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 
 })
 @Injectable()
-export class AppSymbolAllPage extends PageWithTabs implements OnDestroy {
+export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy {
     listing: CryptoPair[] = new Array();
-    supports = ['BNB', 'BTC', 'ETH', 'USDT']
+    supports = {}
+
     isLoading = true;
+
+    displayedColumnsRef = ['traded', 'inptf', 'pair', 'broker','volume', '24hevol', 'bid', 'ask'];
 
     showGraphs = false;
     canShow = [];
     sortby = "has_been_traded"
-    possibleSorts = ["name", "bid_ask_volume_ratio", "has_some_in_portfolio","has_been_traded"]
-    possiblePriceviews = ["crypto", "usd", "both"]
+    possibleSorts = ["name", "bid_ask_volume_ratio", "has_some_in_portfolio", "has_been_traded"]
+    possiblePriceviews = ["crypto", "fiat", "crypto_and_fiat"]
     priceview = "both"
 
-    maxVolume={}
-    getUSDPrice(infra: string, listing: any[]): { ask: number, bid: number } {
-        const pair = infra + "USDT"
-        if (pair in listing)
-            return {ask: parseFloat(listing[pair].ask), bid: parseFloat(listing[pair].bid)}
-        else if (infra === "USDT") return {ask: 1, bid: 1}
-        else
-            console.log("err", "unknown pair in listing", pair, listing)
+    maxVolume = {}
+
+    @ViewChild(MatSort) sort: MatSort;
+
+    constructor(public refreshService: RefreshService, public requestService: RequestService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
+        super(refreshService, eventService)
+        this.firstloadData();
+    }
+    ngOnInit(){
+
+        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
+            this.brokerLoaded(val)
+            this.tradingService.enabledBrokers.forEach((b)=>{
+                let f = () => {                    this.loadDataByBroker(b);                }
+                this.subscribeToRefresh(b + "-bidask", f,true)
+            })
+
+        })
+        this.tradingService.enabledBrokers.forEach((b)=>{
+            let f = () => {                this.loadDataByBroker(b);            }
+            this.subscribeToRefresh(b + "-bidask", f,true)
+        })
+
     }
 
-    rfn = 0;
-    hasConnected=false;
-    constructor(public refreshService:RefreshService,public requestService: RequestService, public eventService:EventService,public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
-        super(refreshService,eventService)
-        // console.log("typf", Array.isArray(this.listing))
-        this.eventService.brokerLoadedEvent.subscribe((val) => {
-            this.brokerLoaded(val)
-            this.hasConnected=true;
-        })
-        this.listing = [];
-        //this.tradingService.reload()
-        this.isLoading = true;
-        this.firstloadData();
-        //this.initRefresh()
+    ngOnDestroy() {
+        console.log("listdes")
+        this.unsubscribeAndStopAllRefresh()
+
+
     }
     brokerLoaded(val: { key: string, loaded: boolean }) {
         this.loadData()
     }
+
     refreshData() {
         this.isRefreshing = true;
         this.loadData()
@@ -100,30 +112,61 @@ export class AppSymbolAllPage extends PageWithTabs implements OnDestroy {
         }
     }
 
-    ngOnDestroy() {
-        clearInterval(this.refreshInterval)
-        clearInterval(this.refreshTimerInterval)
-    }
+
+    dataSource;
 
     loadData() {
-        this.tradingService.getBrokerByName("binance").getListing().refresh();
-        this.listing = this.tradingService.getBrokerByName("binance").getListing().getList(this.sortby,"change");
-        this.maxVolume=this.tradingService.getBrokerByName("binance").getTicker().maxVolume;
-        this.listing.forEach((l)=>{
-            if(l.infra && l.infra in this.maxVolume && l.volume){
-                //console.log("lvol",l.volume,this.maxVolume,this.maxVolume[l.infra],l.volume/this.maxVolume[l.infra])
-                l.relativeVolume=l.volume / this.maxVolume[l.infra];
+        console.log("loaddata",this.tradingService.enabledBrokers)
+        if (this.tradingService.enabledBrokers)
+            this.tradingService.enabledBrokers.forEach((b) => {
+                this.loadDataByBroker(b)
+            })
+    }
 
-            } else l.relativeVolume=-1
+    loadDataByBroker(b) {
+
+
+        let B = this.tradingService.getBrokerByName(b);
+        console.log("loaddata",b,B)
+        if (!B) return
+        this.listing = B.getListing().getList(this.sortby, "change");
+        this.maxVolume = B.getTicker().maxVolume;
+
+        this.listing.forEach((l) => {
+            if (l.infra && l.infra in this.maxVolume && l.volume) {
+                l.relativeVolume = l.volume / this.maxVolume[l.infra];
+            } else l.relativeVolume = -1
+
+            this.supports[l.infra] = {symbol: l.infra, active: true}
+
         })
+
+        this.filterData()
+        this.dataSource = new MatTableDataSource(this.filteredData);
+        this.dataSource.sort = this.sort;
         this.loadTime = new Date()
         this.refreshTimer = this.refreshEvery;
         this.isRefreshing = false
-        if(this.listing && this.listing.length>0) this.isLoading = false
+        if (this.listing && this.listing.length > 0) this.isLoading = false
+        console.log("loaddata",this.filteredData)
+    }
+
+    filteredData;
+
+    getObjectKeys(obj): string[] {
+        return Object.keys(obj)
+    }
+
+    filterData() {
+        this.filteredData = []
+        this.listing.forEach((l) => {
+            if (this.supports[l.infra].active)
+                this.filteredData.push(l)
+        })
+        this.dataSource = new MatTableDataSource(this.filteredData);
     }
 
     lastListing = {};
-
 
     canShowItem(index, s): boolean {
         return true

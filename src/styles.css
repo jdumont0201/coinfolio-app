@@ -1459,7 +1459,7 @@ mat-table.data mat-row {
   background:black;min-width:200px;
 }
 
-.table .tr:first-child .td {
+.table .tr:first-child .td,.table .tr:first-child > div,mat-header-cell {
   font-weight: bold;
 }
 

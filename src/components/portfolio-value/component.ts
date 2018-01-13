@@ -39,11 +39,6 @@ export class AppPortfolioValueComponent extends Refreshing implements OnInit, On
         this.subscribeToRefresh(b + "-ticker", f)
     }
 
-    poolUpdated(param) {
-        this.consoleService.eventReceived("POOL-" + this.broker + "-portfolio-ticker --> Portfoliovalue")
-        this.update("updatepool")
-    }
-
     update(t) {
         this.value = this.tradingService.getBrokerByName(this.broker).getTotalUSDValue()
         this.cd.markForCheck();

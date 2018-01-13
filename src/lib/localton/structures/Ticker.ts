@@ -122,7 +122,7 @@ export class Ticker {
         let isInitialLoad = !this.connected
         if (isInitialLoad) {
             this.refreshService.createPool(this.key + "-ticker")
-            this.refreshService.createPool(this.key + "-portfolio-ticker")
+            //this.refreshService.createPool(this.key + "-portfolio-ticker")
             this.tradingService.TickerUpdatedEvent.emit({broker: this.key, success: true})
         }
 
