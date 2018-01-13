@@ -21,6 +21,7 @@ export class EventService implements OnInit {
     @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() favoriteUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() poolDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() rightMenuUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
 
     isTickerVisible:boolean=true;
     isMenuDisplayed: boolean = true;
@@ -33,6 +34,9 @@ export class EventService implements OnInit {
     enableFullscreen(){
         this.isFullscreen=true
         this.isFullscreenEvent.emit(true)
+    }
+    openRightMenu(tab){
+        this.rightMenuUpdatedEvent.emit(tab)
     }
     disableFullscreen(){
         this.isFullscreen=false

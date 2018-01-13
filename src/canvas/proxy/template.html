@@ -1,0 +1,19 @@
+<section class="widget requests">
+    <h5>Requests</h5><div class="table">
+    <div class="tr">
+        <div class="td">URL</div>
+        <div class="td">Type</div>
+        <div class="td">Destination</div>
+        <div class="td">Time</div>
+        <div class="td">Date</div>
+        <div class="td">Status</div>
+    </div>
+    <div class="tr" *ngFor="let r of proxyService.requests">
+        <div class="td">{{r.url}}</div>
+        <div class="td">{{r.type}}</div>
+        <div class="td">{{r.tag}}</div>
+        <div class="td">{{r.time }}ms</div>
+        <div class="td">{{r.starttime |date:'HH:mm:ss:SSS'}}</div>
+        <div class="td">{{r.status}}</div>
+    </div>
+</div></section>

@@ -12,6 +12,7 @@ import {TradingService} from "./services/trading.service";
 import {FixedNbPipe} from "./pipes/fixednb";
 import {RefreshService} from "./services/refresh.service";
 import {Services} from "./services/services";
+import {ProxyService} from "../globalton/core/services/proxy.service";
 
 @NgModule({
     imports: [

@@ -1436,3 +1436,30 @@ mat-table.data mat-row {
   background-repeat: no-repeat;
   padding-left: 21px;}
 
+#ticker mat-icon:hover {
+  background: #ffffff;
+  color: #39424a;
+}
+
+#ticker mat-icon {
+  font-size: 32px;
+  padding-top: 11px;
+  padding-right: 15px;
+  /* background: red; */
+  height: 34px;
+  padding-left: 7px;
+  margin-top: 6px;
+  border-radius: 9px;
+}
+
+#rightsidenav ul li {
+  border-bottom: solid 1px #666;
+}
+#rightsidenav {
+  background:black;min-width:200px;
+}
+
+.table .tr:first-child .td {
+  font-weight: bold;
+}
+

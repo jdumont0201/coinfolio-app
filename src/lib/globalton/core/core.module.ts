@@ -12,6 +12,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {FacebookService} from "ngx-facebook";
 import {CurrencyService} from "./services/currency.service";
 import {WebsocketService} from "./services/websocket.service";
+import {ProxyService} from "./services/proxy.service";
 
 @NgModule({
     imports: [
@@ -32,7 +33,7 @@ import {WebsocketService} from "./services/websocket.service";
     ],
     exports: [],
     entryComponents:[],
-    providers: [RequestService,WebsocketService,ApiService,AuthService, TranslateService,FacebookService,CurrencyService,ConsoleService, MessageService,ConfigService]
+    providers: [RequestService,WebsocketService,ProxyService,ApiService,AuthService, TranslateService,FacebookService,CurrencyService,ConsoleService, MessageService,ConfigService]
 })
 export class GlobaltonCoreModule {
 

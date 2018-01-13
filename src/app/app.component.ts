@@ -25,6 +25,7 @@ export class AppComponent {
     myPanels;
 
     @ViewChild("sidenav") sidenav;
+    @ViewChild("rightsidenav") rightsidenav;
 
     constructor(public requestService: RequestService, public eventService: EventService, public messageService: MessageService,
                 public logic: Logic, private route: ActivatedRoute, public snackBar: MatSnackBar, public tradingService: TradingService) {
@@ -34,6 +35,7 @@ export class AppComponent {
         this.eventService.workspaceUpdatedEvent.subscribe((val) => this.workspaceUpdated(val))
         this.eventService.isFullscreenEvent.subscribe((val) => this.fullscreenUpdated(val))
         this.eventService.brokerLoadedEvent.subscribe((val) => this.brokerLoaded(val))
+        this.eventService.rightMenuUpdatedEvent.subscribe((val) => this.toogleRightMenu(val))
         this.messageService.errorsChanged.subscribe((val) => this.errorsUpdated(val))
         //this.eventService.showLoading()
     }
@@ -78,6 +80,12 @@ export class AppComponent {
         this.sidenav.toggle();
         this.eventService.isMenuPinned = false;
         this.eventService.isMenuDisplayed = !this.eventService.isMenuDisplayed
+    }
+
+    toogleRightMenu(tab) {
+        this.rightsidenav.toggle();
+        //this.eventService.isMenuPinned = false;
+        //this.eventService.isMenuDisplayed = !this.eventService.isMenuDisplayed
     }
 
     processPin() {

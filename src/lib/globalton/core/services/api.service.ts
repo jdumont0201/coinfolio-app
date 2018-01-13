@@ -15,7 +15,8 @@ import 'rxjs/add/operator/retry';
 import 'rxjs/Rx';
 import {Model} from "../models/Model";
 import {Raw} from "../interfaces/interfaces"
-import {HttpHeaders,HttpClient} from "@angular/common/http";
+import {HttpHeaders, HttpClient} from "@angular/common/http";
+import {ProxyService} from "./proxy.service";
 
 @Injectable()
 export class ApiService {
@@ -28,34 +29,36 @@ export class ApiService {
     retry: number;
     pingOnError: boolean = false;
     isUp: boolean = false;
-    pingInterval:any;
+    pingInterval: any;
 
     authService: AuthService;
 
     constructor(public http: HttpClient,
                 public messageService: MessageService,
+                private proxyService: ProxyService,
                 private consoleService: ConsoleService,
-
                 private configService: ConfigService) {
         this.consoleService.serv("+ ApiService");
         this.timeout = configService.API_TIMEOUT;
         this.retry = configService.API_NB_RETRY;
-        this.baseurl=this.configService.apiURL;
-        this.configService.perSiteConfigured.subscribe((val)=>this.perSiteConfigured(val))
+        this.baseurl = this.configService.apiURL;
+        this.configService.perSiteConfigured.subscribe((val) => this.perSiteConfigured(val))
 
 
     }
 
-    perSiteConfigured(val){
+    perSiteConfigured(val) {
         this.ping(function () {
 
         });
     }
-    setApiUrl(v:string){
-      this.baseurl = v;
+
+    setApiUrl(v: string) {
+        this.baseurl = v;
     }
-    setServerUrl(v:string){
-      this.serverurl = v;
+
+    setServerUrl(v: string) {
+        this.serverurl = v;
     }
 
     setAuthService(authService, f) {
@@ -64,26 +67,26 @@ export class ApiService {
     }
 
 
-    processError(errorCode: string,url:string, err,f?:Function) {
+    processError(errorCode: string, url: string, err, f: Function, reqId: number) {
         this.messageService.hideLoading();
         this.messageService.hideSaving();
-        console.error("API processError",errorCode, err,f);
+        console.error("API processError", errorCode, err, f);
         let desc: string;
 
-
-        if(!err){
-            this.messageService.addError("API_ERROR_UNKNOWN", null, "No error desc available "+url);
-            f({error:true,desc:"Api error",url:url})
+        this.proxyService.completeRequestError(reqId);
+        if (!err) {
+            this.messageService.addError("API_ERROR_UNKNOWN", null, "No error desc available " + url);
+            f({error: true, desc: "Api error", url: url})
         }
 
         if (err.name === "TimeoutError") {
-            this.messageService.addError("API_TIMEOUT", null, "API is unreachable. "+url);
-            f({error:true,desc:"Request has timed out.",url:url})
-        }else if (err.message === "Unauthorized") {
-            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource. "+url);
-            f({error:true,desc:"Request has timed out.",url:url})
-        }else{
-            console.log("other error",errorCode,err);
+            this.messageService.addError("API_TIMEOUT", null, "API is unreachable. " + url);
+            f({error: true, desc: "Request has timed out.", url: url})
+        } else if (err.message === "Unauthorized") {
+            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource. " + url);
+            f({error: true, desc: "Request has timed out.", url: url})
+        } else {
+            console.log("other error", errorCode, err);
             if (err && err._body && typeof err._body === "string") {
                 try {
                     var parsed = JSON.parse(err._body);
@@ -99,27 +102,31 @@ export class ApiService {
                     desc = err._body;
                     console.log("not parsed");
 
-                    this.messageService.addError(err.url,parsed.error,"Unparsable error");
+                    this.messageService.addError(err.url, parsed.error, "Unparsable error");
 
                 }
             }
-            this.messageService.addError(errorCode,"","");
-            f({error:true,desc:err,url:url});
+            this.messageService.addError(errorCode, "", "");
+            f({error: true, desc: err, url: url});
 
         }
 
     }
 
-    processData(url:string,data, f: Function) {
+    processData(url: string, data, f: Function, reqId: number) {
+
         this.messageService.hideLoading();
         this.messageService.hideSaving();
-        this.consoleService.api("processData",url, data);
+        this.consoleService.api("processData", url, data);
         if (data.error) {
-            this.processError("API_PROCESS",url, data.errordesc);
+            this.proxyService.completeRequestErrorResult(reqId)
+            this.processError("API_PROCESS", url, data.errordesc,null,null);
         } else {
+            this.proxyService.completeRequestSuccessResult(reqId)
             f(data);
         }
     }
+
     pingResult(isUp: boolean, f: Function) {
 
         const diff = new Date().getTime() - this.timer;
@@ -135,20 +142,23 @@ export class ApiService {
         }
         f(isUp);
     }
-    processWaitLine(){
-       console.log("waitline",this.waitLine)
-        for(let i=0;i<this.waitLine.length;++i){
-            const w:any=this.waitLine[i]
-        if(w.type==="get")
-            this.get(w.url,w.headers,w.func)
+
+    processWaitLine() {
+        console.log("waitline", this.waitLine)
+        for (let i = 0; i < this.waitLine.length; ++i) {
+            const w: any = this.waitLine[i]
+            if (w.type === "get")
+                this.get(w.url, w.headers, w.func)
         }
     }
+
     private handlePingError(error: any) {
-        console.error('An error occurred', error,this);
-        if(!this.pingInterval)
-            this.pingInterval=window.setInterval(() => {
-               this.ping(()=>{})
-            },3000);
+        console.error('An error occurred', error, this);
+        if (!this.pingInterval)
+            this.pingInterval = window.setInterval(() => {
+                this.ping(() => {
+                })
+            }, 3000);
         //return Promise.reject(error.message || error);
     }
 
@@ -176,24 +186,24 @@ export class ApiService {
         this.get(fullurl, h, f);
     }
 
-    authput(url: string, model: Model|any, f): void {
+    authput(url: string, model: Model | any, f): void {
         let fullurl: string = this.baseurl + url;
         let h: HttpHeaders = this.authService.authPostHeaders;
-      let ser: string = typeof model =="object"?JSON.stringify(model):model.serialize();
+        let ser: string = typeof model == "object" ? JSON.stringify(model) : model.serialize();
         this.put(fullurl, ser, h, f);
     }
 
-     authpatch(url: string, model: Model|any, f: Function): void {
+    authpatch(url: string, model: Model | any, f: Function): void {
         const fullurl: string = this.baseurl + url;
         const h: HttpHeaders = this.authService.authPostHeaders;
-        const ser: string = typeof model =="object"?JSON.stringify(model):model.serialize();
-        this.patch(fullurl,ser,  h, f);
+        const ser: string = typeof model == "object" ? JSON.stringify(model) : model.serialize();
+        this.patch(fullurl, ser, h, f);
     }
 
-    authpost(url: string, model: Model|any, f: Function): void {
+    authpost(url: string, model: Model | any, f: Function): void {
         let fullurl: string = this.baseurl + url;
         let h: HttpHeaders = this.authService.authPostHeaders;
-      let ser: string = typeof model =="object"?JSON.stringify(model):model.serialize();
+        let ser: string = typeof model == "object" ? JSON.stringify(model) : model.serialize();
         this.post(fullurl, ser, h, f);
     }
 
@@ -204,12 +214,13 @@ export class ApiService {
         this.post(fullurl, ser, h, f);
     }
 
-    noauthpost(url: string, model: Model|any, f: Function): void {
+    noauthpost(url: string, model: Model | any, f: Function): void {
         let fullurl: string = this.baseurl + url;
         let h: HttpHeaders = this.authService.noauthPostHeaders;
-        let ser: string = typeof model =="object"?JSON.stringify(model):model.serialize();
+        let ser: string = typeof model == "object" ? JSON.stringify(model) : model.serialize();
         this.post(fullurl, ser, h, f);
     }
+
     noauthrawpost(url: string, raw: any, f: Function): void {
         let fullurl: string = this.baseurl + url;
         let h: HttpHeaders = this.authService.noauthPostHeaders;
@@ -226,12 +237,13 @@ export class ApiService {
     private post(url: string, raw: any, headers: HttpHeaders, f: Function) {
         this.consoleService.post("Posting", url, "seralized", raw, "headers", headers);
         this.messageService.showSaving();
+        let reqId: number = this.proxyService.addNewInternalRequest(url, "POST")
         this.http.post(url, raw, {headers: headers})
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(url,data, f),
-                err => this.processError("API_POST",  url,err,f),
+                data => this.processData(url, data, f, reqId),
+                err => this.processError("API_POST", url, err, f, reqId),
                 // err => this.error(err),
                 () => console.log('Done posting.')
             );
@@ -240,13 +252,14 @@ export class ApiService {
     private delete(url: string, headers: HttpHeaders, f: Function) {
         this.consoleService.delete("Deleting", url);
         this.messageService.showSaving();
+        let reqId: number = this.proxyService.addNewInternalRequest(url, "DELETE")
         this.http.delete(url, {headers: headers})
 
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(url,data, f),
-                err => this.processError("API_DELETE", url, err),
+                data => this.processData(url, data, f, reqId),
+                err => this.processError("API_DELETE", url, err, f, reqId),
                 // err => this.error(err),
                 () => console.log('Done deleting.')
             );
@@ -255,49 +268,55 @@ export class ApiService {
     private put(url: string, ser: string, headers: HttpHeaders, f: Function) {
         this.consoleService.put("Putting", url, "obj", ser, "serialized", ser);
         this.messageService.showSaving();
+        let reqId: number = this.proxyService.addNewInternalRequest(url, "PUT")
         this.http.put(url, ser, {headers: headers})
 
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(url,data, f),
-                err => this.processError("API_PUT", url, err),
+                data => this.processData(url, data, f, reqId),
+                err => this.processError("API_PUT", url, err, f, reqId),
                 // err => this.error(err),
                 () => console.log('Done putting.')
             );
     }
 
-    private patch(url: string, ser:string, headers: HttpHeaders, f: Function) {
-        this.consoleService.patch("Patching", url, "obj",ser, "serialized", ser);
+    private patch(url: string, ser: string, headers: HttpHeaders, f: Function) {
+        this.consoleService.patch("Patching", url, "obj", ser, "serialized", ser);
         this.messageService.showSaving();
+        let reqId: number = this.proxyService.addNewInternalRequest(url, "PATCH")
         this.http.patch(url, ser, {headers: headers})
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(url,data, f),
-                err => this.processError("API_PATCH", url,err,f),
+                data => this.processData(url, data, f, reqId),
+                err => this.processError("API_PATCH", url, err, f, reqId),
                 // err => this.error(err),
                 () => console.log('Done patching.')
             );
     }
-    waitLine:any[]=[];
+
+    waitLine: any[] = [];
+
     private get(url: string, headers: HttpHeaders, f: Function) {
-        if(!this.isUp) {
-            this.waitLine.push({type:"get",url:url,headers:headers,func:f})
-            return ;
+        if (!this.isUp) {
+            this.waitLine.push({type: "get", url: url, headers: headers, func: f})
+            return;
         }
         this.timer = new Date().getTime();
         this.consoleService.get("ApiService Get", url, headers);
         this.messageService.showLoading();
+        let reqId: number = this.proxyService.addNewInternalRequest(url, "GET")
         this.http.get(url, {headers: headers})
 
             .timeout(this.timeout)
             .retry(this.retry)
             .subscribe(
-                data => this.processData(url,data, f),
-                err => this.processError("API_GET",  url,err,f),
+                data => this.processData(url, data, f, reqId),
+                err => this.processError("API_GET", url, err, f, reqId),
                 // err => this.error(err),
-                () => {}
+                () => {
+                }
             );
     }
 }
