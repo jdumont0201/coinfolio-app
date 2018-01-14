@@ -1301,7 +1301,7 @@ span.separator-marker {
 .mat-drawer-content {
     background: #fafafa !important;
 
-    min-height: 100vh!important;
+    min-height: 100vh !important;
 }
 
 .mat-nav-list a.link {
@@ -1430,7 +1430,6 @@ mat-sidenav#rightsidenav[opened="true"] {
     box-sizing: border-box;
     text-align: center;
 }
-
 
 #maincanvas mat-side-nav {
 
@@ -2258,6 +2257,7 @@ span.infra {
     border-radius: 3px;
     margin-top: 3px;
 }
+
 #search {
     top: 0px;
     background: white;
@@ -2271,7 +2271,7 @@ span.infra {
     border-right: solid 1px #777;
     background: white;
     width: 300px;
-    }
+}
 
 .mat-menu-content {
     padding: 0
@@ -2420,14 +2420,29 @@ div#ticker {
     margin-bottom: 60px;
     position: relative;
 }
-#bottom{display:flex;width:100%;position:fixed;bottom:0;
+
+#bottom {
+    display: flex;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
     bottom: 0;
     z-index: 3;
-    height: 60px;}
-#status{width:120px;background: #05529e;
-    height: 60px;}
+    height: 60px;
+}
+
+#status {
+    width: 120px;
+    background: #05529e;
+    height: 60px;
+}
+
 app-ticker {
     width: 100%;
+}
+
+#search-button {
+    display: none
 }
 
 .config-link {
@@ -2474,6 +2489,25 @@ app-ticker {
 .config-link .sub {
     font-size: 13px;
 
+}
+
+app-top-right-buttons mat-icon {
+    font-size: 27px !important;
+
+    margin-right: 3px;
+}
+
+app-top-right-buttons button {
+    border-radius: 0px !important;
+    width: 60px !important;
+    height: 60px !important;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+app-top-right-buttons button:hover {
+
+    background: rgba(255, 255, 255, 0.6) !important;
 }
 
 app-portfolio-recap {
@@ -2598,13 +2632,19 @@ section.widget:last-child {
     margin-right: 0;
 }
 
-.mat-toolbar-row, .mat-toolbar-single-row{
-    height: 60px!important;}
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: 60px !important;
+}
 
-
-#top-right-buttons{position:absolute;top:0;right:0;    position: absolute;
+#top-right-buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    position: absolute;
     top: 0;
     z-index: 2;
     right: 0;
     border-left: solid 1px #0a95f1;
-    height: 60px;}
+    height: 60px;
+    display: flex;
+}

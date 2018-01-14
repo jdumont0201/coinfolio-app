@@ -2,7 +2,8 @@
 <div [@.disabled]="true">
     <mat-toolbar>
         <h3>News </h3>
-        <input type="text" [(ngModel)]="searchedText" placeholder="Search pairs..." (keyup)="search()" id="listing-search"/>
-    </mat-toolbar>
+        </mat-toolbar>
+    <app-top-right-buttons [searchCallback]="searchCallback" [placeholder]="'Search news...'"></app-top-right-buttons>
+
     <app-headlines [symbol]="symbol"   [possibleSymbols]="possibleSymbols" [source]="'Google News'" [possibleSources]="['Google News']"></app-headlines>
 </div>

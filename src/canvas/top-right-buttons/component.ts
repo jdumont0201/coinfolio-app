@@ -23,12 +23,14 @@ export class AppTopRightButtons {
     @Input() searchCallback: Function
     @Input() placeholder: string
     searchedText: string;
+    showSearch:boolean=true;
+
 
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
 
     }
 
-    doSearch() {
+    doSearchCallback() {
         this.searchCallback(this.searchedText)
     }
 

@@ -1,4 +1,31 @@
 @media screen and (max-width: 640px) {
-    .mat-drawer{ }
-    .panel-content-2{width:100%}
+    .mat-drawer {
+    }
+
+    .panel-content-2 {
+        width: 100%
+    }
+
+    #search-button {
+        display: block
+    }
+
+    #search {
+        display: none
+    }
+
+    .shown #search {
+        display: block
+    }
+
+    .shown {
+        right: initial;
+        left: 0;
+        left: 60px;
+        width: 100%;
+    }
+
+    #top-right-buttons-in {
+        display: none
+    }
 }

@@ -1,6 +1,9 @@
-<div id="top-right-buttons">
-    <input id="search" (change)="doSearchCallback()" [(ngModel)]="searchedText" placeholder="{{placeholder}}" type="text" >
+<div id="top-right-buttons" class="{{showSearch?'shown':''}}">
+    <input id="search" (change)="doSearchCallback()"  [(ngModel)]="searchedText" placeholder="{{placeholder}}" type="text" >
+    <button id="search-button" mat-icon-button (click)="showSearch=!showSearch"><mat-icon >{{showSearch?'clear':'search'}}</mat-icon></button>
+
+    <div id="top-right-buttons-in">
     <button class="" mat-icon-button (click)="eventService.openRightMenu('queue')"><mat-icon >hourglass_empty</mat-icon></button>
     <button class="" mat-icon-button (click)="eventService.openRightMenu('alert')"><mat-icon >priority_high</mat-icon></button>
-
+    </div>
 </div>
