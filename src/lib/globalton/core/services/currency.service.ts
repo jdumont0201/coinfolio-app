@@ -42,10 +42,10 @@ export class CurrencyService {
         
     }
     loadCurrencyFile(): void {
-        let url: string = this.configService.currencyRatesApi;
+        const url: string = this.configService.currencyRatesApi;
         
         if(this.configService.renewCurrencyFileAtStartup){
-            console.log("CurrencyService loading ", url);
+            this.consoleService.curr("CurrencyService loading ", url);
             this.requestService.get(url,function(result){
               if(result)
                   this.processFile(result);
@@ -89,17 +89,17 @@ export class CurrencyService {
         console.log("thisrates", this.rates);
         this.rates = {};
         for (var currency in file.rates) {
-            console.log("check", currency, file.rates[currency]);
+            this.consoleService.curr("check", currency, file.rates[currency]);
             let val = parseFloat(file.rates[currency]);
             this.rates[currency] = val;
         }
 
         this.buildTable();
-        console.log("CurrencyTable", this.ratesTable);
+        this.consoleService.curr("CurrencyTable", this.ratesTable);
         this.currencyRatesLoaded.next({});
     }
     buildTable(): void {
-        console.log("buildTable", this.rates);
+        this.consoleService.curr("buildTable", this.rates);
         this.ratesTable = [];
         for (var currency in this.configService.usedCurrencies) {
             
@@ -119,7 +119,7 @@ export class CurrencyService {
         }
     }
     setCurrency(currencyCode: string): void {
-        console.log("SetLanguage", currencyCode);
+        this.consoleService.curr("SetCurrency", currencyCode);
         this.currentCurrencyCode = currencyCode;
         this.currencyRatesLoaded.next(this.currentCurrencyCode);
     }

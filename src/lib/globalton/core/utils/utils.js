@@ -10,6 +10,68 @@ function appendArrayToArray(res, A) {
         A.push(res[i]);
 }
 exports.appendArrayToArray = appendArrayToArray;
+var Strings = (function () {
+    function Strings() {
+    }
+    Strings.Capitalize = function (s) {
+        return s.substring(0, 1).toUpperCase() + s.slice(1);
+    };
+    return Strings;
+}());
+exports.Strings = Strings;
+var Structures = (function () {
+    function Structures() {
+    }
+    Structures.objectToArray = function (obj) {
+        var A = [];
+        for (var k in obj) {
+            A.push(obj[k]);
+        }
+        return A;
+    };
+    Structures.ArraySort = function (A, sortField, order, secondfield, ordersecondfield) {
+        return A.sort(function (a, b) {
+            var keyA = a[sortField], keyB = b[sortField];
+            if (keyA < keyB)
+                return order;
+            if (keyA > keyB)
+                return -1 * order;
+            if (secondfield)
+                return a[secondfield] < b[secondfield] ? -1 * ordersecondfield : ordersecondfield;
+        });
+    };
+    Structures.getIndexByProperty = function (A, key, value) {
+        for (var i = 0; i < A.length; ++i) {
+            if (A[i][key] == value)
+                return i;
+        }
+        return -1;
+    };
+    Structures.getIndexByMatch = function (A, obj) {
+        var res = -1;
+        var isMatching;
+        A.forEach(function (a, index) {
+            if (res == -1) {
+                var n = Object.keys(obj).length;
+                var matching = 0;
+                for (var j in obj) {
+                    //console.log("check j=", j, "obj", obj, "objj=", obj[j], a[j])
+                    if (a[j] == obj[j]) {
+                        matching++;
+                        //console.log("check j=", j, "obj", obj, "objj=", obj[j], a[j], "matching")
+                    }
+                }
+                isMatching = matching == n;
+                //console.log("matching", matching, "shoudl", n, isMatching, index)
+                if (isMatching)
+                    res = index;
+            }
+        });
+        return res;
+    };
+    return Structures;
+}());
+exports.Structures = Structures;
 function findById(id, list, f) {
     for (var i = 0, n = list.length; i < n; ++i) {
         var e = list[i];
@@ -145,4 +207,3 @@ function clone(obj) {
     return temp;
 }
 exports.clone = clone;
-//# sourceMappingURL=utils.js.map

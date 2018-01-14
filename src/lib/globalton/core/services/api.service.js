@@ -5,25 +5,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var message_service_1 = require("./message.service");
-var console_service_1 = require("./console.service");
-var config_service_1 = require("./config.service");
 //import {ToastController} from 'ionic-angular';
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/timeout");
 require("rxjs/add/operator/toPromise");
 require("rxjs/add/operator/retry");
 require("rxjs/Rx");
-var http_1 = require("@angular/common/http");
 var ApiService = (function () {
-    function ApiService(http, messageService, consoleService, configService) {
+    function ApiService(http, messageService, proxyService, consoleService, configService) {
+        var _this = this;
         this.http = http;
         this.messageService = messageService;
+        this.proxyService = proxyService;
         this.consoleService = consoleService;
         this.configService = configService;
         this.errorsChanged = new core_1.EventEmitter();
@@ -34,9 +29,12 @@ var ApiService = (function () {
         this.timeout = configService.API_TIMEOUT;
         this.retry = configService.API_NB_RETRY;
         this.baseurl = this.configService.apiURL;
+        this.configService.perSiteConfigured.subscribe(function (val) { return _this.perSiteConfigured(val); });
+    }
+    ApiService.prototype.perSiteConfigured = function (val) {
         this.ping(function () {
         });
-    }
+    };
     ApiService.prototype.setApiUrl = function (v) {
         this.baseurl = v;
     };
@@ -47,30 +45,23 @@ var ApiService = (function () {
         this.authService = authService;
         f();
     };
-    //TEST WHETHER API IS LIVE
-    /*if (this.pingOnError) {
-     this.ping((isUp) => {
-     if (isUp) {
-     this.doProcessError(errorCode,err);
-     } else {
-     this.messageService.addError("API_DOWN", null, "API is unreachable.");
-     }
-     });
-     */
-    ApiService.prototype.processError = function (errorCode, err) {
+    ApiService.prototype.processError = function (errorCode, url, err, f, reqId) {
         this.messageService.hideLoading();
         this.messageService.hideSaving();
-        console.error(errorCode, err);
+        console.error("API processError", errorCode, err, f);
         var desc;
+        this.proxyService.completeRequestError(reqId);
         if (!err) {
-            this.messageService.addError("API_ERROR", null, "No error desc available");
-            return;
+            this.messageService.addError("API_ERROR_UNKNOWN", null, "No error desc available " + url);
+            f({ error: true, desc: "Api error", url: url });
         }
         if (err.name === "TimeoutError") {
-            this.messageService.addError("API_DOWN", null, "API is unreachable.");
+            this.messageService.addError("API_TIMEOUT", null, "API is unreachable. " + url);
+            f({ error: true, desc: "Request has timed out.", url: url });
         }
         else if (err.message === "Unauthorized") {
-            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource.");
+            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource. " + url);
+            f({ error: true, desc: "Request has timed out.", url: url });
         }
         else {
             console.log("other error", errorCode, err);
@@ -91,24 +82,19 @@ var ApiService = (function () {
                 }
             }
             this.messageService.addError(errorCode, "", "");
-            /*          let toast = this.toastCtrl.create({
-                          message: errorCode + " " + err + " " + (desc ? desc.toString() : ""),
-                          cssClass: "red",
-                          dismissOnPageChange: true, showCloseButton: true,
-                          position: 'bottom'
-                      });
-                      toast.present();
-          */
+            f({ error: true, desc: err, url: url });
         }
     };
-    ApiService.prototype.processData = function (url, data, f) {
+    ApiService.prototype.processData = function (url, data, f, reqId) {
         this.messageService.hideLoading();
         this.messageService.hideSaving();
-        console.log("[API] processData", url, data);
+        this.consoleService.api("processData", url, data);
         if (data.error) {
-            this.processError("API_PROCESS", data.errordesc);
+            this.proxyService.completeRequestErrorResult(reqId);
+            this.processError("API_PROCESS", url, data.errordesc, null, null);
         }
         else {
+            this.proxyService.completeRequestSuccessResult(reqId);
             f(data);
         }
     };
@@ -140,7 +126,8 @@ var ApiService = (function () {
         console.error('An error occurred', error, this);
         if (!this.pingInterval)
             this.pingInterval = window.setInterval(function () {
-                _this.ping(function () { });
+                _this.ping(function () {
+                });
             }, 3000);
         //return Promise.reject(error.message || error);
     };
@@ -176,7 +163,7 @@ var ApiService = (function () {
         var fullurl = this.baseurl + url;
         var h = this.authService.authPostHeaders;
         var ser = typeof model == "object" ? JSON.stringify(model) : model.serialize();
-        this.patch(fullurl, model, h, f);
+        this.patch(fullurl, ser, h, f);
     };
     ApiService.prototype.authpost = function (url, model, f) {
         var fullurl = this.baseurl + url;
@@ -211,10 +198,11 @@ var ApiService = (function () {
         var _this = this;
         this.consoleService.post("Posting", url, "seralized", raw, "headers", headers);
         this.messageService.showSaving();
+        var reqId = this.proxyService.addNewInternalRequest(url, "POST");
         this.http.post(url, raw, { headers: headers })
             .timeout(this.timeout)
             .retry(this.retry)
-            .subscribe(function (data) { return _this.processData(url, data, f); }, function (err) { return _this.processError("API_POST", err); }, 
+            .subscribe(function (data) { return _this.processData(url, data, f, reqId); }, function (err) { return _this.processError("API_POST", url, err, f, reqId); }, 
         // err => this.error(err),
         function () { return console.log('Done posting.'); });
     };
@@ -222,10 +210,11 @@ var ApiService = (function () {
         var _this = this;
         this.consoleService.delete("Deleting", url);
         this.messageService.showSaving();
+        var reqId = this.proxyService.addNewInternalRequest(url, "DELETE");
         this.http.delete(url, { headers: headers })
             .timeout(this.timeout)
             .retry(this.retry)
-            .subscribe(function (data) { return _this.processData(url, data, f); }, function (err) { return _this.processError("API_DELETE", err); }, 
+            .subscribe(function (data) { return _this.processData(url, data, f, reqId); }, function (err) { return _this.processError("API_DELETE", url, err, f, reqId); }, 
         // err => this.error(err),
         function () { return console.log('Done deleting.'); });
     };
@@ -233,10 +222,11 @@ var ApiService = (function () {
         var _this = this;
         this.consoleService.put("Putting", url, "obj", ser, "serialized", ser);
         this.messageService.showSaving();
+        var reqId = this.proxyService.addNewInternalRequest(url, "PUT");
         this.http.put(url, ser, { headers: headers })
             .timeout(this.timeout)
             .retry(this.retry)
-            .subscribe(function (data) { return _this.processData(url, data, f); }, function (err) { return _this.processError("API_PUT", err); }, 
+            .subscribe(function (data) { return _this.processData(url, data, f, reqId); }, function (err) { return _this.processError("API_PUT", url, err, f, reqId); }, 
         // err => this.error(err),
         function () { return console.log('Done putting.'); });
     };
@@ -244,10 +234,11 @@ var ApiService = (function () {
         var _this = this;
         this.consoleService.patch("Patching", url, "obj", ser, "serialized", ser);
         this.messageService.showSaving();
+        var reqId = this.proxyService.addNewInternalRequest(url, "PATCH");
         this.http.patch(url, ser, { headers: headers })
             .timeout(this.timeout)
             .retry(this.retry)
-            .subscribe(function (data) { return _this.processData(url, data, f); }, function (err) { return _this.processError("API_PATCH", err); }, 
+            .subscribe(function (data) { return _this.processData(url, data, f, reqId); }, function (err) { return _this.processError("API_PATCH", url, err, f, reqId); }, 
         // err => this.error(err),
         function () { return console.log('Done patching.'); });
     };
@@ -260,25 +251,21 @@ var ApiService = (function () {
         this.timer = new Date().getTime();
         this.consoleService.get("ApiService Get", url, headers);
         this.messageService.showLoading();
+        var reqId = this.proxyService.addNewInternalRequest(url, "GET");
         this.http.get(url, { headers: headers })
             .timeout(this.timeout)
             .retry(this.retry)
-            .subscribe(function (data) { return _this.processData(url, data, f); }, function (err) { return _this.processError("API_GET", err); }, 
+            .subscribe(function (data) { return _this.processData(url, data, f, reqId); }, function (err) { return _this.processError("API_GET", url, err, f, reqId); }, 
         // err => this.error(err),
-        function () { return console.log('Done.'); });
+        function () {
+        });
     };
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        core_1.Output()
     ], ApiService.prototype, "errorsChanged", void 0);
     ApiService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.HttpClient,
-            message_service_1.MessageService,
-            console_service_1.ConsoleService,
-            config_service_1.ConfigService])
+        core_1.Injectable()
     ], ApiService);
     return ApiService;
 }());
 exports.ApiService = ApiService;
-//# sourceMappingURL=api.service.js.map

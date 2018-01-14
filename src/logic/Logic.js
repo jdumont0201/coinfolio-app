@@ -5,70 +5,156 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var data_service_1 = require("../lib/localton/services/data.service");
-var api_service_1 = require("../lib/globalton/core/services/api.service");
-var auth_service_1 = require("../lib/globalton/core/services/auth.service");
-var request_service_1 = require("../lib/globalton/core/services/request.service");
+var UniversalLoader = (function () {
+    function UniversalLoader() {
+    }
+    UniversalLoader.load = function (broker, task, data) {
+        if (task == "allocation") {
+            var A = {};
+            if (broker == "binance") {
+                for (var symbol in data) {
+                    A[symbol] = {
+                        available: data[symbol].available,
+                        onorder: data[symbol].onOrder,
+                        total: data[symbol].available + data[symbol].onOrder
+                    };
+                }
+            }
+            if (broker == "kraken") {
+                for (var symbol in data) {
+                    A[symbol] = {
+                        available: null,
+                        onorder: null,
+                        total: data[symbol]
+                    };
+                }
+            }
+            return A;
+        }
+    };
+    return UniversalLoader;
+}());
+exports.UniversalLoader = UniversalLoader;
 var Logic = (function () {
     function Logic(requestService, dataService, apiService, authService) {
         this.requestService = requestService;
         this.dataService = dataService;
         this.apiService = apiService;
         this.authService = authService;
+        this.authService.setLogic(this);
     }
     Logic.prototype.BinanceGetAllocation = function (f) {
-        this.apiService.noauthget("user/getbinancebalance?userId=" + this.authService.userId, function (res) {
-            if (res.result.success)
+        this.apiService.noauthget("user/connect/binance/balance?userId=" + this.authService.userId, function (res) {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data);
+            else
+                f(null);
         });
     };
     Logic.prototype.BinanceGetLivePrices = function (f) {
-        this.apiService.noauthget("user/getbinanceliveprices?userId=" + this.authService.userId, function (res) {
-            if (res.result.success)
+        this.apiService.noauthget("user/connect/binance/liveprices?userId=" + this.authService.userId, function (res) {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data);
+            else
+                f(null);
+        });
+    };
+    Logic.prototype.BinanceGetBookTickers = function (f, symbol) {
+        if (!this.authService.isAuthenticated()) {
+            f(null);
+            return;
+        }
+        var url = "user/connect/binance/booktickers?userId=" + this.authService.userId + "&symbol=" + (symbol ? symbol : "all");
+        this.apiService.noauthget(url, function (res) {
+            if (res && "result" in res && res.result.success)
+                f(res.result.data);
+            else
+                f(null);
         });
     };
     Logic.prototype.BinanceGetMyTrades = function (symbols, f) {
-        this.apiService.noauthget("user/getbinancetrades?userId=" + this.authService.userId + "&symbol=" + symbols, function (res) {
-            if (res.result.success)
+        if (!symbols)
+            f(null);
+        this.apiService.noauthget("user/connect/binance/trades?userId=" + this.authService.userId + "&symbol=" + symbols, function (res) {
+            if (res && "result" in res && res.result.success)
+                f(res.result.data.reverse());
+            else
+                f(null);
+        });
+    };
+    Logic.prototype.BinanceGet24hChange = function (pair, f) {
+        if (!pair)
+            f(null);
+        this.apiService.noauthget("user/connect/binance/25hchange?userId=" + this.authService.userId + "&symbol=" + pair, function (res) {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data);
+            else
+                f(null);
         });
     };
     Logic.prototype.BinanceGetDepth = function (symbol, f) {
-        this.apiService.noauthget("user/getbinancedepth?symbol=" + symbol + "&userId=" + this.authService.userId, function (res) {
-            if (res.result.success)
+        this.apiService.noauthget("user/connect/binance/depth?symbol=" + symbol + "&userId=" + this.authService.userId, function (res) {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data);
+            else
+                f(null);
         });
     };
     Logic.prototype.BinanceGetOHLC = function (symbol, interval, f) {
-        this.apiService.noauthget("user/getbinanceohlc?symbol=" + symbol + "&interval=" + interval + "&userId=" + this.authService.userId, function (res) {
-            if (res.result.success)
+        this.apiService.noauthget("user/connect/binance/ohlc?symbol=" + symbol + "&interval=" + interval + "&userId=" + this.authService.userId, function (res) {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data);
+            else
+                f(null);
         });
     };
     Logic.prototype.KrakenGetAllocation = function (f) {
-        this.apiService.noauthget("user/getkrakenbalance?userId=" + this.authService.userId, function (res) {
-            if (res.result.success)
+        this.apiService.noauthget("user/connect/kraken/balance?userId=" + this.authService.userId, function (res) {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data);
+            else
+                f(null);
+        });
+    };
+    Logic.prototype.getFromBroker = function (broker, task, f, query) {
+        this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId, function (res) {
+            if (res && "result" in res && res.result.success)
+                f(UniversalLoader.load(broker, task, res.result.data));
+            else
+                f(null);
         });
     };
     Logic.prototype.KrakenGetLivePrices = function (f) {
-        this.apiService.noauthget("user/getkrakenliveprices?userId=" + this.authService.userId, function (res) {
-            if (res.result.success)
+        this.apiService.noauthget("user/connect/kraken/liveprices?userId=" + this.authService.userId, function (res) {
+            if (res && "result" in res && res.result.success)
                 f(res.result.data);
+            else
+                f(null);
         });
     };
     Logic.prototype.registerUser = function (obj, f) {
         var _this = this;
         console.log("Register ", obj);
         this.apiService.noauthpost("user", obj, function (res) {
-            if (res.token) {
+            if (res && "token" in res) {
                 _this.authService.loginResponse = res;
+                _this.authService.postLogin();
+                f({ success: true });
+            }
+            else {
+                f({ success: false, error: true });
+            }
+        });
+    };
+    Logic.prototype.loginUser = function (obj, f) {
+        var _this = this;
+        console.log("Register ", obj);
+        this.apiService.noauthpost("user/login/app", obj, function (res) {
+            console.log("received", res);
+            if (res && "login" in res) {
+                _this.authService.loginResponse = res.login;
                 _this.authService.postLogin();
                 f({ success: true });
             }
@@ -82,9 +168,12 @@ var Logic = (function () {
     };
     Logic.prototype.saveUser = function (obj, f) {
         if (obj.id)
-            this.apiService.authput("user", obj, f);
+            this.apiService.authpatch("user/" + this.authService.userId, obj, f);
         else
             this.apiService.noauthpost("user", obj, f);
+    };
+    Logic.prototype.patchUser = function (obj, f) {
+        this.apiService.authpatch("user/" + this.authService.userId, obj, f);
     };
     /* PAYMENT */
     Logic.prototype.generateAddress = function (planId, f) {
@@ -114,6 +203,10 @@ var Logic = (function () {
         });
     };
     Logic.prototype.getMe = function (f) {
+        if (!this.authService.isAuthenticated()) {
+            f(null);
+            return;
+        }
         this.apiService.noauthget("user/" + this.authService.userId, f);
     };
     Logic.prototype.getChartData = function (source, interval, symbol, base, f) {
@@ -284,10 +377,8 @@ var Logic = (function () {
         });
     };
     Logic = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [request_service_1.RequestService, data_service_1.DataService, api_service_1.ApiService, auth_service_1.AuthService])
+        core_1.Injectable()
     ], Logic);
     return Logic;
 }());
 exports.Logic = Logic;
-//# sourceMappingURL=Logic.js.map

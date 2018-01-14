@@ -29,6 +29,8 @@ export class AppConfigProfilePage {
             })
         })
     }
-
-
+    logout() {
+        this.authService.doLogout()
+        this.snackBar.open('You signed off successfully', null, {duration: 3000});
+    }
 }

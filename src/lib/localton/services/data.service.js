@@ -5,17 +5,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var request_service_1 = require("../../globalton/core/services/request.service");
-var ngx_restangular_1 = require("ngx-restangular");
 var DataService = (function () {
-    function DataService(requestService, restangular) {
+    function DataService(requestService, restangular, proxyService) {
         this.requestService = requestService;
         this.restangular = restangular;
+        this.proxyService = proxyService;
         this.database = "c";
     }
     DataService.prototype.post = function (table, obj, f) {
@@ -29,23 +25,18 @@ var DataService = (function () {
             console.log("There was an error performing");
             f(null);
         });
-        /*.subscribe(res => {
-    
-    
-          f(res)
-        },err=> {
-          console.log("There was an error performing");
-          f(null)
-        });;;*/
     };
     DataService.prototype.perform = function (call, obj, f) {
         call = "rpc/" + call;
         console.log("[PERFORM]", call, obj);
         var dt = this.restangular.all(call);
         var r = dt.post(obj).toPromise();
+        var reqId = this.proxyService.addNewDBRequest(call, "POST");
         r.then(function (res) {
+            this.proxyService.completeRequestSuccessResult(reqId);
             f(res);
         }, function () {
+            this.proxyService.completeRequestErrorResult(reqId);
             console.log("There was an error performing");
             f(null);
         });
@@ -65,10 +56,13 @@ var DataService = (function () {
         }
     };
     DataService.prototype.getAll = function (table, f, where, order, limit) {
+        var _this = this;
         console.log("[GET ALL]", table, where);
         var dt = this.restangular.all(table);
         var q = this.getQueryParam(where, order, limit);
+        var reqId = this.proxyService.addNewDBRequest(table, "GET");
         dt.customGETLIST("", q).subscribe(function (obj) {
+            _this.proxyService.completeRequestSuccessResult(reqId);
             f(obj);
         });
     };
@@ -79,10 +73,8 @@ var DataService = (function () {
         });
     };
     DataService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [request_service_1.RequestService, ngx_restangular_1.Restangular])
+        core_1.Injectable()
     ], DataService);
     return DataService;
 }());
 exports.DataService = DataService;
-//# sourceMappingURL=data.service.js.map

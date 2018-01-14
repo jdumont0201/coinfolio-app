@@ -51,4 +51,3 @@ var PopulableItem = (function () {
     return PopulableItem;
 }());
 exports.PopulableItem = PopulableItem;
-//# sourceMappingURL=interfaces.js.map

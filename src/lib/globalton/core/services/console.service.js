@@ -5,9 +5,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var ConsoleService = (function () {
@@ -22,6 +19,42 @@ var ConsoleService = (function () {
         //        if (u.indexOf("app.") > -1 )
         //          this.showConsole=false;
     }
+    ConsoleService.prototype.eventReceived = function () {
+        var arg = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            arg[_i] = arguments[_i];
+        }
+        if (this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c-->", 'padding:2px 5px;border-radius:3px;background: #fff000; color: #0000aa;display:block');
+            preservedConsoleLog.apply(console, args);
+        }
+    };
+    ConsoleService.prototype.refresh = function () {
+        var arg = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            arg[_i] = arguments[_i];
+        }
+        if (this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c [REFRESH]", 'padding:2px 5px;border-radius:3px;background: #00ff00; color: #0000aa;display:block');
+            preservedConsoleLog.apply(console, args);
+        }
+    };
+    ConsoleService.prototype.eventSent = function () {
+        var arg = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            arg[_i] = arguments[_i];
+        }
+        if (this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c<--", 'padding:2px 5px;border-radius:3px;background: #fff000; color: #0000aa;display:block');
+            preservedConsoleLog.apply(console, args);
+        }
+    };
     ConsoleService.prototype.log = function () {
         var arg = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -55,7 +88,7 @@ var ConsoleService = (function () {
         if (this.showConsole) {
             var preservedConsoleLog = console.log;
             var args = Array.prototype.slice.call(arguments);
-            args.unshift("%c[SERVI]", 'padding:2px 5px;border-radius:3px;background: #69D0FF; color: #000;display:block;');
+            args.unshift("%c[AUTH]", 'padding:2px 5px;border-radius:3px;background: #FFFFFF; color: #00ffff;display:block;');
             preservedConsoleLog.apply(console, args);
         }
     };
@@ -103,7 +136,19 @@ var ConsoleService = (function () {
         if (this.showConsole) {
             var preservedConsoleLog = console.log;
             var args = Array.prototype.slice.call(arguments);
-            args.unshift("%c[TRADE]", 'padding:2px 5px;border-radius:3px;background: #0000FF; color: #000;display:block;');
+            args.unshift("%c[TRADE]", 'padding:2px 5px;border-radius:3px;background: #4444FF; color: #000;display:block;');
+            preservedConsoleLog.apply(console, args);
+        }
+    };
+    ConsoleService.prototype.event = function () {
+        var arg = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            arg[_i] = arguments[_i];
+        }
+        if (this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c[EVENT]", 'padding:2px 5px;border-radius:3px;background: #cccccc; color: #ff0000;display:block;');
             preservedConsoleLog.apply(console, args);
         }
     };
@@ -176,6 +221,18 @@ var ConsoleService = (function () {
             var preservedConsoleLog = console.log;
             var args = Array.prototype.slice.call(arguments);
             args.unshift("%c[CANVAS]", 'padding:2px 5px;border-radius:3px;background: #666666; color: #000;display:block;');
+            preservedConsoleLog.apply(console, args);
+        }
+    };
+    ConsoleService.prototype.ws = function () {
+        var arg = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            arg[_i] = arguments[_i];
+        }
+        if (this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c[WS]", 'padding:2px 5px;border-radius:3px;background: #dddddd; color: #ffff00;display:block;');
             preservedConsoleLog.apply(console, args);
         }
     };
@@ -276,10 +333,8 @@ var ConsoleService = (function () {
         }
     };
     ConsoleService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [])
+        core_1.Injectable()
     ], ConsoleService);
     return ConsoleService;
 }());
 exports.ConsoleService = ConsoleService;
-//# sourceMappingURL=console.service.js.map

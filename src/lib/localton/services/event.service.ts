@@ -23,25 +23,29 @@ export class EventService implements OnInit {
     @Output() poolDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() rightMenuUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
 
-    isTickerVisible:boolean=true;
+    isTickerVisible: boolean = true;
     isMenuDisplayed: boolean = true;
     isMobile: boolean = false;
     isMenuPinned: boolean = true;
     isVeilVisible: boolean = false;
     private isLoadingVisible: boolean = true;
     isWelcomeVisible: boolean = false;
-    isFullscreen:boolean=false;
-    enableFullscreen(){
-        this.isFullscreen=true
+    isFullscreen: boolean = false;
+
+    enableFullscreen() {
+        this.isFullscreen = true
         this.isFullscreenEvent.emit(true)
     }
-    openRightMenu(tab){
+
+    openRightMenu(tab) {
         this.rightMenuUpdatedEvent.emit(tab)
     }
-    disableFullscreen(){
-        this.isFullscreen=false
+
+    disableFullscreen() {
+        this.isFullscreen = false
         this.isFullscreenEvent.emit(false)
     }
+
     showWelcome() {
         this.consoleService.ui("showwelcome");
         this.isWelcomeVisible = true
@@ -66,24 +70,26 @@ export class EventService implements OnInit {
         this.consoleService.ui("hideLoading");
         this.isLoadingVisible = false;
     }
-showLoading() {
+    showLoading() {
         this.consoleService.ui("showLoading");
         this.isLoadingVisible = true;
     }
-getIsLoadingVisible(){
+    getIsLoadingVisible() {
         //console.log("getisloading",this.isLoadingVisible)
         return this.isLoadingVisible
-}
-    constructor(public consoleService: ConsoleService, public authService: AuthService, public appConfigService: AppConfigService, public configService: ConfigService,public messageService:MessageService,public snackBar: MatSnackBar) {
+    }
+    constructor(public consoleService: ConsoleService, public authService: AuthService, public appConfigService: AppConfigService, public configService: ConfigService, public messageService: MessageService, public snackBar: MatSnackBar) {
         this.consoleService.event("+")
+        this.authService.setEventService(this)
+
         this.init();
-//    this.configService.perSiteConfigured.subscribe(value => this.postConfigEvent(value), error => console.log("Error postConfigEvent" + error), () => console.log('done'));
-        this.messageService.errorsChanged.subscribe((err)=>this.errorsUpdated(err))
+        this.messageService.errorsChanged.subscribe((err) => this.errorsUpdated(err))
     }
 
-    errorsUpdated(err:any){
-        this.snackBar.open(err.code,null,{duration:3000});
+    errorsUpdated(err: any) {
+        this.snackBar.open(err.code, null, {duration: 3000});
     }
+
     ngOnInit() {
         this.consoleService.event("ONINIT")
         this.authService.loginChanged.subscribe(value => this.loginChanged(value), error => console.log("Error postConfigEvent" + error), () => console.log('done'));
@@ -91,11 +97,11 @@ getIsLoadingVisible(){
 
     loginChanged(value?) {
         this.consoleService.event("loginChanged")
-        if (this.authService.isAuthenticated()){
+        if (this.authService.isAuthenticated()) {
             //this.hideLoading();
-        }else {
+        } else {
 //            this.showWelcome()
-  //          this.showVeil()
+            //          this.showVeil()
         }
 
         //this.isWelcomeVisible=this.isVeilVisible= this.authService.isAuthenticated()?false:true;
@@ -106,7 +112,7 @@ getIsLoadingVisible(){
             this.isMobile = true;
         else
             this.isMobile = false;
-        if (this.isMobile) this.isMenuDisplayed = false; else this.isMenuDisplayed = this.isMenuPinned?true:false;
+        if (this.isMobile) this.isMenuDisplayed = false; else this.isMenuDisplayed = this.isMenuPinned ? true : false;
     }
 
     init() {
@@ -117,7 +123,7 @@ getIsLoadingVisible(){
 
     resized() {
         this.consoleService.event("resized", window.innerWidth)
-        this.windowResizedEvent.emit({w:window.innerWidth,h:window.innerHeight})
+        this.windowResizedEvent.emit({w: window.innerWidth, h: window.innerHeight})
         this.windowResized()
     }
 
@@ -164,7 +170,8 @@ getIsLoadingVisible(){
         this.consoleService.event("set panel", p)
         this.showPanel(p)
     }
-    updateFavorites(favorites){
+
+    updateFavorites(favorites) {
         this.favoriteUpdatedEvent.emit(favorites);
     }
 }

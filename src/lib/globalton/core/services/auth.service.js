@@ -5,25 +5,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var core_2 = require("@angular/core");
-var ngx_facebook_1 = require("ngx-facebook");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/toPromise");
 require("rxjs/add/operator/timeout");
-var message_service_1 = require("./message.service");
 var http_1 = require("@angular/common/http");
-//SERVICES
-var currency_service_1 = require("../services/currency.service");
-var console_service_1 = require("./console.service");
-var config_service_1 = require("./config.service");
-var api_service_1 = require("./api.service");
-//import {TranslateService} from './translate.service';
-var core_3 = require("@ngx-translate/core");
 var AuthService = (function () {
     function AuthService(messageService, fb, consoleService, translateService, currencyService, apiService, configService) {
         var _this = this;
@@ -52,6 +40,9 @@ var AuthService = (function () {
         });
         this.initFB();
     }
+    AuthService.prototype.setLogic = function (l) {
+        this.logic = l;
+    };
     //WHEN CONFIG IS DONE
     AuthService.prototype.postConfigEvent = function (value) {
         console.log("auth.service postconfigevent", value);
@@ -80,7 +71,7 @@ var AuthService = (function () {
             this.localStorageKey = sitename + "-" + appname + "-jwt";
         }
         else {
-            console.error("Error no app name");
+            console.error("Error no app key");
         }
     };
     AuthService.prototype.getStoredUserId = function () {
@@ -100,14 +91,21 @@ var AuthService = (function () {
         this.entityId = this.loginResponse.entityId;
         this.token = this.loginResponse.token;
         this.cartId = this.loginResponse.cartId;
+        this.favoritePairs = this.loginResponse.favoritePairs ? JSON.parse(this.loginResponse.favoritePairs) : [];
     };
     AuthService.prototype.postLogin = function () {
+        var _this = this;
         console.log("[AUTH] postlogin", this.loginResponse);
         this.loadFromLoginResponse();
         this.createAuthHeaders();
         this.authenticated = true;
         console.log("[AUTH] postlogin userid=", this.userId, "authenticated=", this.authenticated);
         this.configService.setEntityPrefix("entity/" + this.entityId + "/");
+        if (!this.user)
+            this.logic.getMe(function (user) {
+                _this.user = user;
+                _this.favoritePairs = user.favoritePairs;
+            });
         this.emitAuthStatus();
         this.updateLocalStorage();
     };
@@ -144,7 +142,7 @@ var AuthService = (function () {
         localStorage.setItem(this.localStorageKey, localStorageLoginResponse);
     };
     AuthService.prototype.processLogin = function (data, rememberme, f) {
-        console.log(" > authService processLogin");
+        this.consoleService.auth("processLogin");
         if (data.error) {
             f({ error: data.error, errordesc: data.errordesc, user: null });
         }
@@ -167,7 +165,7 @@ var AuthService = (function () {
         }
     };
     AuthService.prototype.processLoginFB = function (data, f) {
-        console.log(" > authService processLoginFB", data);
+        this.consoleService.auth("processLoginFB", data);
         if (data.error) {
             f({ error: data.error, errordesc: data.errordesc, user: null });
         }
@@ -191,7 +189,7 @@ var AuthService = (function () {
         }
     };
     AuthService.prototype.createAuthHeaders = function () {
-        console.log(" > authService createAuthHeaders");
+        this.consoleService.auth("createAuthHeaders");
         this.authGetHeaders = new http_1.HttpHeaders();
         if (this.token) {
             this.authGetHeaders = this.authGetHeaders.set('Authorization', this.token);
@@ -204,7 +202,7 @@ var AuthService = (function () {
         console.log("AUTH headers", this.authPostHeaders);
     };
     AuthService.prototype.createNoAuthHeaders = function () {
-        console.log(" > authService createNoAuthHeaders");
+        this.consoleService.auth("createNoAuthHeaders");
         this.noauthPostHeaders = new http_1.HttpHeaders();
         this.noauthPostHeaders = this.noauthPostHeaders.set('Content-Type', 'application/json');
         this.noauthGetHeaders = new http_1.HttpHeaders();
@@ -219,7 +217,7 @@ var AuthService = (function () {
         }
     };
     AuthService.prototype.emitAuthStatus = function () {
-        console.log("authService emitAuthStatus user=", this.user, "auth=", this.authenticated);
+        this.consoleService.auth("authService emitAuthStatus user=", this.user, "auth=", this.authenticated);
         this.loginChanged.emit({ authentificated: this.authenticated, isTourDone: this.isTourDone, user: this.user });
     };
     AuthService.prototype.logError = function (err) {
@@ -240,7 +238,7 @@ var AuthService = (function () {
         this.facebookAccessToken = response.authResponse.accessToken;
         this.facebookUserId = response.authResponse.userID;
         var url = "user/login/app/fb?token=" + this.facebookAccessToken + "&userId=" + this.facebookUserId + "&force=false";
-        console.log(" > authService loginWithFacebook", url);
+        this.consoleService.auth("loginWithFacebook", url);
         this.apiService.noauthget(url, function (data) {
             console.log("Answ", data);
             if ("login" in data)
@@ -259,7 +257,7 @@ var AuthService = (function () {
         this.facebookUserId = response.authResponse.userID;
         var url = "user/auth/app/fb/link"; //?p="+password+"&token=" + this.facebookAccessToken+ "&userId=" + this.facebookUserId+"&force=true";
         var data = { p: password, token: this.facebookAccessToken, userId: this.facebookUserId };
-        console.log(" > authService fblogin", url);
+        this.consoleService.auth("fblogin", url);
         this.apiService.noauthrawpost(url, data, function (data) {
             console.log("linkWithFacebook answ", data);
             if ("login" in data)
@@ -281,24 +279,14 @@ var AuthService = (function () {
         ;
     };
     __decorate([
-        core_2.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        core_2.Output()
     ], AuthService.prototype, "loginChanged", void 0);
     __decorate([
-        core_2.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        core_2.Output()
     ], AuthService.prototype, "loginHeaderChanged", void 0);
     AuthService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [message_service_1.MessageService,
-            ngx_facebook_1.FacebookService,
-            console_service_1.ConsoleService,
-            core_3.TranslateService,
-            currency_service_1.CurrencyService,
-            api_service_1.ApiService,
-            config_service_1.ConfigService])
+        core_1.Injectable()
     ], AuthService);
     return AuthService;
 }());
 exports.AuthService = AuthService;
-//# sourceMappingURL=auth.service.js.map

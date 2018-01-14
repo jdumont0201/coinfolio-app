@@ -7,7 +7,6 @@
         <app-portfolio-recap></app-portfolio-recap>
     </div>
     <div>
-
     </div>
     <ng-container *ngIf="appConfigService?.isCustomDashboardEnabled">
     <div *ngFor="let p of currentWorkspace?.panels">
@@ -20,6 +19,11 @@
         </div>
     </div>
     </ng-container>
+
+    <div mat-list-item class="mat-list-item  menu-separator">Events</div>
+    <a (click)="goToLink('/')" matLine mat-list-item>Calendar
+        (todo)
+    </a>
     <div mat-list-item class="mat-list-item  menu-separator">Opinions</div>
     <a (click)="goToLink('news')" matLine mat-list-item><mat-icon>whatshot</mat-icon>News    </a>
 
@@ -33,8 +37,8 @@
     </a>
     <a (click)="goToLink('listing')" matLine mat-list-item>Listing
         <mat-icon>lock</mat-icon>
-
     </a>
+
     <a (click)="goToLink('trades')" matLine mat-list-item>History
         <mat-icon>lock</mat-icon>
     </a>

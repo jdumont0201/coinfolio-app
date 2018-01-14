@@ -25,8 +25,5 @@ export class AppConfigAllPage{
 
     }
 
-    logout() {
-        this.authService.doLogout()
-        this.snackBar.open('You signed off', null, {duration: 3000});
-    }
+
 }

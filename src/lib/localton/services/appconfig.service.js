@@ -5,16 +5,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var config_service_1 = require("../../globalton/core/services/config.service");
-var console_service_1 = require("../../globalton/core/services/console.service");
-var api_service_1 = require("../../globalton/core/services/api.service");
-var auth_service_1 = require("../../globalton/core/services/auth.service");
-var Logic_1 = require("../../../logic/Logic");
 var AppConfigService = (function () {
     function AppConfigService(configService, consoleService, apiService, authService, logic) {
         var _this = this;
@@ -23,6 +15,29 @@ var AppConfigService = (function () {
         this.apiService = apiService;
         this.authService = authService;
         this.logic = logic;
+        this.isCustomDashboardEnabled = false;
+        this.possibleBrokers = ["binance", "kraken"];
+        this.brokersLinks = { "binance": { signup: "", api: "https://www.binance.com/userCenter/createApi.html" }, "kraken": { api: "", signup: "" } };
+        this.ohlcColors = {
+            orange: {
+                lineColor: '#3e91a0',
+                color: '#b18215',
+                upColor: 'transparent',
+                downColor: '#b18215'
+            },
+            redgreen: {
+                lineColor: '#3e91a0',
+                color: '#b11a00',
+                upColor: '#63c55b',
+                downColor: '#b18215'
+            },
+            spec: {
+                lineColor: '#becbcc',
+                color: '#b12400',
+                upColor: '#46c53e',
+                downColor: '#b11c11'
+            }
+        };
         this.values = ["BTC", "ETH", "BCH", "XRP", "DASH", "XMR", "LTC", "ZEC"];
         this.valuesandglobal = ["GLOBAL"];
         this.formats = ["chart", "numeric"];
@@ -56,7 +71,11 @@ var AppConfigService = (function () {
             "BITCOIN_DOMINANCE": { time: false, symbol: false },
             "TOP_ENTRIES": { time: false, symbol: false }
         };
-        this.specialPanels = [{ id: 'SP_LISTING', type: "special", title: "Listing" }, { id: 'SP_SEPARATOR', type: "separator", title: "Separator" }];
+        this.specialPanels = [{ id: 'SP_LISTING', type: "special", title: "Listing" }, {
+                id: 'SP_SEPARATOR',
+                type: "separator",
+                title: "Separator"
+            }];
         this.specialLinks = { 'SP_LISTING': "/listing" };
         this.widgets = [
             {
@@ -121,6 +140,7 @@ var AppConfigService = (function () {
                 id: 11
             }
         ];
+        consoleService.serv('APPCONFIG');
         this.generateListing();
         this.apiService.setApiUrl("http://34.242.69.165:3001/api/");
         this.apiService.setServerUrl("http://34.242.69.165:3001/");
@@ -138,10 +158,8 @@ var AppConfigService = (function () {
         this.valuesandglobal.push.apply(this.valuesandglobal, this.values);
     };
     AppConfigService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [config_service_1.ConfigService, console_service_1.ConsoleService, api_service_1.ApiService, auth_service_1.AuthService, Logic_1.Logic])
+        core_1.Injectable()
     ], AppConfigService);
     return AppConfigService;
 }());
 exports.AppConfigService = AppConfigService;
-//# sourceMappingURL=appconfig.service.js.map

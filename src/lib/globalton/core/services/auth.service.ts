@@ -55,6 +55,7 @@ export class AuthService {
     authPostHeaders: HttpHeaders;
     noauthPostHeaders: HttpHeaders;
 
+    eventService:EventService;
     FB_initParams: InitParams = {
     appId: '276517919486522',
     xfbml: true,
@@ -91,12 +92,16 @@ export class AuthService {
             this.CONTENT_AUTHENTIFICATION = value.CONTENT_AUTHENTIFICATION;
             this.setLocalStorageKey();
             const jwt = localStorage.getItem(this.localStorageKey);
-            if (jwt !== null) {
+            if (jwt !== null) { //islogged
                 this.consoleService.log("has local storage");
                 this.setTokenFromLocalStorage();
                 this.postLogin();
-            } else {
+            } else {//not logged
                 this.consoleService.auth("No Local Storage");
+                if(this.eventService)
+                this.eventService.hideLoading()
+                else
+                    console.log("event not ready")
                 this.configService.isReady.emit({logged:true})
             }
             this.isPostConfigured = true;
@@ -114,15 +119,14 @@ export class AuthService {
             console.error("Error no app key")
         }
     }
+    setEventService(eventService:EventService){
+        this.eventService=eventService;
+        if(this.isAuthenticated())
+        this.eventService.hideLoading()
 
-    getStoredUserId(): ObjectId {
-        if (!this.userId) console.error("Stored userid undefined");
-        return this.userId
     }
 
-    getUserId(f: Function): void {
-        f(this.userId);
-    }
+
 
     loadFromLoginResponse() {
         this.timezone = this.loginResponse.timezone;
@@ -139,12 +143,11 @@ export class AuthService {
     }
 
     postLogin(): void {
-        console.log("[AUTH] postlogin", this.loginResponse);
+        this.consoleService.auth("postlogin", this.loginResponse);
         this.loadFromLoginResponse();
-
         this.createAuthHeaders();
         this.authenticated = true;
-        console.log("[AUTH] postlogin userid=", this.userId, "authenticated=",this.authenticated);
+        this.consoleService.auth("postlogin userid=", this.userId, "authenticated=",this.authenticated);
         this.configService.setEntityPrefix("entity/" + this.entityId + "/");
 
         if(!this.user) this.logic.getMe((user)=>{
@@ -157,16 +160,7 @@ export class AuthService {
     }
 
 
-    processError(err, f): void {
 
-        console.log("[AUTH] proceseerror");
-        this.messageService.addError("AUTH", err);
-        f({error: true, desc: err, user: null});
-    }
-
-    getToken(): string {
-        return this.token;
-    }
   isSubscriptionActive():boolean{
 
       return true;

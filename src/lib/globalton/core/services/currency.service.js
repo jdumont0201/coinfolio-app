@@ -5,19 +5,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var core_2 = require("@angular/core");
-var http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
 require("rxjs/add/operator/timeout");
 require("rxjs/add/operator/share");
-var request_service_1 = require("./request.service");
-var console_service_1 = require("./console.service");
-var config_service_1 = require("./config.service");
 var CurrencyService = (function () {
     function CurrencyService(http, configService, consoleService, requestService) {
         this.http = http;
@@ -37,11 +30,8 @@ var CurrencyService = (function () {
         if (this.configService.renewCurrencyFileAtStartup) {
             console.log("CurrencyService loading ", url);
             this.requestService.get(url, function (result) {
-                if (result.error) {
-                }
-                else {
-                    this.processFile(result.file);
-                }
+                if (result)
+                    this.processFile(result);
             }, this);
         }
     };
@@ -110,21 +100,14 @@ var CurrencyService = (function () {
         return this.currentCurrencyCode;
     };
     __decorate([
-        core_2.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        core_2.Output()
     ], CurrencyService.prototype, "currencyRatesLoaded", void 0);
     __decorate([
-        core_2.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        core_2.Output()
     ], CurrencyService.prototype, "currencyChanged", void 0);
     CurrencyService = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [http_1.Http,
-            config_service_1.ConfigService,
-            console_service_1.ConsoleService,
-            request_service_1.RequestService])
+        core_1.Injectable()
     ], CurrencyService);
     return CurrencyService;
 }());
 exports.CurrencyService = CurrencyService;
-//# sourceMappingURL=currency.service.js.map
