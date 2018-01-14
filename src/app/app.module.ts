@@ -77,6 +77,7 @@ import {AppNewsPage} from "../pages/news/component"
 import {AppAdminPage} from "../pages/admin-all/component"
 import {AppAllocationPage} from "../pages/allocation/component"
 import {AppGenericPage} from "../pages/generic/component"
+import {AppCalendarPage} from "../pages/calendar/component"
 import {AppSymbolAllPage} from "../pages/listing/component";
 import {AppTradesPage} from "../pages/trades/component";
 import {AppSymbolItemPage} from "../pages/symbol-item/component";
@@ -100,6 +101,7 @@ import {AppEvolutionTableComponent} from "../widgets/evolution-table/component";
 import {AppSortedPerformanceComponent} from "../widgets/sorted-perf/component";
 import {AppMarketCapTableComponent} from "../widgets/market-table/component";
 import {AppPerfLastWeekComponent} from "../widgets/perf-lastweek/component";
+import {AppCalendarWidget} from "../widgets/calendar/component";
 import {AppMarketCapLiveWidget} from "../widgets/marketcap-live/component";
 import {AppTrendingLastWeekComponent} from "../widgets/trending-lastweek/component";
 import {AppCapLastWeekComponent} from "../widgets/cap-lastweek/component";
@@ -147,7 +149,7 @@ import {AppConfigProfilePage} from "../pages/config-profile/component";
 
 @NgModule({
     declarations: [
-        AppComponent, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent, AppCalendarPage,AppCalendarWidget, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,

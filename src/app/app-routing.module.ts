@@ -13,6 +13,7 @@ import {AppAllocationPage} from "../pages/allocation/component"
 import {AppConfigBrokersPage} from "../pages/config-brokers/component"
 import {AppConfigWorkersPage} from "../pages/config-workers/component";
 import {AppPositionsPage}from "../pages/positions/component"
+import {AppCalendarPage}from "../pages/calendar/component"
 import {AppConfigFavoritesPage} from "../pages/config-favorites/component";
 import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
 import {AppConfigImportsPage} from "../pages/config-imports/component";
@@ -31,6 +32,7 @@ export const routes: Routes = [
   { path: 'social/twitter', component: AppSocialPage },
   { path: 'news', component: AppNewsPage },
   { path: 'config/all', component: AppConfigAllPage },
+  { path: 'calendar', component: AppCalendarPage },
   { path: 'config/brokers', component: AppConfigBrokersPage},
   { path: 'config/favorites', component: AppConfigFavoritesPage},
   { path: 'config/subscription', component: AppConfigSubscriptionPage},
