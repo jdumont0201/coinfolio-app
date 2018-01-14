@@ -21,7 +21,10 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 export class AppCalendarWidget  implements  OnInit {
 
 
-    possibleEvents=["New exchange Listings","New coins","New tokens"]
+    possibleEvents=[
+        {name:"New exchange Listings",selected:true},
+        {name:"New coins",selected:true},
+        {name:"New tokens",selected:true}]
     @Input() period;
     @Input() showOptions;
 

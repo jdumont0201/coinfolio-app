@@ -1,6 +1,6 @@
 <section class="widget calendar">
-  <h5>Future events
-    Type <div class="header-select header-button-{{h.selected?'selected':'unselected'}}" *ngFor="let h of possibleEvents"><span class="header-button "  (click)="h.selected=!h.selected;init()" > {{h}}  </span></div>
+  <h5>Upcoming events -
+    Type <div class="header-select header-button-{{h.selected?'selected':'unselected'}}" *ngFor="let h of possibleEvents"><span class="header-button "  (click)="h.selected=!h.selected;init()" > {{h.name}}  </span></div>
   </h5>
 
 </section>

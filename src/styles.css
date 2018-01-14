@@ -1093,6 +1093,8 @@ section.widget.info{background: #1b3035;/*  border: solid 4px #171e46;*/}
 section.widget.info h5{background: #0a4350;/*  border: solid 4px #171e46;*/}
 section.widget.news{background: #062d35;/*  border: solid 4px #171e46;*/}
 section.widget.news h5{background: #0a4350;/*  border: solid 4px #171e46;*/}
+section.widget.calendar{background: #062d35;/*  border: solid 4px #171e46;*/}
+section.widget.calendar h5{background: #0a4350;/*  border: solid 4px #171e46;*/}
 section.widget.allocation{background: #000;/*  border: solid 4px #171e46;*/}
 section.widget.allocation h5{background: #157dc5;/*  border: solid 4px #171e46;*/}
 section.widget.allocationg{background: #ffffff;/*  border: solid 4px #171e46;*/}
@@ -1461,5 +1463,9 @@ mat-table.data mat-row {
 
 .table .tr:first-child .td,.table .tr:first-child > div,mat-header-cell {
   font-weight: bold;
+}
+
+section.widget.calendar:last-child {
+  margin-right: 0;
 }
 
