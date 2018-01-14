@@ -1,8 +1,8 @@
 <div [@.disabled]="true">
     <mat-toolbar>
         <h3>Listing </h3>
-        <input type="text" [(ngModel)]="searchedText" placeholder="Search pairs..." (keyup)="search()" id="listing-search"/>
     </mat-toolbar>
+    <app-top-right-buttons [searchCallback]="searchCallback" [placeholder]="'Search listing...'"></app-top-right-buttons>
 
     <div *ngIf="!authService.isAuthenticated()" class="alert-configure-broker">
         <mat-icon>lock</mat-icon>

@@ -40,7 +40,7 @@ export class AppSocialPage extends PageWithTabs implements OnDestroy {
 
     }
 
-    search(){
+    searchCallback(searchedText:string){
 
     }
     ngOnDestroy() {

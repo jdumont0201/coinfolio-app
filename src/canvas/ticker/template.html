@@ -7,11 +7,6 @@
                 <app-pair-tick *ngFor="let f of authService.favoritePairs" [broker]="f.broker" [pair]="f.pair"></app-pair-tick>
             </div>
             <div class="col-2b-2">
-                <button class="" mat-icon-button (click)="eventService.openRightMenu('queue')"><mat-icon >hourglass_empty</mat-icon></button>
-                <button class="" mat-icon-button (click)="eventService.openRightMenu('alert')"><mat-icon >priority_high</mat-icon></button>
-                <button class="" mat-icon-button [matMenuTriggerFor]="menu">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
                 <mat-menu #menu="matMenu">
                     <button mat-button [routerLink]="'/config/favorites'">Configure favorites</button>
                 </mat-menu>

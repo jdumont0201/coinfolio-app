@@ -2,7 +2,7 @@
 <div [@.disabled]="true">
     <mat-toolbar>
         <h3>Twitter </h3>
-        <input type="text" [(ngModel)]="searchedText" placeholder="Search pairs..." (keyup)="search()" id="listing-search"/>
     </mat-toolbar>
+    <app-top-right-buttons [searchCallback]="searchCallback" [placeholder]="'Search twitter...'"></app-top-right-buttons>
     <app-twitter [mode]="'general'" [symbol]="supra" [possibleSymbols]="['BTC','ETH','XRP','ZEC','XMR','DASH']"></app-twitter>
 </div>

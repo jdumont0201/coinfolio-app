@@ -52,11 +52,8 @@
 
     <ng-container *ngIf="appConfigService.isCustomDashboardEnabled">
     <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
-    <button mat-button *ngIf="!authService.isSubscriptionActive()" (click)="eventService.showSubscribe()" id="button-editmode">Edit dashboards...<span
+        <button mat-button *ngIf="!authService.isSubscriptionActive()" (click)="eventService.showSubscribe()" id="button-editmode">Edit dashboards...<span
             class="subscriber-feature">+</span></button></ng-container>
-
-    <div class="monitor-{{tradingService.isAnyBrokerConfigured()?'ok':'wait'}}">Brokers :{{tradingService.isAnyBrokerConfigured()?"Connected":"Awaiting..."}}</div>
-    <div class="monitor-{{apiService.isUp?'ok':'wait'}}">API connection : {{apiService.isUp?"Up":"Unreachable"}}</div>
 
 
 </mat-nav-list>

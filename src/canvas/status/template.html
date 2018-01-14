@@ -1,0 +1,6 @@
+<div id="status">
+    <div *ngIf="tradingService.enabledBrokers?.length==0" class="monitor-notconfigured">No brokers configured</div>
+    <div *ngIf="tradingService.enabledBrokers?.length>0"  class="monitor-{{tradingService?.isLoadingDone?'ok':'wait'}}">Brokers : {{tradingService.isLoadingDone?(tradingService?.enabledBrokers?.length+" connected"):"Connecting..."}}</div>
+
+    <div class="monitor-{{apiService.isUp?'ok':'wait'}}">API connection : {{apiService.isUp?"Up":"Unreachable"}}</div>
+</div>

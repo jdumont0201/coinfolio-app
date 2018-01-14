@@ -1,5 +1,5 @@
 .theme-dark .mat-drawer-content {
-    background: #000000!important;    min-height: 500px;
+    background: linear-gradient(-254deg,#00adff,#0758aa)!important;
 
 }
 .theme-dark h3.title, .theme-dark  mat-toolbar h3 {

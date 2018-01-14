@@ -93,6 +93,8 @@ import {AppConfigInterfacePage} from "../pages/config-interface/component";
 /*CANVAS*/
 import {AppMenuList} from "../canvas/menu/component";
 import {AppTicker} from "../canvas/ticker/component";
+import {AppStatus} from "../canvas/status/component";
+import {AppTopRightButtons} from "../canvas/top-right-buttons/component";
 
 /*WIDGETS*/
 import {AppTopPerformanceComponent} from "../widgets/top-performance/component"
@@ -149,7 +151,7 @@ import {AppConfigProfilePage} from "../pages/config-profile/component";
 
 @NgModule({
     declarations: [
-        AppComponent, AppCalendarPage,AppCalendarWidget, AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent, AppCalendarPage,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,

@@ -81,15 +81,15 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         this.loadData()
     }
 
+
     searchedText = "";
     done = 0;
     searched = []
 
-    search() {
+    searchCallback(searchedText:string) {
         this.setTab(-1)
-        console.log("search", this.searchedText)
         this.searched = []
-        let s: string = this.searchedText.trim()
+        let s: string = searchedText.trim()
         let isMultipleWords = s.indexOf(" ")
         if (isMultipleWords) {
             let ss: string[] = s.split(" ");

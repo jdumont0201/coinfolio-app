@@ -27,6 +27,8 @@ export class TradingService {
     @Output() PortfolioUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() TickerUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
 
+    isLoadingDone=false;
+
 
     constructor(public authService: AuthService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public refreshService: RefreshService, public logic: Logic) {
         consoleService.trade("+", this.authService, this.authService.loginChanged)
@@ -155,7 +157,9 @@ export class TradingService {
         //  });
     }
 
+
     loadingFinished() {
+        this.isLoadingDone=true;
         this.consoleService.eventSent("EnabledBrokersLoadingFinishedEvent <-- tradingService")
         this.EnabledBrokersLoadingFinishedEvent.emit(this.enabledBrokers)
         this.eventService.hideLoading()
