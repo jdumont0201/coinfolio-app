@@ -28,7 +28,7 @@ export class EventService implements OnInit {
     isMobile: boolean = false;
     isMenuPinned: boolean = true;
     isVeilVisible: boolean = false;
-    private isLoadingVisible: boolean = true;
+    private isLoadingVisible: boolean = false;
     isWelcomeVisible: boolean = false;
     isFullscreen: boolean = false;
 
@@ -81,6 +81,7 @@ export class EventService implements OnInit {
     constructor(public consoleService: ConsoleService, public authService: AuthService, public appConfigService: AppConfigService, public configService: ConfigService, public messageService: MessageService, public snackBar: MatSnackBar) {
         this.consoleService.event("+")
         this.authService.setEventService(this)
+
 
         this.init();
         this.messageService.errorsChanged.subscribe((err) => this.errorsUpdated(err))

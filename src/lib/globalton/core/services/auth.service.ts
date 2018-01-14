@@ -98,10 +98,15 @@ export class AuthService {
                 this.postLogin();
             } else {//not logged
                 this.consoleService.auth("No Local Storage");
-                if(this.eventService)
-                this.eventService.hideLoading()
-                else
-                    console.log("event not ready")
+                if(this.eventService){
+                    this.consoleService.auth("Show welcome");
+
+                    this.eventService.hideLoading()
+                this.eventService.showWelcome()
+                }else{
+                    this.consoleService.auth("show welcome but not ready");
+
+                }
                 this.configService.isReady.emit({logged:true})
             }
             this.isPostConfigured = true;
@@ -121,8 +126,14 @@ export class AuthService {
     }
     setEventService(eventService:EventService){
         this.eventService=eventService;
-        if(this.isAuthenticated())
-        this.eventService.hideLoading()
+        if(this.isAuthenticated()){
+            this.eventService.hideWelcome()
+
+        }else{
+            this.eventService.hideLoading()
+            this.eventService.showWelcome()
+
+        }
 
     }
 

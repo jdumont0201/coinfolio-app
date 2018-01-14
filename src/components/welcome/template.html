@@ -1,14 +1,15 @@
-<div id="welcome" *ngIf="eventService.isWelcomeVisible && false">
+<div id="welcome" *ngIf="eventService.isWelcomeVisible">
 
     <mat-horizontal-stepper linear #stepper>
         <mat-step label="Welcome">
             <div class="welcome-banner">
                 <div class="welcome-left">
-                    <span id="logo" class="logo-bottom"> </span>
+                    <span id="logo" class="logo-white"> </span>
                     <span class="line">Made by traders. For the traders.</span>
                 </div>
                 <div class="welcome-right"><span class="welcome-message">Welcome to Coinamics</span>
                     <h2>Access all your crypto data, news & tweets on dedicated dashboards</h2>
+                    <div id="welcome-twitter"></div>
                     <span></span>
                     <h2>Read & customize connected dashboards</h2>
                     <span></span>
@@ -19,15 +20,16 @@
                 </div>
 
             </div>
-            <br>
-            <div class="centered">
-                <button class="centered large" mat-raised-button color="accent" (click)="stepper.next()">Enter
-                    Coinamics
-                </button>
-            </div>
+            <br><br><br>
             <div class="disclaimer">DISCLAIMER<br>
                 CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings
                 cryptocurrencies is risky. Only invest money you can afford to lose.
+            </div>
+            <div class="centered">
+                <br><br><br>
+                <button class="centered large" mat-raised-button color="accent" (click)="stepper.next()">I understand & agree the disclaimer and enter
+                    Coinamics
+                </button>
             </div>
 
 

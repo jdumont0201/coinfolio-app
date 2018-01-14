@@ -116,10 +116,11 @@ export class TradingService {
     }
 
     init() {
+        this.eventService.showLoading()
         this.consoleService.trade(" init")
         this.fetchBrokerEnabledArray((list) => {
             console.log("LADING", list)
-
+            if(list.length===0) this.loadingFinished()
             this.brokers.init(this.appConfigService.possibleBrokers, (broker: Broker) => {
                 this.globalBroker.combineWith(broker.getPortfolio())
                 this.globalBroker.isLoaded = true

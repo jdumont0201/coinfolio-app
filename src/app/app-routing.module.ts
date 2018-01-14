@@ -14,7 +14,10 @@ import {AppConfigBrokersPage} from "../pages/config-brokers/component"
 import {AppConfigWorkersPage} from "../pages/config-workers/component";
 import {AppPositionsPage}from "../pages/positions/component"
 import {AppCalendarPage}from "../pages/calendar/component"
+import {AppAuthPage}from "../pages/auth-login/component"
 import {AppConfigFavoritesPage} from "../pages/config-favorites/component";
+
+import {AppAuthResetpassword}from "../pages/auth-resetpassword/component"
 import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
 import {AppConfigImportsPage} from "../pages/config-imports/component";
 import {AppConfigInterfacePage} from "../pages/config-interface/component";
@@ -31,6 +34,8 @@ export const routes: Routes = [
   { path: 'account', component: AppAccountPage },
   { path: 'social/twitter', component: AppSocialPage },
   { path: 'news', component: AppNewsPage },
+  { path: 'auth', component: AppAuthPage },
+  { path: 'auth/passwordreset/token/:token', component: AppAuthResetpassword },
   { path: 'config/all', component: AppConfigAllPage },
   { path: 'calendar', component: AppCalendarPage },
   { path: 'config/brokers', component: AppConfigBrokersPage},

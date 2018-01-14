@@ -1,0 +1,11 @@
+<form [formGroup]="form">
+    <div>
+        <mat-form-field>
+            <input formControlName="email" matInput placeholder="Your e-mail..." required>
+            <div class="form-invalid" *ngIf="form.controls.email.dirty && form.controls.email.errors">E-mail is not valid</div>
+
+        </mat-form-field>
+    </div>
+
+    <button mat-raised-button="" (click)="submit()" color="primary">Send</button>
+</form>

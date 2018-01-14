@@ -28,17 +28,6 @@ export class AppSubscribeComponent {
     plans: any[];
     hide=true;
 
-    constructor(public logic: Logic, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
-        this.logic.getPlans((res) => {
-            //if(res.length===0) this.logic.adminInitDB();
-            console.log("plans", res);
-            this.plans = res;
-        })
-    }
-
-    close() {
-        this.eventService.hideSubscribe()
-    }
 
     form: FormGroup;
     interval;
@@ -59,6 +48,17 @@ export class AppSubscribeComponent {
 
     retryCheck = 3000;
 
+    constructor(public logic: Logic, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+        this.logic.getPlans((res) => {
+            //if(res.length===0) this.logic.adminInitDB();
+            console.log("plans", res);
+            this.plans = res;
+        })
+    }
+
+    close() {
+        this.eventService.hideSubscribe()
+    }
     startCheckPaymentLoop() {
         console.log("Start loop")
         let isPaymentReceived = false;

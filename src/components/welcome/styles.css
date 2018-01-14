@@ -10,8 +10,9 @@ padding:150px 20px 50px;width:50%;color:white
 
 span.welcome-message {
     font-size: 32px;
-    color: #ff0068;
-    font-family: "Open sans";
+
+    color: #ff8f00;
+    font-family: Open Sans;
     font-weight: 300;
 }
 
@@ -21,3 +22,147 @@ span.welcome-message {
     #welcome-left{padding:20px;width:100%}
     #welcome-right{padding:20px;width:100%}
 }
+
+#welcome {
+    position: absolute;
+    width: 100%;
+    z-index: 20;
+    top: 0px;
+    left: 0;
+    background: white;
+    box-shadow: 4px 3px 5px #00000059;
+    margin: auto;
+    right: 0;
+    height: 100%;
+}
+
+#welcome .mat-horizontal-stepper-content {
+    background: linear-gradient(to right, #000046, #1cb5e0);
+    height: 100%
+}
+
+#welcome .mat-horizontal-stepper-content[aria-expanded=false] {
+    height: 0%
+}
+
+#welcome .mat-horizontal-content-container {
+    padding: 0;
+    height: 100%;
+}
+
+#welcome .mat-stepper-horizontal {
+    height: 100%
+}
+#welcome .line{text-transform: uppercase}
+#welcome-in {
+    padding: 20px;
+}
+
+#welcome h1 {
+    font: bold 25px/35px "Open Sans";
+    text-align: center;
+}
+
+#welcome h2 {
+    font: bold 25px/35px "Open Sans";
+    font-size: 16px;
+    line-height: 20px;
+    padding-top: 20px;
+    font-weight: 300;
+}
+
+#welcome-desc span {
+    font: bold 15px/20px "Open Sans"
+}
+
+#welcome #logo {
+    color: #444444;
+}
+#welcome-twitter{
+    width: 400px;
+    height: 230px;
+    border-radius: 31px;
+    border: solid 1px white;
+    background: url(/assets/img/twitter.png);
+    background-size: 150%;
+    background-position: 13px -1px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.disclaimer {
+    font: normal 13px/18px "Open Sans";
+    border-top: solid 1px #ddc2a152;
+    border-bottom: solid 1px #ddc2a152;
+    background: #fffead57;
+    color: #ffffff;
+    font-style: italic;
+    text-align: center;
+    padding: 5px 0;
+    margin: 20px 0;
+}
+#welcome .mat-horizontal-stepper-header-container {
+    position: absolute;
+
+    width: 100%;
+    bottom: 0;
+}
+
+#welcome table {
+    margin: auto;
+    border: solid 1px #ccc;
+    padding: 0;
+    border-spacing: 0;
+    border-bottom: 0;
+}
+
+#welcome td {
+    border-bottom: solid 1px #ccc;
+    padding: 10px;
+    margin: 0;
+
+    text-align: center;
+}
+
+#welcome td:first-child {
+    text-align: left;
+}
+
+#welcome tr:first-child td {
+    background: #fafafa
+}
+
+#welcome tr:last-child td {
+    background: #fafafa
+}
+
+#welcome button {
+    margin-bottom: 10px
+}
+
+#welcome .logo-in {
+    margin-top: 30px
+}
+
+#welcome-desc .line {
+    text-align: center;
+    font-size: 22px;
+    margin: auto;
+    display: block;
+    margin: 71px auto;
+}
+
+#welcome h2 {
+    font-size: 16px
+}
+
+
+#welcome #logo {
+    color: #444444;
+    width: 300px;
+    height: 52px;
+    background: url(/assets/img/logowhite.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+

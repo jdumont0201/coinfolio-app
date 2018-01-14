@@ -5,7 +5,7 @@ import {ApiService} from "../lib/globalton/core/services/api.service";
 import {AuthService} from "../lib/globalton/core/services/auth.service";
 import {RequestService} from "../lib/globalton/core/services/request.service";
 
-export class UniversalLoader{
+export class UniversalLoader {
     static load(broker: string, task: string, data: any) {
         if (task == "allocation") {
             let A = {}
@@ -111,14 +111,13 @@ export class Logic {
         })
     }
 
-    getFromBroker(broker, task, f: Function,query:string) {
+    getFromBroker(broker, task, f: Function, query: string) {
         this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId, (res) => {
             if (res && "result" in res && res.result.success)
                 f(UniversalLoader.load(broker, task, res.result.data))
             else f(null)
         })
     }
-
 
 
     KrakenGetLivePrices(f: Function) {
@@ -130,18 +129,31 @@ export class Logic {
     }
 
 
-    registerUser(obj, f) {
+    registerUser(obj: any, f: Function) {
+        if (!obj) return;
         console.log("Register ", obj)
-        this.apiService.noauthpost("user", obj, (res) => {
-            if (res && "token" in res) {
-                this.authService.loginResponse = res;
-                this.authService.postLogin();
-                f({success: true})
-            } else {
-                f({success: false, error: true})
-            }
-        })
+        this.apiService.noauthget("user/exists?email=" + obj.email,  (exists) => {
+            console.log("rexistrs", exists)
+            if (exists  && exists.result && ("result" in exists.result)) {
+                if (exists.result.result) {
+                    f({success: false, error: true, desc: "EMAIL_EXISTING"})
+                } else {
 
+
+                    this.apiService.noauthpost("user", obj, (res) => {
+                        if (res && "token" in res) {
+                            this.authService.loginResponse = res;
+                            this.authService.postLogin();
+                            f({success: true})
+                        } else {
+                            f({success: false, error: true})
+                        }
+                    })
+                }
+            }else{
+                f({success: false, error: true,desc:"Request error"})
+            }
+        });
     }
 
     loginUser(obj, f) {
@@ -161,6 +173,21 @@ export class Logic {
         })
 
     }
+    renewPassword(obj, f) {
+        console.log("Register ", obj)
+        this.apiService.noauthpost("user/password/renew", obj, (res) => {
+            console.log("renew", res)
+            if (res) {
+
+                f({success: true})
+            } else {
+
+                f({success: false, error: true})
+
+            }
+        })
+
+    }
 
     set(url: string, obj, f) {
         this.apiService.authpatch("user", obj, f)
@@ -168,12 +195,13 @@ export class Logic {
 
     saveUser(obj, f: Function) {
         if (obj.id)
-            this.apiService.authpatch("user/"+this.authService.userId, obj, f)
+            this.apiService.authpatch("user/" + this.authService.userId, obj, f)
         else
             this.apiService.noauthpost("user", obj, f)
     }
+
     patchUser(obj, f: Function) {
-       this.apiService.authpatch("user/"+this.authService.userId, obj, f)
+        this.apiService.authpatch("user/" + this.authService.userId, obj, f)
 
     }
 
@@ -215,7 +243,6 @@ export class Logic {
         }
         this.apiService.noauthget("user/" + this.authService.userId, f)
     }
-
     getChartData(source, interval: string, symbol: string, base: string, f: Function) {
         this.dataService.getAll("recordprice", f, {
             source: source,

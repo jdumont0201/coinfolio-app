@@ -37,6 +37,7 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
             this.logic.getMe((user) => {
                 if (user)
                     this.favorites = user.favoritePairs
+                this.cd.markForCheck()
             })
         })
         this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {

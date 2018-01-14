@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Injectable, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, Injectable, ViewChild, ViewEncapsulation} from '@angular/core';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {EventService} from "../../lib/localton/services/event.service";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
@@ -10,7 +10,9 @@ import {ApiService} from "../../lib/globalton/core/services/api.service";
 @Component({
   selector: 'app-welcome',
   templateUrl: 'template.html',
-  styleUrls:['styles.css']
+  styleUrls:['styles.css'],
+
+    encapsulation: ViewEncapsulation.None
 
 })
 @Injectable()

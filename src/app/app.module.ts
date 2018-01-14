@@ -83,8 +83,10 @@ import {AppTradesPage} from "../pages/trades/component";
 import {AppSymbolItemPage} from "../pages/symbol-item/component";
 import {AppPairItemPage} from "../pages/pair/component";
 import {AppPositionsPage}from "../pages/positions/component"
+import {AppAuthResetpassword}from "../pages/auth-resetpassword/component"
 import {AppConfigBrokersPage} from "../pages/config-brokers/component"
 
+import {AppAuthPage}from "../pages/auth-login/component"
 import {AppConfigFavoritesPage} from "../pages/config-favorites/component";
 import {AppConfigWorkersPage} from "../pages/config-workers/component";
 import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
@@ -119,10 +121,15 @@ import {AppLivePriceWidget} from "../widgets/liveprice/component"
 import {AppDepthWidget} from "../widgets/depth/component"
 import {AppMyTradesWidget} from "../widgets/trades/component"
 
+/* FORMS */
+import {AppFormRegister} from "../forms/register/component";
+import {AppFormLogin} from "../forms/login/component";
+import {AppFormRenewPassword} from "../forms/renewpassword/component";
+import {AppFormResetPassword} from "../forms/resetpassword/component";
 /*COMPONENTS*/
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
 import {AppMarketCapEvolComponent} from "../widgets/marketcap-evol/component"
-import {AppLoginComponent} from "../components/login/component"
+import {AppAuthLoginComponent} from "../components/auth-login/component"
 import {AppBrokerConnectionsComponent} from "../components/broker-connections/component"
 import {AppWelcomeComponent} from "../components/welcome/component"
 import {AppProxyComponent} from "../canvas/proxy/component"
@@ -151,11 +158,11 @@ import {AppConfigProfilePage} from "../pages/config-profile/component";
 
 @NgModule({
     declarations: [
-        AppComponent, AppCalendarPage,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent,AppFormRenewPassword,AppFormResetPassword,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,
-        AppPanelCreatorComponent, AppLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
+        AppPanelCreatorComponent,AppAuthLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
         AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
     ],
     imports: [

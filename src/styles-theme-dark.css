@@ -78,3 +78,6 @@ h5.form-header {
 .theme-dark  .mat-tab-header-pagination-chevron {
     border-color: rgb(255, 255, 255);
 }
+.theme-dark button.mat-raised-button:hover {
+    background: #555!important;
+}

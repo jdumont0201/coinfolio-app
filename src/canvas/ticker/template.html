@@ -1,26 +1,27 @@
 <div id="ticker" *ngIf="eventService.isTickerVisible">
     <ng-container *ngIf="authService.isAuthenticated()">
-    <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
-        <div class="col-2b">
-            <div class="col-2b-1">
-                <span *ngFor="let b of tradingService?.enabledBrokers"><span class="broker-{{b}}">{{b}}</span> ${{tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue()}}</span>
-                <app-pair-tick *ngFor="let f of authService.favoritePairs" [broker]="f.broker" [pair]="f.pair"></app-pair-tick>
+        <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
+            <div class="col-2b">
+                <div class="col-2b-1">
+                    <span *ngFor="let b of tradingService?.enabledBrokers"><span class="broker-{{b}}">{{b}}</span> ${{tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue()}}</span>
+                    <app-pair-tick *ngFor="let f of authService.favoritePairs" [broker]="f.broker" [pair]="f.pair"></app-pair-tick>
+                </div>
+                <div class="col-2b-2">
+                    <mat-menu #menu="matMenu">
+                        <button mat-button [routerLink]="'/config/favorites'">Configure favorites</button>
+                    </mat-menu>
+                </div>
             </div>
-            <div class="col-2b-2">
-                <mat-menu #menu="matMenu">
-                    <button mat-button [routerLink]="'/config/favorites'">Configure favorites</button>
-                </mat-menu>
-            </div>
-        </div>
-    </ng-container>
-    <ng-container *ngIf="!tradingService.isAnyBrokerConfigured()">
-        Connecting to brokers...
-    </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!tradingService.isAnyBrokerConfigured()">
+            Connecting to brokers...
+        </ng-container>
     </ng-container>
     <ng-container *ngIf="!authService.isAuthenticated()">
         <div class="col-2b">
-            <div class="col-2b-1">Login to activate ticker</div>
-
+            <div class="col-2b-1">Login to enable ticker
+                <button mat-raised-button [routerLink]="'/auth'">Login</button>
+            </div>
         </div>
     </ng-container>
 </div>

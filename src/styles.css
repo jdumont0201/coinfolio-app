@@ -1409,10 +1409,14 @@ mat-sidenav#rightsidenav[opened="true"] {
     display: flex
 }
 
-.mat-ink-bar {
-    background-color: #e40202 !important;
-}
 
+button.mat-raised-button span{
+    color:lightseagreen;
+}
+button.mat-raised-button {
+    text-transform: uppercase;
+    font-weight: bold;
+}
 #menu-switch:hover {
     background: #ffffff21;
 }
@@ -1455,73 +1459,6 @@ mat-icon#menu-pin {
     text-align: center;
 }
 
-#welcome {
-    position: absolute;
-    width: 90%;
-    z-index: 20;
-    top: 30px;
-    left: 0;
-    background: white;
-    box-shadow: 4px 3px 5px #00000059;
-    margin: auto;
-    right: 0;
-    height: 100%;
-}
-
-#welcome .mat-horizontal-stepper-content {
-    background: linear-gradient(to right, #000046, #1cb5e0);
-    height: 100%
-}
-
-#welcome .mat-horizontal-stepper-content[aria-expanded=false] {
-    height: 0%
-}
-
-#welcome .mat-horizontal-content-container {
-    padding: 0;
-    height: 100%;
-}
-
-#welcome .mat-stepper-horizontal {
-    height: 100%
-}
-
-#welcome-in {
-    padding: 20px;
-}
-
-#welcome h1 {
-    font: bold 25px/35px "Open Sans";
-    text-align: center;
-}
-
-#welcome h2 {
-    font: bold 25px/35px "Open Sans";
-    font-size: 16px;
-    line-height: 20px;
-    padding-top: 20px;
-    font-weight: 300;
-}
-
-#welcome-desc span {
-    font: bold 15px/20px "Open Sans"
-}
-
-#welcome #logo {
-    color: #444444;
-}
-
-.disclaimer {
-    font: normal 13px/18px "Open Sans";
-    border-top: solid 1px #ddc2a152;
-    border-bottom: solid 1px #ddc2a152;
-    background: #ffead157;
-    color: #917553;
-    font-style: italic;
-    text-align: center;
-    padding: 5px 0;
-    margin: 20px 0;
-}
 
 #veil {
     position: absolute;
@@ -1533,57 +1470,10 @@ mat-icon#menu-pin {
     z-index: 16;
 }
 
-#welcome table {
-    margin: auto;
-    border: solid 1px #ccc;
-    padding: 0;
-    border-spacing: 0;
-    border-bottom: 0;
-}
-
-#welcome td {
-    border-bottom: solid 1px #ccc;
-    padding: 10px;
-    margin: 0;
-
-    text-align: center;
-}
-
-#welcome td:first-child {
-    text-align: left;
-}
-
-#welcome tr:first-child td {
-    background: #fafafa
-}
-
-#welcome tr:last-child td {
-    background: #fafafa
-}
-
 .padded {
     padding: 20px
 }
 
-#welcome button {
-    margin-bottom: 10px
-}
-
-#welcome .logo-in {
-    margin-top: 30px
-}
-
-#welcome-desc .line {
-    text-align: center;
-    font-size: 22px;
-    margin: auto;
-    display: block;
-    margin: 71px auto;
-}
-
-#welcome h2 {
-    font-size: 16px
-}
 
 /*
 .mat-horizontal-stepper-header-container{
@@ -1604,16 +1494,6 @@ mat-icon#menu-pin {
     font-size: 0;
     background: url("/assets/img/logo-white.png")
 }
-
-#welcome #logo {
-    color: #444444;
-    width: 300px;
-    height: 52px;
-    background: url(/assets/img/logo-bottom.png);
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
 button.large span {
     padding: 10px 70px;
     display: block;
@@ -1696,17 +1576,7 @@ mat-nav-list span#logo {
     background: #c99400 !important;
 }
 
-#welcome {
-    width: 100%;
-    top: 0;
-}
 
-#welcome .mat-horizontal-stepper-header-container {
-    position: absolute;
-
-    width: 100%;
-    bottom: 0;
-}
 
 .depth-ask, .depth-bid {
     font-size: 13px;
@@ -2647,4 +2517,7 @@ section.widget:last-child {
     border-left: solid 1px #0a95f1;
     height: 60px;
     display: flex;
+}
+.mat-ink-bar {
+    background-color: #fff!important;
 }
