@@ -1629,7 +1629,16 @@ section.widget {
     padding: 0px;
     box-sizing: content-box;
 }
-
+svg {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+}
 .mat-card {
     padding: 0 !important;
     border: solid 2px black;
@@ -1681,6 +1690,13 @@ section.widget {
 
 section.widget.price {
     background: #0a4350; /*  border: solid 4px #171e46;*/
+}
+section.widget.price2 {
+    height:400px
+}
+section.widget.price2.zoomed {
+    background: linear-gradient(-254deg,#00adff,#0758aa)!important; /*  border: solid 4px #171e46;*/
+
 }
 
 section.widget.price .highchart-box { /*  border: solid 4px #171e46;*/
@@ -2145,7 +2161,7 @@ span.infra {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: calc(100vh  - 60px)!important;
     width: 100%;
     z-index: 20
 }
@@ -2486,3 +2502,8 @@ section.widget{
 .mat-ink-bar {
     background-color: #fff!important;
 }
+
+app-chart{height:calc(100% - 26px);    position: absolute;    top: 26px;    bottom: 00;
+width: 100%}
+.chartcontainer{height:100%;
+    overflow: hidden;}

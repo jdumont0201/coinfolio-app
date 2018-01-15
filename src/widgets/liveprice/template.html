@@ -12,7 +12,7 @@
     <div class="progressbar-placeholder" *ngIf="!isLoading" ></div>
     <div class="errorbar" *ngIf="isError" ></div>
 
-<app-chart [data]="chartData"></app-chart>
-    <div #myChart class="highchart-box" [chart]="chart" (load)="saveInstance($event.context)"></div>
+<app-chart [chartId]="chartId" [data]="chartData"></app-chart>
+
 
 </section>

@@ -1,4 +1,4 @@
-import {Component,ComponentFactoryResolver , Input, OnInit, Injectable, ViewChild} from '@angular/core';
+import {Component, ComponentFactoryResolver, Input, OnInit, Injectable, ViewChild} from '@angular/core';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {MatSnackBar, MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
@@ -23,8 +23,8 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
     @Input() base: string = "USD"
     @Input() showTitle: boolean = false;
     @Input() trades
-    @Input() type="stock";
-    @Input() refresh=false;
+    @Input() type = "stock";
+    @Input() refresh = false;
     infra;
     supra;
 
@@ -37,11 +37,11 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         chart: {
             margin: [0, 0, 0, 0],
             type: 'candlestick',
-            backgroundColor:          null          ,
+            backgroundColor: null,
             zoomType: 'none'
         },
-        title:{text:""},
-        legend:{enabled:false},
+        title: {text: ""},
+        legend: {enabled: false},
         credits: {enabled: false},
 
         exporting: {enabled: false},
@@ -85,13 +85,15 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         }
     }
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
-        super(refreshService,logic,appConfigService,eventService, "stock")
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
+        super(refreshService, logic, appConfigService, eventService, "stock")
         console.log("+ liveprice")
+
     }
 
+
     ngOnInit() {
-        console.log("init liveprice",this.period)
+        console.log("init liveprice", this.period)
         const pair = Crypto.getSymbolsFromPair(this.pair)
         this.supra = pair.supra;
         this.infra = pair.infra;
@@ -99,17 +101,21 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         //this.initRefresh()
         this.firstLoadData()
     }
-    refreshData(){
-        this.isRefreshing=true;
+
+    refreshData() {
+        this.isRefreshing = true;
         this.updateData()
     }
-    firstLoadData(){
-        this.isLoading=true;
+
+    firstLoadData() {
+        this.isLoading = true;
         this.updateData()
     }
-    barClick(){
+
+    barClick() {
         //this.zoom()
     }
+
     getRange() {
         let nb = 150;
         if (this.period === "1m") return 1000 * 60 * nb
@@ -129,11 +135,11 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
     chartData;
 
     updateData() {
-        console.log("liveprice upd ",this.period,this.pair)
+        console.log("liveprice upd ", this.period, this.pair)
         this.isLoading = true;
         this.isError = false;
         this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
-            this.loadTime=new Date().getTime()
+            this.loadTime = new Date().getTime()
             console.log("BinanceGetOHLC", res)
 
             if (!res || res.error) {
@@ -142,7 +148,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
                 //this.snackBar.open('ErrYou signed off', null, {duration: 3000});
                 return
             }
-            this.chartData=res;
+            this.chartData = res;
             this.checkData();
             let D = [];
             let minVal = 10000000;

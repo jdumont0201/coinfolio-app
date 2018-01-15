@@ -32,18 +32,18 @@ export class EventService implements OnInit {
     isWelcomeVisible: boolean = false;
     isFullscreen: boolean = false;
 
-    enableFullscreen() {
+    enableFullscreen(chartId) {
         this.isFullscreen = true
-        this.isFullscreenEvent.emit(true)
+        this.isFullscreenEvent.emit({fullscreen:true,id:chartId})
     }
 
     openRightMenu(tab) {
         this.rightMenuUpdatedEvent.emit(tab)
     }
 
-    disableFullscreen() {
+    disableFullscreen(chartId) {
         this.isFullscreen = false
-        this.isFullscreenEvent.emit(false)
+        this.isFullscreenEvent.emit({fullscreen:false,id:chartId})
     }
 
     showWelcome() {

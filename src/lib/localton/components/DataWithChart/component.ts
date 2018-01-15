@@ -85,7 +85,7 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
         /*if (type === "stock") this.chart = new StockChart(this.stockChartDefOptions)
         if (type === "plain") this.chart = new Chart(this.plainChartDefOptions)
         else this.chart = new StockChart(this.stockChartDefOptions)
-*/
+*/this.chartId=Math.round(Math.random()*100000)
         if (this.isDataSourceArray)
             this.dataSource = [];
         else {
@@ -98,18 +98,17 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
 
     oldParentViewContainerRef;
     newParentViewContainerRef;
-
+chartId;
     zoom() {
         this.isZoomed = !this.isZoomed
         if (this.isZoomed) {
             this.scrollY = window.scrollY;
             window.scrollTo(0, 0);
-            this.eventService.enableFullscreen()
+            this.eventService.enableFullscreen(this.chartId)
         }
         else {
-
             window.scrollTo(0, this.scrollY)
-            this.eventService.disableFullscreen()
+            this.eventService.disableFullscreen(this.chartId)
         }
             setTimeout(() => {
                 this.draw()
