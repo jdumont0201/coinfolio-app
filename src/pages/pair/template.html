@@ -18,18 +18,17 @@
     </mat-toolbar>
     <mat-tab-group>
         <mat-tab label="Live">
-            <div id="live">
-                <div id="live-left">
-                    <app-live-depth [lastPrice]="lastPrice" [pairId]="pairId"></app-live-depth>
-                </div>
-                <div id="live-right">
+
+
                     <app-live-price [refresh]="true" [pair]="pairId" [trades]="trades" [period]="'1m'"></app-live-price>
                     <app-live-price [refresh]="true" [pair]="pairId" [period]="'5m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'15m'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'1h'"></app-live-price>
                     <app-live-price [pair]="pairId" [period]="'1d'"></app-live-price>
-                </div>
-            </div>
+
+        </mat-tab>
+        <mat-tab label="Depth">
+            <app-live-depth [lastPrice]="lastPrice" [pairId]="pairId"></app-live-depth>
         </mat-tab>
         <mat-tab label="Trades">
             <app-my-trades [pairId]="pairId"></app-my-trades>

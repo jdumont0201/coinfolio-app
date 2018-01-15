@@ -1,7 +1,7 @@
 <div (window:resize)="eventService.resized($event)" id="maincanvas"  class="{{eventService.isTickerVisible?'ticker-visible':''}} theme-dark {{eventService?.isFullscreen?'isFullscreen':''}}" *ngIf="!showPanelCreator"  [ngClass]="eventService.isMenuDisplayed?'':'menudisplayed'">
     <div id="underticker" class="{{eventService?.isMenuDisplayed?'underticker-withmenu':'underticker-nomenu'}}">
         <mat-icon [matTooltip]="eventService.isMenuDisplayed?'Close menu':'Open menu'"  id="menu-switch" (click)="closeMenu()">{{eventService.isMenuDisplayed?"chevron_left":"menu"}}</mat-icon>
-        <mat-sidenav-container fullscreen (backdropClick)="sidenav.close();eventService.isMenuDisplayed=eventService.isMobile?eventService.isMenuDisplayed:false">
+        <mat-sidenav-container fullscreen (backdropClick)="sidenav.close();eventService.isMenuDisplayed=false">
             <mat-sidenav #sidenav [opened]="eventService.isMenuDisplayed" [mode]="eventService.isMenuPinned?'side':(eventService.isMobile?'over':'over')" opened="true" disableClose="true" mode="side">
                 <div [matTooltip]="eventService.isMenuPinned?'Unpin menu':'Pin menu'" id="menu-pin" (click)="processPin()">{{eventService.isMenuPinned?"lock":"lock_outline"}}</div>
                 <app-menu-list></app-menu-list>

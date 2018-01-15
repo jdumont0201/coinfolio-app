@@ -2,18 +2,28 @@
     <span id="logo" class="logo-bottom"> </span>
     <span class="line">Made by traders. For the traders.</span>
     <ul>
-    <li *ngIf="apiService.isUp">Connected to API <mat-icon >check</mat-icon></li>
-    <li *ngIf="authService?.isAuthenticated()">Connected to your account <mat-icon >check</mat-icon></li>
+    <li *ngIf="apiService.isUp"><mat-icon class="valpos">check</mat-icon>Connected to API </li>
+    <li *ngIf="authService?.isAuthenticated()"><mat-icon class="valpos">check</mat-icon>Connected to your account </li>
         <ng-container *ngFor="let b of tradingService?.enabledBrokers">
-            <li>{{b}}</li>
-            <li>Portfolio {{tradingService?.brokers.loadStatus[b]?.portfolio?"Done.":"Loading..."}}</li>
-            <li>Ticker {{tradingService?.brokers.loadStatus[b]?.ticker?"Done.":"Loading..."}}</li>
+            <li>
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio" class="valpos">check</mat-icon>
+                <mat-icon *ngIf="!tradingService?.brokers.loadStatus[b]?.portfolio" class="valsta">more_horiz</mat-icon>{{b}} - Portfolio
+            </li>
+            <li>
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker" class="valpos">check</mat-icon>
+                <mat-icon *ngIf="!tradingService?.brokers.loadStatus[b]?.ticker" class="valsta">more_horiz</mat-icon>
 
+                {{b}} - Ticker </li>
             <ng-container *ngIf="authService?.loginResponse">
-        <li *ngIf="authService?.loginResponse['hasConnection'+b]">Connecting to {{b}}...</li>
-        <li *ngIf="tradingService?.getBrokerByName(b)?.isLoaded">Connected to {{b}}...</li>
             </ng-container>
+            <li >
+                <mat-icon *ngIf="tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valpos">check</mat-icon>
+                <mat-icon *ngIf="!tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valsta">more_horiz</mat-icon>
+
+
+
+                Ticker</li>
         </ng-container>
-        Ticker{{tradingService?.brokers.hasAttemptedLoginAllBrokers?"yes":"no"}}
+
     </ul>
 </div>

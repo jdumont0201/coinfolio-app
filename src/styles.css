@@ -534,6 +534,9 @@ button:hover .crypto-iconed {
 .valpos {
     color: #72cb00 !important;
 }
+.valsta {
+    color: orange !important;
+}
 
 .valneg {
     color: red !important;
@@ -1508,44 +1511,6 @@ mat-nav-list span#logo {
     margin-left: 11px;
 }
 
-#loading {
-    position: absolute;
-    top: 100px;
-    width: 273px;
-    /* height: 101px; */
-    background: black;
-    text-align: center;
-    z-index: 2;
-    left: 46%;
-    right: auto;
-    padding: 10px;
-    font-family: "Open sans";
-    line-height: 55px;
-    color: white;
-    border: solid 5px;
-}
-
-#loading span.line {
-    line-height: 15px;
-    /* position: relative; */
-    /* top: -10px; */
-    text-transform: uppercase;
-    padding: 0;
-    display: block;
-    text-align: left;
-    margin-top: 4px;
-    font-size: 11px;
-    color: grey;
-}
-
-#loading span#logo {
-    width: 100%;
-    height: 43px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin: auto;
-}
-
 .creator-component-list .creator-component {
     margin: 0;
     border: 0;
@@ -2498,7 +2463,7 @@ mat-table.data mat-row {
     font-weight: bold;
 }
 
-section.widget:last-child {
+section.widget{
     margin-right: 0;
 }
 

@@ -126,11 +126,13 @@ import {AppFormRegister} from "../forms/register/component";
 import {AppFormLogin} from "../forms/login/component";
 import {AppFormRenewPassword} from "../forms/renewpassword/component";
 import {AppFormResetPassword} from "../forms/resetpassword/component";
+
 /*COMPONENTS*/
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
 import {AppMarketCapEvolComponent} from "../widgets/marketcap-evol/component"
 import {AppAuthLoginComponent} from "../components/auth-login/component"
 import {AppBrokerConnectionsComponent} from "../components/broker-connections/component"
+import {AppChartComponent} from "../components/chart/component"
 import {AppWelcomeComponent} from "../components/welcome/component"
 import {AppProxyComponent} from "../canvas/proxy/component"
 import {AppLoadingComponent} from "../components/loading/component"
@@ -155,10 +157,11 @@ import {AppRoutingModule, routes} from './app-routing.module';
 import {Logic} from "../logic/Logic";
 import {AppConfigProfilePage} from "../pages/config-profile/component";
 
+import { NgvasModule, tweens, hitAreas } from "ngvas";
 
 @NgModule({
     declarations: [
-        AppComponent,AppFormRenewPassword,AppFormResetPassword,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent,AppFormRenewPassword,AppFormResetPassword,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,
@@ -169,7 +172,7 @@ import {AppConfigProfilePage} from "../pages/config-profile/component";
         BrowserModule,
         BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
         RouterModule.forRoot(routes),
-        HttpClientModule,
+        HttpClientModule,NgvasModule,
         RestangularModule.forRoot(RestangularConfigFactory),
         ChartModule,
         DndModule.forRoot(),

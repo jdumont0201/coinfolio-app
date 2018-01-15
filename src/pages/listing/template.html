@@ -52,7 +52,7 @@
             </ng-container>
             <ng-container matColumnDef="pair">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.supra}} / {{element.infra}}</mat-cell>
+                <mat-cell *matCellDef="let element" [routerLink]="'/pair/'+element.pair">{{element.supra}} / {{element.infra}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="volume">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>24h Volume</mat-header-cell>

@@ -1,5 +1,5 @@
 
-<section class="widget price {{isZoomed?'zoomed':''}}">
+<section class="widget price2 {{isZoomed?'zoomed':''}}">
     <h5 (click)="barClick()">{{showTitle?(supra+" / "+infra):""}} Price
         <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu2">  {{period}}     <mat-icon>expand_more</mat-icon>    </span></div>
 
@@ -12,7 +12,7 @@
     <div class="progressbar-placeholder" *ngIf="!isLoading" ></div>
     <div class="errorbar" *ngIf="isError" ></div>
 
-
+<app-chart [data]="chartData"></app-chart>
     <div #myChart class="highchart-box" [chart]="chart" (load)="saveInstance($event.context)"></div>
 
 </section>

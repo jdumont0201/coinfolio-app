@@ -27,6 +27,7 @@ export class AppPairItemPage implements OnDestroy {
     pairId: string;
     brokerId: string;
     maxVol = 0;
+
     bids;
     asks;
     bidLevels = {};

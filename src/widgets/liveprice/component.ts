@@ -36,13 +36,9 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         },
         chart: {
             margin: [0, 0, 0, 0],
-            type: 'candlestick', backgroundColor: {
-                linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
-                stops: [
-                    [0, '#18565f'],
-                    [1, '#023647']
-                ]
-            }, zoomType: 'none'
+            type: 'candlestick',
+            backgroundColor:          null          ,
+            zoomType: 'none'
         },
         title:{text:""},
         legend:{enabled:false},
@@ -91,13 +87,15 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
 
     constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
         super(refreshService,logic,appConfigService,eventService, "stock")
+        console.log("+ liveprice")
     }
 
     ngOnInit() {
+        console.log("init liveprice",this.period)
         const pair = Crypto.getSymbolsFromPair(this.pair)
         this.supra = pair.supra;
         this.infra = pair.infra;
-        if(this.refresh)
+        //if(this.refresh)
         //this.initRefresh()
         this.firstLoadData()
     }
@@ -128,20 +126,23 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         }
     }
 
-
+    chartData;
 
     updateData() {
+        console.log("liveprice upd ",this.period,this.pair)
         this.isLoading = true;
         this.isError = false;
         this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
             this.loadTime=new Date().getTime()
             console.log("BinanceGetOHLC", res)
+
             if (!res || res.error) {
                 this.isError = true;
                 this.isLoading = false;
                 //this.snackBar.open('ErrYou signed off', null, {duration: 3000});
                 return
             }
+            this.chartData=res;
             this.checkData();
             let D = [];
             let minVal = 10000000;
@@ -180,7 +181,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
                 xAxis: {
                     crosshair: {snap: false, color: '#437173'},
                     range: this.getRange(),
-                    alternateGridColor: '#184d56',
+                    alternateGridColor: '#10789e',
                     labels: {
                         style: {
                             backgroundColor: "red",

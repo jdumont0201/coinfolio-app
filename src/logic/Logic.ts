@@ -390,8 +390,10 @@ export class Logic {
         const url = "widget/searchNews?q=" + q;
         this.apiService.noauthget(url, (res) => {
 
-
+            if(res && res.searchNews && "feed" in res.searchNews)
             f(res.searchNews.feed.entries)
+            else
+                f(null)
         });
     }
 
