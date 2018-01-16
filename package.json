@@ -27,8 +27,11 @@
     "@ngx-translate/http-loader": "^2.0.0",
     "angular-highcharts": "^4.1.0",
     "angular2-qrcode": "^2.0.1",
+
     "chown": "*",
     "chownr": "*",
+    "mississippi":"^1.3.0",
+
     "core-js": "^2.4.1",
     "fabric": "^1.7.22",
     "hammerjs": "^2.0.8",

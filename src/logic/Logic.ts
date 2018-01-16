@@ -18,7 +18,7 @@ export class UniversalLoader {
                     }
                 }
             }
-            if (broker == "kraken") {
+            else if (broker == "kraken") {
                 for (let symbol in data) {
                     A[symbol] = {
                         available: null,
@@ -27,6 +27,16 @@ export class UniversalLoader {
                     }
                 }
             }
+            else if (broker == "hitbtc") {
+                data.forEach((d)=>{
+                    A[d.currency] = {
+                        available: d.available,
+                        onorder: d.reserved,
+                        total: d.reserved+d.available
+                    }
+                })
+            }
+
             return A;
         }
     }
@@ -111,7 +121,7 @@ export class Logic {
         })
     }
 
-    getFromBroker(broker, task, f: Function, query: string) {
+    getFromBroker(broker, task, f: Function, query?: string) {
         this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId, (res) => {
             if (res && "result" in res && res.result.success)
                 f(UniversalLoader.load(broker, task, res.result.data))
@@ -129,21 +139,16 @@ export class Logic {
     }
 
     HitbtcGetAllocation(f: Function) {
-        this.apiService.noauthget("user/connect/hitbtc/balance?userId=" + this.authService.userId, (res) => {
-            if (res && "result" in res && res.result.success)
-                f(res.result.data)
-            else f(null)
-        })
+        this.getFromBroker("hitbtc","balance",f)
     }
-
 
 
     registerUser(obj: any, f: Function) {
         if (!obj) return;
         console.log("Register ", obj)
-        this.apiService.noauthget("user/exists?email=" + obj.email,  (exists) => {
+        this.apiService.noauthget("user/exists?email=" + obj.email, (exists) => {
             console.log("rexistrs", exists)
-            if (exists  && exists.result && ("result" in exists.result)) {
+            if (exists && exists.result && ("result" in exists.result)) {
                 if (exists.result.result) {
                     f({success: false, error: true, desc: "EMAIL_EXISTING"})
                 } else {
@@ -159,8 +164,8 @@ export class Logic {
                         }
                     })
                 }
-            }else{
-                f({success: false, error: true,desc:"Request error"})
+            } else {
+                f({success: false, error: true, desc: "Request error"})
             }
         });
     }
@@ -182,6 +187,7 @@ export class Logic {
         })
 
     }
+
     renewPassword(obj, f) {
         console.log("Register ", obj)
         this.apiService.noauthpost("user/password/renew", obj, (res) => {
@@ -252,6 +258,7 @@ export class Logic {
         }
         this.apiService.noauthget("user/" + this.authService.userId, f)
     }
+
     getChartData(source, interval: string, symbol: string, base: string, f: Function) {
         this.dataService.getAll("recordprice", f, {
             source: source,
@@ -399,8 +406,8 @@ export class Logic {
         const url = "widget/searchNews?q=" + q;
         this.apiService.noauthget(url, (res) => {
 
-            if(res && res.searchNews && "feed" in res.searchNews)
-            f(res.searchNews.feed.entries)
+            if (res && res.searchNews && "feed" in res.searchNews)
+                f(res.searchNews.feed.entries)
             else
                 f(null)
         });

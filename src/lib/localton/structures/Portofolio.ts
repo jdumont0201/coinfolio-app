@@ -53,6 +53,8 @@ export class Portfolio {
             this.loadBinance(f);
         } else if (this.key === "kraken") {
             this.loadKraken(f)
+        }else if (this.key === "hitbtc") {
+                this.loadUniversal(this.key ,f)
         }else{
             f(false)
         }
@@ -167,6 +169,21 @@ export class Portfolio {
                         let q = parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder);
                         this.add(k, q, this.key)
                     }
+                this.afterLoad()
+                f(this.connected);
+            } else {
+                f(false)
+            }
+        })
+    }
+    loadUniversal(broker,f: Function) {
+        //console.log("TRADE PTF LOAD BINANCE")
+        this.logic.getFromBroker(broker,"balance",(alloc) => {
+            this.dataTime = new Date();
+              console.log("TRADE PTF LOAD Hitbtc RES", alloc)
+            if (alloc) {
+                for (let k in alloc)
+                    this.add(k, alloc[k].total, this.key)
                 this.afterLoad()
                 f(this.connected);
             } else {
