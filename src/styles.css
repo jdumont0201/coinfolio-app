@@ -2526,10 +2526,10 @@ app-chart{}
 .mat-stepper-horizontal, .mat-stepper-vertical{background:transparent!important;}
 #portfolio-example{
     background: url(/assets/img/portfolio-example.png);
-    width: 250px;
-    height: 250px;
+    width: 392px;
+    height: 336px;
     border-radius: 10px;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-color: white;
+    background-color: #1367b5;
 }

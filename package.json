@@ -32,6 +32,7 @@
     "highcharts": "^6.0.4",
     "ssri":"*",
     "chown":"*",
+    "chownr":"*",
     "ng2-dnd": "^5.0.2",
     "ngvas": "^0.7.6",
     "ngx-facebook": "^2.4.0",
