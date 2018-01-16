@@ -29,6 +29,6 @@ export class AppAuthLoginComponent {
     afterLogin() {
     }
     afterForgottenPasswordClick(){
-        
+
     }
 }
