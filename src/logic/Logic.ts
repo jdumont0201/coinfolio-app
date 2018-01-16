@@ -117,8 +117,6 @@ export class Logic {
                 if (exists.result.result) {
                     f({success: false, error: true, desc: "EMAIL_EXISTING"})
                 } else {
-
-
                     this.apiService.noauthpost("user", obj, (res) => {
                         if (res && "token" in res) {
                             this.authService.loginResponse = res;
@@ -139,8 +137,7 @@ export class Logic {
         console.log("Register ", obj)
         this.apiService.noauthpost("user/login/app", obj, (res) => {
             console.log("received", res)
-            if (res && "login" in res) {
-
+            if (res && "login" in res && res.login.success) {
                 this.authService.loginResponse = res.login;
                 this.authService.postLogin();
                 f({success: true})
