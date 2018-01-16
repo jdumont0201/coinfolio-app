@@ -9,7 +9,7 @@
 <app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>
 
 <mat-tab-group>
-    <mat-tab *ngFor="let b of brokers" label="{{b}}">
+    <mat-tab *ngFor="let b of tradingService.enabledBrokers" label="{{b}}">
         <section class="widget allocationg">
             <h5>{{b.substring(0,1).toUpperCase()+b.substring(1,b.length) }} portfolio
                 <div class="header-select"> Showing <span class="header-button" [matMenuTriggerFor]="appMenu">   #{{show}}     <mat-icon>expand_more</mat-icon>    </span>
@@ -31,6 +31,7 @@
         </section>
         <section class="widget allocation">
             <h5>Portfolio composition - {{b=='global'?'Combined sources':b}}</h5>
+
             <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
             <mat-table #table class="data" [dataSource]="dataSource[b]" >
                 <ng-container matColumnDef="symbol">
@@ -56,6 +57,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
+            <div *ngIf="dataSource?.length==0">Your portfolio has no value for this broker.</div>
 
         </section>
 

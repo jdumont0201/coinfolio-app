@@ -148,6 +148,8 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
             console.log("broker", key, "not ready")
         }
     }
+
+    //update data by merging new data into existing datasource
     mergeData(key,alloc){
         console.log("mergeData", JSON.stringify(this.dataSource[key].data))
 
@@ -163,7 +165,8 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
                 }
             }
             if(!found){//symbol has been removed
-                r.splice(idx,1)
+                console.log("r",r)
+                this.dataSource[key].data.splice(idx,1)
             }
         });
         console.log("mergeData2", JSON.stringify(this.dataSource[key].data))
@@ -177,13 +180,13 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
     }
     processData(key, P) {
         let alloc = P.getAllocation(this.isShowingAllBalances() ? null : 15)
-        console.log("alloc", alloc)
+        console.log("alloc",key, alloc)
         this.portfolios[key] = P;
         if (!this.dataSource[key]) {
-            console.log("createdata", alloc)
+            console.log("alloc createdata", alloc)
             this.dataSource[key] = new MatTableDataSource(alloc.gridData);
         } else {
-            console.log("updatedata",alloc )
+            console.log("alloc updatedata",alloc )
             this.mergeData(key,alloc)
         }
         console.log("update data resdata", this.dataSource[key])
@@ -214,11 +217,10 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         this.allocation = [];
         if (this.authService.isAuthenticated()) {
             this.logic.getMe((user) => {
-                if (user.ConnectionBinance)
-                    this.update("binance", false)
-                if (user.ConnectionKraken)
-                    this.update("kraken", false)
-                // this.update("global")
+                this.tradingService.enabledBrokers.forEach((b)=>{
+                    this.update(b, false)
+                })
+
             });
 
         }

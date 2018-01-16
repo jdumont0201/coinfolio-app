@@ -7,7 +7,7 @@ import {RequestService} from "../lib/globalton/core/services/request.service";
 
 export class UniversalLoader {
     static load(broker: string, task: string, data: any) {
-        if (task == "allocation") {
+        if (task == "balance") {
             let A = {}
             if (broker == "binance") {
                 for (let symbol in data) {
@@ -123,8 +123,12 @@ export class Logic {
 
     getFromBroker(broker, task, f: Function, query?: string) {
         this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId, (res) => {
-            if (res && "result" in res && res.result.success)
-                f(UniversalLoader.load(broker, task, res.result.data))
+
+            if (res && "result" in res && res.result.success){
+                let A=UniversalLoader.load(broker, task, res.result.data);
+
+                f(A)
+            }
             else f(null)
         })
     }
