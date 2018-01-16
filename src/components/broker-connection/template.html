@@ -2,10 +2,10 @@
                 <section class="widget info ">
                     <h5>Connect</h5>
                     <div class="padded">
-                    <mat-slide-toggle [color]="accent" [(ngModel)]="user['Connection'+b.charAt(0).toUpperCase() + b.slice(1)]"> Enable</mat-slide-toggle>
+                    <mat-slide-toggle [color]="'accent'" [(ngModel)]="user['Connection'+broker.charAt(0).toUpperCase() + broker.slice(1)]"> Enable</mat-slide-toggle>
                         <div class="">
-                            <button mat-raised-button="" (click)="goTo(appConfigService.brokersLinks[b].signup)" >Sign up at {{b}}</button>
-                            <button mat-raised-button="" (click)="goTo(appConfigService.brokersLinks[b].api)" >Create an API token </button>
+                            <button mat-raised-button="" (click)="goTo(appConfigService.brokersLinks[broker].signup)" >Sign up at {{broker}}</button>
+                            <button mat-raised-button="" (click)="goTo(appConfigService.brokersLinks[broker].api)" >Create an API token </button>
                         </div>
                     </div>
                 </section>
