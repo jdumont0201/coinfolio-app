@@ -30,8 +30,8 @@ export class AppTopRightButtons {
 
     }
 
-    doSearchCallback() {
-        this.searchCallback(this.searchedText)
+    doSearchCallback(value) {
+        this.eventService.updateSearch(value)
     }
 
 }

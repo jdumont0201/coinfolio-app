@@ -17,18 +17,18 @@ import {Structures} from "../../lib/globalton/core/utils/utils";
 import {Tick} from "../../lib/localton/structures/Ticker";
 
 @Component({
-    selector: 'app-listing',
+    selector: 'app-page-arbitrage',
     templateUrl: 'template.html'
 
 })
 @Injectable()
-export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy {
+export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy {
     listing: Tick[] = new Array();
     supports = {}
     brokerOptions={}
     isLoading = true;
 
-    displayedColumnsRef = ['traded', 'inptf', 'pair', 'broker','volume', '24hevol', 'bid', 'ask'];
+    displayedColumnsRef = ['pair','broker','bid','ask'];
 
     showGraphs = false;
     canShow = [];
@@ -97,23 +97,12 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
 
 
     searchUpdated(filterValue) {
-        /*this.setTab(-1)
-        this.searched = []
-        let s: string = searchedText.trim()
-        let isMultipleWords = s.indexOf(" ")
-        if (isMultipleWords) {
-            let ss: string[] = s.split(" ");
-            for (let j = 0; j < ss.length; ++j) {
-                this.addToSearch(ss[j])
-            }
-        } else
-            this.addToSearch(s);
-*/      console.log("search",filterValue,this,this.dataSource)
+        console.log("search",filterValue,this,this.dataSource)
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
         this.dataSource.filter = filterValue;
     }
-
+    
     addToSearch(word: string) {
         //console.log("add", word)
         for (let i = 0; i < this.listing.length; ++i) {
@@ -137,13 +126,9 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     }
 
     indexes={}
-    loadDataByBroker(b) {
+    updateListing(b){
         let B = this.tradingService.getBrokerByName(b);
-        console.log("loaddata",b,B)
-        if (!B) return
-//        this.listing
         let L= B.getTicker().getList(this.sortby);//getList(this.sortby, "change");
-
         //update listing
         if(!(b in this.indexes))
             this.indexes[b]={}
@@ -155,7 +140,30 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
                 this.indexes[b][li.pair]=this.listing.length;
                 this.listing.push(li)
             }
+        })
+    }
+    commonPairs:any[]=[]
+    loadDataByBroker(b) {
+        let B = this.tradingService.getBrokerByName(b);
+        let L= B.getTicker().getList(this.sortby);//getList(this.sortby, "change");
+        console.log("loaddata",b,B)
+        if (!B) return
+//        this.listing
 
+        this.commonPairs=[]
+        this.updateListing(b)
+
+        this.listing.forEach((l)=>{
+            this.commonPairs[l.pair]=[]
+            this.listing.forEach((l2)=>{
+                   if(l.supra == l2.supra && l.infra == l2.infra && l.broker != l2.broker){
+                       //this.commonPairs[l.pair].push({broker:l2.broker})
+                       //this.commonPairs[l.pair].push({broker:l.broker} )
+                       this.commonPairs.push({pair:l.pair,isFirst:true,first:l,second:l2})
+                       this.commonPairs.push({pair:l.pair,isFirst:false,first:l,second:l2})
+
+                   }
+            })
         })
 
 
@@ -172,7 +180,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         })
 
         //this.filterData()
-        this.dataSource = new MatTableDataSource(this.listing);
+        this.dataSource = new MatTableDataSource(this.commonPairs);
         this.dataSource.sort = this.sort;
         this.loadTime = new Date()
         this.refreshTimer = this.refreshEvery;

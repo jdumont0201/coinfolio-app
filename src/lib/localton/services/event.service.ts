@@ -23,6 +23,7 @@ export class EventService implements OnInit {
     @Output() poolDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() UIEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() rightMenuUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() searchUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
 
     isTickerVisible: boolean = true;
     isMenuDisplayed: boolean = true;
@@ -138,6 +139,10 @@ export class EventService implements OnInit {
     hidePanelCreator() {
         this.consoleService.event("hidePanelCreator")
         this.panelCreatorEvent.emit({display: false})
+    }
+  updateSearch(v) {
+        this.consoleService.eventSent("searchUpdated")
+        this.searchUpdatedEvent.emit(v)
     }
 
     loadPanelCreator(p) {

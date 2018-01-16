@@ -1,0 +1,40 @@
+<div [@.disabled]="true">
+    <mat-toolbar>
+        <h3>Arbitrage Calculator</h3>
+    </mat-toolbar>
+    <app-top-right-buttons [searchCallback]="searchCallback" [placeholder]="'Search listing...'"></app-top-right-buttons>
+
+<div class="padded">
+    Budget<input type="text"  [(ngModel)]="budget" /><select  [(ngModel)]="infraA" (change)="setInfra()"><option *ngFor="let o of possibleInfraA" value="{{o}}">{{o}}</option></select>
+    Amount<input type="text"  [(ngModel)]="amount" />
+    <div class="table">
+        <div class="tr">
+            <div class="td">Pair: <select  [(ngModel)]="supraA" (change)="setSupraA()"><option *ngFor="let o of possibleSupraA" value="{{o}}">{{o}}</option></select></div>
+            <div class="td">Bid</div>
+            <div class="td">Ask</div>
+        </div>
+        <div class="tr">
+            <div class="td">Broker 1: <select  [(ngModel)]="brokerA1" (change)="setBrokerA1()"><option value="{{b}}" *ngFor="let b of tradingService?.enabledBrokers">{{b}}</option></select></div>
+            <div class="td">{{brokerA1bid}}</div>
+            <div class="td">{{brokerA1ask}}</div>
+        </div>
+        <div class="tr">
+            <div class="td">Broker 2:<select  [(ngModel)]="brokerA2" (change)="setBrokerA2()"><option value="{{b}}" *ngFor="let b of tradingService?.enabledBrokers">{{b}}</option></select></div>
+            <div class="td">{{brokerA2bid}}</div>
+            <div class="td">{{brokerA2ask}}</div>
+        </div>
+    </div>
+
+
+
+    Strategy
+    <ul>
+        <li>Buy {{amount}} of {{supraA}}/{{infraA}} on {{brokerA1}} </li>
+        <li>Cost is {{amount*brokerA1ask}}{{infraA}}</li>
+        <li>Transfer to {{brokerA2}}</li>
+        <li>Sell {{supraA}}/{{infraA}} on {{brokerA2}}</li>
+        <li>Receive {{amount*brokerA2bid}}{{infraA}}</li>
+        <li>Result {{budget - amount*brokerA1ask + amount*brokerA2bid}}{{infraA}}</li>
+    </ul>
+</div>
+</div>

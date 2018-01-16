@@ -9,6 +9,7 @@ import {isSuccess} from "@angular/http/src/http_utils";
 import {RefreshService} from "../services/refresh.service";
 import {ConsoleService} from "../../globalton/core/services/console.service";
 import {CurrencyService} from "../../globalton/core/services/currency.service";
+import {AppConfigService} from "../services/appconfig.service";
 
 export type Asset = { symbol: string, q: number, v?: number }
 
@@ -57,12 +58,11 @@ export class Broker {
     getTicker() {
         return this.ticker;
     }
-
-    constructor(public logic: Logic,public currencyService:CurrencyService, public key: string, public eventService: EventService, public refreshService: RefreshService, public tradingService: TradingService, public consoleService: ConsoleService) {
+    constructor(public logic: Logic,public currencyService:CurrencyService, public key: string, public eventService: EventService, public refreshService: RefreshService, public tradingService: TradingService, public consoleService: ConsoleService,public appConfigService:AppConfigService) {
         console.log("NEW BROKER ", key)
         this.portfolio = new Portfolio(this.logic, this.tradingService, this.refreshService, this.key)
-        this.ticker = new Ticker(this.logic, this.currencyService,this.tradingService, this.refreshService, this.key, this.consoleService)
-        this.listing = new Listing(this.logic, this.eventService, this.tradingService, this.refreshService, this.key, this.consoleService)
+        this.ticker = new Ticker(this.logic, this.currencyService,this.tradingService, this.refreshService, this.key, this.consoleService,this.appConfigService)
+        this.listing = new Listing(this.logic, this.eventService, this.tradingService, this.refreshService, this.key, this.consoleService,this.appConfigService)
         this.trades = new Trades(this.logic, this.eventService, this.tradingService, this.refreshService, this.key)
     }
 
@@ -76,14 +76,15 @@ export class Broker {
             this.ticker.loadTicker((isSuccess2) => {
                 this.portfolio.setUSDValues(this.ticker);
 
-                    this.listing.loadListing((isSuccess3) => {
+                    //this.listing.loadListing((isSuccess3) => {
                         //    this.backgroundLoad()
-                        if(isSuccess3 && isSuccess2 && isSuccess)
+                        //if(isSuccess3 && isSuccess2 && isSuccess)
+                        if(isSuccess2 && isSuccess)
                         this.setLoaded(true)
-                        let res={portfolio: isSuccess?"done":"failed", ticker: isSuccess2?"done":"failed", bidask: isSuccess3?"done":"failed"};
+                        let res={portfolio: isSuccess?"done":"failed", ticker: isSuccess2?"done":"failed", bidask: isSuccess2?"done":"failed"};
                         console.log("loadres",res)
                         f(res)
-                    })
+                    //})
             })
         })
     }
@@ -141,7 +142,7 @@ export class BrokerCollection {
         return res;
     }
 
-    constructor(public logic: Logic,public currencyService:CurrencyService, public eventService: EventService, public tradingService: TradingService, public refreshService: RefreshService, public consoleService: ConsoleService) {
+    constructor(public logic: Logic,public currencyService:CurrencyService, public eventService: EventService, public tradingService: TradingService, public refreshService: RefreshService, public consoleService: ConsoleService,public appConfigService:AppConfigService) {
 
     }
 
@@ -173,7 +174,7 @@ export class BrokerCollection {
 
     create(name: string) {
         console.log("CREATING BROK", name)
-        let P = new Broker(this.logic,this.currencyService, name, this.eventService, this.refreshService, this.tradingService, this.consoleService);
+        let P = new Broker(this.logic,this.currencyService, name, this.eventService, this.refreshService, this.tradingService, this.consoleService,this.appConfigService);
         this.brokers[name] = P;
     }
 

@@ -17,6 +17,7 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 })
 @Injectable()
 export class AppLoadingComponent extends AppSubscribeComponent{
+  @Input() force:boolean
   constructor(public logic: Logic, public tradingService:TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
     super(logic,authService,appConfigService,eventService,apiService,requestService)
 

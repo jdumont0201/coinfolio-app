@@ -52,12 +52,14 @@ export class MessageService {
         console.log("adderrror", errorCode, error, "desc", desc);
         let errstr:string = JSON.stringify(error);
         let E = new ErrorMessage("add", errorCode,errstr , desc);
+        this.consoleService.eventSent("errorsChanged <-- messageService")
         this.errorsChanged.emit(E);
     }
     readError(serverErrMsg:any):void {
         console.log("Messageservice readrrror", serverErrMsg);
         let stackString:string = JSON.stringify(serverErrMsg.stack);
         let E = new ErrorMessage("add", serverErrMsg.code,stackString,serverErrMsg.opt);
+        this.consoleService.eventSent("errorsChanged <-- messageService")
         this.errorsChanged.emit(E);
     }
 

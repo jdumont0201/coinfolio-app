@@ -10,6 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Logic} from "../../logic/Logic";
 import {Crypto} from "../../lib/localton/utils/utils";
 import {TradingService} from "../../lib/localton/services/trading.service";
+import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 
 export interface Message {
     author: string,
@@ -44,20 +45,21 @@ isLoading=true;
     supra: string;
     infra: string;
     trades: any[];
-
+    broker:string;
     loadTime;
     refreshInterval
     refreshTimerInterval
     refreshTimer;
     refreshEvery = 4000;
 
-    constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute) {
+    constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute,public appConfigService:AppConfigService) {
         //console.log("+pair")
         this.decimalSpan = [];
         for (var i = 0; i < 10; ++i) this.decimalSpan.push(i)
         this.route.params.subscribe((params) => {
             this.pairId = params["pairId"];
-            const symbols = Crypto.getSymbolsFromPair(this.pairId)
+            this.broker = params["broker"];
+            const symbols = Crypto.getSymbolsFromPair(this.pairId,this.appConfigService.getPossibleInfrasPerBroker(this.broker))
             this.supra = symbols.supra;
             this.infra = symbols.infra;
             this.brokerId = params["brokerId"];

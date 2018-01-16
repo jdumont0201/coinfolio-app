@@ -30,7 +30,9 @@ export class AppAuthPage {
     afterLogin() {
 
     }
-
+afterRenewPassword(obj){
+    this.snackBar.open('Password renewal instructions have been sent to '+obj.email+'.', null, {duration: 3000});
+}
     afterForgottenPasswordClick() {
 //this.selectedIndex=2
     }

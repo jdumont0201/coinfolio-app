@@ -1,29 +1,34 @@
 export class Crypto {
 
-    static getSymbolsFromPair(pair: string) {
+    static getSymbolsFromPair(pair: string,possible:string[]) {
+        if(!possible){  console.log("error no possible");return}
+
+        if (!pair) {console.log("error no pair"); return}
         let a, b;
-        if (!pair) return
         const n = pair.length;
         const right = pair.substring(n - 3, n);
+
+        //let possible=['BTC','ETH','BNB','USD','EUR','CAD','XBT','JPY','GBP']
+        for(let i=0;i<possible.length;++i){
+            if (right === possible[i]) {
+                a = pair.substring(0, n - 3);
+                b = right;
+                return {supra: a, infra: b}
+
+            }
+        }
         const rightB = pair.substring(n - 4, n);
-        if (right === "BTC") {
-            a = pair.substring(0, n - 3);
-            b = right;
+        for(let i=0;i<possible.length;++i){
+            if (rightB === possible[i]) {
+                a = pair.substring(0, n - 4);
+                b = rightB;
+                return {supra: a, infra: b}
+
+            }
         }
-        else if (right === "ETH") {
-            a = pair.substring(0, n - 3);
-            b = right;
-        }
-        else if (right === "BNB") {
-            a = pair.substring(0, n - 3);
-            b = right;
-        }
-        else if (rightB === "USDT") {
-            a = pair.substring(0, n - 4);
-            b = rightB;
-        }
-        else console.log("UNKNOWN infra", pair)
-        return {supra: a, infra: b}
+
+         console.log("UNKNOWN infra", pair)
+
     }
 
     static getNbFormat(p:number):string {

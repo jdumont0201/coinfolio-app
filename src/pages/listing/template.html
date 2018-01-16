@@ -1,6 +1,6 @@
 <div [@.disabled]="true">
     <mat-toolbar>
-        <h3>Listing </h3>
+        <h3>Listing</h3>
     </mat-toolbar>
     <app-top-right-buttons [searchCallback]="searchCallback" [placeholder]="'Search listing...'"></app-top-right-buttons>
 
@@ -17,12 +17,15 @@
             <mat-icon class="switch">{{showGraphs?"view_list":"insert_chart"}}</mat-icon>
             {{showGraphs?"Chart view":"Ask / bid view"}}
         </button>
-        <h5 class="options">Sort by
+        <h5 class="options"> {{listing?.length}} pairs - Sort by
             <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span></div>
             Price unit
             <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu2">   {{priceview}}     <mat-icon>expand_more</mat-icon>    </span></div>
             Base symbols
             <div class="header-select  header-button-{{supports[sup].active?'selected':'unselected'}}" *ngFor="let sup of getObjectKeys(supports);let index=index" (click)="supports[sup].active=!supports[sup].active;filterData()"><span class="header-button">   {{sup}}     </span></div>
+      Brokers
+            <div class="header-select  header-button-{{brokerOptions[sup].active?'selected':'unselected'}}" *ngFor="let sup of getObjectKeys(brokerOptions);let index=index" (click)="brokerOptions[sup].active=!brokerOptions[sup].active;filterData()"><span class="header-button">   {{sup}}     </span></div>
+
         </h5>
 
         <mat-menu #appMenu="matMenu">
@@ -48,11 +51,11 @@
             </ng-container>
             <ng-container matColumnDef="broker">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Broker</mat-header-cell>
-                <mat-cell *matCellDef="let element"><span class="broker-{{element.broker}}">{{element.broker}}</span></mat-cell>
+                <mat-cell *matCellDef="let element"><span class="broker-{{element.broker}}"><span class="broker-icon notext broker-{{element.broker}}"></span>{{element.broker}}</span></mat-cell>
             </ng-container>
             <ng-container matColumnDef="pair">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
-                <mat-cell *matCellDef="let element" [routerLink]="'/pair/'+element.pair">{{element.supra}} / {{element.infra}}</mat-cell>
+                <mat-cell *matCellDef="let element" [routerLink]="'/pair/'+element.pair+'/broker/'+element.broker">{{element.supra}} / {{element.infra}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="volume">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>24h Volume</mat-header-cell>

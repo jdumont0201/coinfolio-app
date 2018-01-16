@@ -332,7 +332,7 @@ mat-card-title {
 }
 
 .data .mat-cell, .data .mat-header-cell {
-    padding: 3px
+    padding: 0px
 }
 
 .mat-card > .mat-card-actions:last-child {

@@ -21,8 +21,10 @@ import {AppAuthResetpassword}from "../pages/auth-resetpassword/component"
 import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
 import {AppConfigImportsPage} from "../pages/config-imports/component";
 import {AppConfigInterfacePage} from "../pages/config-interface/component";
+import {AppArbitragePage} from "../pages/arbitrage/component";
 import {AppConfigProfilePage} from "../pages/config-profile/component";
 
+import {AppArbitrageCalculatorPage} from "../pages/arbitrage-calculator/component"
 import {AppSocialPage} from "../pages/social/component"
 import {AppNewsPage} from "../pages/news/component"
 export const routes: Routes = [
@@ -31,6 +33,8 @@ export const routes: Routes = [
   { path: 'board/:id', component: AppGenericPage },
   { path: 'listing', component: AppSymbolAllPage },
   { path: 'dashboard', component: AppDashboardPage },
+  { path: 'arbitrage/calculator', component: AppArbitrageCalculatorPage },
+  { path: 'arbitrage', component: AppArbitragePage },
   { path: 'account', component: AppAccountPage },
   { path: 'social/twitter', component: AppSocialPage },
   { path: 'news', component: AppNewsPage },
@@ -53,7 +57,6 @@ export const routes: Routes = [
   { path: 'positions', component: AppPositionsPage },
   { path: 'generic', component: AppGenericPage },
   { path: 'symbol/:id', component: AppSymbolItemPage },
-  { path: 'pair/:pairId', component: AppPairItemPage },
   { path: 'pair/:pairId/broker/:brokerId', component: AppPairItemPage },
 ];
 @NgModule({

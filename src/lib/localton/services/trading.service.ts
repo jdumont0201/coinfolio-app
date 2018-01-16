@@ -36,8 +36,8 @@ export class TradingService {
         this.consoleService.trade(" + tradingservice", this.authService, this.authService.loginChanged)
         this.authService.loginChanged.subscribe(value => this.loginUpdated(value), error => console.log("Error reading loginupdated" + error), () => console.log('done'));
         this.refreshService.setTradingService(this);
-        this.brokers = new BrokerCollection(logic, currencyService,eventService, this, this.refreshService, this.consoleService);
-        this.globalBroker = new Broker(logic, currencyService,"global", eventService, this.refreshService, this, this.consoleService)
+        this.brokers = new BrokerCollection(logic, currencyService,eventService, this, this.refreshService, this.consoleService,this.appConfigService);
+        this.globalBroker = new Broker(logic, currencyService,"global", eventService, this.refreshService, this, this.consoleService,this.appConfigService)
         if (this.authService.isAuthenticated())
             this.init()
         else {
@@ -50,20 +50,20 @@ export class TradingService {
     getLoadStatus(b){
         return this.brokers.loadStatus[b]
     }
-    getInfraSupra(pair: string) {
+    getInfraSupra(pair: string,broker:string) {
         if (pair in this.InfraSupra) return this.InfraSupra[pair]
         else {
-            this.InfraSupra[pair] = Crypto.getSymbolsFromPair(pair)
+            this.InfraSupra[pair] = Crypto.getSymbolsFromPair(pair,this.appConfigService.getPossibleInfrasPerBroker(broker))
         }
     }
 
-    getInfra(pair: string): string {
-        let p = this.getInfraSupra(pair);
+    getInfra(pair: string,broker): string {
+        let p = this.getInfraSupra(pair,broker);
         return p ? p.infra : null
     }
 
-    getSupra(pair: string): string {
-        let p = this.getInfraSupra(pair);
+    getSupra(pair: string,broker:string): string {
+        let p = this.getInfraSupra(pair,broker);
         return p ? p.supra : null
     }
 

@@ -4,6 +4,7 @@ import {Crypto as C} from "../utils/utils"
 import {TradingService} from "../services/trading.service";
 import {RefreshService} from "../services/refresh.service";
 import {ConsoleService} from "../../globalton/core/services/console.service";
+import {AppConfigService} from "../services/appconfig.service";
 
 export type CryptoPair = {
     pair: string,
@@ -32,7 +33,7 @@ export class Listing {
     content: { [name: string]: CryptoPair } = {}
     dataTime: Date;
     isLoaded:boolean
-    constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService,  public refreshService:RefreshService,public key: string,public consoleService:ConsoleService) {
+    constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService,  public refreshService:RefreshService,public key: string,public consoleService:ConsoleService,public appConfigService:AppConfigService) {
 
     }
 
@@ -71,8 +72,7 @@ export class Listing {
                 for (let k in listing) {
                     let l = listing[k]
                     if (k !== "123456") {
-                        let pair = C.getSymbolsFromPair(k)
-
+                        let pair = C.getSymbolsFromPair(k,this.appConfigService.getPossibleInfrasPerBroker(this.key))
                         let inptf = this.tradingService.globalBroker.getPortfolio().has(pair.supra,20)
                         let hasTraded = this.tradingService.globalBroker.getTrades().hasTraded(k)
                         let usdref = this.getUSDValue(pair.infra, listing)
@@ -104,39 +104,7 @@ export class Listing {
             console.log("err", "unknown pair in listing", pair, listing)
     }
 
-    getSortField(sortby:string, a) {
-        if (sortby === "name") return a.supra;
-        else if (sortby === "bid_ask_volume_ratio") return a.ratio
-        else if (sortby === "has_some_in_portfolio") return a.inptf
-        else if (sortby === "has_been_traded") return a.hasTraded
-    }
 
-    getSortOrder(sortby:string): number {
-        if (sortby === "name") return -1;
-        else if (sortby === "bid_ask_volume_ratio") return 1
-        else if (sortby === "has_some_in_portfolio") return 1
-        else if (sortby === "has_been_traded") return 1
-    }
-
-    sort(sortby:string) :any[]{
-        //console.log("SORTA", this.content)
-        let order = this.getSortOrder(sortby)
-        let C = [];
-        for (let k in this.content) C.push(this.content[k])
-        C.sort((a: CryptoPair, b: CryptoPair) => {
-            const keyA = this.getSortField(sortby, a), keyB = this.getSortField(sortby, b);
-            if (keyA < keyB) return order;
-            if (keyA > keyB) return -1 * order;
-            else return a.supra < b.supra ? -1 : 1
-        });
-        return C;
-    }
-
-    getList(sortby,format?:string) :CryptoPair[]{
-        let res=this.sort(sortby);
-        if(format=="change") this.tradingService.getBrokerByName(this.key).getTicker().appendChange(res)
-        return res;
-    }
 
     add(pair: string, broker:string,bid: number, ask: number, bids: number, asks: number, infra: string, supra: string, inptf: boolean, usdask, usdbid,hasTraded) {
         if (pair in this.content) {

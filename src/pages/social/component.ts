@@ -28,9 +28,8 @@ export class AppSocialPage extends PageWithTabs implements OnDestroy {
 
     constructor(public requestService: RequestService,public refreshService:RefreshService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
         super(refreshService,eventService)
-
         if(this.pairId){
-            let p=Crypto.getSymbolsFromPair(this.pairId)
+            let p=Crypto.getSymbolsFromPair(this.pairId, this.getAllPossibleInfras())
             if(p){
                 this.supra=p.supra;
                 this.infra=p.infra
@@ -39,7 +38,13 @@ export class AppSocialPage extends PageWithTabs implements OnDestroy {
 
 
     }
-
+    getAllPossibleInfras(){
+        let r=[];
+        this.tradingService.enabledBrokers.forEach((b)=>{
+            r.push.apply(r,this.appConfigService.getPossibleInfrasPerBroker(b))
+        })
+        return r;
+            }
     searchCallback(searchedText:string){
 
     }

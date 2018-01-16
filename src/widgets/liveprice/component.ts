@@ -19,6 +19,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
     isLoading = true;
     isError = false;
     @Input() pair: string
+    @Input() broker: string
     @Input() period: string = "1m"
     @Input() base: string = "USD"
     @Input() showTitle: boolean = false;
@@ -94,7 +95,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
 
     ngOnInit() {
         console.log("init liveprice", this.period)
-        const pair = Crypto.getSymbolsFromPair(this.pair)
+        const pair = Crypto.getSymbolsFromPair(this.pair,this.appConfigService.brokersLinks[this.broker].infras)
         this.supra = pair.supra;
         this.infra = pair.infra;
         //if(this.refresh)

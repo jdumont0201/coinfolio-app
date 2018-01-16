@@ -9,24 +9,28 @@
     <div>
     </div>
     <ng-container *ngIf="appConfigService?.isCustomDashboardEnabled">
-    <div *ngFor="let p of currentWorkspace?.panels">
-        <div *ngIf="isLoaded(p)">
-            <div *ngIf="myPanels[p].type=='separator'" mat-list-item class="mat-list-item  menu-separator"> {{myPanels[p].title}}</div>
-            <a *ngIf=" myPanels[p].type=='panel'" (click)="goTo(p)" matLine mat-list-item> {{myPanels[p].title}}</a>
-            <a *ngIf=" myPanels[p].type=='special'" [routerLink]="appConfigService.specialLinks[myPanels[p].id]" matLine mat-list-item> {{myPanels[p].title}}</a>
+        <div *ngFor="let p of currentWorkspace?.panels">
+            <div *ngIf="isLoaded(p)">
+                <div *ngIf="myPanels[p].type=='separator'" mat-list-item class="mat-list-item  menu-separator"> {{myPanels[p].title}}</div>
+                <a *ngIf=" myPanels[p].type=='panel'" (click)="goTo(p)" matLine mat-list-item> {{myPanels[p].title}}</a>
+                <a *ngIf=" myPanels[p].type=='special'" [routerLink]="appConfigService.specialLinks[myPanels[p].id]" matLine mat-list-item> {{myPanels[p].title}}</a>
+            </div>
+            <div *ngIf="!isLoaded(p)">Panel {{p}} not loaded
+            </div>
         </div>
-        <div *ngIf="!isLoaded(p)">Panel {{p}} not loaded
-        </div>
-    </div>
     </ng-container>
 
     <div mat-list-item class="mat-list-item  menu-separator">Events</div>
     <a (click)="goToLink('/calendar')" matLine mat-list-item>Calendar
-            </a>
+    </a>
     <div mat-list-item class="mat-list-item  menu-separator">Opinions</div>
-    <a (click)="goToLink('news')" matLine mat-list-item><mat-icon>whatshot</mat-icon>News    </a>
+    <a (click)="goToLink('news')" matLine mat-list-item>
+        <mat-icon>whatshot</mat-icon>
+        News </a>
 
-    <a (click)="goToLink('social/twitter')" matLine mat-list-item ><mat-icon>public</mat-icon>Social
+    <a (click)="goToLink('social/twitter')" matLine mat-list-item>
+        <mat-icon>public</mat-icon>
+        Social
 
     </a>
 
@@ -42,8 +46,16 @@
         <mat-icon>lock</mat-icon>
     </a>
     <a (click)="goToLink('positions')" matLine mat-list-item>Position
+    <mat-icon>lock</mat-icon>
+    </a>
+    <div mat-list-item class="mat-list-item  menu-separator">Arbitrage</div>
+    <a (click)="goToLink('arbitrage')" matLine mat-list-item>Grid
         <mat-icon>lock</mat-icon>
     </a>
+    <a (click)="goToLink('arbitrage/calculator')" matLine mat-list-item>Calculator
+        <mat-icon>lock</mat-icon>
+    </a>
+
     <div mat-list-item class="mat-list-item  menu-separator">Administration</div>
     <a (click)="goToLink('/config/all')" matLine mat-list-item>Settings
         <mat-icon>settings</mat-icon>
@@ -51,9 +63,10 @@
 
 
     <ng-container *ngIf="appConfigService.isCustomDashboardEnabled">
-    <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
+        <button mat-button *ngIf="authService.isSubscriptionActive()" (click)="addPanel()" id="button-editmode">Edit dashboards...</button>
         <button mat-button *ngIf="!authService.isSubscriptionActive()" (click)="eventService.showSubscribe()" id="button-editmode">Edit dashboards...<span
-            class="subscriber-feature">+</span></button></ng-container>
+                class="subscriber-feature">+</span></button>
+    </ng-container>
 
 
 </mat-nav-list>

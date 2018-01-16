@@ -14,7 +14,6 @@ import {Logic} from "../../../logic/Logic";
 export class AppConfigService {
 
 
-
     constructor(public configService: ConfigService, public consoleService: ConsoleService, public apiService: ApiService, public authService: AuthService, public logic: Logic) {
         consoleService.serv('APPCONFIG')
         this.generateListing();
@@ -30,19 +29,28 @@ export class AppConfigService {
                 console.log("active", this.authService.isSubscriptionActive(), this.authService.authenticated, this.authService.paymentExpiration, this.authService.paymentExpiration > new Date().getTime() / 1000)
             })
     }
-    isCustomDashboardEnabled=false;
 
-    possibleBrokers:string[]=["binance","kraken","hitbtc"]
-    brokersLinks={
-        "binance":{
-            signup:"https://www.binance.com/register.html",
-            api:"https://www.binance.com/userCenter/createApi.html"},
-        "kraken":{
-            api:"https://www.kraken.com/u/settings/api",
-            signup:"https://www.kraken.com/en-us/signup"},
-        "hitbtc":{
-            api:"https://hitbtc.com/settings/api-keys",
-            signup:"https://hitbtc.com/signupapp"}
+    isCustomDashboardEnabled = false;
+
+    possibleBrokers: string[] = ["binance", "kraken", "hitbtc"]
+    brokersLinks = {
+        "binance": {
+            signup: "https://www.binance.com/register.html",
+            api: "https://www.binance.com/userCenter/createApi.html",
+            infras: ['BTC', 'ETH', 'BNB', 'USDT'],
+            ignoredPairs: ['123456']
+        },
+        "kraken": {
+            api: "https://www.kraken.com/u/settings/api",
+            signup: "https://www.kraken.com/en-us/signup",
+            infras: ['USD', 'EUR','ETH', 'CAD', 'XBT', 'JPY', 'GBP'],
+            ignoredPairs: []
+        }, "hitbtc": {
+            api: "https://hitbtc.com/settings/api-keys",
+            signup: "https://hitbtc.com/signupapp",
+            infras: ['BTC', 'ETH', 'BNB', 'USD','USDT'],
+            ignoredPairs: []
+        }
     }
     ohlcColors = {
         orange: {
@@ -82,7 +90,6 @@ export class AppConfigService {
         DASH: {name: "Dash", price: ["kraken"], marketcap: ["cmc"]},
         XMR: {name: "Monero", price: ["kraken"], marketcap: ["cmc"]},
         LTC: {name: "LiteCoin", price: ["kraken"], marketcap: ["cmc"]}
-
     }
     bases = ["USD", "EUR"]
     intervals = [1, 5, 15, 30, 60, 240, 1440]
@@ -180,6 +187,13 @@ export class AppConfigService {
     generateListing() {
         this.valuesandglobal.push.apply(this.valuesandglobal, this.values)
 
+    }
+
+    getPossibleInfrasPerBroker(b: string): string[] {
+        return this.brokersLinks[b].infras
+    }
+    getIgnoredPairsPerBroker(b: string): string[] {
+        return this.brokersLinks[b].ignoredPairs
     }
 
 }

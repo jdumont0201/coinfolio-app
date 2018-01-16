@@ -26,7 +26,7 @@ export class FormErrorsPipe {
                 return resul;
             else {
                 for (let i in resul) {
-                    console.log("add", resul[i]);
+                    //console.log("add", resul[i]);
                     res += resul[i] + ". ";
                 }
                 res = res.substring(0, res.length - 2);
