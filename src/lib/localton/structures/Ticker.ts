@@ -104,8 +104,8 @@ export class Ticker {
         }
 
         if (sendEvent) {
-            this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: pair, price: p})
-            this.tradingService.PriceUpdatedEvent.emit({broker: this.key, pair: pair, price: p})
+            this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: pair, price: r.last})
+            this.tradingService.PriceUpdatedEvent.emit({broker: this.key, pair: pair, price: r.last})
         }
     }
 
