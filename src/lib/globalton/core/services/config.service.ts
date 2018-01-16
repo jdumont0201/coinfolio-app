@@ -80,7 +80,12 @@ export class ConfigService {
     supportedLanguages: { [key: string]: string };
 
     //CURRENCIES
-    supportedCurrencies: { [key: string]: string };
+    supportedCurrencies: { [key: string]: string }= {
+        "USD": "US Dollars",
+        "EUR": "Euro",
+        "GBP": "British Pound",
+        "CAD": "Canadian Dollars"
+    };
     usedCurrencies: { [key: string]: string } = {
         "USD": "US Dollars",
         "EUR": "Euro",
@@ -112,7 +117,7 @@ export class ConfigService {
     storeUserId: boolean = true;
 
     //API CONFIG
-    API_TIMEOUT: number = 15000; //timeout in ms
+    API_TIMEOUT: number = 25000; //timeout in ms
     API_NB_RETRY: number = 0;
         entityPrefix = null;
 

@@ -1706,11 +1706,11 @@ section.widget.price .highchart-box { /*  border: solid 4px #171e46;*/
 }
 
 section.widget.info {
-    background: #1b3035; /*  border: solid 4px #171e46;*/
+    background: transparent; /*  border: solid 4px #171e46;*/
 }
 
 section.widget.info h5 {
-    background: #0a4350; /*  border: solid 4px #171e46;*/
+    background: #ffffff73;; /*  border: solid 4px #171e46;*/
 }
 
 section.widget.news {
@@ -2373,7 +2373,9 @@ app-portfolio-recap {
 
 app-portfolio-recap ul li {
     cursor: pointer;
-    padding: 5px !important
+    padding: 5px !important;
+
+    outline: none;
 }
 
 app-portfolio-recap ul li:hover {
@@ -2536,3 +2538,9 @@ app-chart{}
     background-color: #1367b5;
 }
 
+.large.hasicon{padding: 0!important;
+    margin: 30px auto;}
+.large.hasicon .mat-button-wrapper{    padding: 10px 90px 10px 20px!important;}
+.large.hasicon mat-icon{font-size: 29px!important;;
+    height: 31px!important;;
+    padding-right: 60px!important;;}

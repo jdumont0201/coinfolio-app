@@ -8,6 +8,7 @@ import {Trades} from "./Trades";
 import {isSuccess} from "@angular/http/src/http_utils";
 import {RefreshService} from "../services/refresh.service";
 import {ConsoleService} from "../../globalton/core/services/console.service";
+import {CurrencyService} from "../../globalton/core/services/currency.service";
 
 export type Asset = { symbol: string, q: number, v?: number }
 
@@ -24,7 +25,7 @@ export class Broker {
 
     getTotalUSDValue(): number {
         console.log("getTotalUSDValue init", this.key, "val")
-        if (this.key == "global") {
+        /*if (this.key == "global") {
             let res = 0;
 
             let brokers = this.tradingService.getConnectedBrokersArray();
@@ -35,9 +36,9 @@ export class Broker {
                 console.log("getTotalUSDValue ", this.key, "add", b, "val=", v, "co=", this.tradingService.getBrokerByName(b).getPortfolio().content)
             })
             return res;
-        } else {
+        } else {*/
             return this.getPortfolio().getTotalUSDValue()
-        }
+        //}
     }
 
     getPortfolio(): Portfolio {
@@ -57,10 +58,10 @@ export class Broker {
         return this.ticker;
     }
 
-    constructor(public logic: Logic, public key: string, public eventService: EventService, public refreshService: RefreshService, public tradingService: TradingService, public consoleService: ConsoleService) {
+    constructor(public logic: Logic,public currencyService:CurrencyService, public key: string, public eventService: EventService, public refreshService: RefreshService, public tradingService: TradingService, public consoleService: ConsoleService) {
         console.log("NEW BROKER ", key)
         this.portfolio = new Portfolio(this.logic, this.tradingService, this.refreshService, this.key)
-        this.ticker = new Ticker(this.logic, this.tradingService, this.refreshService, this.key, this.consoleService)
+        this.ticker = new Ticker(this.logic, this.currencyService,this.tradingService, this.refreshService, this.key, this.consoleService)
         this.listing = new Listing(this.logic, this.eventService, this.tradingService, this.refreshService, this.key, this.consoleService)
         this.trades = new Trades(this.logic, this.eventService, this.tradingService, this.refreshService, this.key)
     }
@@ -140,7 +141,7 @@ export class BrokerCollection {
         return res;
     }
 
-    constructor(public logic: Logic, public eventService: EventService, public tradingService: TradingService, public refreshService: RefreshService, public consoleService: ConsoleService) {
+    constructor(public logic: Logic,public currencyService:CurrencyService, public eventService: EventService, public tradingService: TradingService, public refreshService: RefreshService, public consoleService: ConsoleService) {
 
     }
 
@@ -172,7 +173,7 @@ export class BrokerCollection {
 
     create(name: string) {
         console.log("CREATING BROK", name)
-        let P = new Broker(this.logic, name, this.eventService, this.refreshService, this.tradingService, this.consoleService);
+        let P = new Broker(this.logic,this.currencyService, name, this.eventService, this.refreshService, this.tradingService, this.consoleService);
         this.brokers[name] = P;
     }
 

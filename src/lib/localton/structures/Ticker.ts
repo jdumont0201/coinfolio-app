@@ -1,31 +1,15 @@
 import {Logic} from "../../../logic/Logic";
 import {TradingService} from "../services/trading.service";
 
-export type Tick = { p: number, volume?: number, change?: number, changepips?: number, changelastprice?: number, changelasttime?: number, changeCloseTime?: number, changeLastTime?: number, usdvalue?: number, unitvalue?: number }
+export type Tick = { p: number, volume?: number, change?: number, changepips?: number, changelastprice?: number, changelasttime?: number, changeCloseTime?: number, changeLastTime?: number, usdvalue?: number, unitvalue?: number,broker:string }
 import * as async from 'async';
 import {CryptoPair} from "./Listing";
 import {RefreshService} from "../services/refresh.service";
 import {ConsoleService} from "../../globalton/core/services/console.service";
+import {CurrencyService} from "../../globalton/core/services/currency.service";
 
 export type Raw24hTicker = { symbol, quoteVolume, priceChange, priceChangePercent, prevClosePrice }
 
-function getUSDValue(k, P) {
-    let p;
-
-    if (k === "USDT") {
-        p = 1;
-    } else if (k === "BTC") {
-        p = parseFloat(P["BTCUSDT"]);
-    } else if ((k + "USDT") in this.prices) {
-        p = parseFloat(P[k + "USDT"]);
-    } else {
-        let pb = parseFloat(P[k + "BTC"]);
-        let btcv = pb;
-        let b = parseFloat(P["BTCUSDT"]);
-        p = btcv * b;
-    }
-    return p;
-}
 
 export class Ticker {
     key: string;
@@ -34,8 +18,10 @@ export class Ticker {
     dataTime: Date
 
     maxVolume: Object = {};
-
-    constructor(public logic: Logic, public tradingService: TradingService, public refreshService: RefreshService, key: string, public consoleService: ConsoleService) {
+    isConnected():boolean{
+        return this.connected
+    }
+    constructor(public logic: Logic,public currencyService:CurrencyService, public tradingService: TradingService, public refreshService: RefreshService, key: string, public consoleService: ConsoleService) {
         console.log("NEW BROKER TICKER", key)
         this.key = key;
         this.content = {}
@@ -66,7 +52,7 @@ export class Ticker {
     }
 
     loadTicker(f: Function) {
-        console.log("TICKER LOAD ")
+        console.log("TICKER LOAD ",this.key)
         if (this.key == "binance") {
             this.loadBinance((success) => {
                 if (success) {
@@ -78,7 +64,15 @@ export class Ticker {
                 }
             });
         } else if (this.key == "kraken") {
-            f(false)
+            this.loadUniversal((success) => {
+                if (success) {
+                    this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: "all"})
+                    this.tradingService.PriceUpdatedEvent.emit({pair: "all", broker: this.key})
+                    f(true)
+                } else {
+                    f(false)
+                }
+            });
         } else if (this.key == "hitbtc") {
             this.loadUniversal((success) => {
                 if (success) {
@@ -100,12 +94,15 @@ export class Ticker {
         }
     }
 
-    add(pair: string, p: number) {
+    add(pair: string, r:any) {
         let sendEvent = false;
-        if (pair in this.content)
-            this.content[pair].p = p;
-        else
-            this.content[pair] = {p: p};
+        console.log("add",this.key,pair,r)
+        if (pair in this.content){
+            this.content[pair].p = r.last;
+        } else{
+            this.content[pair] = {p: r.last,broker:this.key};
+        }
+
         if (sendEvent) {
             this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: pair, price: p})
             this.tradingService.PriceUpdatedEvent.emit({broker: this.key, pair: pair, price: p})
@@ -120,7 +117,7 @@ export class Ticker {
             if (prices) {
                 for (let symbol in prices) {
                     const p = parseFloat(prices[symbol])
-                    this.add(symbol, p)
+                    this.add(symbol, {last:p})
                 }
                 this.afterLoad()
                 f(this.connected);
@@ -130,14 +127,13 @@ export class Ticker {
         });
     }
     loadUniversal(f: Function) {
-        console.log("TICKER LOAD BIN")
-        this.logic.getFromBroker(this.key,"ticker",(prices) => {
+        console.log("TICKER LOAD ",this.key)
+        this.logic.getFromBroker(this.key,"ticker",(prices:{[s:string]:any}) => {
             this.dataTime = new Date();
-            console.log("TICKER LOAD BIN RES", prices)
+            console.log("TICKER LOAD ",this.key+" RES", prices)
             if (prices) {
                 for (let symbol in prices) {
-                    const p = parseFloat(prices[symbol])
-                    this.add(symbol, p)
+                    this.add(symbol, prices[symbol])
                 }
                 this.afterLoad()
                 f(this.connected);
@@ -183,7 +179,7 @@ export class Ticker {
                 f({last: res.prevClosePrice, change: res.priceChange, current: res.lastPrice, lastTime: res.openTime, closeTime: res.closeTime})
             })
         else
-            console.error("not configured")
+            console.log("not configured")
 
     }
 
@@ -316,13 +312,19 @@ export class Ticker {
 
     getUSDValue(symbol: string): number {
         if (symbol == "USDT") return 1;
+
+        if(symbol == "EUR") return this.currencyService.convert({value:1,currencyCode:"EUR"},"USD").value
         let candidate = symbol + "USDT";
+        if (this.hasPair(candidate))
+            return this.getPrice(candidate);
+        candidate = symbol + "USD";
         if (this.hasPair(candidate))
             return this.getPrice(candidate);
         else if (this.hasPair(symbol + "BTC"))
             return this.getPrice(symbol + "BTC") * this.getPrice("BTCUSDT");
         else if (this.hasPair(symbol + "BNB"))
             return this.getPrice(symbol + "BNB") * this.getPrice("BNBUSDT");
+        else console.log("ERROR cannot get usd value!!",symbol)
     }
 
     /*getUSDValuePair(pair:string):number{

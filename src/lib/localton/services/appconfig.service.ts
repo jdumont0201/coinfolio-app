@@ -33,7 +33,17 @@ export class AppConfigService {
     isCustomDashboardEnabled=false;
 
     possibleBrokers:string[]=["binance","kraken","hitbtc"]
-    brokersLinks={"binance":{signup:"",api:"https://www.binance.com/userCenter/createApi.html"},"kraken":{api:"",signup:""}}
+    brokersLinks={
+        "binance":{
+            signup:"https://www.binance.com/register.html",
+            api:"https://www.binance.com/userCenter/createApi.html"},
+        "kraken":{
+            api:"https://www.kraken.com/u/settings/api",
+            signup:"https://www.kraken.com/en-us/signup"},
+        "hitbtc":{
+            api:"https://hitbtc.com/settings/api-keys",
+            signup:"https://hitbtc.com/signupapp"}
+    }
     ohlcColors = {
         orange: {
             lineColor: '#3e91a0',

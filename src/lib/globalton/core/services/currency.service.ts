@@ -84,9 +84,9 @@ export class CurrencyService {
 
     }
     processFile(file: any): void {
-        console.log("CurrencyService done downloading file=", file, "rates=", file.rates);
-        console.log("this", this);
-        console.log("thisrates", this.rates);
+        this.consoleService.curr("CurrencyService done downloading file=", file, "rates=", file.rates);
+
+        this.consoleService.curr("thisrates", this.rates);
         this.rates = {};
         for (var currency in file.rates) {
             this.consoleService.curr("check", currency, file.rates[currency]);

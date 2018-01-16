@@ -99,11 +99,8 @@ export class Logic {
 
 
     KrakenGetLivePrices(f: Function) {
-        this.apiService.noauthget("user/connect/kraken/liveprices?userId=" + this.authService.userId, (res) => {
-            if (res && "result" in res && res.result.success)
-                f(res.result.data)
-            else f(null)
-        })
+        this.getFromBroker("kraken","prices",f)
+
     }
 
     HitbtcGetAllocation(f: Function) {

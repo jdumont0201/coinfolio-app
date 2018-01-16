@@ -1,14 +1,14 @@
 
 export class UniversalLoader {
-    static load(broker: string, task: string, data: any) {
+    static load(broker: string, task: string, data: any) :Object{
         if (task == "balance") {
             let A = {}
             if (broker == "binance") {
                 for (let symbol in data) {
                     A[symbol] = {
-                        available: data[symbol].available,
-                        onorder: data[symbol].onOrder,
-                        total: data[symbol].available + data[symbol].onOrder
+                        available: parseFloat(data[symbol].available),
+                        onorder: parseFloat(data[symbol].onOrder),
+                        total: parseFloat(data[symbol].available) + parseFloat(data[symbol].onOrder)
                     }
                 }
             }
@@ -17,16 +17,16 @@ export class UniversalLoader {
                     A[symbol] = {
                         available: null,
                         onorder: null,
-                        total: data[symbol]
+                        total: parseFloat(data[symbol])
                     }
                 }
             }
             else if (broker == "hitbtc") {
                 data.forEach((d)=>{
                     A[d.currency] = {
-                        available: d.available,
-                        onorder: d.reserved,
-                        total: d.reserved+d.available
+                        available: parseFloat(d.available),
+                        onorder: parseFloat(d.reserved),
+                        total: parseFloat(d.reserved)+parseFloat(d.available)
                     }
                 })
             }
@@ -37,14 +37,26 @@ export class UniversalLoader {
             if(broker=="hitbtc"){
                 data.forEach((d)=>{
                     A[d.symbol]={
-                        ask:d.ask,
-                        bid:d.bid,
-                        last:d.last,
+                        ask:parseFloat(d.ask),
+                        bid:parseFloat(d.bid),
+                        last:parseFloat(d.last),
                         ts:new Date(d.timestamp).getTime(),
-                        volume:d.volume
+                        volume:parseFloat(d.volume)
                     }
                 })
+            }else if(broker=="kraken"){
+                    for(let symbol in data){
+                        let d=data[symbol]
+                        A[symbol]={
+                            ask:parseFloat(d.a[0]),
+                            bid:parseFloat(d.b[0]),
+                            last:parseFloat(d.c[0]),
+                            volume:parseFloat(d.v[1])
+                        }
+                    }
+
             }
+            return A;
         }
     }
 }

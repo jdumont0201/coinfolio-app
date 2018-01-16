@@ -13,36 +13,38 @@ import {Logic} from "../../logic/Logic";
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {TradingService} from "../../lib/localton/services/trading.service";
+import {Strings} from "../../lib/globalton/core/utils/utils";
 
 @Component({
     selector: 'app-broker-connect',
     templateUrl: 'template.html',
-    styleUrls:['styles.css']
+    styleUrls: ['styles.css']
 })
 @Injectable()
-export class AppBrokerConnectionComponent {
+export class AppBrokerConnectionComponent implements OnInit{
     user;
     checks = {}
     @Input() broker;
-    constructor(public eventService: EventService,public tradingService:TradingService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar) {
-        if (this.authService.isAuthenticated()) {
-            console.log("logged")
-            this.logic.getMe((user) => {
-                this.user = user;
-                if (!user.ConnectionBinance) user.ConnectionBinance = false;
-                if (!user.ConnectionKraken) user.ConnectionKraken = false;
-                if (!user.ConnectionHitbtc) user.ConnectionHitbtc = false;
-                this.appConfigService.possibleBrokers.forEach((b)=>{
-                    this.check(b)
-                })
+    enabledKey;
 
+    constructor(public eventService: EventService, public tradingService: TradingService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar) {
 
-            })
-        } else
-            console.log("notlogged")
 
     }
-
+ngOnInit() {
+    this.enabledKey = "Connection" + Strings.Capitalize(this.broker)
+    if (this.authService.isAuthenticated()) {
+        console.log("logged")
+        this.logic.getMe((user) => {
+            this.user = user;
+            if (!user[this.enabledKey]) user[this.enabledKey] = false;
+            this.appConfigService.possibleBrokers.forEach((b) => {
+                this.check(b)
+            })
+        })
+    } else
+        console.log("notlogged")
+}
     canAcccessPublicData(brokerName) {
         return this.checks[brokerName].publicdata;
     }
@@ -75,13 +77,14 @@ export class AppBrokerConnectionComponent {
             this.logic.saveUser(this.user, (res) => {
                 this.snackBar.open("User saved. Loading broker...", null, {duration: 3000})
                 this.check(name)
-                this.tradingService.getBrokerByName(name).loadBroker((res)=>{
+                this.tradingService.getBrokerByName(name).loadBroker((res) => {
                     this.snackBar.open("Broker loaded", null, {duration: 3000})
                 })
             })
         }, 1000)
     }
-    goTo(link){
+
+    goTo(link) {
         window.open(link, "_blank");
     }
 }

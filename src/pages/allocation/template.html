@@ -52,12 +52,12 @@
                 </ng-container>
                 <ng-container  matColumnDef="pairs">
                     <mat-header-cell *matHeaderCellDef> 24h Evolution</mat-header-cell>
-                    <mat-cell *matCellDef="let element"><app-pair-tick *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [pair]="p" [broker]="element.broker"></app-pair-tick></mat-cell>
+                    <mat-cell *matCellDef="let element"><ng-container *ngIf="element.price && element.available>0"><app-pair-tick *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [pair]="p" [broker]="element.broker"></app-pair-tick></ng-container></mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
-            <div *ngIf="dataSource?.length==0">Your portfolio has no value for this broker.</div>
+            <div *ngIf="dataSource?.data?.length==0">Your portfolio has no value for this broker.</div>
 
         </section>
 
