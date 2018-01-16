@@ -4,48 +4,7 @@ import {Record, Workspace} from "../lib/localton/interfaces/interfaces"
 import {ApiService} from "../lib/globalton/core/services/api.service";
 import {AuthService} from "../lib/globalton/core/services/auth.service";
 import {RequestService} from "../lib/globalton/core/services/request.service";
-
-export class UniversalLoader {
-    static load(broker: string, task: string, data: any) {
-        if (task == "balance") {
-            let A = {}
-            if (broker == "binance") {
-                for (let symbol in data) {
-                    A[symbol] = {
-                        available: data[symbol].available,
-                        onorder: data[symbol].onOrder,
-                        total: data[symbol].available + data[symbol].onOrder
-                    }
-                }
-            }
-            else if (broker == "kraken") {
-                for (let symbol in data) {
-                    A[symbol] = {
-                        available: null,
-                        onorder: null,
-                        total: data[symbol]
-                    }
-                }
-            }
-            else if (broker == "hitbtc") {
-                data.forEach((d)=>{
-                    A[d.currency] = {
-                        available: d.available,
-                        onorder: d.reserved,
-                        total: d.reserved+d.available
-                    }
-                })
-            }
-
-            return A;
-        }else if(task=="ticker"){
-            let A={}
-            if(broker=="hitbtc"){
-
-            }
-        }
-    }
-}
+import {UniversalLoader} from "./UniversalLoader";
 
 @Injectable()
 export class Logic {
