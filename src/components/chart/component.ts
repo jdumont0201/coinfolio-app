@@ -295,7 +295,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
         this.H = h
         this.DW = this.W - this.ML - this.MR;
         this.DH = this.H - this.MT - this.MB;
-
+        if(this.W<600) this.Nshow=50
         if (this.paper) {
             console.log("chart existing set ", w, h)
             this.paper.setSize(w, h)
@@ -503,6 +503,9 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
         if(range > 0.01 ) return 0.005
         if(range > 0.005 ) return 0.0025
         if(range > 0.001 ) return 0.0005
+        if(range > 0.0005 ) return 0.0001
+        if(range > 0.0001 ) return 0.00005
+        if(range > 0.00001 ) return 0.0000025
         else return 0.001
     }
     computeYAxis() {

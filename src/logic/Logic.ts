@@ -128,6 +128,15 @@ export class Logic {
         })
     }
 
+    HitbtcGetAllocation(f: Function) {
+        this.apiService.noauthget("user/connect/hitbtc/balance?userId=" + this.authService.userId, (res) => {
+            if (res && "result" in res && res.result.success)
+                f(res.result.data)
+            else f(null)
+        })
+    }
+
+
 
     registerUser(obj: any, f: Function) {
         if (!obj) return;

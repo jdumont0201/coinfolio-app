@@ -147,6 +147,8 @@ import {AppSubscriberFeatureComponent} from "../components/subscriber-feature/co
 import {AppRegisterComponent} from "../components/register/component";
 import {AppPanelCreatorComponent, AskNameDialog} from "../components/panel-creator/component";
 import {AppPortfolioRecapComponent} from "../components/portfolio-recap/component"
+import {AppBrokerConnectionComponent} from "../components/broker-connection/component"
+import {AppPleaseLoginComponent} from "../components/pleaselogin/component"
 import {GlobalErrorHandler} from "../lib/globalton/core/handlers/GlobalErrorHandler";
 import {AppPortfolioValueComponent} from "../components/portfolio-value/component"
 
@@ -161,7 +163,7 @@ import { NgvasModule, tweens, hitAreas } from "ngvas";
 
 @NgModule({
     declarations: [
-        AppComponent,AppFormRenewPassword,AppFormResetPassword,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent,AppFormRenewPassword,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,

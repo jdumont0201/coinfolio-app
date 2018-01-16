@@ -2,10 +2,8 @@
 <mat-toolbar>
     <h3>Allocation</h3>
 </mat-toolbar>
-<div *ngIf="!authService.isAuthenticated()" class="alert-configure-broker">
-    <mat-icon>lock</mat-icon>
-    <span>Please login or sign up to access your private trading dashboard.</span><br>
-    <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
+<div *ngIf="!authService.isAuthenticated()" >
+    <app-please-login></app-please-login>
 </div>
 
 <app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>

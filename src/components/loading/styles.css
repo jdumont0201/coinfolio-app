@@ -59,3 +59,10 @@ app-loading {
     position: relative;
     top: 2px;
 }
+
+@media screen and (max-width: 640px) {
+    #loading {
+        left:0!important;
+        z-index:100;
+    }
+}

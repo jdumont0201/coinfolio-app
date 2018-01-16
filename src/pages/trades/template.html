@@ -4,7 +4,7 @@
 <div *ngIf="!authService.isAuthenticated()" class="alert-configure-broker">
     <mat-icon>lock</mat-icon>
     <span>Please login or sign up to access your private trading dashboard.</span><br>
-    <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
+    <button mat-raised-button="" color="primary" routerLink="/auth">Login / Sign up</button>
 </div>
 
 <app-configure-broker *ngIf="authService.isAuthenticated() && !tradingService?.isAnyBrokerConfigured() "></app-configure-broker>

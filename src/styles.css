@@ -2520,7 +2520,16 @@ section.widget{
     background-color: #fff!important;
 }
 
-app-chart{height:calc(100% - 26px);    position: absolute;    top: 26px;    bottom: 00;
-width: 100%}
-.chartcontainer{height:100%;
-    overflow: hidden;}
+app-chart{}
+.chartcontainer{height:calc(100% - 26px);    overflow: hidden;}
+
+.mat-stepper-horizontal, .mat-stepper-vertical{background:transparent!important;}
+#portfolio-example{
+    background: url(/assets/img/portfolio-example.png);
+    width: 250px;
+    height: 250px;
+    border-radius: 10px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: white;
+}
