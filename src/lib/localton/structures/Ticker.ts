@@ -80,7 +80,7 @@ export class Ticker {
         } else if (this.key == "kraken") {
             f(false)
         } else if (this.key == "hitbtc") {
-            this.loadUniversal(this.key,(success) => {
+            this.loadUniversal((success) => {
                 if (success) {
                     this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: "all"})
                     this.tradingService.PriceUpdatedEvent.emit({pair: "all", broker: this.key})
@@ -129,7 +129,7 @@ export class Ticker {
             }
         });
     }
-    loadUniversal(key,f: Function) {
+    loadUniversal(f: Function) {
         console.log("TICKER LOAD BIN")
         this.logic.getFromBroker(this.key,"ticker",(prices) => {
             this.dataTime = new Date();
