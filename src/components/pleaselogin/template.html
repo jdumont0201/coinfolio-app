@@ -8,15 +8,15 @@
 </div>
 <mat-horizontal-stepper linear #stepper>
     <mat-step label="Authenticate">
-        <mat-tab-group>
+        <mat-tab-group #tabGroup [selectedIndex]="selectedTabIndex" > 
             <mat-tab label="Login">
-                <span class="info">You need to login to access this page</span>
+
                 <h5 class="form-header">
                     <mat-icon>create</mat-icon>
                     Login form
                 </h5>
                 <div class="form">
-                    <app-form-login [successCallback]="afterLogin()"></app-form-login>
+                    <app-form-login [successCallback]="afterLogin" [forgottenPasswordCallback]="afterForgottenPasswordClick"></app-form-login>
                 </div>
             </mat-tab>
             <mat-tab label="Sign up">
@@ -25,7 +25,7 @@
                     Register form
                 </h5>
                 <div class="form">
-                    <app-form-register [successCallback]="afterSignup()"></app-form-register>
+                    <app-form-register [successCallback]="afterSignup"></app-form-register>
                 </div>
             </mat-tab>
             <mat-tab label="Forgotten password">

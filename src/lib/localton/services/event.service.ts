@@ -21,6 +21,7 @@ export class EventService implements OnInit {
     @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() favoriteUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() poolDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() UIEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() rightMenuUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
 
     isTickerVisible: boolean = true;
@@ -36,7 +37,9 @@ export class EventService implements OnInit {
         this.isFullscreen = true
         this.isFullscreenEvent.emit({fullscreen:true,id:chartId})
     }
-
+    showForgottenPasswordTab(){
+        this.UIEvent.emit("showforgottenpassword")
+    }
     openRightMenu(tab) {
         this.rightMenuUpdatedEvent.emit(tab)
     }

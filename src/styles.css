@@ -1500,6 +1500,8 @@ mat-icon#menu-pin {
 button.large span {
     padding: 10px 70px;
     display: block;
+    display: block;
+    box-sizing: border-box;
 }
 
 mat-nav-list span#logo {
@@ -2533,3 +2535,4 @@ app-chart{}
     background-repeat: no-repeat;
     background-color: #1367b5;
 }
+

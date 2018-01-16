@@ -16,6 +16,7 @@ import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component
 @Injectable()
 export class AppAuthPage {
 
+    selectedIndex = 0
 
     constructor(public authService: AuthService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
 
@@ -30,6 +31,9 @@ export class AppAuthPage {
 
     }
 
+    afterForgottenPasswordClick() {
+//this.selectedIndex=2
+    }
 
 
 }

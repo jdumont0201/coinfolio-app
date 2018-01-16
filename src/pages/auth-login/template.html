@@ -1,6 +1,6 @@
 <mat-toolbar><h3 class="title">Authenticate</h3></mat-toolbar>
 <div class="padded">
-    <mat-tab-group>
+    <mat-tab-group  [(selectedIndex)]="selectedIndex" >
         <mat-tab label="Login">
 
             <span class="info">You need to login to access this page</span>
@@ -10,7 +10,7 @@
                 Login form
             </h5>
             <div class="form">
-                <app-form-login [successCallback]="afterLogin()"></app-form-login>
+                <app-form-login [successCallback]="afterLogin"  [forgottenPasswordCallback]="afterForgottenPasswordClick"></app-form-login>
             </div>
 
         </mat-tab>
@@ -22,7 +22,7 @@
                 Register form
             </h5>
             <div class="form">
-                <app-form-register [successCallback]="afterSignup()"></app-form-register>
+                <app-form-register [successCallback]="afterSignup"></app-form-register>
             </div>
         </mat-tab>
         <mat-tab label="Forgotten password">
