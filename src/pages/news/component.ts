@@ -20,7 +20,7 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 })
 @Injectable()
 export class AppNewsPage extends PageWithTabs implements OnDestroy {
-    possibleSymbols=['BTC','ETH','BNB'];
+    possibleSymbols=['cryptocurrency','BTC','ETH','BNB'];
     possibleSources=['Google News']
     searchedText="";
     symbol="BTC";

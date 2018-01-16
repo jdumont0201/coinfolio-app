@@ -79,6 +79,8 @@ export class Ticker {
             });
         } else if (this.key == "kraken") {
             f(false)
+        }else {
+            f(false)
         }
     }
 

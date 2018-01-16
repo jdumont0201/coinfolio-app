@@ -2436,20 +2436,37 @@ mat-table.data mat-row {
     font-family: London !important;;
 }
 
-.broker-binance {
+.broker-icon{
     width: 32px;
     height: 32px;
     background: url(/assets/icons/brokers.png);
     background-size: cover;
     height: 32px;
-    background: url(/assets/icons/brokers.png);
-    background-size: contain;
     display: inline;
     min-width: 32px;
     background-repeat: no-repeat;
     padding-left: 21px;
+    background-position: 0 0;
+    padding-left: 0;
+    background-position: 0px 0px;
+    margin-right: 6px;
+    box-sizing: border-box;
+    display: inline-block;
+    /* height: 100%; */
+    /* width: 100%; */
+    height: 16px;
+    width: 16px;
+    min-width: 0;
 }
-
+.broker-icon.notext{
+    padding-left: 17px;
+    background-position: 1px 0px;
+    margin-right: 6px;}
+.broker-kraken{background-position:-16px 0!important}
+.broker-hitbtc{background-position:-32px 0!important}
+li.leftpad {
+    padding-left: 20px!important;
+}
 #ticker mat-icon:hover {
     background: #ffffff;
     color: #39424a;

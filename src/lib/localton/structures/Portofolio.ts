@@ -21,6 +21,7 @@ export class Portfolio {
     }
 
     getTotalUSDValue(): number {
+        if(!this.connected) return -1
         let res = 0;
         console.log(this.key + " getTotalUSDValue")
         for (let k in this.content) {
@@ -47,11 +48,13 @@ export class Portfolio {
     }
 
     loadPortfolio(f: Function) {
-        console.log("  PTF LOAD")
+        console.log("  PTF LOAD" ,this.key)
         if (this.key == "binance") {
             this.loadBinance(f);
         } else if (this.key === "kraken") {
             this.loadKraken(f)
+        }else{
+            f(false)
         }
     }
 
@@ -133,6 +136,7 @@ export class Portfolio {
                         this.add(k, q, this.key)
                     }
                 this.afterLoad()
+
                 f(this.connected);
             } else {
                 f(false)
@@ -156,7 +160,7 @@ export class Portfolio {
         //console.log("TRADE PTF LOAD BINANCE")
         this.logic.KrakenGetAllocation((alloc) => {
             this.dataTime = new Date();
-            //  console.log("TRADE PTF LOAD BINANCE RES", alloc)
+              console.log("TRADE PTF LOAD KRAKEN RES", alloc)
             if (alloc) {
                 for (let k in alloc)
                     if (parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder) > 0) {

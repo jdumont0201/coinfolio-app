@@ -2,28 +2,44 @@
     <span id="logo" class="logo-bottom"> </span>
     <span class="line">Made by traders. For the traders.</span>
     <ul>
-    <li *ngIf="apiService.isUp"><mat-icon class="valpos">check</mat-icon>Connected to API </li>
-    <li *ngIf="authService?.isAuthenticated()"><mat-icon class="valpos">check</mat-icon>Connected to your account </li>
+        <li *ngIf="apiService.isUp">
+            <mat-icon class="valpos">check</mat-icon>
+            Connected to API
+        </li>
+        <li *ngIf="authService?.isAuthenticated()">
+            <mat-icon class="valpos">check</mat-icon>
+            Connected to your account
+        </li>
         <ng-container *ngFor="let b of tradingService?.enabledBrokers">
-            <li>
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio" class="valpos">check</mat-icon>
-                <mat-icon *ngIf="!tradingService?.brokers.loadStatus[b]?.portfolio" class="valsta">more_horiz</mat-icon>{{b}} - Portfolio
+            <li ><span class="broker-icon notext broker-{{b}}"></span>{{b.substring(0,1).toUpperCase()+b.slice(1)}}</li>
+            <li class="leftpad">
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='done'" class="valpos">check</mat-icon>
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='todo'" class="valsta">assignment</mat-icon>
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='failed'" class="valneg">clear</mat-icon>
+                {{b}} - Portfolio
             </li>
-            <li>
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker" class="valpos">check</mat-icon>
-                <mat-icon *ngIf="!tradingService?.brokers.loadStatus[b]?.ticker" class="valsta">more_horiz</mat-icon>
-
-                {{b}} - Ticker </li>
+            <li class="leftpad">
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='done'" class="valpos">check</mat-icon>
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='todo'" class="valsta">assignment</mat-icon>
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='failed'" class="valneg">clear</mat-icon>
+                {{b}} - Latest prices
+            </li>
+            <li class="leftpad">
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='done'" class="valpos">check</mat-icon>
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='todo'" class="valsta">assignment</mat-icon>
+                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='failed'" class="valneg">clear</mat-icon>
+                {{b}} - BidAsk
+            </li>
             <ng-container *ngIf="authService?.loginResponse">
             </ng-container>
-            <li >
-                <mat-icon *ngIf="tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valpos">check</mat-icon>
-                <mat-icon *ngIf="!tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valsta">more_horiz</mat-icon>
 
-
-
-                Ticker</li>
         </ng-container>
+        <li>
+            <mat-icon *ngIf="tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valpos">check</mat-icon>
+            <mat-icon *ngIf="!tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valsta">more_horiz</mat-icon>
 
+
+            Ticker
+        </li>
     </ul>
 </div>

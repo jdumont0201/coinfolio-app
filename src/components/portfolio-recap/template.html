@@ -1,7 +1,14 @@
 <div>Portfolio</div>
 <ul>
 <ng-container *ngFor="let b of tradingService.enabledBrokers">
-    <li [routerLink]="'/allocation'"> <span class="broker-{{b}}"></span> $<app-portfolio-value [broker]="b"></app-portfolio-value>
+
+    <li [routerLink]="'/allocation'">
+
+        <span class="broker-icon notext broker-{{b}}"></span>
+        <ng-container *ngIf="tradingService?.getBrokerByName(b).getPortfolio().connected">$<app-portfolio-value [broker]="b"></app-portfolio-value></ng-container>
+        <ng-container *ngIf="!tradingService?.getBrokerByName(b).getPortfolio().connected">Offline</ng-container>
+
+
     </li>
 </ng-container>
 </ul>

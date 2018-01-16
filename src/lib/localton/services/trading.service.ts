@@ -105,7 +105,7 @@ export class TradingService {
             this.appConfigService.possibleBrokers.forEach((k) => {
                 let prop = "Connection" + Strings.Capitalize(k)
                 console.log("check", prop)
-                if (user[prop]==="true") {
+                if (user[prop]==="true" || user[prop]) {
                     r.push(k)
                 }
             })

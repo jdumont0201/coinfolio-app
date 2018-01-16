@@ -32,7 +32,7 @@ export class AppConfigService {
     }
     isCustomDashboardEnabled=false;
 
-    possibleBrokers:string[]=["binance","kraken"]
+    possibleBrokers:string[]=["binance","kraken","hitbtc"]
     brokersLinks={"binance":{signup:"",api:"https://www.binance.com/userCenter/createApi.html"},"kraken":{api:"",signup:""}}
     ohlcColors = {
         orange: {

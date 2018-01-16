@@ -20,7 +20,7 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 })
 @Injectable()
 export class AppSocialPage extends PageWithTabs implements OnDestroy {
-    possibleSymbols = ['BTC', 'ETH', 'BNB'];
+    possibleSymbols = ['cryptocurrency','BTC', 'ETH', 'BNB'];
     searchedText = "";
     supra = "BTC";
     infra = "USDT";

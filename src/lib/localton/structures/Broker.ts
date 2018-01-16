@@ -68,21 +68,21 @@ export class Broker {
     loadBroker(f: (Broker) => any) {
         console.log("LOAD BROKER", this.key)
         this.refreshService.createPool(this.key + "-ticker")
-        //this.refreshService.createPool(this.key + "-portfolio-ticker")
         this.refreshService.createPool(this.key + "-portfolio")
         this.refreshService.createPool(this.key + "-bidask")
 
         this.portfolio.loadPortfolio((isSuccess) => {
             this.ticker.loadTicker((isSuccess2) => {
                 this.portfolio.setUSDValues(this.ticker);
-                if (isSuccess && isSuccess2)
 
                     this.listing.loadListing((isSuccess3) => {
                         //    this.backgroundLoad()
+                        if(isSuccess3 && isSuccess2 && isSuccess)
                         this.setLoaded(true)
-                        f({portfolio: isSuccess, ticker: isSuccess2})
+                        let res={portfolio: isSuccess?"done":"failed", ticker: isSuccess2?"done":"failed", bidask: isSuccess3?"done":"failed"};
+                        console.log("loadres",res)
+                        f(res)
                     })
-
             })
         })
     }
@@ -180,21 +180,27 @@ export class BrokerCollection {
     loadStatus = {}
 
     checkLoadFinished(broker, status) {
+
         this.loadStatus[broker] = status;
         let r = true;
         for (let k in this.loadStatus) {
-            if (this.loadStatus[k].portfolio == "todo" || this.loadStatus[k].ticker == "todo")
+            if (this.loadStatus[k].portfolio == "todo" || this.loadStatus[k].ticker == "todo" || this.loadStatus[k].bidask == "todo")
                 r = false;
+            if (this.loadStatus[k].portfolio == "done" || this.loadStatus[k].ticker == "done" || this.loadStatus[k].bidask == "done")
+                this.loadStatus[k].operational=true
         }
         this.hasAttemptedLoginAllBrokers = r;
+        console.log("broker loadfinished",broker,this.hasAttemptedLoginAllBrokers,this.loadStatus)
         return this.hasAttemptedLoginAllBrokers
     }
-
+    isBrokerOperational(b){
+        return this.loadStatus[b].operational;
+    }
     loadAllBrokers(f: Function) {
         console.log("TRADE : ALL LOAD BROKER COL", this.brokers)
 
         for (let k in this.brokers) {
-            this.loadStatus[k] = {portfolio: "todo", ticker: "todo"}
+            this.loadStatus[k] = {portfolio: "todo", ticker: "todo","bidask":"todo",operational:false}
             this.brokers[k].loadBroker((res) => {
                 if (res) {
                     this.isLoaded = true
@@ -206,16 +212,14 @@ export class BrokerCollection {
     }
 
     loadBrokers(keys: string[], f: Function) {
-
         console.log("TRADE : LOAD BROKER COL", keys)
         keys.forEach((k) => {
-            this.loadStatus[k] = {portfolio: "todo", ticker: "todo"}
+            this.loadStatus[k] = {portfolio: "todo", ticker: "todo","bidask":"todo"}
             this.brokers[k].loadBroker((res) => {
                 if (res) {
                     this.isLoaded = true
                 }
                 if (this.checkLoadFinished(k, res)) this.tradingService.loadingFinished()
-
                 f(this.brokers[k]);
             });
         });

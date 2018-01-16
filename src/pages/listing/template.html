@@ -40,11 +40,11 @@
         <mat-table #table class="data" [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="traded">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Ever traded ?</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.hasTraded}}</mat-cell>
+                <mat-cell *matCellDef="let element"><mat-icon>{{element.hasTraded?"check":""}}</mat-icon></mat-cell>
             </ng-container>
             <ng-container matColumnDef="inptf">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> In PTF ?</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.inptf}}</mat-cell>
+                <mat-cell *matCellDef="let element"><mat-icon>{{element.inptf?"check":""}}</mat-icon></mat-cell>
             </ng-container>
             <ng-container matColumnDef="broker">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Broker</mat-header-cell>
