@@ -38,6 +38,11 @@ export class UniversalLoader {
             }
 
             return A;
+        }else if(task=="ticker"){
+            let A={}
+            if(broker=="hitbtc"){
+
+            }
         }
     }
 }

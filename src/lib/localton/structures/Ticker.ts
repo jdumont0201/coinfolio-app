@@ -79,6 +79,16 @@ export class Ticker {
             });
         } else if (this.key == "kraken") {
             f(false)
+        } else if (this.key == "hitbtc") {
+            this.loadUniversal(this.key,(success) => {
+                if (success) {
+                    this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: "all"})
+                    this.tradingService.PriceUpdatedEvent.emit({pair: "all", broker: this.key})
+                    f(true)
+                } else {
+                    f(false)
+                }
+            });
         }else {
             f(false)
         }
@@ -105,6 +115,23 @@ export class Ticker {
     loadBinance(f: Function) {
         console.log("TICKER LOAD BIN")
         this.logic.BinanceGetLivePrices((prices) => {
+            this.dataTime = new Date();
+            console.log("TICKER LOAD BIN RES", prices)
+            if (prices) {
+                for (let symbol in prices) {
+                    const p = parseFloat(prices[symbol])
+                    this.add(symbol, p)
+                }
+                this.afterLoad()
+                f(this.connected);
+            } else {
+                f(null)
+            }
+        });
+    }
+    loadUniversal(key,f: Function) {
+        console.log("TICKER LOAD BIN")
+        this.logic.getFromBroker(this.key,"ticker",(prices) => {
             this.dataTime = new Date();
             console.log("TICKER LOAD BIN RES", prices)
             if (prices) {
