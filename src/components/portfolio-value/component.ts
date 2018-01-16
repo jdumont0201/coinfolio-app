@@ -41,6 +41,7 @@ export class AppPortfolioValueComponent extends Refreshing implements OnInit, On
 
     update(t) {
         this.value = this.tradingService.getBrokerByName(this.broker).getTotalUSDValue()
+        this.eventService.UIEvent.emit({key:"portfolio-value",val:{broker:this.broker,value:this.value})
         this.cd.markForCheck();
     }
 }

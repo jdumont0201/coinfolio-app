@@ -39,7 +39,7 @@ export class EventService implements OnInit {
         this.isFullscreenEvent.emit({fullscreen:true,id:chartId})
     }
     showForgottenPasswordTab(){
-        this.UIEvent.emit("showforgottenpassword")
+        this.UIEvent.emit({key:"showforgottenpassword"})
     }
     openRightMenu(tab) {
         this.rightMenuUpdatedEvent.emit(tab)

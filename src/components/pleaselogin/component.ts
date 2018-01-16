@@ -31,7 +31,7 @@ export class AppPleaseLoginComponent extends PageWithTabs implements OnInit,Afte
     }
 
     ngOnInit() {
-        this.eventService.UIEvent.subscribe((val)=>{if(val=="showforgottenpassword") this.setTab(2)});
+        this.eventService.UIEvent.subscribe((val)=>{if(val && val.key=="showforgottenpassword") this.setTab(2)});
     }
     ngAfterViewInit(){
 
