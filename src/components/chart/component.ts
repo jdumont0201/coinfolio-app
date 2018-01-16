@@ -149,7 +149,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
     constructor(public logic: Logic, public tradingService: TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService, elementRef: ElementRef) {
         this.el = elementRef.nativeElement;
-        this.method = DrawMethods.Canvas
+        this.method = DrawMethods.SVG
 
     }
 
