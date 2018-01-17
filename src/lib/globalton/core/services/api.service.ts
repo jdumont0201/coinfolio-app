@@ -75,15 +75,15 @@ export class ApiService {
 
         this.proxyService.completeRequestError(reqId);
         if (!err) {
-            this.messageService.addError("API_ERROR_UNKNOWN", null, "No error desc available " + url);
+            this.messageService.addError("API_ERROR_UNKNOWN", err, "No error desc available ", url);
             f({error: true, desc: "Api error", url: url})
         }
 
         if (err.name === "TimeoutError") {
-            this.messageService.addError("API_TIMEOUT", null, "API is unreachable. " + url);
+            this.messageService.addError("API_TIMEOUT", err, "API is unreachable. " , url);
             f({error: true, desc: "Request has timed out.", url: url})
         } else if (err.message === "Unauthorized") {
-            this.messageService.addError("API_UNAUTHORIZED", null, "You don't have access to this ressource. " + url);
+            this.messageService.addError("API_UNAUTHORIZED", err, "You don't have access to this ressource. " , url);
             f({error: true, desc: "Request has timed out.", url: url})
         } else {
             console.log("other error", errorCode, err);
@@ -101,12 +101,10 @@ export class ApiService {
                 } catch (e) {
                     desc = err._body;
                     console.log("not parsed");
-
-                    this.messageService.addError(err.url, parsed.error, "Unparsable error");
-
+                   this.messageService.addError(errorCode, parsed.error, "Unparsable error",url);
                 }
             }
-            this.messageService.addError(errorCode, "", "");
+            this.messageService.addError(errorCode, err, "Other error at ",url);
             f({error: true, desc: err, url: url});
 
         }
