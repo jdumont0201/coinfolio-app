@@ -64,6 +64,7 @@ export class AppPairItemPage implements OnDestroy,OnChanges {
 
     }
     init(){
+        this.finish();
         console.log("pairpage init")
         this.decimalSpan = [];
         for (var i = 0; i < 10; ++i) this.decimalSpan.push(i)
@@ -100,24 +101,18 @@ export class AppPairItemPage implements OnDestroy,OnChanges {
     numberFormatNDecimals: number = 5;
 
     ngOnDestroy() {
+        this.finish();
+    }
+    finish(){
         console.log("- pairpage")
-        this.messagesSubscription.unsubscribe()
+        this.websocketService.close(this.broker+"-"+this.pairId)
     }
 
-    messagesSubscription
 
     runLastPriceWS() {
         const url = "wss://stream.binance.com:9443/ws/" + this.pairId.toLowerCase() + "@aggTrade"
-        const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>())
-        //console.log("connectionStatus", connectionStatus)
-        const connectionStatusSubscription = connectionStatus.subscribe(numberConnected => {
-            console.log('number of connected websockets:', numberConnected)
-        })
 
-
-        this.messagesSubscription = messages.subscribe((message: string) => {
-            //  console.log("runLastPriceWS", message)
-            const m = JSON.parse(message)
+        this.websocketService.create(this.broker+"-"+this.pairId,url,(m:any) => {
             this.prevLastPrice = this.lastPrice
             this.lastPrice = parseFloat(m.p)
             this.numberFormat = Crypto.getNbFormat(this.lastPrice)

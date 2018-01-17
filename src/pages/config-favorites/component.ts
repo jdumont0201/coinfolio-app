@@ -1,4 +1,4 @@
-import {Component, Injectable, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Injectable, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 import {EventService} from "../../lib/localton/services/event.service";
@@ -13,14 +13,15 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 
 @Component({
     selector: 'app-config-favorites',
-    templateUrl: 'template.html'
+    templateUrl: 'template.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
 export class AppConfigFavoritesPage {
     user;
     listing
 
-    constructor(public authService: AuthService, public tradingService: TradingService, public requestService: RequestService, public consoleService:ConsoleService,public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
+    constructor(public authService: AuthService, public tradingService: TradingService, public requestService: RequestService, public consoleService:ConsoleService,public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar,public cd:ChangeDetectorRef) {
 
         console.log("favinit")
         this.logic.getMe((res) => {
@@ -38,13 +39,53 @@ export class AppConfigFavoritesPage {
         });
 
         this.update();
-
+        this.eventService.searchUpdatedEvent.subscribe((val)=>{
+            this.searchUpdated(val)
+        })
 
     }
+    filterValue;
+    searchUpdated(val){
+        console.log("favori search",val)
+        this.filterValue=val
+        this.cd.markForCheck()
+    }
+    isMatchingFilter(p){
 
+        if(!this.filterValue) return true;
+        let s=this.filterValue.split(" ")
+        let n=s.length;
+        let b=p.brokers.join("").toLowerCase()
+        let name=p.name.toLowerCase();
+        if(n==1){
+            let matchBroker=b.indexOf(this.filterValue)>-1;
+            let matchName=name.indexOf(this.filterValue)>-1;
+            //console.log("favori",p,this.filterValue,matchBroker,matchName)
+            if(matchBroker || matchName)
+                return true
+        }else{
+            let res=true;
+
+            for(let i=0;i<n;++i){
+                let w=s[i]
+                let matchBroker=b.indexOf(w)>-1;
+                let matchName=name.indexOf(w)>-1;
+              //  console.log("favori mul test",p,w,matchBroker,matchName)
+                if(b.indexOf(w)>-1 || name.indexOf(w)>-1)
+                    res=true
+                else{
+                    res=false;
+                    return false
+
+                }
+            }
+            return res;
+        }
+    }
     update() {
         this.listing = this.tradingService.getListing()
         console.log("favinit upd ", this.listing)
+        this.cd.markForCheck()
     }
 
     add(pair, broker) {

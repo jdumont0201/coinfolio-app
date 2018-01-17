@@ -83,7 +83,7 @@ export class TradingService {
         //console.log("brokers",B)
         for (let j in B) {
             let b: Broker = B[j]
-            let L = b.getListing().content;
+            let L = b.getTicker().content;
             for (let k in L)
                 if (L[k].pair in res) {
                     res[L[k].pair].brokers.push(b.key)

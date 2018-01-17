@@ -21,6 +21,7 @@ export class EventService implements OnInit {
     @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() favoriteUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() poolDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() socketDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() UIEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() rightMenuUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() searchUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
@@ -140,6 +141,10 @@ export class EventService implements OnInit {
     hidePanelCreator() {
         this.consoleService.event("hidePanelCreator")
         this.panelCreatorEvent.emit({display: false})
+    }
+    defineNewSocket(id){
+        this.consoleService.eventSent("socketDefinedEvent <-- eventService"+id)
+        this.socketDefinedEvent.emit({display: false})
     }
   updateSearch(v) {
         this.consoleService.eventSent("searchUpdated")

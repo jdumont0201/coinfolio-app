@@ -2566,3 +2566,23 @@ app-chart{}
 #loading .broker-icon{top: 3px;
     position: relative;}
 
+
+button.back-button.mat-button {
+    height: 60px;
+    padding: 0;
+    top: 0;
+}
+.hoverlink:hover{
+    border-bottom: solid 1px white;
+    background: rgba(255,255,255,0.2);
+    text-decoration: none;}
+.hoverlink{    cursor: pointer;
+    /* border-bottom: dashed 1px #ffffff70; */
+    font: inherit;
+    text-decoration: none;
+    font-size: inherit!important;
+    font-family: inherit!important;
+    background: #ffffff24;
+    border-radius: 3px;
+    padding: 0 5px;
+}

@@ -1,11 +1,13 @@
 <mat-toolbar>
-    <h3>Config > Data</h3>
+    <h3><a [routerLink]="'/config/all'" class="hoverlink"> Configure</a> > Data</h3>
 </mat-toolbar>
 <mat-tab-group>
     <mat-tab label="Workers">
         <app-workers></app-workers>
     </mat-tab>
-    <mat-tab label="Requests">
+    <mat-tab label="Websockets">
+        <app-websockets></app-websockets>
+    </mat-tab> <mat-tab label="Requests">
         <app-proxy></app-proxy>
     </mat-tab>
 </mat-tab-group>

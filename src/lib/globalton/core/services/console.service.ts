@@ -180,6 +180,14 @@ export class ConsoleService {
             preservedConsoleLog.apply(console, args);
         }
 
+    }websocket(...arg:any[]) {
+        if(this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c[WebS]", 'padding:2px 5px;border-radius:3px;background: #dddddd; color: #ffff00;display:block;');
+            preservedConsoleLog.apply(console, args);
+        }
+
     }
     post(...arg:any[]) {
         if(this.showConsole) {
