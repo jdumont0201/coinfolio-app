@@ -94,7 +94,7 @@ export class EventService implements OnInit {
 
     errorsUpdated(err: any) {
         this.consoleService.eventReceived("errorsChanged --> eventService")
-        this.snackBar.open(err.code+" "+err.url, null, {duration: 3000});
+        this.snackBar.open(err.code+" "+err.url, null, {panelClass:'red',duration: 3000});
     }
 
     ngOnInit() {

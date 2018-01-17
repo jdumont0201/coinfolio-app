@@ -154,7 +154,10 @@ import {AppRegisterComponent} from "../components/register/component";
 import {AppPanelCreatorComponent, AskNameDialog} from "../components/panel-creator/component";
 import {AppPortfolioRecapComponent} from "../components/portfolio-recap/component"
 import {AppBrokerConnectionComponent} from "../components/broker-connection/component"
+import {AppBrokerIconComponent} from "../components/broker-icon/component"
+import {AppPleaseAddBrokerComponent} from "../components/please-addbroker/component"
 import {AppPleaseLoginComponent} from "../components/pleaselogin/component"
+import {AppWrongParamComponent} from "../components/wrongparam/component"
 import {GlobalErrorHandler} from "../lib/globalton/core/handlers/GlobalErrorHandler";
 import {AppPortfolioValueComponent} from "../components/portfolio-value/component"
 
@@ -169,7 +172,7 @@ import { NgvasModule, tweens, hitAreas } from "ngvas";
 
 @NgModule({
     declarations: [
-        AppComponent,AppFormRenewPassword,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent,AppFormRenewPassword,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,

@@ -14,6 +14,7 @@ import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {TradingService} from "../../lib/localton/services/trading.service";
 import {Strings} from "../../lib/globalton/core/utils/utils";
+import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 
 @Component({
     selector: 'app-broker-connect',
@@ -21,7 +22,7 @@ import {Strings} from "../../lib/globalton/core/utils/utils";
     styleUrls: ['styles.css']
 })
 @Injectable()
-export class AppBrokerConnectionComponent implements OnInit{
+export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
     user;
     checks = {}
     @Input() broker;
@@ -29,22 +30,25 @@ export class AppBrokerConnectionComponent implements OnInit{
 
     constructor(public eventService: EventService, public tradingService: TradingService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar) {
 
-
+    super()
     }
-ngOnInit() {
-    this.enabledKey = "Connection" + Strings.Capitalize(this.broker)
-    if (this.authService.isAuthenticated()) {
-        console.log("logged")
-        this.logic.getMe((user) => {
-            this.user = user;
-            if (!user[this.enabledKey]) user[this.enabledKey] = false;
-            this.appConfigService.possibleBrokers.forEach((b) => {
-                this.check(b)
+
+    ngOnInit() {
+        this.checkValid(this.broker,"unvalid broker"+this.broker)
+        this.enabledKey = "Connection" + Strings.Capitalize(this.broker)
+        if (this.authService.isAuthenticated()) {
+            console.log("logged")
+            this.logic.getMe((user) => {
+                this.user = user;
+                if (!user[this.enabledKey]) user[this.enabledKey] = false;
+                this.appConfigService.possibleBrokers.forEach((b) => {
+                    this.check(b)
+                })
             })
-        })
-    } else
-        console.log("notlogged")
-}
+        } else
+            console.log("notlogged")
+    }
+
     canAcccessPublicData(brokerName) {
         return this.checks[brokerName].publicdata;
     }

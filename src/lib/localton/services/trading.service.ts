@@ -101,6 +101,9 @@ export class TradingService {
 
     enabledBrokers: string[]=[]
 
+    hasBrokersEnabled(){
+        return this.enabledBrokers.length>0
+    }
     fetchBrokerEnabledArray(f: Function) {
         let r = [];
         this.logic.getMe((user) => {

@@ -1,0 +1,10 @@
+.broker-connection-table-tr {
+    display: flex;
+    border: solid 1px #ccc;
+    padding-top: 6px;
+    width: 300px;
+    justify-content: space-between;
+    border-bottom: 0;
+    padding: 10px;
+    padding-bottom: 0;
+}

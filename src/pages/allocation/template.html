@@ -1,68 +1,75 @@
 <div [@.disabled]="true">
-<mat-toolbar>
-    <h3>Allocation</h3>
-</mat-toolbar>
-<div *ngIf="!authService.isAuthenticated()" >
-    <app-please-login></app-please-login>
-</div>
+    <mat-toolbar>
+        <h3>Allocation</h3>
+    </mat-toolbar>
+    <div *ngIf="!authService.isAuthenticated()">
+        <app-please-login></app-please-login>
+    </div>
 
-<app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>
+    <ng-container *ngIf="!tradingService?.hasBrokersEnabled()">
+        <app-please-addbroker></app-please-addbroker>
+    </ng-container>
+    <app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>
 
-<mat-tab-group>
-    <mat-tab *ngFor="let b of tradingService.enabledBrokers" label="{{b}}">
-        <section class="widget allocationg">
-            <h5>{{b.substring(0,1).toUpperCase()+b.substring(1,b.length) }} portfolio
-                <div class="header-select"> Showing <span class="header-button" [matMenuTriggerFor]="appMenu">   #{{show}}     <mat-icon>expand_more</mat-icon>    </span>
-                </div>
-            </h5>
-            <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-            <mat-menu #appMenu="matMenu">
-                <button (click)="show=i;refreshFilter(b)" mat-menu-item *ngFor="let i of possibleShow">{{i}}</button>
-            </mat-menu>
-            <span *ngIf="!isLoading" class="alloc-total">Approx. USD value<br>$<app-portfolio-value [broker]="b"></app-portfolio-value></span>
+    <mat-tab-group>
+        <mat-tab *ngFor="let b of tradingService.enabledBrokers" label="{{b}}">
+            <section class="widget allocationg">
+                <h5>{{b.substring(0,1).toUpperCase()+b.substring(1,b.length) }} portfolio
+                    <div class="header-select"> Showing <span class="header-button" [matMenuTriggerFor]="appMenu">   #{{show}}     <mat-icon>expand_more</mat-icon>    </span>
+                    </div>
+                </h5>
+                <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                <mat-menu #appMenu="matMenu">
+                    <button (click)="show=i;refreshFilter(b)" mat-menu-item *ngFor="let i of possibleShow">{{i}}</button>
+                </mat-menu>
+                <span *ngIf="!isLoading" class="alloc-total">Approx. USD value<br>$<app-portfolio-value [broker]="b"></app-portfolio-value></span>
 
-            <div class="highchart-box" [chart]="charts[b]"></div>
+                <div class="highchart-box" [chart]="charts[b]"></div>
 
-            <br class="clear">
+                <br class="clear">
 
-            <button mat-button (click)="resetSnapshot()">Reset reference</button>
+                <button mat-button (click)="resetSnapshot()">Reset reference</button>
 
 
-        </section>
-        <section class="widget allocation">
-            <h5>Portfolio composition - {{b=='global'?'Combined sources':b}}</h5>
+            </section>
+            <section class="widget allocation">
+                <h5>Portfolio composition - {{b=='global'?'Combined sources':b}}</h5>
 
-            <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-            <mat-table #table class="data" [dataSource]="dataSource[b]" >
-                <ng-container matColumnDef="symbol">
-                    <mat-header-cell *matHeaderCellDef> Symbol</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.symbol}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="available">
-                    <mat-header-cell *matHeaderCellDef> Available</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.available }}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="price">
-                    <mat-header-cell *matHeaderCellDef> Unit Price (USD)</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.price | price }}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="value">
-                    <mat-header-cell *matHeaderCellDef> Value (USD)</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.value|number:'1.2-2' }}</mat-cell>
-                </ng-container>
-                <ng-container  matColumnDef="pairs">
-                    <mat-header-cell *matHeaderCellDef> 24h Evolution</mat-header-cell>
-                    <mat-cell *matCellDef="let element"><ng-container *ngIf="element.price && element.available>0"><app-pair-tick *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [pair]="p" [broker]="element.broker"></app-pair-tick></ng-container></mat-cell>
-                </ng-container>
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
-            <div *ngIf="dataSource?.data?.length==0">Your portfolio has no value for this broker.</div>
+                <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+                <mat-table #table class="data" [dataSource]="dataSource[b]">
+                    <ng-container matColumnDef="symbol">
+                        <mat-header-cell *matHeaderCellDef> Symbol</mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.symbol}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="available">
+                        <mat-header-cell *matHeaderCellDef> Available</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.available }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="price">
+                        <mat-header-cell *matHeaderCellDef> Unit Price (USD)</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.price | price }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="value">
+                        <mat-header-cell *matHeaderCellDef> Value (USD)</mat-header-cell>
+                        <mat-cell *matCellDef="let element">{{element.value|number:'1.2-2' }}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="pairs">
+                        <mat-header-cell *matHeaderCellDef> 24h Evolution</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <ng-container *ngIf="element.price && element.available>0">
+                                <app-pair-tick *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [pair]="p" [broker]="element.broker"></app-pair-tick>
+                            </ng-container>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+                <div *ngIf="dataSource?.data?.length==0">Your portfolio has no value for this broker.</div>
 
-        </section>
+            </section>
 
-    </mat-tab>
+        </mat-tab>
 
-</mat-tab-group>
+    </mat-tab-group>
 
 </div>

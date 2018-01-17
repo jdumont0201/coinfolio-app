@@ -2589,3 +2589,20 @@ button.back-button.mat-button {
     border-radius: 3px;
     padding: 0 5px;
 }
+
+
+
+.mat-expansion-panel-body,.mat-expansion-panel-content{
+    background: transparent;
+}
+.mat-expansion-panel-header {
+    background: #eee!important;
+}
+.mat-expansion-panel-header:hover {
+    background: white!important;
+}
+
+.mat-expansion-panel-header-title,.mat-expansion-panel-header-description, .theme-dark .mat-expansion-indicator::after {
+
+    color: #444!important;
+}

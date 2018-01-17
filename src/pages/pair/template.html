@@ -1,4 +1,4 @@
-<div class="padded" *ngIf="isErrored">{{errorMessage}}</div>
+<app-wrong-param [isErrored]="isErrored" [errorMessage]="errorMessage"></app-wrong-param>
 
 <div [@.disabled]="true" *ngIf="!isErrored">
     <mat-toolbar>
