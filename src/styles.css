@@ -1922,7 +1922,7 @@ mat-progress-bar {
 }
 
 .ticker-price.ticker-evol-down {
-    color: red !important;
+    color: #b10000 !important
 }
 
 .ticker-evol-up mat-icon {
@@ -1935,17 +1935,22 @@ mat-progress-bar {
 .ticker-evol-down mat-icon {
     display: inline-block;
     font-size: 20px;
-    color: red !important;
+    color: #b10000 !important;
     padding-top: 7px
 }
 
 .ticker-price {
-    font-size: 25px !important
+    font-size: 31px !important
+    ;font-family:London!important;
 }
 
 .ticker {
-    margin-left: 50px;
+    margin-left:10px;
     display: flex;
+
+    position: relative;
+    top: -3px;
+
 }
 
 .bidaskbar {

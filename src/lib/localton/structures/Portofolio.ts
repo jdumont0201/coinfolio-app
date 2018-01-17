@@ -29,7 +29,7 @@ export class Portfolio {
             res += this.content[k].usdvalue
             //        console.log("  ", k, "=", this.content[k].usdvalue)
         }
-        console.log(this.key + " getTotalUSDValue",res,this.content)
+        //console.log(this.key + " getTotalUSDValue",res,this.content)
         return Math.round(100 * res) / 100;
     }
 
