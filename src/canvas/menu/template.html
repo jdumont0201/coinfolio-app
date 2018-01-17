@@ -19,7 +19,10 @@
             </div>
         </div>
     </ng-container>
+    <div mat-list-item class="mat-list-item  menu-separator">Dashboards</div>
+    <a (click)="goToLink('/')" matLine mat-list-item>Now
 
+    </a>
     <div mat-list-item class="mat-list-item  menu-separator">Events</div>
     <a  *ngIf="false" (click)="goToLink('/calendar')" matLine mat-list-item>Calendar
     </a>

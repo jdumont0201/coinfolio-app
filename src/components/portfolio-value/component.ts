@@ -17,7 +17,7 @@ export class AppPortfolioValueComponent extends Refreshing implements OnInit, On
 
 
     constructor(public tradingService: TradingService, public eventService: EventService, public consoleService: ConsoleService, public refreshService: RefreshService, private cd: ChangeDetectorRef) {
-        super(refreshService, eventService)
+        super(refreshService,eventService,consoleService)
     }
 
     ngOnDestroy() {

@@ -55,6 +55,7 @@ export const routes: Routes = [
 
   { path: 'symbol/all', component: AppSymbolAllPage },
   { path: 'listing', component: AppSymbolAllPage },
+  { path: 'allocation/:broker', component: AppAllocationPage },
   { path: 'allocation', component: AppAllocationPage },
   { path: 'trades', component: AppTradesPage },
   { path: 'positions', component: AppPositionsPage },

@@ -6,7 +6,7 @@ import {Crypto} from "../../lib/localton/utils/utils";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
-import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-my-trades',
@@ -19,8 +19,8 @@ export class AppMyTradesWidget extends DataAndChartTemplate implements OnInit {
     @Input() pairId;
     isLoading=true;
     isError=false;
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
-        super(refreshService,logic,appConfigService,eventService, "stock")
+    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
+        super(consoleService,refreshService,logic,appConfigService,eventService, "stock")
     }
 
     ngOnInit() {

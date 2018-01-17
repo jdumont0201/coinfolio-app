@@ -22,7 +22,7 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
     favorites;
 
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
-        super(refreshService,eventService)
+        super(refreshService,eventService,consoleService)
         //console.log("+ TOPTICKER")
         this.eventService.favoriteUpdatedEvent.subscribe((val) => {
             this.consoleService.eventReceived("favoriteUpdatedEvent --> ticker")

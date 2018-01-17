@@ -8,6 +8,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
 import   {DataWithPaginationTemplate} from "../../lib/localton/components/DataWithPagination/component"
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 @Component({
   selector: 'app-marketcap-table',
   templateUrl: 'template.html'
@@ -23,7 +24,7 @@ ts:number=1512509400;
   displayedColumns = ['symbol', 'cap'];
 
 
-  constructor(public logic: Logic, public appConfigService: AppConfigService) {
+  constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService) {
     super(logic,appConfigService)
   }
 

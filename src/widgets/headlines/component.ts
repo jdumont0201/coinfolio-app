@@ -9,12 +9,7 @@ import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
-import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
-
-
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-
-
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 @Component({
   selector: 'app-headlines',
   templateUrl: 'template.html'
@@ -29,7 +24,7 @@ export class AppHeadlinesComponent implements OnInit{
   tweets;
   key;
     isLoading=true;
-  constructor(public logic: Logic, public appConfigService: AppConfigService, public requestService: RequestService) {
+  constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public requestService: RequestService) {
 
   }
   ngOnInit(){

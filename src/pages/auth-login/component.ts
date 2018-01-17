@@ -8,6 +8,7 @@ import {MatSnackBar} from "@angular/material";
 import {FormGroup} from "@angular/forms";
 import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 
 @Component({
@@ -19,8 +20,8 @@ export class AppAuthPage extends PageWithTabs  {
 
     selectedIndex = 0
 
-    constructor(public authService: AuthService, public requestService: RequestService, public dataService: DataService,  public refreshService: RefreshService ,public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
-        super(refreshService, eventService)
+    constructor(public authService: AuthService, public requestService: RequestService,  public consoleService:ConsoleService  ,public dataService: DataService,  public refreshService: RefreshService ,public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
+        super(refreshService,eventService,consoleService)
 
     }
 

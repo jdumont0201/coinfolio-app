@@ -1,8 +1,5 @@
 import {Component, Injectable,ViewChild}         from '@angular/core';
-import {RequestService} from '../../lib/globalton/core/services/request.service';
-import {DataService} from "../../lib/localton/services/data.service";
-
-import { StockChart,Chart } from 'angular-highcharts';
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
@@ -37,7 +34,7 @@ export class AppEvolutionTableComponent {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-constructor(public logic:Logic,public appConfigService:AppConfigService){
+constructor(public consoleService:ConsoleService,public logic:Logic,public appConfigService:AppConfigService){
 
   this.updateData();
 

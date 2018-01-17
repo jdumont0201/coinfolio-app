@@ -15,6 +15,7 @@ import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {TradingService} from "../../lib/localton/services/trading.service";
 import {Strings} from "../../lib/globalton/core/utils/utils";
 import {CheckValid} from "../../lib/localton/components/CheckValid/component";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-broker-connect',
@@ -28,9 +29,9 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
     @Input() broker;
     enabledKey;
 
-    constructor(public eventService: EventService, public tradingService: TradingService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar) {
+    constructor(public eventService: EventService, public tradingService: TradingService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar,public consoleService:ConsoleService) {
 
-    super()
+    super(consoleService)
     }
 
     ngOnInit() {

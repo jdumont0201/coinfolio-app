@@ -4,6 +4,7 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 import {EventService} from "../../lib/localton/services/event.service";
 import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-please-login',
@@ -15,8 +16,8 @@ export class AppPleaseLoginComponent extends PageWithTabs implements OnInit,Afte
     selectedTabIndex = 0;
     @ViewChild('tabGroup') tabGroup
 
-    constructor(public tradingService: TradingService, public eventService: EventService, private cd: ChangeDetectorRef, public refreshService: RefreshService) {
-        super(refreshService, eventService)
+    constructor(public tradingService: TradingService, public eventService: EventService, public consoleService:ConsoleService,private cd: ChangeDetectorRef, public refreshService: RefreshService) {
+        super(refreshService,eventService,consoleService)
         this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
             this.brokerLoaded(val)
         })

@@ -11,8 +11,8 @@
     </ng-container>
     <app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>
 
-    <mat-tab-group>
-        <mat-tab *ngFor="let b of tradingService.enabledBrokers" label="{{b}}">
+    <mat-tab-group #tabGroup>
+        <mat-tab  *ngFor="let b of tradingService.enabledBrokers" label="{{b}}">
             <section class="widget allocationg">
                 <h5>{{b.substring(0,1).toUpperCase()+b.substring(1,b.length) }} portfolio
                     <div class="header-select"> Showing <span class="header-button" [matMenuTriggerFor]="appMenu">   #{{show}}     <mat-icon>expand_more</mat-icon>    </span>

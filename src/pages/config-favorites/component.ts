@@ -26,6 +26,7 @@ export class AppConfigFavoritesPage {
         console.log("favinit")
         this.logic.getMe((res) => {
             this.user = res;
+            console.log("favinit",this.user)
         })
         this.authService.loginChanged.subscribe((val) => {
             this.consoleService.eventReceived("loginChanged --> configFavorites")

@@ -9,6 +9,7 @@ import {MatTableDataSource} from '@angular/material';
 import {EventService} from "../../services/event.service";
 import {RefreshedPage} from "../RefreshedPage/component";
 import {RefreshService} from "../../services/refresh.service";
+import {ConsoleService} from "../../../globalton/core/services/console.service";
 
 export abstract class DataAndChartTemplate extends RefreshedPage implements OnInit {
 
@@ -80,8 +81,8 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
     }
     optionsBase: any;
 
-    constructor(public refreshService:RefreshService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public type?) {
-        super(refreshService,eventService)
+    constructor( public consoleService:ConsoleService  ,public refreshService:RefreshService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public type?) {
+        super(refreshService,eventService,consoleService)
         /*if (type === "stock") this.chart = new StockChart(this.stockChartDefOptions)
         if (type === "plain") this.chart = new Chart(this.plainChartDefOptions)
         else this.chart = new StockChart(this.stockChartDefOptions)
@@ -234,5 +235,22 @@ chartId;
         });
     }
 
+
+    tabIndex: number = 0;
+    tabChanged(event) {
+        this.tabIndex = event.index
+        console.log("tabchanged", this.tabIndex)
+    }
+    @ViewChild("tabGroup") tabGroup;
+    setTab(n: number) {
+        console.log("thistg", this.tabGroup)
+        if(!this.tabGroup) console.error("is tabgroup set on template?")
+        else{
+        let nbtabs=this.tabGroup._tabs._results.length;
+        if(n<0)
+            n=nbtabs-1;
+        this.tabGroup.selectedIndex = n
+        }
+    }
 
 }

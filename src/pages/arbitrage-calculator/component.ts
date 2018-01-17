@@ -15,6 +15,7 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {MatTableDataSource, MatSort} from '@angular/material';
 import {Structures} from "../../lib/globalton/core/utils/utils";
 import {Tick} from "../../lib/localton/structures/Ticker";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-page-arbitrage-calculator',
@@ -40,8 +41,8 @@ export class AppArbitrageCalculatorPage extends PageWithTabs implements OnInit{
     possibleInfraA = [];
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public refreshService: RefreshService, public requestService: RequestService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
-        super(refreshService, eventService)
+    constructor(public refreshService: RefreshService, public requestService: RequestService, public consoleService:ConsoleService  , public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
+        super(refreshService, eventService,consoleService)
 
 
     }

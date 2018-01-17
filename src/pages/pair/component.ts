@@ -11,6 +11,8 @@ import {Logic} from "../../logic/Logic";
 import {Crypto} from "../../lib/localton/utils/utils";
 import {TradingService} from "../../lib/localton/services/trading.service";
 import {AppConfigService} from "../../lib/localton/services/appconfig.service";
+import {CheckValid} from "../../lib/localton/components/CheckValid/component";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 export interface Message {
     author: string,
@@ -24,7 +26,7 @@ export interface Message {
 
 })
 @Injectable()
-export class AppPairItemPage implements OnDestroy,OnChanges {
+export class AppPairItemPage extends CheckValid implements OnDestroy,OnChanges {
     pairId: string;
     brokerId: string;
     maxVol = 0;
@@ -55,8 +57,9 @@ export class AppPairItemPage implements OnDestroy,OnChanges {
     isErrored = false;
     errorMessage;
 
-    constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute, public appConfigService: AppConfigService) {
-        route.params.subscribe(val => this.init())
+    constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute, public appConfigService: AppConfigService,public consoleService:ConsoleService) {
+       super(consoleService)
+        this.doSubscribe("route",route.params,val => this.init())
 
         ////console.log("+pairpage")
             //this.init()
@@ -106,6 +109,7 @@ export class AppPairItemPage implements OnDestroy,OnChanges {
     finish(){
         //console.log("- pairpage")
         this.websocketService.close(this.broker+"-"+this.pairId)
+        this.unsubscribeAllEvents()
     }
 
 

@@ -9,6 +9,7 @@ import {MatTableDataSource} from '@angular/material';
 import {RefreshService} from "../../services/refresh.service";
 import {EventService} from "../../services/event.service";
 import {CheckValid} from "../CheckValid/component";
+import {ConsoleService} from "../../../globalton/core/services/console.service";
 
 @Injectable()
 export abstract class Refreshing  extends CheckValid{
@@ -17,8 +18,8 @@ export abstract class Refreshing  extends CheckValid{
     poolSubscribed = [];
     poolStarted = []
 
-    constructor(public refreshService: RefreshService, public eventService: EventService) {
-super();
+    constructor(public refreshService: RefreshService, public eventService: EventService,public consoleService:ConsoleService) {
+super(consoleService);
     }
 
     subscribeToRefresh(pool: string, f: Function, enable?: boolean) {

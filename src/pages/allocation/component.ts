@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Injectable, OnDestroy, ViewChild, OnInit} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
-
+import {ActivatedRoute} from "@angular/router";
 import {EventService} from "../../lib/localton/services/event.service";
 import {Logic} from "../../logic/Logic";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
@@ -103,20 +103,50 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
                 this.unsubscribeToRefresh(b + "-portfolio")
                 this.unsubscribeToRefresh(b + "-ticker")
             });
+        this.unsubscribeAllEvents()
+        this.finish()
     }
 
-    constructor(public authService: AuthService, public consoleService: ConsoleService, public refreshService: RefreshService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, private cd: ChangeDetectorRef) {
-        super(refreshService, logic, appConfigService, eventService, "plain")
-        this.eventService.brokerLoadedEvent.subscribe((val) => {
+    constructor(public authService: AuthService, public route: ActivatedRoute, public consoleService: ConsoleService, public refreshService: RefreshService, public appConfigService: AppConfigService, public tradingService: TradingService, public requestService: RequestService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, private cd: ChangeDetectorRef) {
+        super(consoleService,refreshService, logic, appConfigService, eventService, "plain")
+        console.log("ddd+")
+        this.doSubscribe("route", route.params, params => this.init(params))
+        this.doSubscribe("brokerLoadedEvent", this.eventService.brokerLoadedEvent, (val) => {
             this.brokerLoaded(val)
-            this.brokers = tradingService.getConnectedBrokersKeys();
+            this.brokers = this.tradingService.getConnectedBrokersKeys();
             this.hasConnected = true;
         })
-        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
+        this.doSubscribe("EnabledBrokersLoadingFinishedEvent", this.tradingService.EnabledBrokersLoadingFinishedEvent, (val) => {
             this.initRefresh2()
         })
-        this.brokers = tradingService.getConnectedBrokersKeys();
+        this.brokers = this.tradingService.getConnectedBrokersKeys();
         this.options = [];
+    }
+
+    broker;
+
+    setBrokerTab() {
+
+        let j = this.tradingService.enabledBrokers.indexOf(this.broker)
+        if (j > -1) {
+            console.log("ddd", j)
+            this.setTab(j)
+
+        }
+
+    }
+
+    finish() {
+
+    }
+
+    init(params) {
+        this.finish()
+        console.log("ddd init", params)
+        this.broker = params["broker"];
+        this.setBrokerTab()
+
+
     }
 
     brokerLoaded(val: { key: string, loaded: boolean }) {
@@ -170,7 +200,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         for (let k in alloc.chartData) { //check new symbols
 
         }
-            console.log("mergeData2", JSON.stringify(this.dataSource[key].data))
+        console.log("mergeData2", JSON.stringify(this.dataSource[key].data))
         for (let k in alloc.objData) { //check new symbols
             let o = alloc.objData[k];
             let idx = Structures.getIndexByProperty(this.dataSource[key].data, "symbol", k);
@@ -191,7 +221,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
             console.log("  alloc updatedata", alloc)
             this.mergeData(key, alloc)
         }
-        console.log("  update data resdata", this.dataSource[key])
+        //console.log("  update data resdata", this.dataSource[key])
         this.updateOptions({
             title: {text: " "},
             series: [{name: "Portfolio", data: alloc.chartData}],
@@ -199,7 +229,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         }, key)
         this.charts[key] = new Chart(JSON.parse(JSON.stringify(this.options[key])));
         this.isLoading = false
-        console.log("  alloc chart",key,JSON.stringify(this.options[key]))
+        console.log("  alloc chart", key, JSON.stringify(this.options[key]))
         this.cd.markForCheck()
     }
 

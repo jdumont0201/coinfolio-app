@@ -6,6 +6,7 @@ import { StockChart,Chart } from 'angular-highcharts';
 import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {EventService} from "../../lib/localton/services/event.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 @Component({
   selector: 'app-dashboard',
   templateUrl:'template.html'
@@ -14,8 +15,8 @@ import {EventService} from "../../lib/localton/services/event.service";
 @Injectable()
 export class AppDashboardPage extends PageWithTabs {
 
-  constructor(public requestService: RequestService, public dataService:DataService,public refreshService:RefreshService,public eventService:EventService) {
-super(refreshService,eventService)
+  constructor(public requestService: RequestService, public consoleService:ConsoleService  , public dataService:DataService,public refreshService:RefreshService,public eventService:EventService) {
+      super(refreshService,eventService,consoleService)
 
   }
 
