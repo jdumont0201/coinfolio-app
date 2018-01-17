@@ -27,7 +27,7 @@ export class AppArbitrageCalculatorPage extends PageWithTabs implements OnInit{
     brokerA2;
     brokerB1;
     brokerB2;
-    budget=10000;
+    budget=10000; 
     amount=1;
     supraA;
     infraA;
