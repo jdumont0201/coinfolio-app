@@ -1,6 +1,6 @@
 <div class="padded" *ngIf="isErrored">{{errorMessage}}</div>
 
-<div [@.disabled]="true" *ngIf="!isError">
+<div [@.disabled]="true" *ngIf="!isErrored">
     <mat-toolbar>
         <h3>{{supra}}/{{infra}} </h3>
         <div class="ticker">
