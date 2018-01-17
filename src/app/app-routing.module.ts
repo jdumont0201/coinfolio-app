@@ -27,6 +27,8 @@ import {AppConfigProfilePage} from "../pages/config-profile/component";
 import {AppArbitrageCalculatorPage} from "../pages/arbitrage-calculator/component"
 import {AppSocialPage} from "../pages/social/component"
 import {AppNewsPage} from "../pages/news/component"
+
+import {AppConfigLoadingPage} from "../pages/config-loading/component";
 export const routes: Routes = [
 
   { path: '', component: AppDashboardPage },
@@ -43,6 +45,7 @@ export const routes: Routes = [
   { path: 'config/all', component: AppConfigAllPage },
   { path: 'calendar', component: AppCalendarPage },
   { path: 'config/brokers', component: AppConfigBrokersPage},
+  { path: 'config/loading', component: AppConfigLoadingPage},
   { path: 'config/favorites', component: AppConfigFavoritesPage},
   { path: 'config/subscription', component: AppConfigSubscriptionPage},
   { path: 'config/imports', component: AppConfigImportsPage},

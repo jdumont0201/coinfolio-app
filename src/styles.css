@@ -2544,3 +2544,22 @@ app-chart{}
 .large.hasicon mat-icon{font-size: 29px!important;;
     height: 31px!important;;
     padding-right: 60px!important;;}
+
+.spinner-small ,.spinner-small svg {width: 16px!important;
+    height: 14px!important;
+    display: inline-block!important;
+    margin-right: 9px!important;
+    top: 2px;
+    left: -2px;}
+#config-loading .logo-bottom ,#config-loading .line {
+    display: none!important;
+}
+#config-loading div#loading {
+
+
+    background: none;
+    position: initial!important;
+    margin-top: 66px;
+}
+#loading .broker-icon{top: 3px;
+    position: relative;}

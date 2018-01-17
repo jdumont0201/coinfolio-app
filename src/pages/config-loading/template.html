@@ -1,0 +1,13 @@
+<div *ngIf="authService?.isAuthenticated()" id="config-loading">
+    <mat-toolbar>
+        <h3>Config > Brokers </h3>
+    </mat-toolbar>
+
+    <app-loading [force]="true"></app-loading>
+
+</div>
+<div *ngIf="!authService?.isAuthenticated()" class="">
+
+    <app-login [popup]="false"></app-login>
+
+</div>

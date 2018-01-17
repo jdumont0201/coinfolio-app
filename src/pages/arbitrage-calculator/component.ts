@@ -46,7 +46,7 @@ export class AppArbitrageCalculatorPage extends PageWithTabs implements OnInit{
 
     }
     searchCallback(){
-        
+
     }
 
     setInfra() {

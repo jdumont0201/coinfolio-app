@@ -20,6 +20,7 @@ import {RefreshService} from "../services/refresh.service";
 import {ConsoleService} from "../../globalton/core/services/console.service";
 import {CurrencyService} from "../../globalton/core/services/currency.service";
 import {AppConfigService} from "../services/appconfig.service";
+import {Assert} from "../../globalton/core/utils/assert";
 
 export type Raw24hTicker = { symbol, quoteVolume, priceChange, priceChangePercent, prevClosePrice }
 
@@ -369,6 +370,7 @@ export class Ticker {
     }
 
     getPair(symbol) {
+        Assert.exists(symbol)
         if (symbol == "USDT") return "USDT";
         let candidate = symbol + "USDT";
         if (this.hasPair(candidate))
@@ -381,6 +383,7 @@ export class Ticker {
     }
 
     getUSDValue(symbol: string): number {
+        Assert.exists(symbol)
         if (symbol == "USDT") return 1;
 
         if (symbol == "EUR") return this.currencyService.convert({value: 1, currencyCode: "EUR"}, "USD").value
@@ -399,6 +402,7 @@ export class Ticker {
 
 
     sort(sortby: string): any[] {
+        Assert.exists(sortby)
         //console.log("SORTA", this.content)
         let order = this.getSortOrder(sortby)
         let C = [];
@@ -420,6 +424,7 @@ export class Ticker {
 
 
     getSortField(sortby: string, a) {
+        Assert.exists(sortby)
         if (sortby === "name") return a.supra;
         else if (sortby === "bid_ask_volume_ratio") return a.ratio
         else if (sortby === "has_some_in_portfolio") return a.inptf
@@ -427,6 +432,7 @@ export class Ticker {
     }
 
     getSortOrder(sortby: string): number {
+        Assert.exists(sortby)
         if (sortby === "name") return -1;
         else if (sortby === "bid_ask_volume_ratio") return 1
         else if (sortby === "has_some_in_portfolio") return 1
@@ -434,10 +440,5 @@ export class Ticker {
     }
 
 
-    /*getUSDValuePair(pair:string):number{
-        let L=this.tradingService.getBrokerByName(this.key).getListing()
-        let p=L[pair];
-
-    }*/
 }
 

@@ -14,21 +14,22 @@
             <li ><span class="broker-icon notext broker-{{b}}"></span>{{b.substring(0,1).toUpperCase()+b.slice(1)}}</li>
             <li class="leftpad">
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='done'" class="valpos">check</mat-icon>
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='todo'" class="valsta">assignment</mat-icon>
+                <mat-progress-spinner mode="indeterminate"  color="accent"  *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='todo'" class="spinner-small valsta"></mat-progress-spinner>
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='failed'" class="valneg">clear</mat-icon>
-                {{b}} - Portfolio
+                Portfolio
             </li>
             <li class="leftpad">
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='done'" class="valpos">check</mat-icon>
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='todo'" class="valsta">assignment</mat-icon>
+                <mat-progress-spinner mode="indeterminate"  color="accent"  *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='todo'" class="spinner-small valsta"></mat-progress-spinner>
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='failed'" class="valneg">clear</mat-icon>
-                {{b}} - Latest prices
+                Latest prices
             </li>
             <li class="leftpad">
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='done'" class="valpos">check</mat-icon>
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='todo'" class="valsta">assignment</mat-icon>
+                <mat-progress-spinner mode="indeterminate"  color="accent"  *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='todo'" class="spinner-small valsta"></mat-progress-spinner>
+
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='failed'" class="valneg">clear</mat-icon>
-                {{b}} - BidAsk
+                BidAsk
             </li>
             <ng-container *ngIf="authService?.loginResponse">
             </ng-container>

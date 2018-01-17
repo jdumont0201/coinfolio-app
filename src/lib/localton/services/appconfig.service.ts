@@ -9,6 +9,7 @@ import {ConsoleService} from "../../globalton/core/services/console.service";
 import {ApiService} from "../../globalton/core/services/api.service";
 import {AuthService} from "../../globalton/core/services/auth.service";
 import {Logic} from "../../../logic/Logic";
+import {Assert} from "../../globalton/core/utils/assert";
 
 @Injectable()
 export class AppConfigService {
@@ -190,10 +191,17 @@ export class AppConfigService {
     }
 
     getPossibleInfrasPerBroker(b: string): string[] {
+        Assert.exists(b)
+        if(b)
         return this.brokersLinks[b].infras
+        else
+            return []
     }
     getIgnoredPairsPerBroker(b: string): string[] {
+        Assert.exists(b)
+        if(b)
         return this.brokersLinks[b].ignoredPairs
+        else return []
     }
 
 }

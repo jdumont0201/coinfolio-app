@@ -3,5 +3,5 @@
     <div *ngIf="tradingService.enabledBrokers?.length>0"  class="monitor-{{tradingService?.isLoadingDone?'ok':'wait'}}">{{tradingService.isLoadingDone?(tradingService?.enabledBrokers?.length+" broker"+( tradingService?.enabledBrokers?.length>1?"s":"")+" connected"):"Connecting to brokers..."}}</div>
 
     <div class="monitor-{{apiService.isUp?'ok':'wait'}}">API connection : {{apiService.isUp?"Up":"Unreachable"}}</div>
-    <app-loading [force]="true"></app-loading>
+
 </div>

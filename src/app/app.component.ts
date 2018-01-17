@@ -39,13 +39,16 @@ export class AppComponent {
         this.messageService.errorsChanged.subscribe((val) => this.errorsUpdated(val))
         //this.eventService.showLoading()
     }
-    fullscreenUpdated(val){
+
+    fullscreenUpdated(val) {
 
 
     }
-    brokerLoaded(val){
+
+    brokerLoaded(val) {
         //this.eventService.hideLoading()
     }
+
     errorsUpdated(msg: any) {
         console.log("error changed", msg)
         this.snackBar.open("Error :" + msg.code, null, {panelClass: "red", duration: 3000})
@@ -94,5 +97,12 @@ export class AppComponent {
             this.eventService.isMenuDisplayed = true;
         else
             this.eventService.isMenuDisplayed = false
+    }
+
+    backdrop() {
+        if (!this.eventService.isMobile) {
+            this.sidenav.close();
+            this.eventService.isMenuDisplayed = false
+        }
     }
 }
