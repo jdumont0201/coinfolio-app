@@ -3,6 +3,7 @@
 <div [@.disabled]="true" *ngIf="!isErrored">
     <mat-toolbar>
         <h3>{{supra}}/{{infra}} </h3>
+        @{{broker.substring(0,1).toUpperCase()+broker.slice(1)}}
         <div class="ticker">
             <div class="ticker-price ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}">{{lastPrice| number:numberFormat}}</div>
             <div *ngIf="lastPrice" class="ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}">
@@ -14,9 +15,7 @@
             <div hidden class="refresh-in">Refreshing in {{refreshTimer/1000 }}s</div>
             <mat-progress-bar [color]="primary" [value]="100*(refreshEvery-refreshTimer)/refreshEvery" mode="determinate"></mat-progress-bar>
         </div>
-        <select id="pair-select-source">
-            <option>Binance</option>
-        </select>
+
     </mat-toolbar>
     <mat-tab-group>
         <mat-tab label="Live">
