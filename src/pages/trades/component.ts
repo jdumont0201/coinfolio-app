@@ -42,7 +42,7 @@ export class AppTradesPage extends DataAndChartTemplate implements OnDestroy {
     constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService,public tradingService:TradingService,public authService:AuthService) {
         super(refreshService,logic,appConfigService,eventService, "plain")
 
-        console.log("+trades")
+        ////console.log("+trades")
 
         this.startRefresh();
     }

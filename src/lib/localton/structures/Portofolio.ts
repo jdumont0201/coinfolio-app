@@ -50,7 +50,7 @@ export class Portfolio {
     }
 
     loadPortfolio(f: Function) {
-        console.log("  PTF LOAD", this.key)
+        //console.log("  PTF LOAD", this.key)
         if (this.key == "binance") {
             this.loadUniversal(this.key, f)
         } else if (this.key === "kraken") {
@@ -162,7 +162,7 @@ export class Portfolio {
         //console.log("TRADE PTF LOAD BINANCE")
         this.logic.getFromBroker(broker, "balance", (alloc) => {
             this.dataTime = new Date();
-            console.log("TRADE PTF LOAD ", this.key, " RES", alloc)
+            //console.log("TRADE PTF LOAD ", this.key, " RES", alloc)
             if (alloc) {
                 for (let k in alloc)
                     this.add(k, alloc[k].total, this.key)

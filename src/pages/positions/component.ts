@@ -37,7 +37,7 @@ isLoading=true;
     constructor(public refreshService:RefreshService,public logic: Logic, public tradingService: TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute) {
         super(refreshService,logic, appConfigService, eventService, "plain")
 
-        console.log("+trades")
+        //console.log("+trades")
         this.route.params.subscribe((params) => {
         });
     }

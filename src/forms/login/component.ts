@@ -53,7 +53,7 @@ export class AppFormLogin {
                         for (let k in this.form.controls)
                             obj[k] = this.form.controls[k].value
              */
-            console.log("CONTROLS", this.form.controls, "OBJ", obj)
+            //console.log("CONTROLS", this.form.controls, "OBJ", obj)
             this.logic.loginUser(obj, (res) => {
                 if (res.error) this.snackBar.open('Login failed. Please check your credentials.', null, {panelClass: "warning", duration: 3000});
                 else if (this.successCallback) this.successCallback()

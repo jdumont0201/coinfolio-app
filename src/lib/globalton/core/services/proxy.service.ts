@@ -58,7 +58,7 @@ export class ProxyService {
     }
 
     completeRequestSuccessResult(id) {
-        console.log(id,this.requests)
+    //    console.log(id,this.requests)
         if(id)
         this.getRequest(id).complete( "SUCCESS")
     }

@@ -20,7 +20,7 @@ export class AppStatus implements OnInit {
     nbOperational = 0
 
     constructor(public consoleService:ConsoleService,public appConfigService: AppConfigService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router) {
-        console.log("+ MENU")
+        //console.log("+ MENU")
 
     }
 
@@ -38,7 +38,7 @@ export class AppStatus implements OnInit {
             let sta = this.tradingService.brokers.loadStatus
             let res = true;
             for (let k in sta) {
-                console.log("checksta", b, sta[k])
+                //console.log("checksta", b, sta[k])
                 if (sta[k] !== "done")
                     res = false
             }

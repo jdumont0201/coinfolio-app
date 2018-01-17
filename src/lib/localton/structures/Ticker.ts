@@ -39,7 +39,7 @@ export class Ticker {
     }
 
     constructor(public logic: Logic, public currencyService: CurrencyService, public tradingService: TradingService, public refreshService: RefreshService, key: string, public consoleService: ConsoleService, public appConfigService: AppConfigService) {
-        console.log("NEW BROKER TICKER", key)
+        //console.log("NEW BROKER TICKER", key)
         this.key = key;
         this.content = {}
     }
@@ -69,7 +69,7 @@ export class Ticker {
     }
 
     loadTicker(f: Function) {
-        console.log("TICKER LOAD ", this.key)
+        //console.log("TICKER LOAD ", this.key)
         if (this.key == "binance") {
             this.loadBinance((success) => {
                 if (success) {
@@ -150,7 +150,7 @@ export class Ticker {
         this.logic.BinanceGetLivePrices((prices) => {
 
             this.dataTime = new Date();
-            console.log("TICKER LOAD BIN RES", prices)
+            //console.log("TICKER LOAD BIN RES", prices)
             if (prices) {
 
                 this.logic.BinanceGetBookTickers((listing) => {
@@ -189,7 +189,7 @@ export class Ticker {
         this.beforeLoad()
         this.logic.getFromBroker(this.key, "ticker", (prices: { [s: string]: any }) => {
             this.dataTime = new Date();
-            console.log("TICKER LOAD ", this.key + " RES", prices)
+            //console.log("TICKER LOAD ", this.key + " RES", prices)
             if (prices) {
                 for (let symbol in prices) {
                     this.add(symbol, prices[symbol])
@@ -204,7 +204,7 @@ export class Ticker {
     }
 
     beforeLoad() {
-        console.log("TICKER LOAD ", this.key)
+        //console.log("TICKER LOAD ", this.key)
         let isInitialLoad = !this.connected
         if (isInitialLoad) {
             this.possibleInfras = this.appConfigService.getPossibleInfrasPerBroker(this.key)
@@ -227,7 +227,7 @@ export class Ticker {
     }
 
     refresh(f, force?: boolean) {
-        console.log("TICKER ", this.key, "refresh")
+        //console.log("TICKER ", this.key, "refresh")
         if (force) this.content = {}
         this.loadTicker(() => {
             this.tradingService.getBrokerByName(this.key).getPortfolio().refreshTotal();
@@ -244,7 +244,7 @@ export class Ticker {
     }
 
     load24hChangePerPair(pair, f: Function) {
-        console.log("load24hChangePerPair")
+        //console.log("load24hChangePerPair")
         if (this.key == "binance")
             this.loadBinance24ChangeSymbol(pair, (res) => {
                 f({last: res.prevClosePrice, change: res.priceChange, current: res.lastPrice, lastTime: res.openTime, closeTime: res.closeTime})
@@ -255,7 +255,7 @@ export class Ticker {
     }
 
     loadBinance24ChangeSymbol(pair: string, f: Function) {
-        console.log("loadBinance24ChangeSymbol")
+        //console.log("loadBinance24ChangeSymbol")
         this.logic.BinanceGet24hChange(pair, (ticker) => {
             //console.log(" -> gpc=", ticker)
             if (ticker) {
@@ -287,11 +287,11 @@ export class Ticker {
         let count = 0;
         let keys = Object.keys(L.content);
         this.tradingService.getBrokerByName(this.key).getTrades().getMostTraded((res) => {
-            console.log("MOSTTRADED", res)
+            //console.log("MOSTTRADED", res)
             async.eachSeries(res, (e, cb) => {
                 this.processLoadBinance(e, cb)
             }, (e) => {
-                console.log("MOSTTRADED END LIST", keys)
+                //console.log("MOSTTRADED END LIST", keys)
                 async.eachSeries(keys, (e, cb) => {
                     if (res.indexOf(e) > -1) {
                         cb()
@@ -306,7 +306,7 @@ export class Ticker {
             })
 
 
-            console.log("TCIEKR LOAD 24h BINANCE")
+            //console.log("TCIEKR LOAD 24h BINANCE")
 
         })
     }

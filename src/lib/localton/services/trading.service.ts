@@ -107,15 +107,15 @@ export class TradingService {
     fetchBrokerEnabledArray(f: Function) {
         let r = [];
         this.logic.getMe((user) => {
-            console.log("user", user);
+            //console.log("user", user);
             this.appConfigService.possibleBrokers.forEach((k) => {
                 let prop = "Connection" + Strings.Capitalize(k)
-                console.log("check", prop)
+              //  console.log("check", prop)
                 if (user[prop]==="true" || user[prop]) {
                     r.push(k)
                 }
             })
-            console.log("enabledBrokers",r,user);
+            //console.log("enabledBrokers",r,user);
             this.enabledBrokers = r;
             f(r)
         })
@@ -125,7 +125,7 @@ export class TradingService {
         this.eventService.showLoading()
         this.consoleService.trade(" init")
         this.fetchBrokerEnabledArray((list) => {
-            console.log("LADING", list)
+            //console.log("LADING", list)
             if(list.length===0) this.loadingFinished()
             this.brokers.init(this.appConfigService.possibleBrokers, (broker: Broker) => {
                 this.globalBroker.combineWith(broker.getPortfolio())

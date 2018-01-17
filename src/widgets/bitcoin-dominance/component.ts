@@ -119,7 +119,7 @@ export class AppBitcoinDominanceMiniWidget extends DataAndChartTemplate  {
 
   updateData() {
     this.logic.getDominance(this.source,this.base,this.to, (res) => {
-      console.log("data",res);
+      //console.log("data",res);
       this.data = res;
       this.dataSourceRef = new MatTableDataSource(this.data);
       this.showData()

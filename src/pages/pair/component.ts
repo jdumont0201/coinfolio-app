@@ -58,14 +58,14 @@ export class AppPairItemPage implements OnDestroy,OnChanges {
     constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute, public appConfigService: AppConfigService) {
         route.params.subscribe(val => this.init())
 
-        console.log("+pairpage")
+        ////console.log("+pairpage")
             //this.init()
 
 
     }
     init(){
         this.finish();
-        console.log("pairpage init")
+        //console.log("pairpage init")
         this.decimalSpan = [];
         for (var i = 0; i < 10; ++i) this.decimalSpan.push(i)
         this.route.params.subscribe((params) => {
@@ -93,7 +93,7 @@ export class AppPairItemPage implements OnDestroy,OnChanges {
         });
     }
     ngOnChanges(changes: SimpleChanges) {
-     console.log("pairpage change",this.pairId)
+     //console.log("pairpage change",this.pairId)
     }
     prevLastPrice;
     lastPrice;
@@ -104,7 +104,7 @@ export class AppPairItemPage implements OnDestroy,OnChanges {
         this.finish();
     }
     finish(){
-        console.log("- pairpage")
+        //console.log("- pairpage")
         this.websocketService.close(this.broker+"-"+this.pairId)
     }
 

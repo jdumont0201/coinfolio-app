@@ -78,7 +78,7 @@ export class AppArbitrageCalculatorPage extends PageWithTabs implements OnInit{
     }
 setSupraA(){
     let T = this.tradingService.getBrokerByName(this.brokerA1).getTicker()
-    console.log("pair",this.supraA+this.infraA,T.content[this.supraA+this.infraA])
+//    console.log("pair",this.supraA+this.infraA,T.content[this.supraA+this.infraA])
     this.brokerA1bid=T.content[this.supraA].bid
     this.brokerA1ask=T.content[this.supraA].ask
 }

@@ -27,10 +27,10 @@ lastMessage;
         })
         this.enable()
         this.subscription = this.messages.subscribe((message: string) => {
-            console.log(this.id, this.active, "new mes")
+            //console.log(this.id, this.active, "new mes")
             this.lastMessage=new Date().getTime()
             if (this.active) {
-                console.log(this.id, this.active, "new mes passed")
+              //  console.log(this.id, this.active, "new mes passed")
 
                 const m = JSON.parse(message)
                 this.f(m)

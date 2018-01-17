@@ -46,7 +46,7 @@ export class Listing {
     }
 
     loadListing(f: Function) {
-        console.log("TRADE : LOAD LISTING", this.key)
+        ////console.log("TRADE : LOAD LISTING", this.key)
         if (this.key == "binance") {
             this.loadBinance((success)=>{
                 if(success){
@@ -64,10 +64,10 @@ export class Listing {
 
     loadBinance(f: Function) {
         let broker="binance"
-        console.log("TRADE LOAD LISTING BINANCE")
+        //console.log("TRADE LOAD LISTING BINANCE")
         this.logic.BinanceGetBookTickers((listing) => {
             this.dataTime = new Date();
-            console.log("TRADE LOAD LISTING BINANCE RES", listing)
+            //console.log("TRADE LOAD LISTING BINANCE RES", listing)
             if (listing) {
                 for (let k in listing) {
                     let l = listing[k]
@@ -100,8 +100,8 @@ export class Listing {
         if (pair in listing)
             return {ask: parseFloat(listing[pair].ask), bid: parseFloat(listing[pair].bid)}
         else if (infra === "USDT") return {ask: 1, bid: 1}
-        else
-            console.log("err", "unknown pair in listing", pair, listing)
+        else{}
+            //console.log("err", "unknown pair in listing", pair, listing)
     }
 
 

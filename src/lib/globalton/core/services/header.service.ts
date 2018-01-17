@@ -32,7 +32,7 @@ export class Header{
         this.sub=classname+".sub";
     }
     constructor(h:HeaderInterface){
-        console.log("+ Header",h);
+        //console.log("+ Header",h);
         if(h.classname)
             this.setDefault(h.classname.toLowerCase());
         else

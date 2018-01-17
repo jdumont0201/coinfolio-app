@@ -87,7 +87,7 @@ export class AuthService {
 
     //WHEN CONFIG IS DONE
     postConfigEvent(value) {
-        console.log("auth.service postconfigevent", value);
+        //console.log("auth.service postconfigevent", value);
         if (value.type === "general") {
             this.CONTENT_AUTHENTIFICATION = value.CONTENT_AUTHENTIFICATION;
             this.setLocalStorageKey();
@@ -197,7 +197,7 @@ export class AuthService {
 
         this.loginResponse.currency = this.currencyService.getUserCurrency();
         this.loginResponse.lang = this.translateService.currentLang;
-        console.log("updateLocal", this.loginResponse);
+        //console.log("updateLocal", this.loginResponse);
         let localStorageLoginResponse: string = JSON.stringify(this.loginResponse);
         localStorage.setItem(this.localStorageKey, localStorageLoginResponse);
     }
@@ -210,7 +210,7 @@ export class AuthService {
             if (!data.success) {
                 f({error: false, success: false, user: data});
             } else {
-                console.log("login:logged:response", data);
+          //      console.log("login:logged:response", data);
                 this.loginResponse = data;
                 this.token = data.token;
                 if (rememberme) {
@@ -322,16 +322,16 @@ export class AuthService {
         })
     }
     linkWithFacebook(response:any,password:string, f:Function){
-        console.log("linkWithFacebook",response);
+        //console.log("linkWithFacebook",response);
         this.facebookAccessToken=response.authResponse.accessToken;
         this.facebookUserId=response.authResponse.userID;
         let url = "user/auth/app/fb/link";//?p="+password+"&token=" + this.facebookAccessToken+ "&userId=" + this.facebookUserId+"&force=true";
         let data={p:password,token:this.facebookAccessToken,userId:this.facebookUserId}
         this.consoleService.auth("fblogin", url);
         this.apiService.noauthrawpost(url, data,(data) => {
-            console.log("linkWithFacebook answ",data)
+            //console.log("linkWithFacebook answ",data)
             if("login" in data) data=data.login;
-            console.log("Answ",data);
+            //console.log("Answ",data);
             if(data.success)
                 this.processLoginFB(data, f);
             else
@@ -341,9 +341,9 @@ export class AuthService {
     initFB(){
         //init facebook
         this.fb.init(this.FB_initParams).then(function(valeur) {
-            console.log("[Facebook] init ok");
+            //console.log("[Facebook] init ok");
         }, function(raison) {
-            console.log("[Facebook] init failed");
+            //console.log("[Facebook] init failed");
         });;
     }
 }

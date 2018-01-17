@@ -29,6 +29,7 @@ export class AppConfigService {
                 this.authService.paymentExpiration = res.expiration;
                 console.log("active", this.authService.isSubscriptionActive(), this.authService.authenticated, this.authService.paymentExpiration, this.authService.paymentExpiration > new Date().getTime() / 1000)
             })
+
     }
 
     isCustomDashboardEnabled = false;

@@ -130,7 +130,7 @@ export class ConfigService {
 deviceInformation:any;
 screenInformation:any;
     constructor() {
-      console.log("+ ConfigService")
+      //console.log("+ ConfigService")
 /*        this.deviceInformation = new DeviceInfo(
             device.model,
             device.model,
@@ -153,7 +153,7 @@ screenInformation:any;
     }
 
     configure() {
-        console.log("+ ConfigService > configure");
+        //console.log("+ ConfigService > configure");
 
         //this.buildApiKeys();
         this.setLanguage();

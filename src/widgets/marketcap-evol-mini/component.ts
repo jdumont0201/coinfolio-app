@@ -126,7 +126,7 @@ export class AppMarketCapEvolMiniComponent extends DataAndChartTemplate  {
 
   updateData() {
     this.logic.getMarketCapEvol(this.source,this.base,this.from,this.to, (res) => {
-      console.log("data",res);
+      //console.log("data",res);
       this.data = res;
       this.dataSourceRef = new MatTableDataSource(this.data);
       this.showData()

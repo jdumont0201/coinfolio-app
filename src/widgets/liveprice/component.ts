@@ -88,16 +88,16 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit,O
 
     constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
         super(refreshService, logic, appConfigService, eventService, "stock")
-        console.log("+ liveprice")
+        ////console.log("+ liveprice")
 
 
     }
     ngOnChanges(changes: SimpleChanges) {
-        console.log("liveprice change")
+        ////console.log("liveprice change")
         this.init()
     }
     init(){
-        console.log("init liveprice", this.period,this.pair)
+        //console.log("init liveprice", this.period,this.pair)
         this.checkValid(this.pair, "Undefined pair")
         this.checkValid(this.broker, "Undefined broker")
         if (!this.isErrored) {
@@ -147,12 +147,12 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit,O
     chartData;
 
     updateData() {
-        console.log("liveprice upd ", this.period, this.pair)
+        //console.log("liveprice upd ", this.period, this.pair)
         this.isLoading = true;
         this.isError = false;
         this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
             this.loadTime = new Date().getTime()
-            console.log("BinanceGetOHLC", res)
+            //console.log("BinanceGetOHLC", res)
 
             if (!res || res.error) {
                 this.isError = true;
@@ -223,7 +223,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit,O
             this.draw()
             let maxd = this.data[this.data.length - 1][0];
             let mind = this.data[this.data.length - 10][0];
-            console.log("ma", maxd, mind, this.chart)
+            ////console.log("ma", maxd, mind, this.chart)
             this.isLoading = false;
         })
     }

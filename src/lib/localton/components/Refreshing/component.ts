@@ -22,7 +22,7 @@ super();
     }
 
     subscribeToRefresh(pool: string, f: Function, enable?: boolean) {
-        console.log("subscribe pool ", pool)
+        //console.log("subscribe pool ", pool)
         this.dataRefreshSubscription[pool] = this.refreshService.getEventByKey(pool).subscribe(f)
         if (enable) {
             let P=this.refreshService.getPool(pool);

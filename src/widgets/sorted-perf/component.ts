@@ -37,7 +37,7 @@ export class AppSortedPerformanceComponent {
 
   updateData() {
     this.logic.getAllChartData(this.source, this.period, this.timestamp, this.base, (res) => {
-      console.log("res", res, res.length);
+      //console.log("res", res, res.length);
       let D = [];
       for (let i = 0; i < res.length; ++i) {
         let r = res[i];

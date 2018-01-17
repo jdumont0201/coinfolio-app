@@ -4,7 +4,7 @@ import {ConfigService,ENVIRONMENTS} from "./config.service"
 
 @Injectable()
 export class ConsoleService {
-    showConsole:boolean=true;
+    showConsole:boolean=false;
     constructor(
     //    private configService:ConfigService
     ) {

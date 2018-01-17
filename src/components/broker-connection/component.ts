@@ -37,7 +37,7 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
         this.checkValid(this.broker,"unvalid broker"+this.broker)
         this.enabledKey = "Connection" + Strings.Capitalize(this.broker)
         if (this.authService.isAuthenticated()) {
-            console.log("logged")
+//            console.log("logged")
             this.logic.getMe((user) => {
                 this.user = user;
                 if (!user[this.enabledKey]) user[this.enabledKey] = false;
@@ -45,8 +45,10 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
                     this.check(b)
                 })
             })
-        } else
-            console.log("notlogged")
+        } else{
+
+        }
+            //console.log("notlogged")
     }
 
     canAcccessPublicData(brokerName) {
