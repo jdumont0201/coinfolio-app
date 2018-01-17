@@ -216,7 +216,9 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         this.showGraphs = !this.showGraphs
     }
 
+    searchCallback(){
 
+    }
     applyFilter(event) {
         console.log("target",event)
         let filterValue=event.target.value;

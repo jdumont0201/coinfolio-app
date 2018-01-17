@@ -95,7 +95,9 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         this.loadData()
     }
 
+    searchCallback(){
 
+    }
     searchUpdated(filterValue) {
         /*this.setTab(-1)
         this.searched = []
