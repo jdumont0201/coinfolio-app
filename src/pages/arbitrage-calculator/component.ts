@@ -22,7 +22,7 @@ import {Tick} from "../../lib/localton/structures/Ticker";
 
 })
 @Injectable()
-export class AppArbitrageCalculatorPage extends PageWithTabs implements OnInit, OnDestroy {
+export class AppArbitrageCalculatorPage extends PageWithTabs implements OnInit{
     brokerA1;
     brokerA2;
     brokerB1;
