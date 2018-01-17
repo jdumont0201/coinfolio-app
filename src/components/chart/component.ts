@@ -132,8 +132,8 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
             },
             line: {
                 width: 1,
-                upColor: "rgb(80,240,80)",
-                downColor: "rgb(200,40,40)"
+                upColor: "rgb(255,255,255)",
+                downColor: "rgb(255,255,255)"
             }
         }
     }

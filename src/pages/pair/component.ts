@@ -60,7 +60,7 @@ export class AppPairItemPage implements OnDestroy {
         this.decimalSpan = [];
         for (var i = 0; i < 10; ++i) this.decimalSpan.push(i)
         this.route.params.subscribe((params) => {
-            console.log
+
             this.pairId = params["pairId"];
             this.broker = params["broker"];
             if (!this.broker) {

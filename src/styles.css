@@ -1694,7 +1694,9 @@ section.widget.price {
     background: #0a4350; /*  border: solid 4px #171e46;*/
 }
 section.widget.price2 {
-    height:400px
+    height:400px;    background: #11191d;
+    margin-bottom: 0;
+
 }
 section.widget.price2.zoomed {
     background: linear-gradient(-254deg,#00adff,#0758aa)!important; /*  border: solid 4px #171e46;*/
