@@ -34,4 +34,5 @@
     .mat-horizontal-content-container {
         padding: 0!important;
     }
+    #panel-creator-workspace,.mat-drawer ,#panel-creator-top{width:70%!important}
 }
