@@ -1,10 +1,20 @@
 .welcome-left{
-padding:150px  0px 50px 100px;width:50%;color:white
+    width: 100%;
+    color: white;
+    box-sizing: border-box;
+}
+.welcome-right-in{display:flex}
+.welcome-right-in > div {
+    margin-right: 10px;
+    border-right: solid 1px #ffffff47;
+    padding: 14px;
 }
 .welcome-right{
-padding:150px 20px 50px;width:50%;color:white
+    padding: 0px 20px;
+    width: 100%;
+    color: white;
 }
-.welcome-banner{display:flex;
+.welcome-banner{
 }
 
 
@@ -176,3 +186,25 @@ span.welcome-message {
     #portfolio-example{
         background-size: 100%;}
 }
+
+.welcome-image{   width: 180px;
+    height: 180px;
+    background-size: cover;
+    border-radius: 0;
+    border: solid 3px white;
+    margin-top: 14px;
+    margin: auto;
+    margin-top: 20px;}
+#welcome-portolio{    background-image:url(/assets/img/portfolio.PNG)}
+#welcome-arbitrage{    background-image:url(/assets/img/arbitrage.PNG);    background-size: 314px;
+    background-repeat: no-repeat;
+    background-position: -78px -126px;}
+#welcome-tweet{    background-image:url(/assets/img/twitter.png);
+    background-size: 314px;
+    background-repeat: no-repeat;
+    background-position: -3px 0px;}
+#welcome-allocation{     background-image: url(/assets/img/portfolio-example.png);
+    background-size: 300px;
+    background-repeat: no-repeat;
+    background-position: -55px -12px;   background-image:url(/assets/img/portfolio-example.png)}
+
