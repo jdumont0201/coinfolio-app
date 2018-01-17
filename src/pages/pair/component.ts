@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, ViewChild} from '@angular/core';
+import {Component, Injectable, OnDestroy, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 import {QueueingSubject} from 'queueing-subject'
@@ -24,7 +24,7 @@ export interface Message {
 
 })
 @Injectable()
-export class AppPairItemPage implements OnDestroy {
+export class AppPairItemPage implements OnDestroy,OnChanges {
     pairId: string;
     brokerId: string;
     maxVol = 0;
@@ -56,7 +56,15 @@ export class AppPairItemPage implements OnDestroy {
     errorMessage;
 
     constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute, public appConfigService: AppConfigService) {
-        //console.log("+pair")
+        route.params.subscribe(val => this.init())
+
+        console.log("+pairpage")
+            //this.init()
+
+
+    }
+    init(){
+        console.log("pairpage init")
         this.decimalSpan = [];
         for (var i = 0; i < 10; ++i) this.decimalSpan.push(i)
         this.route.params.subscribe((params) => {
@@ -82,16 +90,17 @@ export class AppPairItemPage implements OnDestroy {
                 this.runLastPriceWS()
             }
         });
-
-
     }
-
+    ngOnChanges(changes: SimpleChanges) {
+     console.log("pairpage change",this.pairId)
+    }
     prevLastPrice;
     lastPrice;
     numberFormat = "1.5-5"
     numberFormatNDecimals: number = 5;
 
     ngOnDestroy() {
+        console.log("- pairpage")
         this.messagesSubscription.unsubscribe()
     }
 

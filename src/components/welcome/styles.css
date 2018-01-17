@@ -1,22 +1,30 @@
-.welcome-left{
+.welcome-left {
     width: 100%;
     color: white;
     box-sizing: border-box;
 }
-.welcome-right-in{display:flex}
+
+.welcome-right-in {
+    display: flex
+}
+
+.welcome-right-in > div:last-child {
+    border-right: 0
+}
 .welcome-right-in > div {
     margin-right: 10px;
     border-right: solid 1px #ffffff47;
     padding: 14px;
 }
-.welcome-right{
+
+.welcome-right {
     padding: 0px 20px;
     width: 100%;
     color: white;
 }
-.welcome-banner{
-}
 
+.welcome-banner {
+}
 
 span.welcome-message {
     font-size: 32px;
@@ -40,7 +48,7 @@ span.welcome-message {
 }
 
 #welcome .mat-horizontal-stepper-content {
-    background: linear-gradient(to right, #000046, #1cb5e0);
+    background: linear-gradient(45deg, #1f3550,  #004aa5, #0499c3);
     height: 100%
 }
 
@@ -56,7 +64,11 @@ span.welcome-message {
 #welcome .mat-stepper-horizontal {
     height: 100%
 }
-#welcome .line{text-transform: uppercase}
+
+#welcome .line {
+    text-transform: uppercase
+}
+
 #welcome-in {
     padding: 20px;
 }
@@ -81,7 +93,8 @@ span.welcome-message {
 #welcome #logo {
     color: #444444;
 }
-#welcome-twitter{
+
+#welcome-twitter {
     width: 400px;
     height: 230px;
     border-radius: 31px;
@@ -104,6 +117,7 @@ span.welcome-message {
     padding: 5px 0;
     margin: 20px 0;
 }
+
 #welcome .mat-horizontal-stepper-header-container {
     position: absolute;
 
@@ -140,7 +154,8 @@ span.welcome-message {
 }
 
 #welcome button {
-    margin-bottom: 10px;max-width: 95%;
+    margin-bottom: 10px;
+    max-width: 95%;
 }
 
 #welcome .logo-in {
@@ -159,7 +174,6 @@ span.welcome-message {
     font-size: 16px
 }
 
-
 #welcome #logo {
     color: #444444;
     width: 300px;
@@ -169,42 +183,76 @@ span.welcome-message {
     background-repeat: no-repeat;
 }
 
-
 @media screen and (max-width: 640px) {
 
-    .welcome-banner{display:block}
-    .welcome-left{padding:20px;width:100%;
+    .welcome-banner {
+        display: block
+    }
+
+    .welcome-left {
+
+        padding-top: 5px;
+    }
+    .welcome-header{margin-left:60px}
+
+    .welcome-right-in {display:block}
+    .welcome-right-in > div{border:0}
+    .welcome-right {
+        padding: 20px;
         width: 100%;
-        padding-left: 60px;
-        padding-top: 5px;}
-    .welcome-right{padding:20px;width:100%;
-        box-sizing: border-box;}
-    #welcome #logo{
-        max-width: 194px;height:30px;
-        margin-top: 5px;}
-    #portfolio-example,#welcome-twitter{max-width:80%;margin:10px auto}
-    #portfolio-example{
-        background-size: 100%;}
+        box-sizing: border-box;
+    }
+
+    #welcome #logo {
+        max-width: 194px;
+        height: 30px;
+        margin-top: 5px;
+    }
+
+    #portfolio-example, #welcome-twitter {
+        max-width: 80%;
+        margin: 10px auto
+    }
+
+    #portfolio-example {
+        background-size: 100%;
+    }
 }
 
-.welcome-image{   width: 180px;
+.welcome-image {
+    width: 180px;
     height: 180px;
     background-size: cover;
     border-radius: 0;
     border: solid 3px white;
     margin-top: 14px;
     margin: auto;
-    margin-top: 20px;}
-#welcome-portolio{    background-image:url(/assets/img/portfolio.PNG)}
-#welcome-arbitrage{    background-image:url(/assets/img/arbitrage.PNG);    background-size: 314px;
-    background-repeat: no-repeat;
-    background-position: -78px -126px;}
-#welcome-tweet{    background-image:url(/assets/img/twitter.png);
+    margin-top: 20px;
+}
+
+#welcome-portolio {
+    background-image: url(/assets/img/portfolio.PNG)
+}
+
+#welcome-arbitrage {
+    background-image: url(/assets/img/arbitrage.PNG);
     background-size: 314px;
     background-repeat: no-repeat;
-    background-position: -3px 0px;}
-#welcome-allocation{     background-image: url(/assets/img/portfolio-example.png);
+    background-position: -78px -126px;
+}
+
+#welcome-tweet {
+    background-image: url(/assets/img/twitter.png);
+    background-size: 314px;
+    background-repeat: no-repeat;
+    background-position: -3px 0px;
+}
+
+#welcome-allocation {
+    background-image: url(/assets/img/portfolio-example.png);
     background-size: 300px;
     background-repeat: no-repeat;
-    background-position: -55px -12px;   background-image:url(/assets/img/portfolio-example.png)}
+    background-position: -55px -12px;
+    background-image: url(/assets/img/portfolio-example.png)
+}
 

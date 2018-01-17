@@ -50,8 +50,8 @@ export class AppComponent {
     }
 
     errorsUpdated(msg: any) {
-        console.log("error changed", msg)
-        this.snackBar.open("Error :" + msg.code, null, {panelClass: "red", duration: 3000})
+    //    console.log("error changed", msg)
+     //   this.snackBar.open("Error :" + msg.code, null, {panelClass: "red", duration: 3000})
     }
 
     workspaceUpdated(val: any) {

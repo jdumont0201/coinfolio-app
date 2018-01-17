@@ -1,4 +1,4 @@
-import {Component, ComponentFactoryResolver, Input, OnInit, Injectable, ViewChild} from '@angular/core';
+import {Component, ComponentFactoryResolver, Input, OnInit, Injectable, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {MatSnackBar, MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
@@ -14,7 +14,7 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 
 })
 @Injectable()
-export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
+export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit,OnChanges {
     displayedColumns = ['ts', 'open', 'high', 'low', 'close'];
     isLoading = true;
     isError = false;
@@ -90,11 +90,14 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         super(refreshService, logic, appConfigService, eventService, "stock")
         console.log("+ liveprice")
 
+
     }
-
-
-    ngOnInit() {
-        console.log("init liveprice", this.period)
+    ngOnChanges(changes: SimpleChanges) {
+        console.log("liveprice change")
+        this.init()
+    }
+    init(){
+        console.log("init liveprice", this.period,this.pair)
         this.checkValid(this.pair, "Undefined pair")
         this.checkValid(this.broker, "Undefined broker")
         if (!this.isErrored) {
@@ -105,6 +108,9 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
             //this.initRefresh()
             this.firstLoadData()
         }
+    }
+    ngOnInit() {
+        this.init()
 
     }
 
