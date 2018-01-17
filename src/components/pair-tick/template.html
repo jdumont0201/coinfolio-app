@@ -1,2 +1,2 @@
-<mat-chip [matTooltip]="'Was: '+lastprice+' Now:'+currentprice +(closeTime?(' Updated:'+closeTime):'')" class="chips-link"  [routerLink]="'/pair/'+pair+'/broker'+broker">
+<mat-chip [matTooltip]="'Was: '+lastprice+' Now:'+currentprice +(closeTime?(' Updated:'+closeTime):'')" class="chips-link"  [routerLink]="'/pair/'+pair+'/broker/'+broker">
     {{pair}}&nbsp;<span *ngIf="showPrice">{{p | price}}</span>&nbsp;<span class="{{value>0?'valpos addplus':'valneg'}}">{{value | number:"1.2-2"}}{{value?'%':'...'}}</span></mat-chip>
