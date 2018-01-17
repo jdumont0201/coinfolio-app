@@ -95,12 +95,17 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
 
     ngOnInit() {
         console.log("init liveprice", this.period)
-        const pair = Crypto.getSymbolsFromPair(this.pair,this.appConfigService.brokersLinks[this.broker].infras)
-        this.supra = pair.supra;
-        this.infra = pair.infra;
-        //if(this.refresh)
-        //this.initRefresh()
-        this.firstLoadData()
+        this.checkValid(this.pair, "Undefined pair")
+        this.checkValid(this.broker, "Undefined broker")
+        if (!this.isErrored) {
+            const pair = Crypto.getSymbolsFromPair(this.pair, this.appConfigService.getPossibleInfrasPerBroker(this.broker))
+            this.supra = pair.supra;
+            this.infra = pair.infra;
+            //if(this.refresh)
+            //this.initRefresh()
+            this.firstLoadData()
+        }
+
     }
 
     refreshData() {

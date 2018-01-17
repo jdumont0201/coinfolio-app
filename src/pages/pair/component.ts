@@ -41,35 +41,46 @@ export class AppPairItemPage implements OnDestroy {
     symbol = "ETHBTC"
     nbDecimal = -1;
     decimalSpan;
-isLoading=true;
+    isLoading = true;
     supra: string;
     infra: string;
     trades: any[];
-    broker:string;
+    broker: string;
     loadTime;
     refreshInterval
     refreshTimerInterval
     refreshTimer;
     refreshEvery = 4000;
 
-    constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute,public appConfigService:AppConfigService) {
+    isErrored = false;
+    errorMessage;
+
+    constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute, public appConfigService: AppConfigService) {
         //console.log("+pair")
         this.decimalSpan = [];
         for (var i = 0; i < 10; ++i) this.decimalSpan.push(i)
         this.route.params.subscribe((params) => {
+            console.log
             this.pairId = params["pairId"];
             this.broker = params["broker"];
-            const symbols = Crypto.getSymbolsFromPair(this.pairId,this.appConfigService.getPossibleInfrasPerBroker(this.broker))
-            this.supra = symbols.supra;
-            this.infra = symbols.infra;
-            this.brokerId = params["brokerId"];
-
-
-            this.logic.BinanceGetMyTrades(this.pairId, (trades) => {
-                this.trades = trades;
-            })
-
-            this.runLastPriceWS()
+            if (!this.broker) {
+                this.isErrored=true;
+                this.errorMessage = "Invalid broker"+ this.broker
+            }
+            if (!this.pairId) {
+                this.isErrored=true;
+                this.errorMessage = "Invalid pair"+ this.pairId
+            }
+            if (!this.isErrored) {
+                const symbols = Crypto.getSymbolsFromPair(this.pairId, this.appConfigService.getPossibleInfrasPerBroker(this.broker))
+                this.supra = symbols.supra;
+                this.infra = symbols.infra;
+                this.brokerId = params["brokerId"];
+                this.logic.BinanceGetMyTrades(this.pairId, (trades) => {
+                    this.trades = trades;
+                })
+                this.runLastPriceWS()
+            }
         });
 
 
@@ -96,14 +107,13 @@ isLoading=true;
 
 
         this.messagesSubscription = messages.subscribe((message: string) => {
-          //  console.log("runLastPriceWS", message)
+            //  console.log("runLastPriceWS", message)
             const m = JSON.parse(message)
             this.prevLastPrice = this.lastPrice
             this.lastPrice = parseFloat(m.p)
-            this.numberFormat=Crypto.getNbFormat(this.lastPrice)
+            this.numberFormat = Crypto.getNbFormat(this.lastPrice)
         })
     }
-
 
 
 }

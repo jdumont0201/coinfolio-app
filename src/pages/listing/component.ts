@@ -98,6 +98,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     searchCallback(){
 
     }
+    filterValue="";
     searchUpdated(filterValue) {
         /*this.setTab(-1)
         this.searched = []
@@ -111,8 +112,9 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         } else
             this.addToSearch(s);
 */      console.log("search",filterValue,this,this.dataSource)
-        filterValue = filterValue.trim(); // Remove whitespace
+        filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+        this.filterValue=filterValue
         this.dataSource.filter = filterValue;
     }
 
@@ -175,6 +177,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
 
         //this.filterData()
         this.dataSource = new MatTableDataSource(this.listing);
+        this.dataSource.filter = this.filterValue;
         this.dataSource.sort = this.sort;
         this.loadTime = new Date()
         this.refreshTimer = this.refreshEvery;

@@ -60,7 +60,7 @@ export const routes: Routes = [
   { path: 'positions', component: AppPositionsPage },
   { path: 'generic', component: AppGenericPage },
   { path: 'symbol/:id', component: AppSymbolItemPage },
-  { path: 'pair/:pairId/broker/:brokerId', component: AppPairItemPage },
+  { path: 'pair/:pairId/broker/:broker', component: AppPairItemPage },
 ];
 @NgModule({
   exports: [ RouterModule ]
