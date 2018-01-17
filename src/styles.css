@@ -2566,6 +2566,9 @@ app-chart{}
 #loading .broker-icon{top: 3px;
     position: relative;}
 
+#top-right-buttons-in {
+    display: none
+}
 
 button.back-button.mat-button {
     height: 60px;
