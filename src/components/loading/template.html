@@ -29,7 +29,7 @@
                 <mat-progress-spinner mode="indeterminate"  color="accent"  *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='todo'" class="spinner-small valsta"></mat-progress-spinner>
 
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='failed'" class="valneg">clear</mat-icon>
-                BidAsk
+                Bid/Ask
             </li>
             <ng-container *ngIf="authService?.loginResponse">
             </ng-container>

@@ -126,7 +126,10 @@ mat-nav-list {
 }
 
 mat-table.data mat-cell {
-    font-size: 12px
+    font-size: 12px;
+
+    height: 24px;
+    line-height: 25px;
 }
 
 mat-table.data mat-row {
@@ -2611,3 +2614,6 @@ button.back-button.mat-button {
 
     color: #444!important;
 }
+
+.celllink:hover {cursor:pointer;
+    background:#ffffff44}
