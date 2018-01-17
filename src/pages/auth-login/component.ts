@@ -19,7 +19,7 @@ export class AppAuthPage extends PageWithTabs  {
 
     selectedIndex = 0
 
-    constructor(public authService: AuthService, public requestService: RequestService, public dataService: DataService, , public refreshService: RefreshService ,public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
+    constructor(public authService: AuthService, public requestService: RequestService, public dataService: DataService,  public refreshService: RefreshService ,public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
         super(refreshService, eventService)
 
     }
