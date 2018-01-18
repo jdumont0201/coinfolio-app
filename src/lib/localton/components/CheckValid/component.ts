@@ -26,12 +26,15 @@ export abstract class CheckValid{
     }
 
     eventSubscriptions={}
-    doSubscribe(id,event:Observable<any>,f:any){
+    doSubscribe(id,event:Observable<any>,f:any,name?:string){
         if(id in this.eventSubscriptions){
             this.consoleService.sub(" Already subscribed")
         }else{
             this.consoleService.sub("subscribe",id)
-            this.eventSubscriptions[id]=event.subscribe(f)
+            this.eventSubscriptions[id]=event.subscribe((val)=>{
+                this.consoleService.eventReceived(id + " --> "+(name?name:"")+JSON.stringify(val))
+                f(val)
+            })
         }
     }
     unsubscribeAllEvents(){

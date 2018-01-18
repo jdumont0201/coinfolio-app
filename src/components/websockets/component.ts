@@ -10,6 +10,7 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {Structures} from "../../lib/globalton/core/utils/utils"
 import {WebsocketService} from "../../lib/globalton/core/services/websocket.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-websockets',
@@ -20,8 +21,8 @@ import {WebsocketService} from "../../lib/globalton/core/services/websocket.serv
 export class AppWebsocketsComponent extends AppSubscribeComponent {
     sockets
 
-    constructor(public logic: Logic, public websocketService:WebsocketService,public refreshService: RefreshService, public tradingService: TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
-        super(logic, authService, appConfigService, eventService, apiService, requestService)
+    constructor(public logic: Logic,public consoleService:ConsoleService, public websocketService:WebsocketService,public refreshService: RefreshService, public tradingService: TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+        super(logic,consoleService, authService, appConfigService, eventService, apiService, requestService)
 
         this.update()
         this.eventService.socketDefinedEvent.subscribe((val) => {

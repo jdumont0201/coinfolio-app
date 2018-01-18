@@ -24,26 +24,26 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
         super(refreshService, eventService, consoleService)
         //console.log("+ TOPTICKER")
-        this.eventService.favoriteUpdatedEvent.subscribe((val) => {
-            this.consoleService.eventReceived("favoriteUpdatedEvent --> ticker")
+        this.doSubscribe("favoriteUpdatedEvent", this.eventService.favoriteUpdatedEvent,(val) => {
             this.favorites = val;
-        })
+        },"ticker")
         this.logic.getMe((user) => {
             if (user)
                 this.favorites = user.favoritePairs
+            this.cd.markForCheck()
         })
-        this.authService.loginChanged.subscribe((val) => {
+        this.doSubscribe("loginChanged",this.authService.loginChanged,(val) => {
             this.consoleService.eventReceived("loginChanged --> ticker")
             this.logic.getMe((user) => {
                 if (user)
                     this.favorites = user.favoritePairs
                 this.cd.markForCheck()
             })
-        })
-        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
+        },"ticker")
+        this.doSubscribe("EnabledBrokersLoadingFinishedEvent",        this.tradingService.EnabledBrokersLoadingFinishedEvent,(val) => {
             this.cd.markForCheck()
             this.subscribeToBrokerUpdates()
-        })
+        },"ticker")
     }
 
 
@@ -66,6 +66,7 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
             this.unsubscribeToRefresh(b + "-ticker")
 
         })
+        this.unsubscribeAllEvents()
         clearInterval(this.demovalue)
     }
 

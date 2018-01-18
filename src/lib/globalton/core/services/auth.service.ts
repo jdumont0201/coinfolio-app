@@ -149,8 +149,10 @@ export class AuthService {
         this.entityId = this.loginResponse.entityId;
         this.token = this.loginResponse.token;
         this.cartId = this.loginResponse.cartId;
-        this.favoritePairs = this.loginResponse.favoritePairs?JSON.parse(this.loginResponse.favoritePairs):[];
-
+        if(typeof this.loginResponse.favoritePairs=="string")
+        this.favoritePairs = JSON.parse(this.loginResponse.favoritePairs)
+        else
+        this.favoritePairs = this.loginResponse.favoritePairs
     }
 
     postLogin(): void {

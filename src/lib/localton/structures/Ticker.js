@@ -44,6 +44,7 @@ var Ticker = (function () {
             else {
                 this.load24hChangePerPair(pair, function (res) {
                     /*add tick change data*/
+
                     c.change = res.change;
                     c.p = res.current;
                     c.changeCloseTime = res.closeTime;

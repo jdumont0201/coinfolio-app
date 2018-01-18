@@ -3,7 +3,7 @@
     <button id="search-button" mat-icon-button (click)="showSearch=!showSearch"><mat-icon >{{showSearch?'clear':'search'}}</mat-icon></button>
 
     <div id="top-right-buttons-in">
-    <button class="" mat-icon-button (click)="eventService.openRightMenu('queue')"><mat-icon >hourglass_empty</mat-icon></button>
-    <button class="" mat-icon-button (click)="eventService.openRightMenu('alert')"><mat-icon >priority_high</mat-icon></button>
+        <button hidden class="" style="position:relative" mat-icon-button (click)="eventService.openRightMenu('queue')"><mat-icon >priority_high</mat-icon><span *ngIf="eventService?.nbNonSeenEvents>0" id="event-count">{{eventService?.nbNonSeenEvents}}</span></button>
+
     </div>
 </div>

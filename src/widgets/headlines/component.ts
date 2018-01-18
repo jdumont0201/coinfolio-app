@@ -38,7 +38,7 @@ export class AppHeadlinesComponent implements OnInit{
       });
   }
   parseNews(res):any[]{
-    console.log(res)
+
     const R = res;
     let A = [];
     for (let k=0;k<R.length;++k) {

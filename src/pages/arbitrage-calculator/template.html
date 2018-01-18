@@ -2,7 +2,7 @@
     <mat-toolbar>
         <h3>Arbitrage Calculator</h3>
     </mat-toolbar>
-    <app-top-right-buttons [searchCallback]="searchCallback" [placeholder]="'Search listing...'"></app-top-right-buttons>
+    <app-top-right-buttons  [placeholder]="'Search listing...'"></app-top-right-buttons>
 
 <div class="padded">
     Budget<input type="text"  [(ngModel)]="budget" /><select  [(ngModel)]="infraA" (change)="setInfra()"><option *ngFor="let o of possibleInfraA" value="{{o}}">{{o}}</option></select>

@@ -1332,7 +1332,7 @@ span.separator-marker {
 
 /* RIBGHT DRAWER */
 mat-sidenav#rightsidenav {
-    display: none;
+
 }
 
 mat-sidenav#rightsidenav[opened="true"] {
@@ -1432,7 +1432,7 @@ button.mat-raised-button {
 
 #menu-switch {
     position: absolute;
-    top: 0px;
+    top: 4px;
     left: 0px;
     z-index: 14;
     font-size: 32px;
@@ -2147,9 +2147,9 @@ span.infra {
     border: 0;
     border-radius: 0;
     height: 60px;
-    border-left: solid 1px #777;
+/*    border-left: solid 1px #777;*/
     padding-left: 14px;
-    border-right: solid 1px #777;
+    /*border-right: solid 1px #777;*/
     background: white;
     width: 300px;
 }
@@ -2287,7 +2287,7 @@ div#ticker {
     line-height: 20px;
     padding-left: 4px;
 
-    padding-top: 3px;
+
     box-sizing: border-box;
 }
 
@@ -2533,9 +2533,7 @@ section.widget{
     margin-right: 0;
 }
 
-.mat-toolbar-row, .mat-toolbar-single-row {
-    height: 60px !important;
-}
+
 
 #top-right-buttons {
     position: absolute;
@@ -2545,7 +2543,7 @@ section.widget{
     top: 0;
     z-index: 2;
     right: 0;
-    border-left: solid 1px #0a95f1;
+/*    border-left: solid 1px #0a95f1;*/
     height: 60px;
     display: flex;
 }
@@ -2594,7 +2592,7 @@ app-chart{}
     position: relative;}
 
 #top-right-buttons-in {
-    display: none
+
 }
 
 button.back-button.mat-button {
@@ -2636,3 +2634,80 @@ button.back-button.mat-button {
 
 .celllink:hover {cursor:pointer;
     background:#ffffff44}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+.mat-toolbar-row, .mat-toolbar-single-row {
+    background: white!important;
+    clip-path: polygon(0 0%, 100% 0%, 100% 60px, 0 100%);
+    height: 90px!important;
+    padding-top: 0!important;
+    color: #666!important;
+}
+.underticker-nomenu mat-icon#menu-switch {
+    color: #0380d2;
+}
+.theme-dark input {
+    box-shadow: none!important;}
+input#search {
+    border: solid 1px transparent!important;}
+input#search:hover {
+    border: solid 1px #01a0f2!important;
+    border-bottom-left-radius: 5px;
+    border-top: 0!important;
+    border-right: 0!important;
+}
+.theme-dark h3.title, .theme-dark  mat-toolbar h3 {
+    font: normal 30px/30px "London"!important;
+    color: #444!important;
+}
+*/
+
+#loading .progress{margin-top:10px;margin-bottom:30px;position:relative;margin-right:10px;}
+#loading .progress span{font-size:12px;position:absolute;right:0;line-height:16px;color:#ccc}
+
+
+.menudisplayed #loading {
+    width:calc(100% - 120px )!important;
+}
+mat-chip span.broker-icon {
+    height: 19px;
+    position: relative;
+    top: 5px;
+    width: 19px;
+    border-radius: 13px;
+}
+#event-count{
+    background: #616161;
+    padding: 3px 5px;
+    color: white;
+    position: absolute;
+    top: 6px;
+    border-radius: 3px;
+    line-height: 13px;
+    left: 36px;
+}

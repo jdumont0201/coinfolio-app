@@ -4,7 +4,7 @@
 }
 .theme-dark h3.title, .theme-dark  mat-toolbar h3 {
     font: normal 30px/30px "London"!important;
-    color: #fff!important;
+    color: white!important;
 }
 .theme-dark .mat-tab-label, .mat-tab-link{
     color: #e6e6e6!important;
@@ -16,7 +16,8 @@
     font-size: 15px;
 }
 .theme-dark .mat-tab-label-active{background:#444!important;}
-.theme-dark *{    color: white;font-size:12px}
+.theme-dark *{    color: white;font-size:12px;
+    line-height: 24px;}
 .theme-dark mat-icon { font-size:19px}
 .theme-dark select,.theme-dark option{    color: black;}
 .theme-dark *:not(.mat-icon){    font-family:"Open Sans"}

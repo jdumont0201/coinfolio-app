@@ -8,6 +8,7 @@ import {RequestService} from "../../lib/globalton/core/services/request.service"
 import {ApiService} from "../../lib/globalton/core/services/api.service";
 import {StockChart, Chart} from 'angular-highcharts';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from "@angular/material";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-welcome',
@@ -19,8 +20,8 @@ import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from "@angular/material";
 })
 @Injectable()
 export class AppWelcomeComponent extends AppSubscribeComponent {
-    constructor(public logic: Logic, public authService: AuthService, public dialog: MatDialog, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
-        super(logic, authService, appConfigService, eventService, apiService, requestService)
+    constructor(public logic: Logic,public consoleService:ConsoleService,public authService: AuthService, public dialog: MatDialog, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+        super(logic, consoleService,authService, appConfigService, eventService, apiService, requestService)
     }
 
     close() {

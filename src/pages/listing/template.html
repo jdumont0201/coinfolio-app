@@ -2,7 +2,7 @@
     <mat-toolbar>
         <h3>Listing</h3>
     </mat-toolbar>
-    <app-top-right-buttons [searchCallback]="searchCallback" [placeholder]="'Search listing...'"></app-top-right-buttons>
+    <app-top-right-buttons  [placeholder]="'Search listing...'"></app-top-right-buttons>
 
     <div *ngIf="!authService.isAuthenticated()" class="alert-configure-broker">
         <mat-icon>lock</mat-icon>

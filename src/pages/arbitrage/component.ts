@@ -59,7 +59,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     ngOnInit(){
 
         this.eventService.searchUpdatedEvent.subscribe((val) => {    this.searchUpdated(val)             })
-        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
+        this.doSubscribe("EnabledBrokersLoadingFinishedEvent",this.tradingService.EnabledBrokersLoadingFinishedEvent,(val) => {
             this.brokerLoaded(val)
             this.tradingService.enabledBrokers.forEach((b)=>{
                 let f = () => {                    this.loadDataByBroker(b);                }
@@ -79,7 +79,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     ngOnDestroy() {
         console.log("listdes")
         this.unsubscribeAndStopAllRefresh()
-
+        this.unsubscribeAllEvents()
 
     }
     brokerLoaded(val: { key: string, loaded: boolean }) {

@@ -13,6 +13,8 @@ import {AuthService} from "../../lib/globalton/core/services/auth.service";
 
 
 import {PasswordValidation} from '../../lib/globalton/core/validators/PasswordValidation';
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 
 @Component({
     selector: 'app-subscribe',
@@ -20,7 +22,7 @@ import {PasswordValidation} from '../../lib/globalton/core/validators/PasswordVa
 
 })
 @Injectable()
-export class AppSubscribeComponent {
+export class AppSubscribeComponent extends CheckValid{
     @Input() popup;
     isPaid: boolean = false;
     bitcoinAddress: string;
@@ -48,7 +50,8 @@ export class AppSubscribeComponent {
 
     retryCheck = 3000;
 
-    constructor(public logic: Logic, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+    constructor(public logic: Logic,public consoleService:ConsoleService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+        super(consoleService)
         this.logic.getPlans((res) => {
             //if(res.length===0) this.logic.adminInitDB();
             console.log("plans", res);

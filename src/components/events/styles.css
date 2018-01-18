@@ -1,0 +1,15 @@
+.event-error{
+    border-bottom:solid 1px #444;padding:5px
+}
+#events-close mat-icon:hover{background:rgba(255,255,255,0.2)}
+
+#events-close mat-icon{
+    width: 60px;
+    height: 60px;
+    font-size: 33px;
+    padding: 13px;
+    background: red;cursor:pointer;
+    box-sizing: border-box;
+    position: absolute;
+    right: 0;
+}

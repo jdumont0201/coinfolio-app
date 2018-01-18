@@ -10,6 +10,7 @@ import {ApiService} from "../../lib/globalton/core/services/api.service";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 import {Refreshing} from "../../lib/localton/components/Refreshing/component";
+import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 
 
 @Component({
@@ -18,18 +19,28 @@ import {Refreshing} from "../../lib/localton/components/Refreshing/component";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
-export class AppTopRightButtons {
-
-    @Input() searchCallback: Function
+export class AppTopRightButtons  extends CheckValid{
     @Input() placeholder: string
-    searchedText: string;
     showSearch:boolean=true;
 
-
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
+        super(consoleService)
 
     }
+    ngOnInit(){
 
+        this.doSubscribe("nonSeenEventsUpdated",this.eventService.nonSeenEventsUpdated,(val)=>{
+
+            this.cd.markForCheck()
+        })
+        this.doSubscribe("rightMenuUpdatedEvent",this.eventService.rightMenuUpdatedEvent,(val)=>{
+
+        })
+    }
+
+    ngOnDestroy(){
+        this.unsubscribeAllEvents()
+    }
     doSearchCallback(value) {
         this.eventService.updateSearch(value)
     }

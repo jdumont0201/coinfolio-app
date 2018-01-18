@@ -25,9 +25,13 @@ export class EventService implements OnInit {
     @Output() UIEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() rightMenuUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() searchUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() nonSeenEventsUpdated: EventEmitter<any> = new EventEmitter<string>()
+
+    nbNonSeenEvents=0;
 
     isTickerVisible: boolean = true;
     isMenuDisplayed: boolean = true;
+    isMenu2Displayed: boolean = false;
     isMobile: boolean = false;
     isMenuPinned: boolean = true;
     isVeilVisible: boolean = false;
@@ -43,9 +47,18 @@ export class EventService implements OnInit {
         this.UIEvent.emit({key:"showforgottenpassword"})
     }
     openRightMenu(tab) {
+        this.consoleService.eventSent("rightMenuUpdatedEvent <-- eventService")
+        this.isMenu2Displayed=true;
         this.rightMenuUpdatedEvent.emit(tab)
-    }
 
+    }
+    closeMenu2(){
+        this.rightMenuUpdatedEvent.emit(false)
+    }
+    updateNbUnseenEvents(){
+        this.consoleService.eventSent("nonSeenEventsUpdated <-- eventService")
+        this.nonSeenEventsUpdated.emit()
+    }
     disableFullscreen(chartId) {
         this.isFullscreen = false
         this.isFullscreenEvent.emit({fullscreen:false,id:chartId})
@@ -94,7 +107,7 @@ export class EventService implements OnInit {
 
     errorsUpdated(err: any) {
         this.consoleService.eventReceived("errorsChanged --> eventService")
-        this.snackBar.open(err.code+" "+err.desc+" "+err.url, null, {panelClass:'red',duration: 3000});
+        //this.snackBar.open(err.code+" "+err.desc+" "+err.url, null, {panelClass:'red',duration: 3000});
     }
 
     ngOnInit() {
@@ -187,6 +200,7 @@ export class EventService implements OnInit {
     }
 
     updateFavorites(favorites) {
+        this.consoleService.eventSent("favoriteUpdatedEvent <-- eventService"+favorites)
         this.favoriteUpdatedEvent.emit(favorites);
     }
 }

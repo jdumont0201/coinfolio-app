@@ -7,6 +7,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {MessageService} from "../lib/globalton/core/services/message.service";
 import {MatSnackBar} from "@angular/material";
 import {TradingService} from "../lib/localton/services/trading.service";
+import {ConsoleService} from "../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-root',
@@ -27,7 +28,7 @@ export class AppComponent {
     @ViewChild("sidenav") sidenav;
     @ViewChild("rightsidenav") rightsidenav;
 
-    constructor(public requestService: RequestService, public eventService: EventService, public messageService: MessageService,
+    constructor(public requestService: RequestService,public consoleService:ConsoleService, public eventService: EventService, public messageService: MessageService,
                 public logic: Logic, private route: ActivatedRoute, public snackBar: MatSnackBar, public tradingService: TradingService) {
         this.eventService.panelCreatorEvent.subscribe((val) => this.panelCreatorUpdated(val));
         this.eventService.loginEvent.subscribe((val) => this.loginUpdated(val));
@@ -35,10 +36,12 @@ export class AppComponent {
         this.eventService.workspaceUpdatedEvent.subscribe((val) => this.workspaceUpdated(val))
         this.eventService.isFullscreenEvent.subscribe((val) => this.fullscreenUpdated(val))
         this.eventService.brokerLoadedEvent.subscribe((val) => this.brokerLoaded(val))
-        this.eventService.rightMenuUpdatedEvent.subscribe((val) => this.toogleRightMenu(val))
+        this.eventService.rightMenuUpdatedEvent.subscribe((val) => this.rightMenuUpdated(val))
+
         this.messageService.errorsChanged.subscribe((val) => this.errorsUpdated(val))
         //this.eventService.showLoading()
     }
+
 
     fullscreenUpdated(val) {
 
@@ -85,10 +88,10 @@ export class AppComponent {
         this.eventService.isMenuDisplayed = !this.eventService.isMenuDisplayed
     }
 
-    toogleRightMenu(tab) {
+    rightMenuUpdated(tab) {
+        this.consoleService.eventReceived("rightMenuUpdatedEvent --> appComponent",tab)
         this.rightsidenav.toggle();
-        //this.eventService.isMenuPinned = false;
-        //this.eventService.isMenuDisplayed = !this.eventService.isMenuDisplayed
+
     }
 
     processPin() {

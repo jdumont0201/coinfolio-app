@@ -42,6 +42,7 @@ export class AppPairTickComponent extends Refreshing implements OnInit, OnDestro
             }
             let T = B.getTicker();
             let c: Tick = T.getTick(this.pair)
+            if(c){
             T.load24hChangePerPair(this.pair, (res) => {
                 c.change = res.change;
                 c.p = res.current;
@@ -50,6 +51,9 @@ export class AppPairTickComponent extends Refreshing implements OnInit, OnDestro
                 c.changelastprice = res.last;
                 f({last: res.last, current: res.current, change: res.change, p: c.p, changeCloseTime: c.changeCloseTime, changeLastTime: c.changeLastTime});
             });
+            }else{
+                console.log("Load 24h but no tick ",c,this.pair)
+            }
 
         })
         this.refreshService.getPool(pool).enable()
