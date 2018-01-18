@@ -9,6 +9,7 @@ import {ApiService} from "../../lib/globalton/core/services/api.service";
 import {StockChart, Chart} from 'angular-highcharts';
 import {MatDialogRef, MAT_DIALOG_DATA, MatDialog} from "@angular/material";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-welcome',
@@ -20,8 +21,10 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 })
 @Injectable()
 export class AppWelcomeComponent extends AppSubscribeComponent {
-    constructor(public logic: Logic,public consoleService:ConsoleService,public authService: AuthService, public dialog: MatDialog, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+    _this
+    constructor(public logic: Logic,public consoleService:ConsoleService,public authService: AuthService,public router:Router, public dialog: MatDialog, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
         super(logic, consoleService,authService, appConfigService, eventService, apiService, requestService)
+        this._this=this;
     }
 
     close() {
@@ -106,6 +109,10 @@ export class AppWelcomeComponent extends AppSubscribeComponent {
             dialogRef.close()
         });
     }
+    afterSignup(){
+        this.router.navigate(["/signup/brokers"])
+    }
+
 }
 
 

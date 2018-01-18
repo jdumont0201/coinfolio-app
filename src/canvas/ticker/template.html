@@ -14,7 +14,8 @@
             </div>
         </ng-container>
         <ng-container *ngIf="!tradingService.isAnyBrokerConfigured()">
-            Connecting to brokers...
+            <mat-chip class="chips-link"  [routerLink]="'/signup/brokers'">
+                ADD_BROKERS_TO_SEE_TICKERS &nbsp;<span class="{{demovalue>0?'valpos addplus':'valneg'}}">{{demovalue | number:"1.2-2"}}%</span></mat-chip>
         </ng-container>
     </ng-container>
     <ng-container *ngIf="!authService.isAuthenticated()">

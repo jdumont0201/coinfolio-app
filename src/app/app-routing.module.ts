@@ -24,6 +24,7 @@ import {AppConfigInterfacePage} from "../pages/config-interface/component";
 import {AppArbitragePage} from "../pages/arbitrage/component";
 import {AppConfigProfilePage} from "../pages/config-profile/component";
 
+import {AppAuthBrokersPage} from "../pages/auth-brokers/component"
 import {AppArbitrageCalculatorPage} from "../pages/arbitrage-calculator/component"
 import {AppSocialPage} from "../pages/social/component"
 import {AppNewsPage} from "../pages/news/component"
@@ -58,6 +59,7 @@ export const routes: Routes = [
   { path: 'allocation/:broker', component: AppAllocationPage },
   { path: 'allocation', component: AppAllocationPage },
   { path: 'trades', component: AppTradesPage },
+  { path: 'signup/brokers', component: AppAuthBrokersPage },
   { path: 'positions', component: AppPositionsPage },
   { path: 'generic', component: AppGenericPage },
   { path: 'symbol/:id', component: AppSymbolItemPage },

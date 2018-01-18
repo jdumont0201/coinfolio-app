@@ -1,0 +1,25 @@
+<div id="welcome" *ngIf="authService.isAuthenticated()">
+
+
+    <div class="welcome-banner">
+        <div class="welcome-left padded">
+            <div class="welcome-header">
+                <span id="logo" class="logo-white"> </span>
+                <span class="line">Made by traders. For the traders.</span>
+            </div>
+            <div class="top-slogan-box">
+            <div class="welcome-slogan">Configure your brokers</div>
+            <div class="top-slogan-sub">Take the most out of Coinamics and add exchange API keys below.</div>
+            </div>
+        </div>
+        <div class="welcome-right">
+            <app-broker-allpanels></app-broker-allpanels>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="welcome" *ngIf="!authService.isAuthenticated()">
+    Create an account first and set your brokers later
+</div>

@@ -7,6 +7,7 @@
                 <span id="logo" class="logo-white"> </span>
                 <span class="line">Made by traders. For the traders.</span>
             </div>
+
             <div class="welcome-slogan">Manage your crypto portfolio efficiently</div>
 
         </div>
@@ -115,7 +116,7 @@
 
             <div class="centered">
                 <div id="welcome-register">
-                    <app-form-register [submitText]="'Join Coinamics'"></app-form-register>
+                    <app-form-register [successCallback]="afterSignup.bind(_this)" [submitText]="'Join Coinamics'"></app-form-register>
                     <div hidden class="disclaimer">DISCLAIMER<br>
                         Coinamics is not a financial advisor. Coinamics is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford
                         to lose.

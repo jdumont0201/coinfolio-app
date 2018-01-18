@@ -1,21 +1,21 @@
-
 <div class="padded">
     <h4>Configure your brokers to continue.</h4>
     <ng-container *ngFor="let b of appConfigService?.possibleBrokers">
 
-<mat-expansion-panel>
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-            <app-broker-icon [broker]="b"></app-broker-icon>{{b.substring(0,1).toUpperCase()+b.slice(1)}}
-        </mat-panel-title>
-        <mat-panel-description>
-            Configure your API keys
-        </mat-panel-description>
-    </mat-expansion-panel-header>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <app-broker-icon [broker]="b"></app-broker-icon>
+                    {{b.substring(0,1).toUpperCase()+b.slice(1)}}
+                </mat-panel-title>
+                <mat-panel-description>
+                    Configure your API keys
+                </mat-panel-description>
+            </mat-expansion-panel-header>
 
-    <app-broker-connect [broker]="b"></app-broker-connect>
+            <app-broker-connect [broker]="b"></app-broker-connect>
 
-</mat-expansion-panel>
+        </mat-expansion-panel>
 
-</ng-container>
+    </ng-container>
 </div>

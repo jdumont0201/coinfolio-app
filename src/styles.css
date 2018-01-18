@@ -2570,7 +2570,9 @@ app-chart{}
 .large.hasicon .mat-button-wrapper{    padding: 10px 90px 10px 20px!important;}
 .large.hasicon mat-icon{font-size: 29px!important;;
     height: 31px!important;;
-    padding-right: 60px!important;;}
+    padding-right: 60px!important;;
+    line-height: 31px!important;
+}
 
 .spinner-small ,.spinner-small svg {width: 16px!important;
     height: 14px!important;
@@ -2710,4 +2712,14 @@ mat-chip span.broker-icon {
     border-radius: 3px;
     line-height: 13px;
     left: 36px;
+}
+.top-slogan-sub{text-align: center;max-width: 500px;
+    margin: 20px auto 0px;
+    font-size: 14px!important;text-align: center    }
+.top-slogan-box{margin:100px 0}
+
+app-broker-connect{padding-bottom: 50px}
+app-broker-connect section.widget{border-color:#ccc!important}
+app-broker-connect h5, app-broker-connect span:not(.mat-button-wrapper), app-broker-connect div {
+    color: #444!important;
 }
