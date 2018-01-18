@@ -18,6 +18,7 @@ export class AppPleaseLoginComponent extends PageWithTabs implements OnInit,Afte
 
     constructor(public tradingService: TradingService, public eventService: EventService, public consoleService:ConsoleService,private cd: ChangeDetectorRef, public refreshService: RefreshService) {
         super(refreshService,eventService,consoleService)
+        this._this=this;
         this.doSubscribe("EnabledBrokersLoadingFinishedEvent",this.tradingService.EnabledBrokersLoadingFinishedEvent,(val) => {
             this.brokerLoaded(val)
         })
@@ -40,7 +41,7 @@ export class AppPleaseLoginComponent extends PageWithTabs implements OnInit,Afte
     afterLogin() {
 
     }
-
+_this
     afterSignup() {
 
     }
