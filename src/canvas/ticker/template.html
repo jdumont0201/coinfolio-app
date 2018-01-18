@@ -19,8 +19,12 @@
     </ng-container>
     <ng-container *ngIf="!authService.isAuthenticated()">
         <div class="col-2b">
-            <div class="col-2b-1">Login to enable ticker
-                <button mat-raised-button [routerLink]="'/auth'">Login</button>
+            <div>
+            <mat-chip class="chips-link"  [routerLink]="'/auth'">
+                SIGN_IN &nbsp;<span class="{{demovalue>0?'valpos addplus':'valneg'}}">{{demovalue | number:"1.2-2"}}%</span></mat-chip>
+            <mat-chip class="chips-link"  [routerLink]="'/auth'">
+                SIGN_UP_NOW &nbsp;<span class="{{demovalue>0?'valpos addplus':'valneg'}}">{{demovalue2 | number:"1.2-2"}}%</span></mat-chip>
+
             </div>
         </div>
     </ng-container>

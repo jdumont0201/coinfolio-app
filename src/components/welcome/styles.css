@@ -13,14 +13,17 @@
 .welcome-right-in > div:last-child {
     border-right: 0
 }
+
 .welcome-right-in > div {
     margin-right: 10px;
-    padding: 14px;min-width:300px
+    padding: 14px;
+    min-width: 300px
 }
 
 .welcome-right {
     padding: 0px 20px;
-    width: 100%;box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
     color: white;
 }
 
@@ -41,10 +44,11 @@ span.welcome-message {
     top: 0px;
     left: 0;
     background: white;
-    box-shadow: 4px 3px 5px #00000059;padding-bottom: 100px;
+    box-shadow: 4px 3px 5px #00000059;
+    padding-bottom: 100px;
     margin: auto;
     right: 0;
-      background: linear-gradient(45deg, #1f3550,  #004aa5, #0499c3);
+    background: linear-gradient(45deg, #1f3550, #004aa5, #0499c3);
 
 }
 
@@ -68,12 +72,14 @@ span.welcome-message {
 #welcome .line {
     text-transform: uppercase
 }
-#welcome-register{
-    max-width:500px;
+
+#welcome-register {
+    max-width: 500px;
     border: solid 1px #ffffff45;
     padding: 20px;
     border-radius: 6px;
 }
+
 #welcome-in {
     padding: 20px;
 }
@@ -161,7 +167,7 @@ span.welcome-message {
 #welcome button {
     margin-bottom: 10px;
     max-width: 95%;
-    margin-top:20px
+    margin-top: 20px
 }
 
 #welcome .logo-in {
@@ -188,8 +194,14 @@ span.welcome-message {
     background-size: contain;
     background-repeat: no-repeat;
 }
-.menudisplayed .welcome-header{margin-left:0px}
- .welcome-header{margin-left:60px}
+
+.menudisplayed .welcome-header {
+    margin-left: 0px
+}
+
+.welcome-header {
+    margin-left: 60px
+}
 
 @media screen and (max-width: 640px) {
 
@@ -202,8 +214,14 @@ span.welcome-message {
         padding-top: 5px;
     }
 
-    .welcome-right-in {display:block}
-    .welcome-right-in > div{border:0}
+    .welcome-right-in {
+        display: block
+    }
+
+    .welcome-right-in > div {
+        border: 0
+    }
+
     .welcome-right {
         padding: 20px;
         width: 100%;
@@ -263,19 +281,78 @@ span.welcome-message {
     background-image: url(/assets/img/portfolio-example.png)
 }
 
-.welcome-right{background: white;
+.welcome-right {
+    background: white;
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
     clip-path: polygon(0 6%, 100% 0%, 100% 93%, 0 100%);
     padding-top: 87px;
-    padding-bottom: 60px;}
-.welcome-right-in{display:block}
-.welcome-right-in h2{color:#444;
-    font-family: London!important;}
-.welcome-right-in > div {display:flex}
-.welcome-right-in .desc{margin-left:20px}
-.welcome-image{border-radius:100px;border:0;
-    margin: 0;}
-.welcome-slogan{font-size:35px;font-family:London!important;margin:100px 0;text-align:center}
-.welcome-signup{
+    padding-bottom: 60px;
+}
+
+.welcome-right-in {
+    display: block
+}
+
+.welcome-right-in h2 {
+    color: #444;
+    font-family: London !important;
+}
+
+.welcome-right-in > div {
+    display: flex
+}
+
+.welcome-right-in .desc {
+    margin-left: 20px
+}
+
+.welcome-image {
+    border-radius: 100px;
+    border: 0;
+    margin: 0;
+}
+
+.welcome-slogan {
+    font-size: 35px;
+    font-family: London !important;
+    margin: 100px 0;
+    text-align: center
+}
+
+.welcome-signup {
     margin: 80px auto;
-    max-width: 500px;}
+    max-width: 500px;
+}
+
+div#welcome-tweet-demo {
+    background: #607294;
+    width: 200px;border-radius:5px;
+}
+
+#welcome-allocation-demo {
+    width: 200px;overflow: hidden;
+    height: 200px
+}
+
+#welcome-allocation-demo .highchart-box {
+    position: relative;
+    top: -89px;
+}
+
+#welcome-portolio-demo {
+    width: 200px !important;
+    overflow: hidden;
+}
+
+#welcome-portolio-demo ul li:hover {
+    background: #444
+}
+
+#welcome-tweet-demo .tweet > div {
+    display: block !important;
+}
+#welcome-tweet-demo .tweet-url {cursor: pointer}
+#welcome-tweet-demo .tweet-url:hover {text-decoration:underline}
+#welcome-tweet-demo li.tweet .tweet-date {
+    color: #c5c5c5;
+}

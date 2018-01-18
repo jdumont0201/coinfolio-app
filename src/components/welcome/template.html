@@ -14,27 +14,92 @@
             <span class="welcome-message">Top features</span>
             <div class="welcome-right-in">
                 <div>
-                    <div id="welcome-portolio" class="welcome-image"></div>
+                    <div id="welcome-portolio-demo">
+                        <div>Portfolio</div>
+                        <ul>
+                            <ng-container *ngFor="let b of demoBrokers">
+
+                                <li  (click)="moreportfolio()" >
+
+                                    <span class="broker-icon notext broker-{{b}}"></span>
+                                    ${{demoPortfolio[b] | number:"1.2-2"}}
+
+                                </li>
+
+                            </ng-container>
+                            <li *ngIf="total>0">TOTAL: ${{total |number:'1.2-2'}}</li>
+                        </ul>
+                    </div>
                     <div class="desc"><h2>Connect your favorite brokers</h2>
 
                         <span></span></div>
                 </div>
                 <div>
-                    <div id="welcome-tweet" class="welcome-image"></div>
+                    <div id="welcome-allocation-demo">
+                        <div class="highchart-box" [chart]="chart"></div>
+                    </div>
+                    <div class="desc"><h2>Optimize your portofolio allocation</h2>
+                        <span></span></div>
+                </div>
+                <div>
+                    <div id="welcome-tweet-demo">
+                        <ul>
+                            <li *ngFor="let t of tweets" class="tweet">
+                                <div>
+                                    <div>
+                                    <div>
+                                        <a target="_blank" href="http://twitter.com/{{t.userscreenname}}">
+                                            <div class="tweet-image" [ngStyle]="{'background-image': 'url(https://pbs.twimg.com/profile_images/952660250871648257/leheDWmP_bigger.jpg)'}"></div>
+                                        </a>
+                                    </div>
+                                    <div class="user">
+                                        <a target="_blank" href="http://twitter.com/{{t.userscreenname}}"><span class="tweet-user">{{t.username}}</span><br>
+                                            <span class="tweet-userscreen">@{{t.userscreenname}}</span>
+                                        </a>
+                                    </div></div>
+                                    <div>
+                                    <div class="likes">
+                                        <mat-icon>cached</mat-icon>
+                                        <span class="tweet-retweets">{{t.retweets}}</span>
+                                        <mat-icon>favorite_border</mat-icon>
+                                        <span class="tweet-favorites">{{t.favorites}}</span>
+                                    </div>
+                                    </div>
+                                    <div>
+                                        <span class="tweet-text">{{t.text}}</span><br>
+                                        <span class="tweet-date">{{t.date | date:"medium"}}</span><br>
+                                    </div>
+
+                                    <a rel="external"  (click)="more()"                             class="tweet-url">More...</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="desc"><h2>Access all your news & tweets</h2>
 
                         <span></span></div>
                 </div>
-                <div>
-                    <div id="welcome-allocation" class="welcome-image"></div>
-                    <div class="desc"><h2>Optimize your portofolio allocation</h2>
 
-                        <span></span></div>
-                </div>
                 <div>
-                    <div id="welcome-arbitrage" class="welcome-image"></div>
+                    <div id="welcome-arbitrage-demo" >
+                        <div class="table">
+                            <div class="tr">
+                                <div class="td">Pair</div>
+                                <div class="td">Broker</div>
+                                <div class="td">Bid</div>
+                                <div class="td">Ask</div>
+                            </div>
+
+                            <div class="tr" *ngFor="let b of demoBrokers">
+                                <div class="td">ETH/USD</div>
+                                <div class="td">{{b}}</div>
+                                <div class="td {{v[b].bid>v[b].oldbid?'valpos':'valneg'}}">{{v[b].bid | number:"1.2-2"}}</div>
+                                <div class="td {{v[b].ask>v[b].oldask?'valpos':'valneg'}}">{{v[b].ask | number:"1.2-2"}}</div>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="desc"><h2>Perform arbitrage decisions easily</h2>
-
                         <span></span></div>
                 </div>
 
@@ -222,4 +287,5 @@
 
     </mat-horizontal-stepper>
 </ng-template>
+
 

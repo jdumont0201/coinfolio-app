@@ -159,6 +159,7 @@ import {AppPleaseAddBrokerComponent} from "../components/please-addbroker/compon
 import {AppPleaseLoginComponent} from "../components/pleaselogin/component"
 import {AppWrongParamComponent} from "../components/wrongparam/component"
 import {GlobalErrorHandler} from "../lib/globalton/core/handlers/GlobalErrorHandler";
+import {WelcomeDialog} from "../components/welcome/component";
 import {AppPortfolioValueComponent} from "../components/portfolio-value/component"
 
 /*ROUTER*/
@@ -172,7 +173,7 @@ import { NgvasModule, tweens, hitAreas } from "ngvas";
 
 @NgModule({
     declarations: [
-        AppComponent,AppFormRenewPassword,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent,AppFormRenewPassword,WelcomeDialog,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,
@@ -191,7 +192,7 @@ import { NgvasModule, tweens, hitAreas } from "ngvas";
         GlobaltonCoreModule,GlobaltonUIModule, LocalModule,        AppRoutingModule,
         MatSlideToggleModule,MatTooltipModule,MatSortModule,MatChipsModule,MatButtonModule,MatProgressBarModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
     ],
-    entryComponents: [AskNameDialog],
+    entryComponents: [AskNameDialog,WelcomeDialog],
     providers: [
         Logic,
         {provide: ErrorHandler, useClass: GlobalErrorHandler},

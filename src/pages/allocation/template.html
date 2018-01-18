@@ -2,11 +2,11 @@
     <mat-toolbar>
         <h3>Allocation</h3>
     </mat-toolbar>
-    <div *ngIf="!authService.isAuthenticated()">
+    <div *ngIf="!authService.isAuthenticated() ">
         <app-please-login></app-please-login>
     </div>
 
-    <ng-container *ngIf="!tradingService?.hasBrokersEnabled()">
+    <ng-container *ngIf="authService.isAuthenticated()  && !tradingService?.hasBrokersEnabled()">
         <app-please-addbroker></app-please-addbroker>
     </ng-container>
     <app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>

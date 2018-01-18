@@ -2287,6 +2287,7 @@ div#ticker {
     line-height: 20px;
     padding-left: 4px;
 
+    padding-top: 3px;
     box-sizing: border-box;
 }
 
@@ -2391,7 +2392,7 @@ app-top-right-buttons button:hover {
     background: rgba(255, 255, 255, 0.6) !important;
 }
 
-app-portfolio-recap {
+app-portfolio-recap,#welcome-portolio-demo {
     background: #222;
     display: block;
     font-family: London !important;
@@ -2399,18 +2400,18 @@ app-portfolio-recap {
     padding: 0px 0px;
 }
 
-app-portfolio-recap ul li {
+app-portfolio-recap ul li,#welcome-portolio-demo ul li {
     cursor: pointer;
     padding: 5px !important;
 
     outline: none;
 }
 
-app-portfolio-recap ul li:hover {
+app-portfolio-recap ul li:hover ,#welcome-portolio-demo ul li:hover{
     background: #444
 }
 
-app-portfolio-recap div {
+app-portfolio-recap div ,#welcome-portolio-demo div{
     padding: 5px 5px
 }
 

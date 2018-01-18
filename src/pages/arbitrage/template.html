@@ -12,7 +12,7 @@
     <div *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()" class="alert-configure-broker">
         <app-configure-broker></app-configure-broker>
     </div>
-    <ng-container *ngIf="!tradingService?.hasBrokersEnabled()">
+    <ng-container *ngIf="authService.isAuthenticated()  && !tradingService?.hasBrokersEnabled()">
         <app-please-addbroker></app-please-addbroker>
     </ng-container>
     <ng-container *ngIf="listing.length>0 || isRefreshing">

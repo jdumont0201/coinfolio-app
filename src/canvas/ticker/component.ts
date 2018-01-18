@@ -18,11 +18,11 @@ import {Refreshing} from "../../lib/localton/components/Refreshing/component";
 })
 @Injectable()
 export class AppTicker extends Refreshing implements OnInit, OnDestroy {
-
+    demovalue;
     favorites;
 
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
-        super(refreshService,eventService,consoleService)
+        super(refreshService, eventService, consoleService)
         //console.log("+ TOPTICKER")
         this.eventService.favoriteUpdatedEvent.subscribe((val) => {
             this.consoleService.eventReceived("favoriteUpdatedEvent --> ticker")
@@ -48,14 +48,14 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
 
 
     subscribeToBrokerUpdates() {
-        console.log("subs",this.tradingService.enabledBrokers);
+        console.log("subs", this.tradingService.enabledBrokers);
         this.tradingService.enabledBrokers.forEach((b) => {
 
             let f = (val) => {
                 this.cd.markForCheck()
             };
-            this.subscribeToRefresh(b + "-portfolio",f)
-            this.subscribeToRefresh(b + "-ticker",f)
+            this.subscribeToRefresh(b + "-portfolio", f)
+            this.subscribeToRefresh(b + "-ticker", f)
 
         })
     }
@@ -66,11 +66,18 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
             this.unsubscribeToRefresh(b + "-ticker")
 
         })
+        clearInterval(this.demovalue)
     }
 
+    demoInterval
+demovalue2
     ngOnInit() {
 
-
+        this.demoInterval = setInterval(() => {
+            this.demovalue = Math.round(Math.random() * 100 * 100) / 100-30
+            this.demovalue2 = Math.round(Math.random() * 100 * 100) / 100-30
+            this.cd.markForCheck()
+        }, 1500)
     }
 
 }
