@@ -103,9 +103,10 @@ export class AppComponent {
     }
 
     backdrop() {
-        if (!this.eventService.isMobile) {
+        //if (!this.eventService.isMobile) {
+        console.log("BBBack")
             this.sidenav.close();
             this.eventService.isMenuDisplayed = false
-        }
+        //}
     }
 }
