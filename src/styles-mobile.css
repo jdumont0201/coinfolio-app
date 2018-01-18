@@ -35,4 +35,15 @@
         padding: 0!important;
     }
     #panel-creator-workspace,.mat-drawer ,#panel-creator-top{width:70%!important}
+
+
+    .form-invalid {
+
+        padding: 5px;
+        margin-bottom: 5px;
+        border-radius: 3px;
+        font-size: 12px;
+        color: white;
+        position:initial
+    }
 }

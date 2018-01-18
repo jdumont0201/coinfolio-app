@@ -1484,11 +1484,15 @@ button[disabled] span {
 
 .icon-hide:hover{
     background:#fafafa21;}
-.icon-hide{    margin-left: 5px;
-    position: relative;
-    top: -10px;
-    padding: 11px;border-radius:3px;
-    cursor: pointer;}
+.icon-hide{margin-left: 5px;
+    position: absolute;
+    top: 17px;
+    padding: 8px 11px;
+    border-radius: 3px;
+    cursor: pointer;
+    padding-bottom: 5px;
+    right: 4px;}
+form >div {position:relative}
 /*
 .mat-horizontal-stepper-header-container{
   background-color: #106CC8;
@@ -1606,15 +1610,18 @@ mat-nav-list span#logo {
 mat-form-field {
     width: 100%
 }
-
-.form-invalid {
-    background: #ffbac3;
+.form-invalid{
+    background: #f1233e;
     padding: 5px;
     margin-bottom: 5px;
     border-radius: 3px;
     font-size: 12px;
     color: #c30808;
+    position: absolute;
+    top: 0;
+    right: 10px;
 }
+
 
 .mat-focused .form-invalid {
     display: none
