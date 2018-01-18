@@ -36,7 +36,7 @@ export class AuthService {
     isPostConfigured: boolean = false;
     loginResponse: { token: string, lang: string, currency: string, timezone: string, cartId: ObjectId, user: any, userId: ObjectId, entityId: ObjectId ,favoritePairs:string};
 
-    favoritePairs;
+    favoritePairs:{pair:string,broker:string }[];
     token: string;
     data: any;
     user: any;
@@ -182,7 +182,16 @@ export class AuthService {
     isAuthenticated(): boolean {
         return this.authenticated;
     }
-
+    isInFavorites(broker,pair){
+        console.log("checkfav",broker,pair,this.favoritePairs)
+        if(!this.favoritePairs) return false;
+        for(let i=0;i<this.favoritePairs.length;++i){
+            let f=this.favoritePairs[i];
+            if(f.broker==broker && f.pair==pair)
+                return true
+        }
+        return false
+    }
     setTokenFromLocalStorage(): boolean {
         this.loginResponse = JSON.parse(localStorage.getItem(this.localStorageKey));
         if (this.loginResponse) {

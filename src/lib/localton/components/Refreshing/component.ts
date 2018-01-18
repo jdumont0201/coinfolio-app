@@ -1,4 +1,4 @@
-import {Component, Injectable, OnInit, ViewChild} from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RequestService} from '../../../../lib/globalton/core/services/request.service';
 import {DataService} from "../../../../lib/localton/services/data.service";
 
@@ -12,21 +12,22 @@ import {CheckValid} from "../CheckValid/component";
 import {ConsoleService} from "../../../globalton/core/services/console.service";
 
 @Injectable()
-export abstract class Refreshing  extends CheckValid{
+export abstract class Refreshing extends CheckValid  {
     dataRefreshSubscription = {}
     poolDefinedSubscription = {}
     poolSubscribed = [];
     poolStarted = []
 
-    constructor(public refreshService: RefreshService, public eventService: EventService,public consoleService:ConsoleService) {
-super(consoleService);
+
+    constructor(public refreshService: RefreshService, public eventService: EventService, public consoleService: ConsoleService) {
+        super(consoleService);
     }
 
     subscribeToRefresh(pool: string, f: Function, enable?: boolean) {
         //console.log("subscribe pool ", pool)
         this.dataRefreshSubscription[pool] = this.refreshService.getEventByKey(pool).subscribe(f)
         if (enable) {
-            let P=this.refreshService.getPool(pool);
+            let P = this.refreshService.getPool(pool);
             if (!P.isEnabled()) {
                 this.poolStarted.push(pool)
                 P.enable()
@@ -38,7 +39,7 @@ super(consoleService);
                 if (val.name == pool)
                     this.dataRefreshSubscription[pool] = this.refreshService.getEventByKey(pool).subscribe(f)
                 if (enable) {
-                    let P=this.refreshService.getPool(pool)
+                    let P = this.refreshService.getPool(pool)
                     if (!P.isEnabled()) {
                         this.poolStarted.push(pool)
                         P.enable()

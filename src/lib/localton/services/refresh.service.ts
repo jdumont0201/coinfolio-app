@@ -36,14 +36,14 @@ export class Pool {
     enable() {
         if (this.active) return
 
-        this.consoleService.refresh("POOL enable ", this.name)
+        this.consoleService.refresh("POOL ENABLE ", this.name)
         if (!this.isReady()) {
             this.consoleService.refresh("POOL error no f or delay");
             return;
         }
         this.active = true;
         let exec: Function = () => {
-            this.consoleService.refresh("POOL run ", this.name)
+            this.consoleService.refresh("POOL RUN    ", this.name)
             if (!this.refreshService.isRunning || !this.active) this.stop()
             else {
                 this.outcome = -1;
@@ -68,7 +68,7 @@ export class Pool {
 
     define(delay, f) {
         this.status = "READY"
-        this.consoleService.refresh("POOL define ", this.name, delay)
+        this.consoleService.refresh("POOL DEFINE ", this.name, delay)
         this.delay = delay;
         this.f = f;
         this.eventService.poolDefinedEvent.emit({name: this.name, delay: this.delay})
@@ -76,7 +76,7 @@ export class Pool {
 
 
     stop() {
-        this.consoleService.refresh("POOL " + this.name + " STOP")
+        this.consoleService.refresh("POOL STOP   "+ this.name )
         this.status = "STOPPED";
         this.active = false;
         clearInterval(this.interval);
@@ -182,7 +182,7 @@ export class RefreshService {
 
     getPool(k) {
         if (!(k in this.pools)) {
-            console.log("!!! POOL" + k + " getPool pool not created");
+            console.log("!!! POOL WARN     " + k + " getPool pool not created");
             this.createPool(k)
         }
         return this.pools[k]
@@ -228,10 +228,10 @@ export class RefreshService {
 
     createPool(key: string) {
         if (!(key in this.pools)) {
-            this.consoleService.refresh("POOL " + key + " CREATE")
+            this.consoleService.refresh("POOL CREATE  " + key )
             this.pools[key] = new Pool(key, this, this.eventService, this.consoleService)
         } else
-            this.consoleService.refresh("POOL " + key + " CREATING POOL BUT ALREADY EXISTING")
+            this.consoleService.refresh("POOL WARN    " + key + " CREATING POOL BUT ALREADY EXISTING")
 
     }
 

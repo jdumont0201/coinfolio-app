@@ -1432,7 +1432,7 @@ button.mat-raised-button {
 
 #menu-switch {
     position: absolute;
-    top: 4px;
+    top: 0px;
     left: 0px;
     z-index: 14;
     font-size: 32px;
@@ -1442,6 +1442,7 @@ button.mat-raised-button {
     height: 60px;
     box-sizing: border-box;
     text-align: center;
+    line-height: 34px;
 }
 
 #maincanvas mat-side-nav {
@@ -1753,7 +1754,7 @@ section.widget.calendar h5 {
 }
 
 section.widget.allocation {
-    background: #000; /*  border: solid 4px #171e46;*/
+    /*background: #000;*/ /*  border: solid 4px #171e46;*/
 }
 
 section.widget.allocation h5 {
@@ -2786,3 +2787,6 @@ span.tweet-text {
     line-height: 16px!important;
     display: inline-block;
 }
+
+.notifications{
+    border-radius: 100px!important;}

@@ -21,7 +21,8 @@ import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 @Injectable()
 export class AppTopRightButtons  extends CheckValid{
     @Input() placeholder: string
-    showSearch:boolean=true;
+    @Input() showSearch:boolean=true;
+
 
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
         super(consoleService)

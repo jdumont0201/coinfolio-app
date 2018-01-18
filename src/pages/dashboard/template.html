@@ -1,7 +1,7 @@
 <app-welcome></app-welcome>
 <ng-container *ngIf="!eventService.isWelcomeVisible">
 <mat-toolbar><h3>Dashboard</h3></mat-toolbar>
-
+    <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
 <mat-tab-group (selectedTabChange)="tabChanged($event)">
 
     <mat-tab label="Overview">

@@ -103,6 +103,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
                 this.unsubscribeToRefresh(b + "-portfolio")
                 this.unsubscribeToRefresh(b + "-ticker")
             });
+
         this.unsubscribeAllEvents()
         this.finish()
     }

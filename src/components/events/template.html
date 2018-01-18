@@ -1,6 +1,6 @@
 <div id="events">
     <div id="events-close"><mat-icon [matTooltip]="'Close menu'"  (click)="closeMenu()">close</mat-icon></div>
-    EVENTS {{events.length}}
+
 <div class="event-error" *ngFor="let e of events">
     <ng-container *ngIf="e.type=='error'">
     <div >{{e.date | date:'medium'}}</div>

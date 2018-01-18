@@ -5,6 +5,7 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {Refreshing} from "../../lib/localton/components/Refreshing/component";
 import {EventService} from "../../lib/localton/services/event.service";
 import {Tick} from "../../lib/localton/structures/Ticker";
+import {AuthService} from "../../lib/globalton/core/services/auth.service";
 
 @Component({
     selector: 'app-pair-tick',
@@ -23,7 +24,7 @@ export class AppPairTickComponent extends Refreshing implements OnInit, OnDestro
     closeTime;
     p;
 
-    constructor(public tradingService: TradingService, public refreshService: RefreshService, private cd: ChangeDetectorRef, public consoleService: ConsoleService, public eventService: EventService) {
+    constructor(public tradingService: TradingService, public authService:AuthService,public refreshService: RefreshService, private cd: ChangeDetectorRef, public consoleService: ConsoleService, public eventService: EventService) {
         super(refreshService,eventService,consoleService)
         //this.tradingService.PriceUpdatedEvent.subscribe((param) => this.priceUpdated(param))
 
@@ -77,9 +78,15 @@ export class AppPairTickComponent extends Refreshing implements OnInit, OnDestro
     }
 
     ngOnDestroy() {
-        console.log("destroy pair-tick", this.pair)
+
         let pool = this.broker + "-" + "change-" + this.pair;
+
         this.unsubscribeToRefresh(pool)
+        let isFav=this.authService.isInFavorites(this.broker,this.pair);
+        console.log("destroy pair-tick", pool,isFav)
+        if(!isFav){//stop pools created by page, but do not stop ticker favorite pool
+            this.refreshService.getPool(pool).stop()
+        }
     }
 
 }

@@ -18,7 +18,7 @@ export class AppPleaseLoginComponent extends PageWithTabs implements OnInit,Afte
 
     constructor(public tradingService: TradingService, public eventService: EventService, public consoleService:ConsoleService,private cd: ChangeDetectorRef, public refreshService: RefreshService) {
         super(refreshService,eventService,consoleService)
-        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
+        this.doSubscribe("EnabledBrokersLoadingFinishedEvent",this.tradingService.EnabledBrokersLoadingFinishedEvent,(val) => {
             this.brokerLoaded(val)
         })
 

@@ -1,9 +1,13 @@
 <div id="top-right-buttons" class="{{showSearch?'shown':''}}">
-    <input id="search" (keyup)="doSearchCallback($event.target.value)"  placeholder="{{placeholder}}" type="text" >
+
+    <input *ngIf="showSearch" id="search" (keyup)="doSearchCallback($event.target.value)"  placeholder="{{placeholder}}" type="text" >
     <button id="search-button" mat-icon-button (click)="showSearch=!showSearch"><mat-icon >{{showSearch?'clear':'search'}}</mat-icon></button>
 
     <div id="top-right-buttons-in">
-        <button hidden class="" style="position:relative" mat-icon-button (click)="eventService.openRightMenu('queue')"><mat-icon >priority_high</mat-icon><span *ngIf="eventService?.nbNonSeenEvents>0" id="event-count">{{eventService?.nbNonSeenEvents}}</span></button>
+
+        <button hidden class="notifications" [matTooltip]="'Notifications'" style="position:relative" mat-icon-button (click)="eventService.openRightMenu('queue')">
+            <mat-icon >{{eventService?.nbNonSeenEvents>0?'notifications':'notifications_none'}}</mat-icon><span *ngIf="eventService?.nbNonSeenEvents>0" id="event-count">{{eventService?.nbNonSeenEvents}}</span>
+        </button>
 
     </div>
 </div>
