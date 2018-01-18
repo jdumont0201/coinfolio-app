@@ -6,9 +6,9 @@
 
         <h3><a [routerLink]="'/config/all'" class="hoverlink"> Configure</a> > Profile </h3>
     </mat-toolbar>
-<div class="padded">
+<div class="padded slash bgwhite">
 
-    E-mail: {{user?.email}}<br>
+    <span>E-mail: {{user?.email}}<br></span>
 
     <button mat-raised-button (click)="logout()">Sign off</button>
 </div>

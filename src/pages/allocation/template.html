@@ -57,7 +57,12 @@
                         <mat-header-cell *matHeaderCellDef> 24h Evolution</mat-header-cell>
                         <mat-cell *matCellDef="let element">
                             <ng-container *ngIf="element.price && element.available>0">
-                                <app-pair-tick *ngFor="let p of tradingService.getProbablePairs(element.symbol)" [pair]="p" [broker]="element.broker"></app-pair-tick>
+                                <ng-container *ngFor="let p of tradingService.getProbablePairs(element.symbol)">
+
+                                    <app-pair-tick  [pair]="p" [broker]="element.broker"></app-pair-tick>
+                                    <br>
+                                </ng-container>
+
                             </ng-container>
                         </mat-cell>
                     </ng-container>

@@ -128,7 +128,7 @@ mat-nav-list {
 mat-table.data mat-cell {
     font-size: 12px;
 
-    height: 24px;
+    min-height: 24px;
     line-height: 25px;
 }
 
