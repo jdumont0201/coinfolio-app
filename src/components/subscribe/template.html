@@ -40,13 +40,13 @@ You are trying to access a Plus feature. Plus features are premium features mark
           <div>
             <mat-form-field>
               <input formControlName="password" name="password" matInput placeholder="Enter your password" type="password" required>
-              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+              <mat-icon class="icon-hide" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
             </mat-form-field>
           </div>
           <div>
             <mat-form-field>
               <input  [formControlName]="'confpassword'" name="confpassword" matInput placeholder="Confirm your password" type="password" required>
-              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+              <mat-icon class="icon-hide" matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
 
             </mat-form-field>
 

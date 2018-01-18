@@ -44,6 +44,11 @@
         border-radius: 3px;
         font-size: 12px;
         color: white;
-        position:initial
+        position:relative;
+
+        right: initial;
+        top: -5px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 }

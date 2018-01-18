@@ -215,8 +215,11 @@ a.news {
     padding: 11px 16px 0 16px !important;
 }
 
-.menudisplayed h3 {
+h3 {
     padding-left: 49px;
+}
+.menudisplayed h3 {
+    padding-left: 0px;
 }
 
 /* HEADERS */
@@ -1476,7 +1479,7 @@ mat-icon#menu-pin {
     z-index: 16;
 }
 button[disabled] span {
-    color: #105bb7!important;
+    color: #ffffff52!important
 }
 .padded {
     padding: 20px
