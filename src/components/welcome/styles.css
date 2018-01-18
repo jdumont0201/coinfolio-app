@@ -185,6 +185,9 @@ span.welcome-message {
     background: url(/assets/img/logowhite.png);
     background-size: contain;
     background-repeat: no-repeat;
+    max-width: 194px;
+    height: 30px;
+    margin-top: 5px;
 }
 
 .menudisplayed .welcome-header {
@@ -195,16 +198,18 @@ span.welcome-message {
     margin-left: 60px
 }
 
+.welcome-left {
+
+    padding-top: 5px;
+}
+.menudisplayed .welcome-header
+{margin-left:15px;}
 @media screen and (max-width: 640px) {
 
     .welcome-banner {
         display: block
     }
 
-    .welcome-left {
-
-        padding-top: 5px;
-    }
 
     .welcome-right-in {
         display: block

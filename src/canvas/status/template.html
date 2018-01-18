@@ -1,4 +1,4 @@
-<div id="status" >
+<div id="status" *ngIf="authService?.isAuthenticated()">
     <div *ngIf="tradingService.enabledBrokers?.length==0" class="monitor-notconfigured">No brokers configured</div>
     <div *ngIf="tradingService.enabledBrokers?.length>0"  class="monitor-{{tradingService?.isLoadingDone?'ok':'wait'}}">{{tradingService.isLoadingDone?(tradingService?.enabledBrokers?.length+" broker"+( tradingService?.enabledBrokers?.length>1?"s":"")+" connected"):"Connecting to brokers..."}}</div>
 
