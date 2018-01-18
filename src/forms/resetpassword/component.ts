@@ -28,7 +28,7 @@ export class AppFormResetPassword {
     form: FormGroup;
 
     constructor(public logic: Logic, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService, public snackBar: MatSnackBar) {
-    } 
+    }
 
 
     ngOnInit() {
