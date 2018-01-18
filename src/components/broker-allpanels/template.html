@@ -7,7 +7,7 @@
                 {{b.substring(0,1).toUpperCase()+b.slice(1)}}
             </mat-panel-title>
             <mat-panel-description>
-
+                {{tradingService.enabledBrokers.indexOf(b)>-1?"Enabled":""}}
             </mat-panel-description>
         </mat-expansion-panel-header>
 

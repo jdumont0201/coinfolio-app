@@ -2,9 +2,9 @@
     <mat-toolbar>
         <h3><a [routerLink]="'/config/all'" class="hoverlink"> Configure</a> > Brokers </h3>
     </mat-toolbar>
-
-    <app-broker-connections></app-broker-connections>
-
+<div class="slash padded">
+    <app-broker-allpanels></app-broker-allpanels>
+</div>
 </div>
 <div *ngIf="!authService?.isAuthenticated()" class="">
 

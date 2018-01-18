@@ -1,8 +1,15 @@
 <app-wrong-param [isErrored]="isErrored" [errorMessage]="errorMessage"></app-wrong-param>
 
+
 <div *ngIf="user" class="broker-newconfig">
 
-    <ng-container *ngIf="!user[enabledKey]">
+    <ng-container *ngIf="isBeingConfigured">
+        <div class="padded centered">
+          <h5>  {{configuringMsg}}...</h5><br>
+            <mat-progress-bar [color]="primary" [value]="progress" mode="determinate"></mat-progress-bar>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!isBeingConfigured && !user[enabledKey]">
 
         <mat-horizontal-stepper #stepper>
             <mat-step label="Open an account">
@@ -55,7 +62,7 @@
 
 
     </ng-container>
-    <ng-container *ngIf="user[enabledKey]"  class="broker-existingconfig">
+    <ng-container *ngIf="!isBeingConfigured && user[enabledKey]"  class="broker-existingconfig">
 
         <mat-tab-group #tabGroup [(selectedIndex)]="selectedIndex" >
             <mat-tab label="Review">

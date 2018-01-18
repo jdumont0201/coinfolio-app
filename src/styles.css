@@ -2731,7 +2731,27 @@ app-broker-connect h5, app-broker-connect span:not(.mat-button-wrapper), app-bro
 .bgwhite{}
 .theme-dark .bgwhite  .mat-tab-label, .theme-dark .bgwhite  .mat-tab-link{color:#888!important; }
 .bgwhite mat-icon,.bgwhite .mat-step-icon-not-touched span,.bgwhite .mat-step-icon span{color:#444!important}
-.bgwhite .large.hasicon mat-icon{color:white!important}
+.bgwhite .large.hasicon mat-icon,.bgwhite button mat-icon{color:white!important}
 .broker-connection-table-tr:last-child {
     border-bottom: solid 1px #ccc!important;
 }
+
+.bgwhite div, .bgwhite li, .bgwhite span{
+    color: #444;
+}
+.bgwhite .config-link:hover {
+    background: #fff8a4 !important;
+    cursor: pointer;
+}
+.config-link {
+    border-bottom-color: #ccc;
+}
+.slash{
+           background: white;
+           -webkit-clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
+           clip-path: polygon(0 60px, 100% 0%, 100% calc(100% - 60px), 0 100%);
+           padding-top: 87px;
+           padding-bottom: 100px;
+       }
+
+#config-loading app-loading{position:initial}

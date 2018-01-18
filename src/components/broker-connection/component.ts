@@ -65,17 +65,26 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
     canSendOrders(brokerName) {
         return this.checks[brokerName].orders;
     }
+    isBeingConfigured=false;
+    configuringMsg;
     restore(){
+        this.progress=0
+        this.configuringMsg="Restoring previous "+this.brokerName+" parameters"
+        this.isBeingConfigured=true
         this.user[this.enabledKey] = true
         setTimeout(() => {
+            this.progress=5
             this.logic.saveUser(this.user, (res) => {
-
+                this.progress=20
                     this.snackBar.open("Loading "+this.broker+"...", null, {duration: 3000})
                     this.check(name)
                     this.tradingService.getBrokerByName(this.broker).loadBroker((res) => {
+                        this.progress=90
                         this.snackBar.open("Broker loaded", null, {duration: 3000})
                         this.tradingService.enabledBrokers.push(this.broker);
                         this.tradingService.brokersLoadedAfterConfigEvent.emit(this.broker)
+                        this.progress=100
+                        this.isBeingConfigured=false
                     })
             })
         }, 1000)
@@ -94,13 +103,18 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
         }
 
     }
-
+progress=0
     submit( status) {
-
+        this.configuringMsg="Enabling "+this.brokerName+"..."
+        this.progress=0
+        this.isBeingConfigured=true
         this.user[this.enabledKey] = true
         setTimeout(() => {
+            this.progress=5
             this.logic.saveUser(this.user, (res) => {
+                this.progress=20
                 this.tradingService.getBrokerByName(this.broker).unloadBroker()
+                this.progress=30
                 if (status=="firsttime") {
                     this.snackBar.open("Loading exchange...", null, {duration: 3000})
                 }else {
@@ -109,9 +123,12 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
                 }
                     this.check(name)
                     this.tradingService.getBrokerByName(name).loadBroker((res) => {
+                        this.progress=90
                         this.snackBar.open(this.brokerName+" loaded successfully.", null, {duration: 3000})
                         this.tradingService.enabledBrokers.push(this.broker);
                         this.tradingService.brokersLoadedAfterConfigEvent.emit(this.broker)
+                        this.progress=100
+                        this.isBeingConfigured=false;
                     })
 
 
@@ -125,13 +142,20 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
         window.open(link, "_blank");
     }
     disable() {
+        this.progress=0
+        this.configuringMsg="Disabling "+this.brokerName+""
+        this.isBeingConfigured=true
         this.snackBar.open("Unloading "+this.brokerName+"...", null, {duration: 3000})
 
         setTimeout(() => {
+            this.progress=5
             this.user[this.enabledKey] = false
             this.logic.saveUser(this.user, (res) => {
+                this.progress=20
                 this.tradingService.getBrokerByName(this.broker).unloadBroker()
+                this.progress=100
                 this.snackBar.open(this.brokerName+" unloaded.", null, {duration: 3000})
+                this.isBeingConfigured=false
             })
         }, 1000);
     }

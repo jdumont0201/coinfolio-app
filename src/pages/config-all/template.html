@@ -2,6 +2,7 @@
     <mat-toolbar>
         <h3>Configure </h3>
     </mat-toolbar>
+    <div class="slash bgwhite">
     <a class="config-link" [routerLink]="'/config/profile'">
         <div class="left">
             <mat-icon>face</mat-icon>
@@ -67,7 +68,7 @@
     </a>
 
 </div>
-
+</div>
 <div *ngIf="!authService?.isAuthenticated()" class="">
 
     <app-page-auth></app-page-auth>

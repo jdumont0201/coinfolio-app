@@ -3,7 +3,8 @@
         <h3><a [routerLink]="'/config/all'" class="hoverlink"> Configure</a> > Favorites </h3>
     </mat-toolbar>
     <app-top-right-buttons [placeholder]="'Filter pairs...'"></app-top-right-buttons>
-    <div class="col-2 padded">
+    <div class="slash bgwhite padded">
+    <div class="col-2">
         <div class="col-2-1">
             <div *ngFor="let f of user?.favoritePairs">
                 <div class="">{{f.pair}}
@@ -28,6 +29,7 @@
                 </ul>
             </div>
         </div>
+    </div>
     </div>
 </div>
 <div *ngIf="!authService?.isAuthenticated()" class="">
