@@ -3,7 +3,7 @@
         <h3>Allocation</h3>
     </mat-toolbar>
     <ng-container *ngIf="!authService.isAuthenticated() ">
-        <app-please-login></app-please-login>
+        <app-please-login [imgId]="'portfolio-example'"></app-please-login>
     </ng-container>
     <ng-container *ngIf="authService.isAuthenticated() ">
         <ng-container *ngIf=" !tradingService?.hasBrokersEnabled()">

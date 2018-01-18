@@ -4,7 +4,7 @@
     </mat-toolbar>
 
     <ng-container *ngIf="!authService.isAuthenticated() ">
-        <app-please-login></app-please-login>
+        <app-please-login [imgId]="'arbitrage-example'"></app-please-login>
     </ng-container>
     <ng-container *ngIf="authService.isAuthenticated() ">
 

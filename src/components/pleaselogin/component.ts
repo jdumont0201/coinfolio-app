@@ -15,6 +15,7 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 export class AppPleaseLoginComponent extends PageWithTabs implements OnInit,AfterViewInit {
     selectedTabIndex = 0;
     @ViewChild('tabGroup') tabGroup
+    @Input() imgId;
 
     constructor(public tradingService: TradingService, public eventService: EventService, public consoleService:ConsoleService,private cd: ChangeDetectorRef, public refreshService: RefreshService) {
         super(refreshService,eventService,consoleService)

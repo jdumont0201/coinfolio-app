@@ -2564,7 +2564,7 @@ app-chart{}
 .chartcontainer{height:calc(100% - 26px);    overflow: hidden;}
 
 .mat-stepper-horizontal, .mat-stepper-vertical{background:transparent!important;}
-#portfolio-example{
+#portfolio-example,#arbitrage-example,#listing-example{
     background: url(/assets/img/portfolio-example.png);
     width: 392px;
     height: 336px;
@@ -2573,7 +2573,9 @@ app-chart{}
     background-repeat: no-repeat;
     background-color: #1367b5;
 }
-
+#listing-example {
+    background-image: url(/assets/img/listing.jpg);
+}
 .large.hasicon{padding: 0!important;
     margin: 30px auto;}
 .large.hasicon .mat-button-wrapper{    padding: 10px 90px 10px 20px!important;}

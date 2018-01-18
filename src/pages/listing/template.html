@@ -5,7 +5,7 @@
 
 
     <ng-container *ngIf="!authService.isAuthenticated() ">
-        <app-please-login></app-please-login>
+        <app-please-login [imgId]="'listing-example'"></app-please-login>
     </ng-container>
     <ng-container *ngIf="authService.isAuthenticated() ">
 
