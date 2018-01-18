@@ -41,7 +41,12 @@ export class AppWelcomeComponent extends AppSubscribeComponent {
     tweets = [{userscreenname: 'Bitcoin News', username: 'BTCTN', retweets: 74, favorites: 140, text: "Cryptocurrency App Users Increase 14-Fold in South Korea http://ift.tt/2B6AS1e  #Bitcoin"}]
     chartOptions = {
         chart: {
-            type: 'pie', margin: 0, backgroundColor: {
+            spacingBottom: 0,
+            spacingTop: 0,
+            spacingLeft: 0,
+            spacingRight: 0,
+
+            type: 'pie',  margin: [0, 0, 0, 0], backgroundColor: {
                 linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
                 stops: [
                     [0, 'transparent'],
@@ -50,11 +55,23 @@ export class AppWelcomeComponent extends AppSubscribeComponent {
             }
         },
         exporting: {enabled: false},
-        title: null,
+        title: {
+            text: '',
+            style: {
+                display: 'none'
+            }
+        },
+        subtitle: {
+            text: '',
+            style: {
+                display: 'none'
+            }
+        },
         credits: {enabled: false},
         series: [{name: "Portfolio", data: [{name: 'BTC', y: 4000}, {name: 'USDT', y: 6000}, {name: 'ETH', y: 1000}, {name: 'TRX', y: 650}, {name: 'NEO', y: 950}]}],
         plotOptions: {
-            pie: {colors: ["#CBF078", "#e4c828", "#F1B963", "#E46161", "#35B0AB", "#226B80", "#8785A2"]},
+            pie: {colors: ["#CBF078", "#e4c828", "#F1B963", "#E46161", "#35B0AB", "#226B80", "#8785A2"],
+            dataLabels:{distance:5}},
             series: {
 
 

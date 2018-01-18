@@ -91,7 +91,7 @@ span.welcome-message {
     font: bold 25px/35px "Open Sans";
     font-size: 16px;
     line-height: 20px;
-    padding-top: 20px;
+
     font-weight: 300;
 }
 
@@ -328,7 +328,8 @@ div#welcome-tweet-demo {
 
 #welcome-allocation-demo {
     width: 200px;overflow: hidden;
-    height: 200px
+    height: 200px;
+
 }
 
 #welcome-allocation-demo .highchart-box {
@@ -354,7 +355,10 @@ div#welcome-tweet-demo {
 #welcome-tweet-demo li.tweet .tweet-date {
     color: #c5c5c5;
 }
+.tweet{margin:0!important;}
 .tweet .user{
     width:initial
 }
 #welcome-tweet-demo .tweet-url{color:#444}
+
+.welcome-right ul:not(#portfolio-demo) li{list-style-type: disc;margin-left:20px;border-bottom:none}

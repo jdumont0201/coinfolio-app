@@ -2,7 +2,7 @@
 <ul>
 <ng-container *ngFor="let b of tradingService.enabledBrokers">
 
-    <li [routerLink]="'/allocation/'+b">
+    <li [routerLink]="'/allocation/'+b" [matTooltip]="b.charAt(0).toUpperCase() + b.slice(1)">
 
         <span class="broker-icon notext broker-{{b}}"></span>
         <ng-container *ngIf="tradingService?.getBrokerByName(b).getPortfolio().connected">$<app-portfolio-value [broker]="b"></app-portfolio-value></ng-container>

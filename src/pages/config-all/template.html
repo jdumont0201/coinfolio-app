@@ -3,6 +3,8 @@
         <h3>Configure </h3>
     </mat-toolbar>
     <div class="slash bgwhite">
+        <div class="padded">
+        <h2>General settings</h2></div>
     <a class="config-link" [routerLink]="'/config/profile'">
         <div class="left">
             <mat-icon>face</mat-icon>
@@ -12,15 +14,16 @@
             <div class="sub">Edit your personal settings</div>
         </div>
     </a>
-    <a class="config-link" [routerLink]="'/config/subscription'">
-        <div class="left">
-            <mat-icon>payment</mat-icon>
-        </div>
-        <div class="right">
-            <div class="title">Subscription</div>
-            <div class="sub">Modify your subscription</div>
-        </div>
-    </a>
+        <a class="config-link" [routerLink]="'/config/brokers'">
+            <div class="left">
+                <mat-icon>swap_horiz</mat-icon>
+            </div>
+            <div class="right">
+                <div class="title">Brokers </div>
+                <div class="sub">Set API keys from your favorite brokers.</div>
+            </div>
+        </a>
+
     <a class="config-link" [routerLink]="'/config/favorites'">
         <div class="left">
             <mat-icon>star</mat-icon>
@@ -39,15 +42,17 @@
             <div class="sub">Change your display settings</div>
         </div>
     </a>
-    <a class="config-link" [routerLink]="'/config/brokers'">
-        <div class="left">
-            <mat-icon>swap_horiz</mat-icon>
-        </div>
-        <div class="right">
-            <div class="title">Brokers </div>
-            <div class="sub">Set API keys from your favorite brokers.</div>
-        </div>
-    </a>
+        <a class="config-link" [routerLink]="'/config/subscription'">
+            <div class="left">
+                <mat-icon>payment</mat-icon>
+            </div>
+            <div class="right">
+                <div class="title">Subscription</div>
+                <div class="sub">Modify your subscription</div>
+            </div>
+        </a>
+        <div class="padded">
+            <h2>Data & refresh</h2></div>
     <a class="config-link" [routerLink]="'/config/workers'">
         <div class="left">
             <mat-icon>swap_horiz</mat-icon>

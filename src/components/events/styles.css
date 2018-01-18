@@ -12,4 +12,5 @@
     box-sizing: border-box;
     position: absolute;
     right: 0;
+    line-height: 35px;
 }

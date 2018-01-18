@@ -11,13 +11,13 @@
             <div class="welcome-slogan">Manage your crypto portfolio efficiently</div>
 
         </div>
-        <div class="welcome-right">
+        <div class="welcome-right ">
             <span class="welcome-message">Top features</span>
             <div class="welcome-right-in">
                 <div>
                     <div id="welcome-portolio-demo">
                         <div>Portfolio</div>
-                        <ul>
+                        <ul id="portfolio-demo">
                             <ng-container *ngFor="let b of demoBrokers">
 
                                 <li  (click)="moreportfolio()" >
@@ -31,7 +31,7 @@
                             <li *ngIf="total>0">TOTAL: ${{total |number:'1.2-2'}}</li>
                         </ul>
                     </div>
-                    <div class="desc"><h2>Connect your favorite brokers</h2>
+                    <div class="desc bgwhite"><h2>Connect your favorite brokers</h2>
 <ul>
     <li>Plug your broker in with its API key</li>
     <li>Choose your safety levels: readonly, trade or withdraw</li>
@@ -42,7 +42,7 @@
                     <div id="welcome-allocation-demo">
                         <div class="highchart-box" [chart]="chart"></div>
                     </div>
-                    <div class="desc"><h2>Optimize your portofolio allocation</h2>
+                    <div class="desc bgwhite"><h2>Optimize your portofolio allocation</h2>
                         <span></span></div>
                 </div>
                 <div>
@@ -79,7 +79,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="desc"><h2>Access all your news & tweets</h2>
+                    <div class="desc bgwhite"><h2>Access all your news & tweets</h2>
 
                         <span></span></div>
                 </div>
@@ -103,7 +103,7 @@
                         </div>
 
                     </div>
-                    <div class="desc"><h2>Perform arbitrage decisions easily</h2>
+                    <div class="desc bgwhite"><h2>Perform arbitrage decisions easily</h2>
                         <span></span></div>
                 </div>
 

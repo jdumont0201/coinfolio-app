@@ -2287,6 +2287,7 @@ div#ticker {
     border-bottom: solid 1px #065b8c;
     line-height: 20px;
     padding-left: 4px;
+    padding-top: 3px;
 
 
     box-sizing: border-box;
@@ -2731,13 +2732,14 @@ app-broker-connect h5, app-broker-connect span:not(.mat-button-wrapper), app-bro
 }
 .bgwhite{}
 .theme-dark .bgwhite  .mat-tab-label, .theme-dark .bgwhite  .mat-tab-link{color:#888!important; }
-.bgwhite mat-icon,.bgwhite .mat-step-icon-not-touched span,.bgwhite .mat-step-icon span{color:#444!important}
+.bgwhite mat-icon,.bgwhite .mat-step-icon-not-touched span{color:#444!important}
+.bgwhite .mat-step-icon span{color:white!important}
 .bgwhite .large.hasicon mat-icon,.bgwhite button mat-icon{color:white!important}
 .broker-connection-table-tr:last-child {
     border-bottom: solid 1px #ccc!important;
 }
 
-.bgwhite div, .bgwhite li, .bgwhite span{
+.bgwhite div, .bgwhite li, .bgwhite span, .bgwhite h2, .bgwhite h3, .bgwhite h4, .bgwhite h5{
     color: #444;
 }
 .bgwhite .config-link:hover {
@@ -2790,3 +2792,14 @@ span.tweet-text {
 
 .notifications{
     border-radius: 100px!important;}
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: 60px!important;
+}
+app-portfolio-recap span.broker-icon.notext {
+    position: relative;
+    top: 3px;
+}
+h2 {
+    font-size: 18px!important;
+    font-family: London!important;
+    }
