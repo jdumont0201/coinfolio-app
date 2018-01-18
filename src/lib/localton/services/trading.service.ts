@@ -24,6 +24,7 @@ export class TradingService {
     @Output() PriceChangeUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() EnabledBrokersLoadingFinishedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() brokersLoadedAfterConfigEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() brokerUnloadedAfterConfigEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() PriceUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() ListingUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() PortfolioUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
@@ -111,8 +112,8 @@ export class TradingService {
             //console.log("user", user);
             this.appConfigService.possibleBrokers.forEach((k) => {
                 let prop = "Connection" + Strings.Capitalize(k)
-              //  console.log("check", prop)
-                if (user[prop]==="true" || user[prop]) {
+                console.log("check", prop,user)
+                if (user[prop]==="true" ) {
                     r.push(k)
                 }
             })

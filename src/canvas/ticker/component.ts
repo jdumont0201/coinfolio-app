@@ -48,6 +48,7 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
             this.cd.markForCheck()
             this.subscribeToBrokerUpdates()
         }, "ticker")
+
     }
 
 

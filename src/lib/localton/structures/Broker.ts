@@ -65,7 +65,20 @@ export class Broker {
         this.listing = new Listing(this.logic, this.eventService, this.tradingService, this.refreshService, this.key, this.consoleService,this.appConfigService)
         this.trades = new Trades(this.logic, this.eventService, this.tradingService, this.refreshService, this.key)
     }
+    unloadBroker(){
+        let idx=this.tradingService.enabledBrokers.indexOf(this.key)
+        if(idx>-1){
+        this.refreshService.getPool(this.key + "-ticker").stop()
+        this.refreshService.getPool(this.key + "-portfolio").stop()
+        this.refreshService.getPool(this.key + "-bidask").stop()
 
+            this.tradingService.enabledBrokers.splice(idx,1)
+        this.consoleService.eventSent("brokerUnloadedAfterConfigEvent <-- tradingService")
+        this.tradingService.brokerUnloadedAfterConfigEvent.emit(this.key)
+        }else{
+            console.log("error unload broker but was not loaded",this.key)
+        }
+    }
     loadBroker(f: (Broker) => any) {
         //console.log("LOAD BROKER", this.key)
         this.refreshService.createPool(this.key + "-ticker")

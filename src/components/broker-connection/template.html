@@ -14,9 +14,11 @@
                     <div class="col-2-2 centered">
                         <button mat-raised-button (click)="stepper.next()">I have my account</button>
                         <br><br>
-                        <button mat-raised-button (click)="''">Restore my previous keys</button>
+
                     </div>
+
                 </div>
+                <div class="centered"><button mat-raised-button (click)="restore()">Restore my previous keys</button></div>
             </mat-step>
             <mat-step label="Create API Keys">
                 <h5>Create your API Keys at {{brokerName}}</h5>
@@ -41,7 +43,7 @@
                             <mat-form-field><input name="BinanceAPISecret" matInput [(ngModel)]="user[enabledKey+'APISecret']"
                                                    placeholder="API Secret"></mat-form-field>
                         </div>
-                        <button mat-raised-button="" class="large hasicon" (click)="submit('binance',true)" color="primary">
+                        <button mat-raised-button="" class="large hasicon" (click)="submit('firsttime')" color="primary">
                             <mat-icon>send</mat-icon>
                             Save
                         </button>
@@ -62,7 +64,8 @@
                 </div>
                 <div class="col-2">
                     <div class="col-2-1 centered">
-                        <mat-slide-toggle [color]="'accent'" [(ngModel)]="user[enabledKey]"> Enabled</mat-slide-toggle>
+
+                        <button mat-raised-button (click)="disable()">Disable</button>
                     </div>
                     <div class="col-2-2 centered">
                         <button mat-raised-button (click)="selectedIndex=2">Modify my API key</button>
@@ -109,7 +112,7 @@
                         <mat-form-field><input name="BinanceAPISecret" matInput [(ngModel)]="user['Connection'+broker.charAt(0).toUpperCase() + broker.slice(1)+'APISecret']"
                                                placeholder="API Secret"></mat-form-field>
                     </div>
-                    <button mat-raised-button="" class="large hasicon" (click)="submit('binance',false)" color="primary">
+                    <button mat-raised-button="" class="large hasicon" (click)="submit('existing')" color="primary">
                         <mat-icon>send</mat-icon>
                         Save
                     </button>

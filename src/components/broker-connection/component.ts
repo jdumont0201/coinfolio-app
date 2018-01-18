@@ -1,16 +1,10 @@
 import {Component, Input, OnInit, Injectable, ViewChild, OnChanges} from '@angular/core';
-import {RequestService} from '../../lib/globalton/core/services/request.service';
-import {DataService} from "../../lib/localton/services/data.service";
-
-import {StockChart, Chart} from 'angular-highcharts';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
-import {FormControl} from '@angular/forms';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {EventService} from "../../lib/localton/services/event.service"
 import {MatSnackBar, MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
-import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
+
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {TradingService} from "../../lib/localton/services/trading.service";
 import {Strings} from "../../lib/globalton/core/utils/utils";
@@ -23,7 +17,7 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
     styleUrls: ['styles.css']
 })
 @Injectable()
-export class AppBrokerConnectionComponent extends CheckValid implements OnInit,OnChanges {
+export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
     user;
     checks = {}
     @Input() broker;
@@ -37,9 +31,7 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit,O
         super(consoleService)
 
     }
-    ngOnChanges(obj){
-        console.log("ngch",obj)
-    }
+
     ngOnInit() {
         if (this.broker)
             this.brokerName = Strings.Capitalize(this.broker)
@@ -49,7 +41,9 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit,O
 //            console.log("logged")
             this.logic.getMe((user) => {
                 this.user = user;
+                console.log("checkv",this.user,this.enabledKey)
                 if (!user[this.enabledKey]) user[this.enabledKey] = false;
+                if (user[this.enabledKey]=="false") user[this.enabledKey] = false;
                 this.appConfigService.possibleBrokers.forEach((b) => {
                     this.check(b)
                 })
@@ -71,7 +65,21 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit,O
     canSendOrders(brokerName) {
         return this.checks[brokerName].orders;
     }
+    restore(){
+        this.user[this.enabledKey] = true
+        setTimeout(() => {
+            this.logic.saveUser(this.user, (res) => {
 
+                    this.snackBar.open("Loading "+this.broker+"...", null, {duration: 3000})
+                    this.check(name)
+                    this.tradingService.getBrokerByName(this.broker).loadBroker((res) => {
+                        this.snackBar.open("Broker loaded", null, {duration: 3000})
+                        this.tradingService.enabledBrokers.push(this.broker);
+                        this.tradingService.brokersLoadedAfterConfigEvent.emit(this.broker)
+                    })
+            })
+        }, 1000)
+    }
     check(name) {
         if (name === "binance") {
             this.checks[name] = {publicdata: false, privatedata: false, orders: false}
@@ -87,31 +95,44 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit,O
 
     }
 
-    submit(name, firsttime) {
-        if (firsttime)
-            this.user[this.enabledKey] = true
+    submit( status) {
+
+        this.user[this.enabledKey] = true
         setTimeout(() => {
             this.logic.saveUser(this.user, (res) => {
-                if (firsttime) {
-                    this.snackBar.open("Keys saved. Loading broker...", null, {duration: 3000})
+                this.tradingService.getBrokerByName(this.broker).unloadBroker()
+                if (status=="firsttime") {
+                    this.snackBar.open("Loading exchange...", null, {duration: 3000})
+                }else {
+                    this.snackBar.open("Keys saved. Restarting "+this.brokerName+"...", null, {duration: 3000})
+
+                }
                     this.check(name)
                     this.tradingService.getBrokerByName(name).loadBroker((res) => {
-                        this.snackBar.open("Broker loaded", null, {duration: 3000})
+                        this.snackBar.open(this.brokerName+" loaded successfully.", null, {duration: 3000})
                         this.tradingService.enabledBrokers.push(this.broker);
                         this.tradingService.brokersLoadedAfterConfigEvent.emit(this.broker)
                     })
-                } else {
-                    this.snackBar.open("Keys saved", null, {duration: 3000})
-                    this.check(name)
-                    this.tradingService.enabledBrokers.push(this.broker);
-                    this.tradingService.brokersLoadedAfterConfigEvent.emit(this.broker)
-                }
+
 
             })
         }, 1000)
     }
+    saveExisting(){
 
+    }
     goTo(link) {
         window.open(link, "_blank");
+    }
+    disable() {
+        this.snackBar.open("Unloading "+this.brokerName+"...", null, {duration: 3000})
+
+        setTimeout(() => {
+            this.user[this.enabledKey] = false
+            this.logic.saveUser(this.user, (res) => {
+                this.tradingService.getBrokerByName(this.broker).unloadBroker()
+                this.snackBar.open(this.brokerName+" unloaded.", null, {duration: 3000})
+            })
+        }, 1000);
     }
 }
