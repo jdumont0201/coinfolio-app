@@ -20,6 +20,7 @@ import {Refreshing} from "../../lib/localton/components/Refreshing/component";
 export class AppTicker extends Refreshing implements OnInit, OnDestroy {
     demovalue;
     favorites;
+    @Input() isDemo=false;
 
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
         super(refreshService, eventService, consoleService)
@@ -77,7 +78,9 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
 
     demoInterval
     demovalue2
-
+scroll(){
+    window.scrollTo(0,document.body.scrollHeight)
+}
     ngOnInit() {
 
         this.demoInterval = setInterval(() => {

@@ -1,4 +1,4 @@
-<div id="ticker" *ngIf="eventService.isTickerVisible">
+<div id="ticker" *ngIf="eventService.isTickerVisible && !eventService.isWelcomeVisible && !isDemo">
     <ng-container *ngIf="authService.isAuthenticated()">
         <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
             <div class="col-2b">
@@ -34,3 +34,14 @@
         </div>
     </ng-container>
 </div>
+<ng-container *ngIf="isDemo">
+    <div class="col-2b" style="display:inline">
+        <div>
+            <mat-chip class="chips-link"  [routerLink]="'/auth'">
+                SIGN_IN &nbsp;<span class="{{demovalue>0?'valpos addplus':'valneg'}}">{{demovalue | number:"1.2-2"}}%</span></mat-chip>
+            <mat-chip class="chips-link"  (click)="scroll()">
+                SIGN_UP_NOW &nbsp;<span class="{{demovalue>0?'valpos addplus':'valneg'}}">{{demovalue2 | number:"1.2-2"}}%</span></mat-chip>
+
+        </div>
+    </div>
+</ng-container>

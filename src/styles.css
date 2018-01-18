@@ -2304,7 +2304,12 @@ div#ticker {
     margin-bottom: 60px;
     position: relative;
 
-    overflow-y: hidden;
+    overflow-x: hidden;
+}
+#underticker {
+
+    position: relative;
+    overflow-x: hidden;
 }
 
 #bottom {
