@@ -17,7 +17,7 @@ export class AppPortfolioValueComponent extends Refreshing implements OnInit, On
 
 
     constructor(public tradingService: TradingService, public eventService: EventService, public consoleService: ConsoleService, public refreshService: RefreshService, private cd: ChangeDetectorRef) {
-        super(refreshService, eventService)
+        super(refreshService,eventService,consoleService)
     }
 
     ngOnDestroy() {
@@ -41,6 +41,7 @@ export class AppPortfolioValueComponent extends Refreshing implements OnInit, On
 
     update(t) {
         this.value = this.tradingService.getBrokerByName(this.broker).getTotalUSDValue()
+        this.eventService.UIEvent.emit({key:"portfolio-value",val:{broker:this.broker,value:this.value}})
         this.cd.markForCheck();
     }
 }

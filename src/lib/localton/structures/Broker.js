@@ -24,11 +24,11 @@ var Broker = (function () {
         if (this.key == "global") {
             var res_1 = 0;
             var brokers = this.tradingService.getConnectedBrokersArray();
-            console.log("getTotalUSDValue ", this.key, "br", brokers);
+..            console.log("getTotalUSDValue ", this.key, "br", brokers);
             brokers.forEach(function (b) {
                 var v = _this.tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue();
                 res_1 += v;
-                console.log("getTotalUSDValue ", _this.key, "add", b, "val=", v, "co=", _this.tradingService.getBrokerByName(b).getPortfolio().content);
+                //console.log("getTotalUSDValue ", _this.key, "add", b, "val=", v, "co=", _this.tradingService.getBrokerByName(b).getPortfolio().content);
             });
             return res_1;
         }

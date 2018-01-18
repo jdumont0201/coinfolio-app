@@ -8,7 +8,7 @@ declare const FB:any;
 export class FacebookService{
 
     constructor(@Inject(AuthService) public authService:AuthService){
-        console.log("+ FacebookService");
+        //console.log("+ FacebookService");
 
     }
     init(){

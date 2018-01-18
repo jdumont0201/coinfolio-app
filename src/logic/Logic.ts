@@ -4,33 +4,7 @@ import {Record, Workspace} from "../lib/localton/interfaces/interfaces"
 import {ApiService} from "../lib/globalton/core/services/api.service";
 import {AuthService} from "../lib/globalton/core/services/auth.service";
 import {RequestService} from "../lib/globalton/core/services/request.service";
-
-export class UniversalLoader {
-    static load(broker: string, task: string, data: any) {
-        if (task == "allocation") {
-            let A = {}
-            if (broker == "binance") {
-                for (let symbol in data) {
-                    A[symbol] = {
-                        available: data[symbol].available,
-                        onorder: data[symbol].onOrder,
-                        total: data[symbol].available + data[symbol].onOrder
-                    }
-                }
-            }
-            if (broker == "kraken") {
-                for (let symbol in data) {
-                    A[symbol] = {
-                        available: null,
-                        onorder: null,
-                        total: data[symbol]
-                    }
-                }
-            }
-            return A;
-        }
-    }
-}
+import {UniversalLoader} from "./UniversalLoader";
 
 @Injectable()
 export class Logic {
@@ -111,35 +85,38 @@ export class Logic {
         })
     }
 
-    getFromBroker(broker, task, f: Function, query: string) {
+    getFromBroker(broker, task, f: Function, query?: string) {
         this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId, (res) => {
-            if (res && "result" in res && res.result.success)
-                f(UniversalLoader.load(broker, task, res.result.data))
+
+            if (res && "result" in res && res.result.success){
+                let A=UniversalLoader.load(broker, task, res.result.data);
+
+                f(A)
+            }
             else f(null)
         })
     }
 
 
     KrakenGetLivePrices(f: Function) {
-        this.apiService.noauthget("user/connect/kraken/liveprices?userId=" + this.authService.userId, (res) => {
-            if (res && "result" in res && res.result.success)
-                f(res.result.data)
-            else f(null)
-        })
+        this.getFromBroker("kraken","prices",f)
+
+    }
+
+    HitbtcGetAllocation(f: Function) {
+        this.getFromBroker("hitbtc","balance",f)
     }
 
 
     registerUser(obj: any, f: Function) {
         if (!obj) return;
         console.log("Register ", obj)
-        this.apiService.noauthget("user/exists?email=" + obj.email,  (exists) => {
+        this.apiService.noauthget("user/exists?email=" + obj.email, (exists) => {
             console.log("rexistrs", exists)
-            if (exists  && exists.result && ("result" in exists.result)) {
+            if (exists && exists.result && ("result" in exists.result)) {
                 if (exists.result.result) {
                     f({success: false, error: true, desc: "EMAIL_EXISTING"})
                 } else {
-
-
                     this.apiService.noauthpost("user", obj, (res) => {
                         if (res && "token" in res) {
                             this.authService.loginResponse = res;
@@ -150,8 +127,8 @@ export class Logic {
                         }
                     })
                 }
-            }else{
-                f({success: false, error: true,desc:"Request error"})
+            } else {
+                f({success: false, error: true, desc: "Request error"})
             }
         });
     }
@@ -160,8 +137,7 @@ export class Logic {
         console.log("Register ", obj)
         this.apiService.noauthpost("user/login/app", obj, (res) => {
             console.log("received", res)
-            if (res && "login" in res) {
-
+            if (res && "login" in res && res.login.success) {
                 this.authService.loginResponse = res.login;
                 this.authService.postLogin();
                 f({success: true})
@@ -173,6 +149,7 @@ export class Logic {
         })
 
     }
+
     renewPassword(obj, f) {
         console.log("Register ", obj)
         this.apiService.noauthpost("user/password/renew", obj, (res) => {
@@ -243,6 +220,7 @@ export class Logic {
         }
         this.apiService.noauthget("user/" + this.authService.userId, f)
     }
+
     getChartData(source, interval: string, symbol: string, base: string, f: Function) {
         this.dataService.getAll("recordprice", f, {
             source: source,
@@ -390,8 +368,10 @@ export class Logic {
         const url = "widget/searchNews?q=" + q;
         this.apiService.noauthget(url, (res) => {
 
-
-            f(res.searchNews.feed.entries)
+            if (res && res.searchNews && "feed" in res.searchNews)
+                f(res.searchNews.feed.entries)
+            else
+                f(null)
         });
     }
 

@@ -5,7 +5,7 @@ export class ErrorMessage {
     date:Date;
     isDisplayed:boolean = true;
 
-    constructor(public type:string, public code?:string, public stack?:any, public opt?:any) {
+    constructor(public type:string, public code:string, public stack:any, public desc:any,public url:any) {
         this.date = new Date();
     }
 }
@@ -48,16 +48,18 @@ export class MessageService {
         let E = new FlashMessage("add", message, isLongLasting,"orange",link);
         this.flashChanged.emit(E);
     }
-    addError(errorCode:string, error:any, desc?:string):void {
+    addError(errorCode:string, error:any, desc:string,url:string):void {
         console.log("adderrror", errorCode, error, "desc", desc);
         let errstr:string = JSON.stringify(error);
-        let E = new ErrorMessage("add", errorCode,errstr , desc);
+        let E = new ErrorMessage("add", errorCode,errstr , desc,url);
+        this.consoleService.eventSent("errorsChanged <-- messageService")
         this.errorsChanged.emit(E);
     }
     readError(serverErrMsg:any):void {
         console.log("Messageservice readrrror", serverErrMsg);
         let stackString:string = JSON.stringify(serverErrMsg.stack);
-        let E = new ErrorMessage("add", serverErrMsg.code,stackString,serverErrMsg.opt);
+        let E = new ErrorMessage("add", serverErrMsg.code,stackString,serverErrMsg.opt,serverErrMsg.url);
+        this.consoleService.eventSent("errorsChanged <-- messageService")
         this.errorsChanged.emit(E);
     }
 
@@ -86,12 +88,12 @@ export class MessageService {
     }
 
     resetFlash():void {
-        let E = new ErrorMessage("reset");
+        let E = new ErrorMessage("reset",null,null,null,null);
         this.flashChanged.emit(E);
     }
 
     resetErrors():void {
-        let E = new ErrorMessage("reset");
+        let E = new ErrorMessage("reset",null,null,null,null);
         this.errorsChanged.emit(E);
     }
 

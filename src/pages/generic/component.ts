@@ -22,7 +22,7 @@ export class AppGenericPage implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.boardId = params['id'];
       console.log(this.boardId);
-      console.log("+ GENERIC",this.boardId)
+      //console.log("+ GENERIC",this.boardId)
       this.loadPanel()
     });
 

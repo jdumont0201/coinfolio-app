@@ -28,4 +28,11 @@
     #top-right-buttons-in {
         display: none
     }
+    .col-2 {
+        display: initial;
+    }
+    .mat-horizontal-content-container {
+        padding: 0!important;
+    }
+    #panel-creator-workspace,.mat-drawer ,#panel-creator-top{width:70%!important}
 }

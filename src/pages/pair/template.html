@@ -1,6 +1,9 @@
-<div [@.disabled]="true">
+<app-wrong-param [isErrored]="isErrored" [errorMessage]="errorMessage"></app-wrong-param>
+
+<div [@.disabled]="true" *ngIf="!isErrored">
     <mat-toolbar>
         <h3>{{supra}}/{{infra}} </h3>
+        @{{broker.substring(0,1).toUpperCase()+broker.slice(1)}}
         <div class="ticker">
             <div class="ticker-price ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}">{{lastPrice| number:numberFormat}}</div>
             <div *ngIf="lastPrice" class="ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}">
@@ -12,24 +15,18 @@
             <div hidden class="refresh-in">Refreshing in {{refreshTimer/1000 }}s</div>
             <mat-progress-bar [color]="primary" [value]="100*(refreshEvery-refreshTimer)/refreshEvery" mode="determinate"></mat-progress-bar>
         </div>
-        <select id="pair-select-source">
-            <option>Binance</option>
-        </select>
+
     </mat-toolbar>
     <mat-tab-group>
         <mat-tab label="Live">
-            <div id="live">
-                <div id="live-left">
-                    <app-live-depth [lastPrice]="lastPrice" [pairId]="pairId"></app-live-depth>
-                </div>
-                <div id="live-right">
-                    <app-live-price [refresh]="true" [pair]="pairId" [trades]="trades" [period]="'1m'"></app-live-price>
-                    <app-live-price [refresh]="true" [pair]="pairId" [period]="'5m'"></app-live-price>
-                    <app-live-price [pair]="pairId" [period]="'15m'"></app-live-price>
-                    <app-live-price [pair]="pairId" [period]="'1h'"></app-live-price>
-                    <app-live-price [pair]="pairId" [period]="'1d'"></app-live-price>
-                </div>
-            </div>
+                    <app-live-price [refresh]="true" [pair]="pairId" [broker]="broker" [trades]="trades" [period]="'1m'"></app-live-price>
+                    <app-live-price [refresh]="true" [broker]="broker"  [pair]="pairId" [period]="'5m'"></app-live-price>
+                    <app-live-price [pair]="pairId"  [broker]="broker" [period]="'15m'"></app-live-price>
+                    <app-live-price [pair]="pairId"  [broker]="broker" [period]="'1h'"></app-live-price>
+                    <app-live-price [pair]="pairId"  [broker]="broker" [period]="'1d'"></app-live-price>
+        </mat-tab>
+        <mat-tab label="Depth">
+            <app-live-depth [lastPrice]="lastPrice" [pairId]="pairId"></app-live-depth>
         </mat-tab>
         <mat-tab label="Trades">
             <app-my-trades [pairId]="pairId"></app-my-trades>

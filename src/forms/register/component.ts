@@ -25,7 +25,7 @@ export class AppFormRegister {
     @Input() successCallback: Function;
     hide = true;
     form: FormGroup;
-
+@Input() submitText="Continue"
     constructor(public logic: Logic, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService, public snackBar: MatSnackBar) {
     }
 

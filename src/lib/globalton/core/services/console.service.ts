@@ -25,6 +25,13 @@ export class ConsoleService {
             args.unshift("%c-->", 'padding:2px 5px;border-radius:3px;background: #fff000; color: #0000aa;display:block'    );
             preservedConsoleLog.apply(console, args);
         }
+    }   sub(...arg:any[]) {
+        if(this.showConsole){
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c [SUB]", 'padding:2px 5px;border-radius:3px;background: #fff000; color: #0000aa;display:block'    );
+            preservedConsoleLog.apply(console, args);
+        }
     }
     refresh(...arg:any[]) {
         if(this.showConsole){
@@ -177,6 +184,14 @@ export class ConsoleService {
             var preservedConsoleLog = console.log;
             var args = Array.prototype.slice.call(arguments);
             args.unshift("%c[WS]", 'padding:2px 5px;border-radius:3px;background: #dddddd; color: #ffff00;display:block;');
+            preservedConsoleLog.apply(console, args);
+        }
+
+    }websocket(...arg:any[]) {
+        if(this.showConsole) {
+            var preservedConsoleLog = console.log;
+            var args = Array.prototype.slice.call(arguments);
+            args.unshift("%c[WebS]", 'padding:2px 5px;border-radius:3px;background: #dddddd; color: #ffff00;display:block;');
             preservedConsoleLog.apply(console, args);
         }
 

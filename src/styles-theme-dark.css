@@ -34,7 +34,7 @@ body {background:black}
 }
 .theme-dark .trade-buy{color:green;}
 .theme-dark .trade-sell{color:red}
-.theme-dark .mat-expansion-panel{background:#444}
+.theme-dark .mat-expansion-panel{background:transparent}
 .theme-dark .mat-expansion-panel-header-description,.theme-dark .mat-expansion-indicator::after{color:white}
 .theme-dark .form{
     background: #232323;

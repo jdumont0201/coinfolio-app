@@ -3,36 +3,52 @@
     <mat-horizontal-stepper linear #stepper>
         <mat-step label="Welcome">
             <div class="welcome-banner">
-                <div class="welcome-left">
+                <div class="welcome-left padded">
+                    <div class="welcome-header">
                     <span id="logo" class="logo-white"> </span>
                     <span class="line">Made by traders. For the traders.</span>
+                    </div>
+                    <br><br><br>
+                    <span class="welcome-message">Sign up</span>
+
+                    <div class="centered">
+                        <div id="welcome-register">
+                        <app-form-register [submitText]="'Join Coinamics'"></app-form-register>
+                            <div hidden class="disclaimer">DISCLAIMER<br>
+                                Coinamics is not a financial advisor. Coinamics is not a trading platform. Buying and sellings
+                                cryptocurrencies is risky. Only invest money you can afford to lose.
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
-                <div class="welcome-right"><span class="welcome-message">Welcome to Coinamics</span>
-                    <h2>Access all your crypto data, news & tweets on dedicated dashboards</h2>
-                    <div id="welcome-twitter"></div>
-                    <span></span>
-                    <h2>Read & customize connected dashboards</h2>
-                    <span></span>
-                    <h2>Optimize your portofolio allocation</h2>
-                    <span></span>
+                <div class="welcome-right">
+                    <span class="welcome-message">Top features</span>
+                    <div class="welcome-right-in">
+                        <div><h2>Connect your favorite brokers</h2>
+                            <div id="welcome-portolio" class="welcome-image"></div>
+                            <span></span>
+                        </div>
+                        <div><h2>Access all your news & tweets</h2>
+                            <div id="welcome-tweet" class="welcome-image"></div>
+                            <span></span>
+                        </div>
+                        <div>
+                            <h2>Optimize your portofolio allocation</h2>
+                            <div id="welcome-allocation" class="welcome-image"></div>
+                            <span></span>
+                        </div>
+                        <div><h2>Perform arbitrage decisions easily</h2>
+                            <div id="welcome-arbitrage" class="welcome-image"></div>
+                            <span></span>
+                        </div>
 
 
+                    </div>
                 </div>
-
-            </div>
-            <br><br><br>
-            <div class="disclaimer">DISCLAIMER<br>
-                CoinFolio is not a financial advisor. CoinFolio is not a trading platform. Buying and sellings
-                cryptocurrencies is risky. Only invest money you can afford to lose.
-            </div>
-            <div class="centered">
                 <br><br><br>
-                <button class="centered large" mat-raised-button color="accent" (click)="stepper.next()">I understand & agree the disclaimer and enter
-                    Coinamics
-                </button>
             </div>
-
-
         </mat-step>
         <mat-step label="Plans">
             <div class="padded">
@@ -121,29 +137,31 @@
 
                     <form [formGroup]="form">
                         <div>
-                            <mat-form-field><input name="email" matInput [formControlName]="'email'" placeholder="email"                                                   required>
+                            <mat-form-field><input name="email" matInput [formControlName]="'email'" placeholder="email" required>
                             </mat-form-field>
                             <div class="form-invalid" *ngIf="form.controls.email.dirty && form.controls.email.errors">E-mail is not valid</div>
 
                         </div>
                         <div>
                             <mat-form-field>
-                                <input formControlName="password" [type]="hide?'password':'text'" matInput                                       placeholder="Enter your password" name="password" required>
-                                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}                        </mat-icon>
+                                <input formControlName="password" [type]="hide?'password':'text'" matInput placeholder="Enter your password" name="password" required>
+                                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
                             </mat-form-field>
                             <div class="form-invalid" *ngIf="form.controls.password.dirty && form.controls.password.errors?.minlength">Password must be at least 8 characters</div>
                         </div>
                         <div>
                             <mat-form-field>
-                                <input formControlName="confpassword" name="confpassword" matInput placeholder="Confirm your password"  [type]="hide?'password':'text'" required>
-                                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}   </mat-icon>
+                                <input formControlName="confpassword" name="confpassword" matInput placeholder="Confirm your password" [type]="hide?'password':'text'" required>
+                                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
 
                             </mat-form-field>
-                            <div class="form-invalid" *ngIf="form.controls.confpassword.dirty && form.controls.confpassword.errors?.minlength">Password must be at least 8 characters</div>
+                            <div class="form-invalid" *ngIf="form.controls.confpassword.dirty && form.controls.confpassword.errors?.minlength">Password must be at least 8
+                                characters
+                            </div>
                             <div class="form-invalid" *ngIf="form.controls.confpassword.dirty && form.controls.confpassword.errors?.MatchPassword">Passwords must match</div>
 
                         </div>
-                        <button mat-raised-button="" class="large" [disabled]="!form.valid" (click)="submit()"                                color="primary">Continue
+                        <button mat-raised-button="" class="large" [disabled]="!form.valid" (click)="submit()" color="primary">Continue
                         </button>
                     </form>
                 </div>

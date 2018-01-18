@@ -113,7 +113,7 @@ export class ImportService {
       const key = this.getPairCode(source, symbol, base)
 
       const data = res[key];
-      console.log("data", data, key)
+      //console.log("data", data, key)
       if (!data) {
         console.log("pair not found")
         return

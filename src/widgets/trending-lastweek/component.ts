@@ -11,7 +11,7 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
-import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
   selector: 'app-trending-lastweek',
@@ -51,8 +51,8 @@ export class AppTrendingLastWeekComponent extends DataAndChartTemplate {
   }
 
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
-        super(refreshService,logic,appConfigService,eventService)
+    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
+        super(consoleService,refreshService,logic,appConfigService,eventService)
   }
 
 
@@ -64,7 +64,7 @@ export class AppTrendingLastWeekComponent extends DataAndChartTemplate {
       this.dataSource = new MatTableDataSource(this.data);
       for (let i = 0; i < this.data.length; ++i) {
         const ev = Math.round(100 * (this.data[i + 1].price - this.data[i].price) / this.data[i].price * 100) / 100;
-        console.log(this.data[i].symbol, this.data[i + 1].price - this.data[i].price)
+        //console.log(this.data[i].symbol, this.data[i + 1].price - this.data[i].price)
         //XY.push({x:ev,y:this.data[i+1].cap,z:1,name:this.data[i].symbol})
         XY.push({name: this.data[i].symbol, data: [[Math.round(this.data[i + 1].cap / 1000000), ev]]})
         i++;

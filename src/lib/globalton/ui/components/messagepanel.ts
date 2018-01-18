@@ -2,6 +2,7 @@ import {Component, Injectable,ViewChild}         from '@angular/core';
 import {MessageService,ErrorMessage,FlashMessage   } from '../../core/services/message.service';
 import {ConfigService   } from '../../core/services/config.service';
 import {TranslateService} from '@ngx-translate/core'
+import {ConsoleService} from "../../core/services/console.service";
 @Component({
     selector: 'message-panel',
     templateUrl:'messagepanel.html'
@@ -23,7 +24,7 @@ export class MessagePanel {
     }
 
     constructor(public messageService: MessageService,
-    public configService:ConfigService,public translateService:TranslateService) {
+    public configService:ConfigService,public translateService:TranslateService,public consoleService:ConsoleService) {
         this.errors=[];
         this.flashTimeout=this.configService.FLASH_MSG_TIMEOUT;
         messageService.errorsChanged.subscribe(value => this.updateErrors(value), error => console.log("Error updating errors" + error), () => console.log('done'));
@@ -41,6 +42,7 @@ export class MessagePanel {
   //    toast.present();
     }
     updateErrors(error:ErrorMessage): void {
+        this.consoleService.eventReceived("errorsChanged --> messagePanel")
         console.log(" messagepanel updateErrors",error);
         if (error.type === "reset")
             this.errors = [];
@@ -60,6 +62,7 @@ export class MessagePanel {
         }
     }
     updateFlash(msg:FlashMessage): void {
+        this.consoleService.eventReceived("flashChanged --> messagePanel")
         console.log("updateflash");
         if (msg.type === "reset")
             this.flashes = [];

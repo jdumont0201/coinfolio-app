@@ -4,7 +4,7 @@
 <div *ngIf="!authService.isAuthenticated()" class="alert-configure-broker">
     <mat-icon>lock</mat-icon>
     <span>Please login or sign up to access your private trading dashboard.</span><br>
-    <button mat-raised-button="" color="primary" routerLink="/config/all">Login / Sign up</button>
+    <button mat-raised-button="" color="primary" routerLink="/auth">Login / Sign up</button>
 </div>
 
 <app-configure-broker *ngIf="authService.isAuthenticated() && !tradingService?.isAnyBrokerConfigured() "></app-configure-broker>
@@ -39,11 +39,11 @@
 
                 <ng-container matColumnDef="qty">
                     <mat-header-cell *matHeaderCellDef> Qty</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.q }} {{tradingService.getSupra(element.symbol)}}</mat-cell>
+                    <mat-cell *matCellDef="let element">{{element.q }} {{tradingService.getSupra(element.symbol,element.broker)}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="total">
                     <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.price*element.q  | number:"1.5-5"}} {{tradingService.getInfra(element.symbol)}}</mat-cell>
+                    <mat-cell *matCellDef="let element">{{element.price*element.q  | number:"1.5-5"}} {{tradingService.getInfra(element.symbol,element.broker)}}</mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

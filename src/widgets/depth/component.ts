@@ -12,6 +12,7 @@ import websocketConnect from 'rxjs-websockets'
 import {WebsocketService} from '../../lib/globalton/core/services/websocket.service';
 import {StockChart, Chart} from 'angular-highcharts';
 import {ActivatedRoute} from "@angular/router";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-live-depth',
@@ -38,7 +39,7 @@ export class AppDepthWidget implements OnDestroy{
     isLoading = true;
     nbShow = 20;
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService) {
+    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService) {
         this.decimalSpan = [];
         for (let i = 0; i < 10; ++i) this.decimalSpan.push(i)
     }

@@ -21,7 +21,10 @@ export class EventService implements OnInit {
     @Output() isFullscreenEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() favoriteUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() poolDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() socketDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() UIEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() rightMenuUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() searchUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
 
     isTickerVisible: boolean = true;
     isMenuDisplayed: boolean = true;
@@ -32,18 +35,20 @@ export class EventService implements OnInit {
     isWelcomeVisible: boolean = false;
     isFullscreen: boolean = false;
 
-    enableFullscreen() {
+    enableFullscreen(chartId) {
         this.isFullscreen = true
-        this.isFullscreenEvent.emit(true)
+        this.isFullscreenEvent.emit({fullscreen:true,id:chartId})
     }
-
+    showForgottenPasswordTab(){
+        this.UIEvent.emit({key:"showforgottenpassword"})
+    }
     openRightMenu(tab) {
         this.rightMenuUpdatedEvent.emit(tab)
     }
 
-    disableFullscreen() {
+    disableFullscreen(chartId) {
         this.isFullscreen = false
-        this.isFullscreenEvent.emit(false)
+        this.isFullscreenEvent.emit({fullscreen:false,id:chartId})
     }
 
     showWelcome() {
@@ -88,7 +93,8 @@ export class EventService implements OnInit {
     }
 
     errorsUpdated(err: any) {
-        this.snackBar.open(err.code, null, {duration: 3000});
+        this.consoleService.eventReceived("errorsChanged --> eventService")
+        this.snackBar.open(err.code+" "+err.desc+" "+err.url, null, {panelClass:'red',duration: 3000});
     }
 
     ngOnInit() {
@@ -135,6 +141,14 @@ export class EventService implements OnInit {
     hidePanelCreator() {
         this.consoleService.event("hidePanelCreator")
         this.panelCreatorEvent.emit({display: false})
+    }
+    defineNewSocket(id){
+        this.consoleService.eventSent("socketDefinedEvent <-- eventService"+id)
+        this.socketDefinedEvent.emit({display: false})
+    }
+  updateSearch(v) {
+        this.consoleService.eventSent("searchUpdated")
+        this.searchUpdatedEvent.emit(v)
     }
 
     loadPanelCreator(p) {

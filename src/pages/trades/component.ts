@@ -16,6 +16,7 @@ import {EventService} from "../../lib/localton/services/event.service";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {MatTableDataSource} from "@angular/material";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 export interface Message {
     author: string,
@@ -39,10 +40,10 @@ export class AppTradesPage extends DataAndChartTemplate implements OnDestroy {
     displayedColumns2 = ['symbol', 'count'];
     dataSource2;
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService,public tradingService:TradingService,public authService:AuthService) {
-        super(refreshService,logic,appConfigService,eventService, "plain")
+    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService,public tradingService:TradingService,public authService:AuthService) {
+        super(consoleService,refreshService,logic,appConfigService,eventService, "plain")
 
-        console.log("+trades")
+        ////console.log("+trades")
 
         this.startRefresh();
     }

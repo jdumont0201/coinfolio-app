@@ -1,12 +1,31 @@
-.welcome-left{
-padding:150px  0px 50px 100px;width:50%;color:white
-}
-.welcome-right{
-padding:150px 20px 50px;width:50%;color:white
-}
-.welcome-banner{display:flex;
+.welcome-left {
+    width: 100%;
+    color: white;
+    box-sizing: border-box;
 }
 
+.welcome-right-in {
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.welcome-right-in > div:last-child {
+    border-right: 0
+}
+.welcome-right-in > div {
+    margin-right: 10px;
+    padding: 14px;min-width:300px
+}
+
+.welcome-right {
+    padding: 0px 20px;
+    width: 100%;
+    color: white;
+}
+
+.welcome-banner {
+}
 
 span.welcome-message {
     font-size: 32px;
@@ -14,13 +33,6 @@ span.welcome-message {
     color: #ff8f00;
     font-family: Open Sans;
     font-weight: 300;
-}
-
-@media screen and (max-width: 640px) {
-
-    #welcome-banner{display:block}
-    #welcome-left{padding:20px;width:100%}
-    #welcome-right{padding:20px;width:100%}
 }
 
 #welcome {
@@ -37,7 +49,7 @@ span.welcome-message {
 }
 
 #welcome .mat-horizontal-stepper-content {
-    background: linear-gradient(to right, #000046, #1cb5e0);
+    background: linear-gradient(45deg, #1f3550,  #004aa5, #0499c3);
     height: 100%
 }
 
@@ -53,7 +65,16 @@ span.welcome-message {
 #welcome .mat-stepper-horizontal {
     height: 100%
 }
-#welcome .line{text-transform: uppercase}
+
+#welcome .line {
+    text-transform: uppercase
+}
+#welcome-register{
+    max-width:500px;
+    border: solid 1px #ffffff45;
+    padding: 20px;
+    border-radius: 6px;
+}
 #welcome-in {
     padding: 20px;
 }
@@ -78,7 +99,8 @@ span.welcome-message {
 #welcome #logo {
     color: #444444;
 }
-#welcome-twitter{
+
+#welcome-twitter {
     width: 400px;
     height: 230px;
     border-radius: 31px;
@@ -101,6 +123,7 @@ span.welcome-message {
     padding: 5px 0;
     margin: 20px 0;
 }
+
 #welcome .mat-horizontal-stepper-header-container {
     position: absolute;
 
@@ -137,7 +160,8 @@ span.welcome-message {
 }
 
 #welcome button {
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    max-width: 95%;
 }
 
 #welcome .logo-in {
@@ -156,7 +180,6 @@ span.welcome-message {
     font-size: 16px
 }
 
-
 #welcome #logo {
     color: #444444;
     width: 300px;
@@ -164,5 +187,79 @@ span.welcome-message {
     background: url(/assets/img/logowhite.png);
     background-size: contain;
     background-repeat: no-repeat;
+}
+.menudisplayed .welcome-header{margin-left:0px}
+ .welcome-header{margin-left:60px}
+
+@media screen and (max-width: 640px) {
+
+    .welcome-banner {
+        display: block
+    }
+
+    .welcome-left {
+
+        padding-top: 5px;
+    }
+
+    .welcome-right-in {display:block}
+    .welcome-right-in > div{border:0}
+    .welcome-right {
+        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #welcome #logo {
+        max-width: 194px;
+        height: 30px;
+        margin-top: 5px;
+    }
+
+    #portfolio-example, #welcome-twitter {
+        max-width: 80%;
+        margin: 10px auto
+    }
+
+    #portfolio-example {
+        background-size: 100%;
+    }
+}
+
+.welcome-image {
+    width: 180px;
+    height: 180px;
+    background-size: cover;
+    border-radius: 0;
+    border: solid 3px white;
+    margin-top: 14px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+#welcome-portolio {
+    background-image: url(/assets/img/portfolio.PNG)
+}
+
+#welcome-arbitrage {
+    background-image: url(/assets/img/arbitrage.PNG);
+    background-size: 314px;
+    background-repeat: no-repeat;
+    background-position: -78px -126px;
+}
+
+#welcome-tweet {
+    background-image: url(/assets/img/twitter.png);
+    background-size: 314px;
+    background-repeat: no-repeat;
+    background-position: -3px 0px;
+}
+
+#welcome-allocation {
+    background-image: url(/assets/img/portfolio-example.png);
+    background-size: 300px;
+    background-repeat: no-repeat;
+    background-position: -55px -12px;
+    background-image: url(/assets/img/portfolio-example.png)
 }
 

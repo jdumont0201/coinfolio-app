@@ -9,6 +9,7 @@ import {MatTableDataSource} from '@angular/material';
 import {Refreshing} from "../Refreshing/component";
 import {RefreshService} from "../../services/refresh.service";
 import {EventService} from "../../services/event.service";
+import {ConsoleService} from "../../../globalton/core/services/console.service";
 
 export abstract class RefreshedPage extends Refreshing {
     loadTime;
@@ -34,7 +35,7 @@ export abstract class RefreshedPage extends Refreshing {
     refreshData(){
 
     }
-    constructor(public refreshService:RefreshService,public eventService:EventService){
-        super(refreshService,eventService)
+    constructor(public refreshService:RefreshService,public eventService:EventService,public consoleService:ConsoleService){
+        super(refreshService,eventService,consoleService)
     }
 }

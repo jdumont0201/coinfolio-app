@@ -34,10 +34,10 @@ export class DataService {
         const dt = this.restangular.all(call);
         const r = dt.post(obj).toPromise();
         let reqId:number=this.proxyService.addNewDBRequest(call,"POST")
-        r.then(function (res) {
+        r.then( (res) =>{
             this.proxyService.completeRequestSuccessResult(reqId)
             f(res)
-        }, function () {
+        },  () =>{
             this.proxyService.completeRequestErrorResult(reqId)
             console.log("There was an error performing");
             f(null)

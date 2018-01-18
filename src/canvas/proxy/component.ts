@@ -19,7 +19,7 @@ import {ProxyService} from "../../lib/globalton/core/services/proxy.service";
 export class AppProxyComponent implements OnInit {
 
     constructor(public appConfigService: AppConfigService, public proxyService:ProxyService,public eventService: EventService,  public tradingService: TradingService, public apiService:ApiService,public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService,public router:Router) {
-        console.log("+ PROXYCOMP")
+        //console.log("+ PROXYCOMP")
 
     }
     ngOnInit(){

@@ -3,7 +3,7 @@
         <ng-container *ngIf="tradingService.isAnyBrokerConfigured()">
             <div class="col-2b">
                 <div class="col-2b-1">
-                    <span *ngFor="let b of tradingService?.enabledBrokers"><span class="broker-{{b}}">{{b}}</span> ${{tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue()}}</span>
+                    <ng-container *ngIf="false"><span *ngFor="let b of tradingService?.enabledBrokers"><span class="broker-icon notext broker-{{b}}"></span>${{tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue()}} / </span></ng-container>
                     <app-pair-tick *ngFor="let f of authService.favoritePairs" [broker]="f.broker" [pair]="f.pair"></app-pair-tick>
                 </div>
                 <div class="col-2b-2">

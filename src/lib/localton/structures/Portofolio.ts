@@ -21,12 +21,15 @@ export class Portfolio {
     }
 
     getTotalUSDValue(): number {
+        if (!this.connected) return -1
         let res = 0;
-        console.log(this.key + " getTotalUSDValue")
+
         for (let k in this.content) {
+            if(this.content[k].q>0)
             res += this.content[k].usdvalue
-    //        console.log("  ", k, "=", this.content[k].usdvalue)
+            //        console.log("  ", k, "=", this.content[k].usdvalue)
         }
+        //console.log(this.key + " getTotalUSDValue",res,this.content)
         return Math.round(100 * res) / 100;
     }
 
@@ -47,11 +50,15 @@ export class Portfolio {
     }
 
     loadPortfolio(f: Function) {
-        console.log("  PTF LOAD")
+        //console.log("  PTF LOAD", this.key)
         if (this.key == "binance") {
-            this.loadBinance(f);
+            this.loadUniversal(this.key, f)
         } else if (this.key === "kraken") {
-            this.loadKraken(f)
+            this.loadUniversal(this.key, f)
+        } else if (this.key === "hitbtc") {
+            this.loadUniversal(this.key, f)
+        } else {
+            f(false)
         }
     }
 
@@ -101,44 +108,43 @@ export class Portfolio {
 
     }
 
-    getAllocation(threshold?: number): { chartData: any[], gridData: any[] ,objData:Object} {
+    getAllocation(threshold?: number): { chartData: any[], gridData: any[], objData: Object } {
         let resData = [];
         let gridData = [];
-        let objData={}
+        let objData = {}
         //    this.setUSDValues(this.tradingService.getBrokerByName(this.key).getTicker());
+        console.log("  -> alloc PORTFOLIO GETALLOC", this.key, this.content)
         for (let k in this.content) {
             let asset = this.content[k];
             let T = this.tradingService.getBrokerByName(asset.broker).getTicker();
-            if (!threshold || asset.usdvalue > threshold) {
-                let v = Math.round(100*T.getUSDValue(asset.symbol))/100;
-                let r={name: asset.symbol, y: Math.round(100*v * asset.q)/100, change: T.getSymbolChange(asset.symbol)};
-                resData.push(r);
-                let rr={symbol: asset.symbol, available: asset.q, price: v, value: Math.round(100*v * asset.q)/100, broker: asset.broker}
-                gridData.push(rr)
-                objData[asset.symbol]=rr;
+            let v;
+            let y;
+            if (asset.q > 0) {
+                    if(!T.connected){
+                        let r = {name: asset.symbol, y: y, change: T.getSymbolChange(asset.symbol)};
+                        resData.push(r);
+                        let rr = {symbol: asset.symbol, available: asset.q, price: v, value: y, broker: asset.broker}
+                        gridData.push(rr)
+                        objData[asset.symbol] = rr;
+
+                    }else if (asset.usdvalue > threshold){
+
+
+
+                        v = Math.round(100 * T.getUSDValue(asset.symbol)) / 100;
+                        y = Math.round(100 * v * asset.q) / 100
+                        let r = {name: asset.symbol, y: y, change: T.getSymbolChange(asset.symbol)};
+                        resData.push(r);
+                        let rr = {symbol: asset.symbol, available: asset.q, price: v, value: y, broker: asset.broker}
+                        gridData.push(rr)
+                        objData[asset.symbol] = rr;
+                    }
             }
+
         }
-        return {chartData: resData, gridData: gridData, objData:objData}
+        return {chartData: resData, gridData: gridData, objData: objData}
     }
 
-    loadBinance(f: Function) {
-        //console.log("TRADE PTF LOAD BINANCE")
-        this.logic.BinanceGetAllocation((alloc) => {
-            this.dataTime = new Date();
-            //console.log("TRADE PTF LOAD BINANCE RES", alloc)
-            if (alloc) {
-                for (let k in alloc)
-                    if (parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder) > 0) {
-                        let q = parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder);
-                        this.add(k, q, this.key)
-                    }
-                this.afterLoad()
-                f(this.connected);
-            } else {
-                f(false)
-            }
-        })
-    }
 
     afterLoad() {
         let isInitialLoad = !this.connected
@@ -152,17 +158,14 @@ export class Portfolio {
 
     }
 
-    loadKraken(f: Function) {
+    loadUniversal(broker, f: Function) {
         //console.log("TRADE PTF LOAD BINANCE")
-        this.logic.KrakenGetAllocation((alloc) => {
+        this.logic.getFromBroker(broker, "balance", (alloc) => {
             this.dataTime = new Date();
-            //  console.log("TRADE PTF LOAD BINANCE RES", alloc)
+            //console.log("TRADE PTF LOAD ", this.key, " RES", alloc)
             if (alloc) {
                 for (let k in alloc)
-                    if (parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder) > 0) {
-                        let q = parseFloat(alloc[k].available) + parseFloat(alloc[k].onOrder);
-                        this.add(k, q, this.key)
-                    }
+                    this.add(k, alloc[k].total, this.key)
                 this.afterLoad()
                 f(this.connected);
             } else {

@@ -24,7 +24,7 @@ export class AppPairTickComponent extends Refreshing implements OnInit, OnDestro
     p;
 
     constructor(public tradingService: TradingService, public refreshService: RefreshService, private cd: ChangeDetectorRef, public consoleService: ConsoleService, public eventService: EventService) {
-        super(refreshService, eventService)
+        super(refreshService,eventService,consoleService)
         //this.tradingService.PriceUpdatedEvent.subscribe((param) => this.priceUpdated(param))
 
 

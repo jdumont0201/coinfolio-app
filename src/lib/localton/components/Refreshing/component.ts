@@ -8,20 +8,22 @@ import {AppConfigService} from "../../../../lib/localton/services/appconfig.serv
 import {MatTableDataSource} from '@angular/material';
 import {RefreshService} from "../../services/refresh.service";
 import {EventService} from "../../services/event.service";
+import {CheckValid} from "../CheckValid/component";
+import {ConsoleService} from "../../../globalton/core/services/console.service";
 
 @Injectable()
-export abstract class Refreshing {
+export abstract class Refreshing  extends CheckValid{
     dataRefreshSubscription = {}
     poolDefinedSubscription = {}
     poolSubscribed = [];
     poolStarted = []
 
-    constructor(public refreshService: RefreshService, public eventService: EventService) {
-
+    constructor(public refreshService: RefreshService, public eventService: EventService,public consoleService:ConsoleService) {
+super(consoleService);
     }
 
     subscribeToRefresh(pool: string, f: Function, enable?: boolean) {
-        console.log("subscribe pool ", pool)
+        //console.log("subscribe pool ", pool)
         this.dataRefreshSubscription[pool] = this.refreshService.getEventByKey(pool).subscribe(f)
         if (enable) {
             let P=this.refreshService.getPool(pool);

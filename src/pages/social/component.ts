@@ -12,6 +12,7 @@ import {RefreshedPage} from "../../lib/localton/components/RefreshedPage/compone
 import {EventService} from "../../lib/localton/services/event.service";
 import {CryptoPair} from "../../lib/localton/structures/Listing";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-social',
@@ -20,17 +21,16 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 })
 @Injectable()
 export class AppSocialPage extends PageWithTabs implements OnDestroy {
-    possibleSymbols = ['BTC', 'ETH', 'BNB'];
+    possibleSymbols = ['cryptocurrency','BTC', 'ETH', 'BNB'];
     searchedText = "";
     supra = "BTC";
     infra = "USDT";
     @Input() pairId;
 
-    constructor(public requestService: RequestService,public refreshService:RefreshService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
-        super(refreshService,eventService)
-
+    constructor(public requestService: RequestService,public refreshService:RefreshService,public consoleService:ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
+        super(refreshService,eventService,consoleService)
         if(this.pairId){
-            let p=Crypto.getSymbolsFromPair(this.pairId)
+            let p=Crypto.getSymbolsFromPair(this.pairId, this.getAllPossibleInfras())
             if(p){
                 this.supra=p.supra;
                 this.infra=p.infra
@@ -39,7 +39,13 @@ export class AppSocialPage extends PageWithTabs implements OnDestroy {
 
 
     }
-
+    getAllPossibleInfras(){
+        let r=[];
+        this.tradingService.enabledBrokers.forEach((b)=>{
+            r.push.apply(r,this.appConfigService.getPossibleInfrasPerBroker(b))
+        })
+        return r;
+            }
     searchCallback(searchedText:string){
 
     }

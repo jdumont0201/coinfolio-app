@@ -25,7 +25,7 @@ export class AppSubscriberFeatureComponent{
 
   }
   showSubscribe(){
-    console.log("subscribe")
+    //console.log("subscribe")
     this.eventService.showSubscribe()
   }
 }

@@ -49,7 +49,7 @@ export class PageService {
         this.headerService.setHeader(new Header(h));
     }
     preparePage(pageConfig: PageConfig): void {
-        this.consoleService.serv("Prepage Page", pageConfig);
+        this.consoleService.serv("Prepage CheckValid", pageConfig);
         if (this.authService) {
             // console.log(" ✓ PageService authService set");
         } else {

@@ -12,6 +12,7 @@ import {RefreshedPage} from "../../lib/localton/components/RefreshedPage/compone
 import {EventService} from "../../lib/localton/services/event.service";
 import {CryptoPair} from "../../lib/localton/structures/Listing";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-news',
@@ -20,12 +21,12 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 })
 @Injectable()
 export class AppNewsPage extends PageWithTabs implements OnDestroy {
-    possibleSymbols=['BTC','ETH','BNB'];
+    possibleSymbols=['cryptocurrency','BTC','ETH','BNB'];
     possibleSources=['Google News']
     searchedText="";
     symbol="BTC";
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
-        super(refreshService,eventService)
+    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService, public consoleService:ConsoleService) {
+        super(refreshService,eventService,consoleService)
 
     }
     ngOnDestroy(){

@@ -126,7 +126,10 @@ mat-nav-list {
 }
 
 mat-table.data mat-cell {
-    font-size: 12px
+    font-size: 12px;
+
+    height: 24px;
+    line-height: 25px;
 }
 
 mat-table.data mat-row {
@@ -332,7 +335,7 @@ mat-card-title {
 }
 
 .data .mat-cell, .data .mat-header-cell {
-    padding: 3px
+    padding: 0px
 }
 
 .mat-card > .mat-card-actions:last-child {
@@ -533,6 +536,9 @@ button:hover .crypto-iconed {
 
 .valpos {
     color: #72cb00 !important;
+}
+.valsta {
+    color: orange !important;
 }
 
 .valneg {
@@ -1469,12 +1475,20 @@ mat-icon#menu-pin {
     background: #00000070;
     z-index: 16;
 }
-
+button[disabled] span {
+    color: #105bb7!important;
+}
 .padded {
     padding: 20px
 }
 
-
+.icon-hide:hover{
+    background:#fafafa21;}
+.icon-hide{    margin-left: 5px;
+    position: relative;
+    top: -10px;
+    padding: 11px;border-radius:3px;
+    cursor: pointer;}
 /*
 .mat-horizontal-stepper-header-container{
   background-color: #106CC8;
@@ -1497,6 +1511,8 @@ mat-icon#menu-pin {
 button.large span {
     padding: 10px 70px;
     display: block;
+    display: block;
+    box-sizing: border-box;
 }
 
 mat-nav-list span#logo {
@@ -1506,44 +1522,6 @@ mat-nav-list span#logo {
     background-repeat: no-repeat;
     margin: auto;
     margin-left: 11px;
-}
-
-#loading {
-    position: absolute;
-    top: 100px;
-    width: 273px;
-    /* height: 101px; */
-    background: black;
-    text-align: center;
-    z-index: 2;
-    left: 46%;
-    right: auto;
-    padding: 10px;
-    font-family: "Open sans";
-    line-height: 55px;
-    color: white;
-    border: solid 5px;
-}
-
-#loading span.line {
-    line-height: 15px;
-    /* position: relative; */
-    /* top: -10px; */
-    text-transform: uppercase;
-    padding: 0;
-    display: block;
-    text-align: left;
-    margin-top: 4px;
-    font-size: 11px;
-    color: grey;
-}
-
-#loading span#logo {
-    width: 100%;
-    height: 43px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin: auto;
 }
 
 .creator-component-list .creator-component {
@@ -1664,7 +1642,16 @@ section.widget {
     padding: 0px;
     box-sizing: content-box;
 }
-
+svg {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+}
 .mat-card {
     padding: 0 !important;
     border: solid 2px black;
@@ -1717,17 +1704,26 @@ section.widget {
 section.widget.price {
     background: #0a4350; /*  border: solid 4px #171e46;*/
 }
+section.widget.price2 {
+    height:400px;    background: #11191d;
+    margin-bottom: 0;
+
+}
+section.widget.price2.zoomed {
+    background: linear-gradient(-254deg,#00adff,#0758aa)!important; /*  border: solid 4px #171e46;*/
+
+}
 
 section.widget.price .highchart-box { /*  border: solid 4px #171e46;*/
     height: 250px;
 }
 
 section.widget.info {
-    background: #1b3035; /*  border: solid 4px #171e46;*/
+    background: transparent; /*  border: solid 4px #171e46;*/
 }
 
 section.widget.info h5 {
-    background: #0a4350; /*  border: solid 4px #171e46;*/
+    background: #ffffff73;; /*  border: solid 4px #171e46;*/
 }
 
 section.widget.news {
@@ -1937,7 +1933,7 @@ mat-progress-bar {
 }
 
 .ticker-price.ticker-evol-down {
-    color: red !important;
+    color: #b10000 !important
 }
 
 .ticker-evol-up mat-icon {
@@ -1950,17 +1946,22 @@ mat-progress-bar {
 .ticker-evol-down mat-icon {
     display: inline-block;
     font-size: 20px;
-    color: red !important;
+    color: #b10000 !important;
     padding-top: 7px
 }
 
 .ticker-price {
-    font-size: 25px !important
+    font-size: 31px !important
+    ;font-family:London!important;
 }
 
 .ticker {
-    margin-left: 50px;
+    margin-left:10px;
     display: flex;
+
+    position: relative;
+    top: -3px;
+
 }
 
 .bidaskbar {
@@ -2180,7 +2181,7 @@ span.infra {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: calc(100vh  - 60px)!important;
     width: 100%;
     z-index: 20
 }
@@ -2390,7 +2391,9 @@ app-portfolio-recap {
 
 app-portfolio-recap ul li {
     cursor: pointer;
-    padding: 5px !important
+    padding: 5px !important;
+
+    outline: none;
 }
 
 app-portfolio-recap ul li:hover {
@@ -2455,20 +2458,37 @@ mat-table.data mat-row {
     font-family: London !important;;
 }
 
-.broker-binance {
+.broker-icon{
     width: 32px;
     height: 32px;
     background: url(/assets/icons/brokers.png);
     background-size: cover;
     height: 32px;
-    background: url(/assets/icons/brokers.png);
-    background-size: contain;
     display: inline;
     min-width: 32px;
     background-repeat: no-repeat;
     padding-left: 21px;
+    background-position: 0 0;
+    padding-left: 0;
+    background-position: 0px 0px;
+    margin-right: 6px;
+    box-sizing: border-box;
+    display: inline-block;
+    /* height: 100%; */
+    /* width: 100%; */
+    height: 16px;
+    width: 16px;
+    min-width: 0;
 }
-
+.broker-icon.notext{
+    padding-left: 17px;
+    background-position: 1px 0px;
+    margin-right: 6px;}
+.broker-kraken{background-position:-16px 0!important}
+.broker-hitbtc{background-position:-32px 0!important}
+li.leftpad {
+    padding-left: 20px!important;
+}
 #ticker mat-icon:hover {
     background: #ffffff;
     color: #39424a;
@@ -2498,7 +2518,7 @@ mat-table.data mat-row {
     font-weight: bold;
 }
 
-section.widget:last-child {
+section.widget{
     margin-right: 0;
 }
 
@@ -2521,3 +2541,87 @@ section.widget:last-child {
 .mat-ink-bar {
     background-color: #fff!important;
 }
+
+app-chart{}
+.chartcontainer{height:calc(100% - 26px);    overflow: hidden;}
+
+.mat-stepper-horizontal, .mat-stepper-vertical{background:transparent!important;}
+#portfolio-example{
+    background: url(/assets/img/portfolio-example.png);
+    width: 392px;
+    height: 336px;
+    border-radius: 10px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #1367b5;
+}
+
+.large.hasicon{padding: 0!important;
+    margin: 30px auto;}
+.large.hasicon .mat-button-wrapper{    padding: 10px 90px 10px 20px!important;}
+.large.hasicon mat-icon{font-size: 29px!important;;
+    height: 31px!important;;
+    padding-right: 60px!important;;}
+
+.spinner-small ,.spinner-small svg {width: 16px!important;
+    height: 14px!important;
+    display: inline-block!important;
+    margin-right: 9px!important;
+    top: 2px;
+    left: -2px;}
+#config-loading .logo-bottom ,#config-loading .line {
+    display: none!important;
+}
+#config-loading div#loading {
+
+
+    background: none;
+    position: initial!important;
+    margin-top: 66px;
+}
+#loading .broker-icon{top: 3px;
+    position: relative;}
+
+#top-right-buttons-in {
+    display: none
+}
+
+button.back-button.mat-button {
+    height: 60px;
+    padding: 0;
+    top: 0;
+}
+.hoverlink:hover{
+    border-bottom: solid 1px white;
+    background: rgba(255,255,255,0.2);
+    text-decoration: none;}
+.hoverlink{    cursor: pointer;
+    /* border-bottom: dashed 1px #ffffff70; */
+    font: inherit;
+    text-decoration: none;
+    font-size: inherit!important;
+    font-family: inherit!important;
+    background: #ffffff24;
+    border-radius: 3px;
+    padding: 0 5px;
+}
+
+
+
+.mat-expansion-panel-body,.mat-expansion-panel-content{
+    background: transparent;
+}
+.mat-expansion-panel-header {
+    background: #eee!important;
+}
+.mat-expansion-panel-header:hover {
+    background: white!important;
+}
+
+.mat-expansion-panel-header-title,.mat-expansion-panel-header-description, .theme-dark .mat-expansion-indicator::after {
+
+    color: #444!important;
+}
+
+.celllink:hover {cursor:pointer;
+    background:#ffffff44}

@@ -15,6 +15,7 @@ import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 import {EventService} from "../../lib/localton/services/event.service";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 export interface Message {
     author: string,
@@ -34,10 +35,10 @@ export class AppPositionsPage extends DataAndChartTemplate {
     hasConnected = false;
     trades = []
 isLoading=true;
-    constructor(public refreshService:RefreshService,public logic: Logic, public tradingService: TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute) {
-        super(refreshService,logic, appConfigService, eventService, "plain")
+    constructor(public consoleService:ConsoleService,public refreshService:RefreshService,public logic: Logic, public tradingService: TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute) {
+        super(consoleService,refreshService,logic, appConfigService, eventService, "plain")
 
-        console.log("+trades")
+        //console.log("+trades")
         this.route.params.subscribe((params) => {
         });
     }

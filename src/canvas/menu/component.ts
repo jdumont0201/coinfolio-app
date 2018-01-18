@@ -30,7 +30,7 @@ export class AppMenuList implements OnInit {
     panels = [];
 
     constructor(public appConfigService: AppConfigService, public eventService: EventService,  public tradingService: TradingService, public apiService:ApiService,public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService,public router:Router) {
-        console.log("+ MENU")
+        //console.log("+ MENU")
 
         this.loadWorkspaceData()
 

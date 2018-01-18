@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Injectable, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, Injectable, ViewChild, ViewEncapsulation} from '@angular/core';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {EventService} from "../../lib/localton/services/event.service";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
@@ -10,11 +10,14 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 
 @Component({
   selector: 'app-loading',
-  templateUrl: 'template.html'
+  templateUrl: 'template.html',
+    styleUrls:['styles.css'],
+    encapsulation: ViewEncapsulation.None
 
 })
 @Injectable()
 export class AppLoadingComponent extends AppSubscribeComponent{
+  @Input() force:boolean
   constructor(public logic: Logic, public tradingService:TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
     super(logic,authService,appConfigService,eventService,apiService,requestService)
 

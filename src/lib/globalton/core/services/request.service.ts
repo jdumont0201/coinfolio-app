@@ -16,10 +16,10 @@ export class RequestService {
         consoleService.serv("+ RequestService");
 
     }
-    error(f,err:any,desc:string,reqId:number):void {
+    error(f,err:any,desc:string,reqId:number,url:string):void {
         console.error('REQUEST ERR', err);
         this.proxyService.completeRequestErrorResult(reqId)
-        this.messageService.addError("REQUEST_GET", err,desc);
+        this.messageService.addError("REQUEST_GET", err,desc,url);
         f({error:true});
     }
     success(f,data,reqId){
@@ -34,7 +34,7 @@ export class RequestService {
 
             .subscribe(
             data => this.success(f,data,reqId),
-            err => this.error(f,err,"Error downloading "+url,reqId),
+            err => this.error(f,err,"Error downloading "+url,reqId,url),
             // err => this.error(err),
             () => console.log('Done getting.',url)
             );
@@ -44,7 +44,7 @@ export class RequestService {
       this.http.post(url, obj,{ headers: headers })
         .subscribe(
           data => this.success(f,data,reqId),
-          err => this.error(f,err,"Error downloading "+url,reqId),
+          err => this.error(f,err,"Error downloading "+url,reqId,url),
           // err => this.error(err),
           () => console.log('Done post.',url)
         );

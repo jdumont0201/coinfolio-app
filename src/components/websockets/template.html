@@ -1,0 +1,23 @@
+
+<div id="workers" class="padded">
+    <h4>Websockets</h4>
+    <mat-slide-toggle [color]="'accent'" [(ngModel)]="websocketService.isRunning">{{websocketService?.isRunning?"Running":"Disabled"}} </mat-slide-toggle>
+
+    <h5>Websockets</h5>
+    <ul class="table">
+        <li class="tr">
+
+            <div >Name</div>
+            <div >Status</div>
+            <div >Last message</div>
+        </li>
+        <li *ngFor="let p of sockets" class="tr">
+            <div><mat-slide-toggle  (change)="!p.active?p.listen():p.close()"  [color]="'accent'" [ngModel]="p.active"></mat-slide-toggle></div>
+            <div >{{p.id}}</div>
+            <div >{{p.status}}</div>
+            <div >{{p.lastMessage | date:'medium'}}</div>
+
+
+        </li>
+    </ul>
+</div>

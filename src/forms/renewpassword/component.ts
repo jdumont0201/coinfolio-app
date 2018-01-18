@@ -54,7 +54,7 @@ export class AppFormRenewPassword {
            */ this.logic.renewPassword(obj, (res) => {
                 if(res.error) this.snackBar.open('Password renewal instructions have been sent to '+obj.email+'.', null, {duration: 3000});
                 else
-                if(this.successCallback) this.successCallback()
+                if(this.successCallback) this.successCallback(obj)
             })
 
         }, 1000)

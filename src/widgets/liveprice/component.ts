@@ -1,4 +1,4 @@
-import {Component,ComponentFactoryResolver , Input, OnInit, Injectable, ViewChild} from '@angular/core';
+import {Component, ComponentFactoryResolver, Input, OnInit, Injectable, ViewChild, OnChanges, SimpleChanges} from '@angular/core';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {MatSnackBar, MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
@@ -6,7 +6,7 @@ import {Crypto} from "../../lib/localton/utils/utils";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
-import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-live-price',
@@ -14,17 +14,18 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
 
 })
 @Injectable()
-export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
+export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit,OnChanges {
     displayedColumns = ['ts', 'open', 'high', 'low', 'close'];
     isLoading = true;
     isError = false;
     @Input() pair: string
+    @Input() broker: string
     @Input() period: string = "1m"
     @Input() base: string = "USD"
     @Input() showTitle: boolean = false;
     @Input() trades
-    @Input() type="stock";
-    @Input() refresh=false;
+    @Input() type = "stock";
+    @Input() refresh = false;
     infra;
     supra;
 
@@ -36,16 +37,12 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         },
         chart: {
             margin: [0, 0, 0, 0],
-            type: 'candlestick', backgroundColor: {
-                linearGradient: {x1: 0, y1: 0, x2: 1, y2: 1},
-                stops: [
-                    [0, '#18565f'],
-                    [1, '#023647']
-                ]
-            }, zoomType: 'none'
+            type: 'candlestick',
+            backgroundColor: null,
+            zoomType: 'none'
         },
-        title:{text:""},
-        legend:{enabled:false},
+        title: {text: ""},
+        legend: {enabled: false},
         credits: {enabled: false},
 
         exporting: {enabled: false},
@@ -89,29 +86,48 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         }
     }
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
-        super(refreshService,logic,appConfigService,eventService, "stock")
+    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
+        super(consoleService,refreshService, logic, appConfigService, eventService, "stock")
+        ////console.log("+ liveprice")
+
+
+    }
+    ngOnChanges(changes: SimpleChanges) {
+        ////console.log("liveprice change")
+        this.init()
+    }
+    init(){
+        //console.log("init liveprice", this.period,this.pair)
+        this.checkValid(this.pair, "Undefined pair")
+        this.checkValid(this.broker, "Undefined broker")
+        if (!this.isErrored) {
+            const pair = Crypto.getSymbolsFromPair(this.pair, this.appConfigService.getPossibleInfrasPerBroker(this.broker))
+            this.supra = pair.supra;
+            this.infra = pair.infra;
+            //if(this.refresh)
+            //this.initRefresh()
+            this.firstLoadData()
+        }
+    }
+    ngOnInit() {
+        this.init()
+
     }
 
-    ngOnInit() {
-        const pair = Crypto.getSymbolsFromPair(this.pair)
-        this.supra = pair.supra;
-        this.infra = pair.infra;
-        if(this.refresh)
-        //this.initRefresh()
-        this.firstLoadData()
-    }
-    refreshData(){
-        this.isRefreshing=true;
+    refreshData() {
+        this.isRefreshing = true;
         this.updateData()
     }
-    firstLoadData(){
-        this.isLoading=true;
+
+    firstLoadData() {
+        this.isLoading = true;
         this.updateData()
     }
-    barClick(){
+
+    barClick() {
         //this.zoom()
     }
+
     getRange() {
         let nb = 150;
         if (this.period === "1m") return 1000 * 60 * nb
@@ -128,20 +144,23 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
         }
     }
 
-
+    chartData;
 
     updateData() {
+        //console.log("liveprice upd ", this.period, this.pair)
         this.isLoading = true;
         this.isError = false;
         this.logic.BinanceGetOHLC(this.pair, this.period, (res) => {
-            this.loadTime=new Date().getTime()
-            console.log("BinanceGetOHLC", res)
+            this.loadTime = new Date().getTime()
+            //console.log("BinanceGetOHLC", res)
+
             if (!res || res.error) {
                 this.isError = true;
                 this.isLoading = false;
                 //this.snackBar.open('ErrYou signed off', null, {duration: 3000});
                 return
             }
+            this.chartData = res;
             this.checkData();
             let D = [];
             let minVal = 10000000;
@@ -180,7 +199,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
                 xAxis: {
                     crosshair: {snap: false, color: '#437173'},
                     range: this.getRange(),
-                    alternateGridColor: '#184d56',
+                    alternateGridColor: '#10789e',
                     labels: {
                         style: {
                             backgroundColor: "red",
@@ -204,7 +223,7 @@ export class AppLivePriceWidget extends DataAndChartTemplate implements OnInit {
             this.draw()
             let maxd = this.data[this.data.length - 1][0];
             let mind = this.data[this.data.length - 10][0];
-            console.log("ma", maxd, mind, this.chart)
+            ////console.log("ma", maxd, mind, this.chart)
             this.isLoading = false;
         })
     }

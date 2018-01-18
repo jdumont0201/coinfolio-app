@@ -1,8 +1,7 @@
-
-<section class="widget price {{isZoomed?'zoomed':''}}">
+<div class="checkValid" *ngIf="isErrored">{{errorMessage}}</div>
+<section class="widget price2 {{isZoomed?'zoomed':''}}" *ngIf="!isErrored">
     <h5 (click)="barClick()">{{showTitle?(supra+" / "+infra):""}} Price
         <div class="header-select"> <span class="header-button"  [matMenuTriggerFor]="appMenu2">  {{period}}     <mat-icon>expand_more</mat-icon>    </span></div>
-
         <div class="right"><span class="last-refreshed">Last refreshed : {{loadTime | date:"HH:mm:ss"}}</span> <mat-icon class="button-zoom" (click)="zoom()">{{isZoomed?'zoom_out':'zoom_in'}}</mat-icon></div>
     </h5>
     <mat-menu #appMenu2="matMenu">
@@ -12,7 +11,7 @@
     <div class="progressbar-placeholder" *ngIf="!isLoading" ></div>
     <div class="errorbar" *ngIf="isError" ></div>
 
+<app-chart [chartId]="chartId" [data]="chartData"></app-chart>
 
-    <div #myChart class="highchart-box" [chart]="chart" (load)="saveInstance($event.context)"></div>
 
 </section>

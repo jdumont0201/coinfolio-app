@@ -23,6 +23,7 @@ import {MatSnackBar} from "@angular/material";
 @Injectable()
 export class AppFormLogin {
     @Input() successCallback: Function;
+    @Input() forgottenPasswordCallback: Function;
     hide = true;
     form: FormGroup;
 
@@ -47,20 +48,25 @@ export class AppFormLogin {
     submit() {
         setTimeout(() => {
             const obj = this.form.value;
-/*
-            let obj = {}
-            for (let k in this.form.controls)
-                obj[k] = this.form.controls[k].value
- */          console.log("CONTROLS", this.form.controls, "OBJ", obj)
+            /*
+                        let obj = {}
+                        for (let k in this.form.controls)
+                            obj[k] = this.form.controls[k].value
+             */
+            //console.log("CONTROLS", this.form.controls, "OBJ", obj)
             this.logic.loginUser(obj, (res) => {
-                if(res.error) this.snackBar.open('Login failed. Please check your credentials.', null, {panelClass:"warning",duration: 3000});
-                else
-                    if(this.successCallback) this.successCallback()
+                if (res.error) this.snackBar.open('Login failed. Please check your credentials.', null, {panelClass: "warning", duration: 3000});
+                else if (this.successCallback) this.successCallback()
             })
 
         }, 1000)
     }
-    forgottenpassword(){
+
+    forgottenpassword(b:boolean) {
+        console.log("click forgotten password",b)
+        if(this.forgottenPasswordCallback)
+        this.forgottenPasswordCallback(b)
+
 
     }
 

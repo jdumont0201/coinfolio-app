@@ -125,8 +125,21 @@ export class RefreshService {
 
     constructor(public authService: AuthService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public logic: Logic) {
         //this.eventService.brokerLoadedEvent.subscribe((val) => this.brokerLoaded(val))
-
+        this.authService.loginChanged.subscribe((val) => {
+            this.loginChanged(val)
+        })
         this.init();
+    }
+
+    loginChanged(val: { authentificated: boolean, isTourDone: boolean, user: any }) {
+        if (!val.authentificated) {
+            this.stopAll()
+        }
+    }
+
+    stopAll() {
+        this.consoleService.refresh("STOPPING ALL POOLS")
+        for (let k in this.pools) this.pools[k].stop()
     }
 
     tradingService: TradingService

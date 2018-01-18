@@ -11,7 +11,7 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
-import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 @Component({
     selector: 'app-widget-calendar',
     templateUrl: 'template.html'
@@ -29,7 +29,7 @@ export class AppCalendarWidget  implements  OnInit {
     @Input() showOptions;
 
 
-    constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
+    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
 
     }
 

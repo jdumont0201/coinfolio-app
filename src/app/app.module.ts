@@ -28,6 +28,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs'
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatSnackBarModule} from '@angular/material/snack-bar'
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -73,6 +74,8 @@ import {AppConfigAllPage} from "../pages/config-all/component";
 import {AppAccountPage} from "../pages/account/component";
 
 import {AppSocialPage} from "../pages/social/component"
+import {AppArbitragePage} from "../pages/arbitrage/component"
+import {AppArbitrageCalculatorPage} from "../pages/arbitrage-calculator/component"
 import {AppNewsPage} from "../pages/news/component"
 import {AppAdminPage} from "../pages/admin-all/component"
 import {AppAllocationPage} from "../pages/allocation/component"
@@ -89,9 +92,11 @@ import {AppConfigBrokersPage} from "../pages/config-brokers/component"
 import {AppAuthPage}from "../pages/auth-login/component"
 import {AppConfigFavoritesPage} from "../pages/config-favorites/component";
 import {AppConfigWorkersPage} from "../pages/config-workers/component";
+import {AppConfigLoadingPage} from "../pages/config-loading/component";
 import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
 import {AppConfigImportsPage} from "../pages/config-imports/component";
 import {AppConfigInterfacePage} from "../pages/config-interface/component";
+
 /*CANVAS*/
 import {AppMenuList} from "../canvas/menu/component";
 import {AppTicker} from "../canvas/ticker/component";
@@ -126,16 +131,19 @@ import {AppFormRegister} from "../forms/register/component";
 import {AppFormLogin} from "../forms/login/component";
 import {AppFormRenewPassword} from "../forms/renewpassword/component";
 import {AppFormResetPassword} from "../forms/resetpassword/component";
+
 /*COMPONENTS*/
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
 import {AppMarketCapEvolComponent} from "../widgets/marketcap-evol/component"
 import {AppAuthLoginComponent} from "../components/auth-login/component"
 import {AppBrokerConnectionsComponent} from "../components/broker-connections/component"
+import {AppChartComponent} from "../components/chart/component"
 import {AppWelcomeComponent} from "../components/welcome/component"
 import {AppProxyComponent} from "../canvas/proxy/component"
 import {AppLoadingComponent} from "../components/loading/component"
 import {AppConfigureBrokerComponent} from "../components/configure-broker/component"
 import {AppPairTickComponent} from "../components/pair-tick/component"
+import {AppWebsocketsComponent} from "../components/websockets/component"
 import {AppSubscribeComponent} from "../components/subscribe/component"
 import {AppWorkersComponent} from "../components/workers/component"
 import {AppVeilComponent} from "../components/veil/component"
@@ -145,6 +153,11 @@ import {AppSubscriberFeatureComponent} from "../components/subscriber-feature/co
 import {AppRegisterComponent} from "../components/register/component";
 import {AppPanelCreatorComponent, AskNameDialog} from "../components/panel-creator/component";
 import {AppPortfolioRecapComponent} from "../components/portfolio-recap/component"
+import {AppBrokerConnectionComponent} from "../components/broker-connection/component"
+import {AppBrokerIconComponent} from "../components/broker-icon/component"
+import {AppPleaseAddBrokerComponent} from "../components/please-addbroker/component"
+import {AppPleaseLoginComponent} from "../components/pleaselogin/component"
+import {AppWrongParamComponent} from "../components/wrongparam/component"
 import {GlobalErrorHandler} from "../lib/globalton/core/handlers/GlobalErrorHandler";
 import {AppPortfolioValueComponent} from "../components/portfolio-value/component"
 
@@ -155,10 +168,11 @@ import {AppRoutingModule, routes} from './app-routing.module';
 import {Logic} from "../logic/Logic";
 import {AppConfigProfilePage} from "../pages/config-profile/component";
 
+import { NgvasModule, tweens, hitAreas } from "ngvas";
 
 @NgModule({
     declarations: [
-        AppComponent,AppFormRenewPassword,AppFormResetPassword,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent,AppFormRenewPassword,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,
@@ -169,11 +183,11 @@ import {AppConfigProfilePage} from "../pages/config-profile/component";
         BrowserModule,
         BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
         RouterModule.forRoot(routes),
-        HttpClientModule,
+        HttpClientModule,NgvasModule,
         RestangularModule.forRoot(RestangularConfigFactory),
         ChartModule,
         DndModule.forRoot(),
-        QRCodeModule,
+        QRCodeModule,MatProgressSpinnerModule,
         GlobaltonCoreModule,GlobaltonUIModule, LocalModule,        AppRoutingModule,
         MatSlideToggleModule,MatTooltipModule,MatSortModule,MatChipsModule,MatButtonModule,MatProgressBarModule, MatExpansionModule,MatSidenavModule, MatSnackBarModule, MatTabsModule, MatMenuModule, MatIconModule, MatStepperModule, MatDialogModule, MatToolbarModule, MatListModule, MatTableModule, MatCheckboxModule, MatFormFieldModule, MatPaginatorModule, MatInputModule, MatCardModule, MatGridListModule, MatDatepickerModule, MatNativeDateModule
     ],

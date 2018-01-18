@@ -1,6 +1,6 @@
 <div *ngIf="authService?.isAuthenticated()">
     <mat-toolbar>
-        <h3>Config > Favorites </h3>
+        <h3><a [routerLink]="'/config/all'" class="hoverlink"> Configure</a> > Favorites </h3>
     </mat-toolbar>
 
     <table>

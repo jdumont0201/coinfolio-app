@@ -14,6 +14,8 @@ import {CryptoPair} from "../../lib/localton/structures/Listing";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {MatTableDataSource, MatSort} from '@angular/material';
 import {Structures} from "../../lib/globalton/core/utils/utils";
+import {Tick} from "../../lib/localton/structures/Ticker";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 @Component({
     selector: 'app-listing',
@@ -22,49 +24,60 @@ import {Structures} from "../../lib/globalton/core/utils/utils";
 })
 @Injectable()
 export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy {
-    listing: CryptoPair[] = new Array();
+    listing: Tick[] = new Array();
     supports = {}
-
+    brokerOptions={}
     isLoading = true;
 
     displayedColumnsRef = ['traded', 'inptf', 'pair', 'broker','volume', '24hevol', 'bid', 'ask'];
 
     showGraphs = false;
     canShow = [];
-    sortby = "has_been_traded"
+    sortby = "name"
     possibleSorts = ["name", "bid_ask_volume_ratio", "has_some_in_portfolio", "has_been_traded"]
     possiblePriceviews = ["crypto", "fiat", "crypto_and_fiat"]
     priceview = "both"
 
     maxVolume = {}
 
+    searchedText = "";
+    done = 0;
+    searched = []
+    filteredData;
+
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public refreshService: RefreshService, public requestService: RequestService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
-        super(refreshService, eventService)
+    constructor(public refreshService: RefreshService, public requestService: RequestService, public consoleService:ConsoleService  ,public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
+        super(refreshService,eventService,consoleService)
         this.firstloadData();
+
+
+    }
+    initPossibleBrokers(){
+
     }
     ngOnInit(){
-
-        this.tradingService.EnabledBrokersLoadingFinishedEvent.subscribe((val) => {
+        this.doSubscribe("searchUpdatedEvent",      this.eventService.searchUpdatedEvent,(val) => {    this.searchUpdated(val)             })
+        this.doSubscribe("EnabledBrokersLoadingFinishedEvent",this.tradingService.EnabledBrokersLoadingFinishedEvent,(val) => {
             this.brokerLoaded(val)
             this.tradingService.enabledBrokers.forEach((b)=>{
                 let f = () => {                    this.loadDataByBroker(b);                }
-                this.subscribeToRefresh(b + "-bidask", f,true)
+                this.subscribeToRefresh(b + "-ticker", f,true)
+                this.brokerOptions[b]={active:true}
             })
 
         })
         this.tradingService.enabledBrokers.forEach((b)=>{
             let f = () => {                this.loadDataByBroker(b);            }
-            this.subscribeToRefresh(b + "-bidask", f,true)
+            this.subscribeToRefresh(b + "-ticker", f,true)
+            this.brokerOptions[b]={active:true}
         })
 
     }
 
     ngOnDestroy() {
-        console.log("listdes")
         this.unsubscribeAndStopAllRefresh()
-
+        this.unsubscribeAllEvents()
 
     }
     brokerLoaded(val: { key: string, loaded: boolean }) {
@@ -81,13 +94,12 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         this.loadData()
     }
 
+    searchCallback(){
 
-    searchedText = "";
-    done = 0;
-    searched = []
-
-    searchCallback(searchedText:string) {
-        this.setTab(-1)
+    }
+    filterValue="";
+    searchUpdated(filterValue) {
+        /*this.setTab(-1)
         this.searched = []
         let s: string = searchedText.trim()
         let isMultipleWords = s.indexOf(" ")
@@ -98,11 +110,15 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
             }
         } else
             this.addToSearch(s);
-
+*/      console.log("search",filterValue,this,this.dataSource)
+        filterValue = filterValue.trim();
+        filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+        this.filterValue=filterValue
+        this.dataSource.filter = filterValue;
     }
 
     addToSearch(word: string) {
-        console.log("add", word)
+        //console.log("add", word)
         for (let i = 0; i < this.listing.length; ++i) {
             let a: string = this.listing[i].pair.toLowerCase();
             let b: string = word.toLowerCase();
@@ -123,13 +139,29 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
             })
     }
 
+    indexes={}
     loadDataByBroker(b) {
-
-
         let B = this.tradingService.getBrokerByName(b);
         console.log("loaddata",b,B)
         if (!B) return
-        this.listing = B.getListing().getList(this.sortby, "change");
+//        this.listing
+        let L= B.getTicker().getList(this.sortby);//getList(this.sortby, "change");
+
+        //update listing
+        if(!(b in this.indexes))
+            this.indexes[b]={}
+        L.forEach((li)=>{
+            if(b in this.indexes && li.pair in this.indexes[b]) { //already added
+                let i=this.indexes[b][li.pair]
+                this.listing[i]=li
+            }else{
+                this.indexes[b][li.pair]=this.listing.length;
+                this.listing.push(li)
+            }
+
+        })
+
+
         this.maxVolume = B.getTicker().maxVolume;
 
         this.listing.forEach((l) => {
@@ -137,30 +169,33 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
                 l.relativeVolume = l.volume / this.maxVolume[l.infra];
             } else l.relativeVolume = -1
 
-            this.supports[l.infra] = {symbol: l.infra, active: true}
+            this.supports[l.infra] = {symbol: l.infra, active: l.infra in this.supports?(this.supports[l.infra].active):true}
+            this.brokerOptions[l.broker] = {active: l.broker in this.brokerOptions?(this.brokerOptions[l.broker].active):true}
 
         })
 
-        this.filterData()
-        this.dataSource = new MatTableDataSource(this.filteredData);
+        //this.filterData()
+        this.dataSource = new MatTableDataSource(this.listing);
+        this.dataSource.filter = this.filterValue;
         this.dataSource.sort = this.sort;
         this.loadTime = new Date()
         this.refreshTimer = this.refreshEvery;
         this.isRefreshing = false
         if (this.listing && this.listing.length > 0) this.isLoading = false
-        console.log("loaddata",this.filteredData)
+        console.log("loaddata",this.listing)
     }
 
-    filteredData;
+
 
     getObjectKeys(obj): string[] {
         return Object.keys(obj)
     }
 
     filterData() {
-        this.filteredData = []
+
         this.listing.forEach((l) => {
-            if (this.supports[l.infra].active)
+            let isBrokerSelected= this.brokerOptions[l.broker].active
+            if (this.supports[l.infra].active )
                 this.filteredData.push(l)
         })
         this.dataSource = new MatTableDataSource(this.filteredData);
@@ -178,4 +213,11 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     }
 
 
+    applyFilter(event) {
+        console.log("target",event)
+        let filterValue=event.target.value;
+        filterValue = filterValue.trim(); // Remove whitespace
+        filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+        this.dataSource.filter = filterValue;
+    }
 }

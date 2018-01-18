@@ -10,6 +10,7 @@ import {Structures} from "../../../lib/globalton/core/utils/utils"
 import {RefreshService} from "./refresh.service";
 
 import {Strings} from "../../../lib/globalton/core/utils/utils"
+import {CurrencyService} from "../../globalton/core/services/currency.service";
 
 @Injectable()
 export class TradingService {
@@ -30,13 +31,13 @@ export class TradingService {
     isLoadingDone=false;
 
 
-    constructor(public authService: AuthService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public refreshService: RefreshService, public logic: Logic) {
+    constructor(public authService: AuthService,public currencyService:CurrencyService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public refreshService: RefreshService, public logic: Logic) {
         consoleService.trade("+", this.authService, this.authService.loginChanged)
         this.consoleService.trade(" + tradingservice", this.authService, this.authService.loginChanged)
         this.authService.loginChanged.subscribe(value => this.loginUpdated(value), error => console.log("Error reading loginupdated" + error), () => console.log('done'));
         this.refreshService.setTradingService(this);
-        this.brokers = new BrokerCollection(logic, eventService, this, this.refreshService, this.consoleService);
-        this.globalBroker = new Broker(logic, "global", eventService, this.refreshService, this, this.consoleService)
+        this.brokers = new BrokerCollection(logic, currencyService,eventService, this, this.refreshService, this.consoleService,this.appConfigService);
+        this.globalBroker = new Broker(logic, currencyService,"global", eventService, this.refreshService, this, this.consoleService,this.appConfigService)
         if (this.authService.isAuthenticated())
             this.init()
         else {
@@ -46,21 +47,23 @@ export class TradingService {
         }
         //this.refreshService.createPool("ticker")
     }
-
-    getInfraSupra(pair: string) {
+    getLoadStatus(b){
+        return this.brokers.loadStatus[b]
+    }
+    getInfraSupra(pair: string,broker:string) {
         if (pair in this.InfraSupra) return this.InfraSupra[pair]
         else {
-            this.InfraSupra[pair] = Crypto.getSymbolsFromPair(pair)
+            this.InfraSupra[pair] = Crypto.getSymbolsFromPair(pair,this.appConfigService.getPossibleInfrasPerBroker(broker))
         }
     }
 
-    getInfra(pair: string): string {
-        let p = this.getInfraSupra(pair);
+    getInfra(pair: string,broker): string {
+        let p = this.getInfraSupra(pair,broker);
         return p ? p.infra : null
     }
 
-    getSupra(pair: string): string {
-        let p = this.getInfraSupra(pair);
+    getSupra(pair: string,broker:string): string {
+        let p = this.getInfraSupra(pair,broker);
         return p ? p.supra : null
     }
 
@@ -80,7 +83,7 @@ export class TradingService {
         //console.log("brokers",B)
         for (let j in B) {
             let b: Broker = B[j]
-            let L = b.getListing().content;
+            let L = b.getTicker().content;
             for (let k in L)
                 if (L[k].pair in res) {
                     res[L[k].pair].brokers.push(b.key)
@@ -98,18 +101,21 @@ export class TradingService {
 
     enabledBrokers: string[]=[]
 
+    hasBrokersEnabled(){
+        return this.enabledBrokers.length>0
+    }
     fetchBrokerEnabledArray(f: Function) {
         let r = [];
         this.logic.getMe((user) => {
-            console.log("user", user);
+            //console.log("user", user);
             this.appConfigService.possibleBrokers.forEach((k) => {
                 let prop = "Connection" + Strings.Capitalize(k)
-                console.log("check", prop)
-                if (user[prop]==="true") {
+              //  console.log("check", prop)
+                if (user[prop]==="true" || user[prop]) {
                     r.push(k)
                 }
             })
-            console.log("enabledBrokers",r,user);
+            //console.log("enabledBrokers",r,user);
             this.enabledBrokers = r;
             f(r)
         })
@@ -119,7 +125,7 @@ export class TradingService {
         this.eventService.showLoading()
         this.consoleService.trade(" init")
         this.fetchBrokerEnabledArray((list) => {
-            console.log("LADING", list)
+            //console.log("LADING", list)
             if(list.length===0) this.loadingFinished()
             this.brokers.init(this.appConfigService.possibleBrokers, (broker: Broker) => {
                 this.globalBroker.combineWith(broker.getPortfolio())
