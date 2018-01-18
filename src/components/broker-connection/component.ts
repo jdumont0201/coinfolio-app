@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Injectable, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, Injectable, ViewChild, OnChanges} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
@@ -23,19 +23,27 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
     styleUrls: ['styles.css']
 })
 @Injectable()
-export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
+export class AppBrokerConnectionComponent extends CheckValid implements OnInit,OnChanges {
     user;
     checks = {}
     @Input() broker;
+    @ViewChild('stepper') stepper;
     enabledKey;
+    brokerName;
+    selectedIndex
 
-    constructor(public eventService: EventService, public tradingService: TradingService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar,public consoleService:ConsoleService) {
+    constructor(public eventService: EventService, public tradingService: TradingService, public appConfigService: AppConfigService, public authService: AuthService, public logic: Logic, public snackBar: MatSnackBar, public consoleService: ConsoleService) {
 
-    super(consoleService)
+        super(consoleService)
+
     }
-
+    ngOnChanges(obj){
+        console.log("ngch",obj)
+    }
     ngOnInit() {
-        this.checkValid(this.broker,"unvalid broker"+this.broker)
+        if (this.broker)
+            this.brokerName = Strings.Capitalize(this.broker)
+        this.checkValid(this.broker, "unvalid broker" + this.broker)
         this.enabledKey = "Connection" + Strings.Capitalize(this.broker)
         if (this.authService.isAuthenticated()) {
 //            console.log("logged")
@@ -46,10 +54,10 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
                     this.check(b)
                 })
             })
-        } else{
+        } else {
 
         }
-            //console.log("notlogged")
+        //console.log("notlogged")
     }
 
     canAcccessPublicData(brokerName) {
@@ -79,14 +87,26 @@ export class AppBrokerConnectionComponent extends CheckValid implements OnInit {
 
     }
 
-    submit(name) {
+    submit(name, firsttime) {
+        if (firsttime)
+            this.user[this.enabledKey] = true
         setTimeout(() => {
             this.logic.saveUser(this.user, (res) => {
-                this.snackBar.open("User saved. Loading broker...", null, {duration: 3000})
-                this.check(name)
-                this.tradingService.getBrokerByName(name).loadBroker((res) => {
-                    this.snackBar.open("Broker loaded", null, {duration: 3000})
-                })
+                if (firsttime) {
+                    this.snackBar.open("Keys saved. Loading broker...", null, {duration: 3000})
+                    this.check(name)
+                    this.tradingService.getBrokerByName(name).loadBroker((res) => {
+                        this.snackBar.open("Broker loaded", null, {duration: 3000})
+                        this.tradingService.enabledBrokers.push(this.broker);
+                        this.tradingService.brokersLoadedAfterConfigEvent.emit(this.broker)
+                    })
+                } else {
+                    this.snackBar.open("Keys saved", null, {duration: 3000})
+                    this.check(name)
+                    this.tradingService.enabledBrokers.push(this.broker);
+                    this.tradingService.brokersLoadedAfterConfigEvent.emit(this.broker)
+                }
+
             })
         }, 1000)
     }

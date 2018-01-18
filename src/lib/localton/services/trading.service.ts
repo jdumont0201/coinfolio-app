@@ -23,6 +23,7 @@ export class TradingService {
     @Output() BidAskUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() PriceChangeUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() EnabledBrokersLoadingFinishedEvent: EventEmitter<any> = new EventEmitter<boolean>()
+    @Output() brokersLoadedAfterConfigEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() PriceUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() ListingUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()
     @Output() PortfolioUpdatedEvent: EventEmitter<any> = new EventEmitter<boolean>()

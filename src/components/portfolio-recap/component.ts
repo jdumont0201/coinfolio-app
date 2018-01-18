@@ -18,16 +18,23 @@ export class AppPortfolioRecapComponent extends CheckValid implements OnInit,OnD
     constructor(public tradingService: TradingService,public eventService:EventService, private cd: ChangeDetectorRef,public consoleService:ConsoleService) {
         super(consoleService)
         this.doSubscribe("EnabledBrokersLoadingFinishedEvent",this.tradingService.EnabledBrokersLoadingFinishedEvent,(val) => {
-            this.brokerLoaded(val)
-            this.eventService.UIEvent.subscribe((val)=>{
-                if(val && val.key=="portfolio-value") {
-                    this.values[val.val.broker]=val.val.value;
-                    let res=0;
-                    for(let k in this.values)
-                        if(this.values[k]>0) res+=this.values[k]
-                    this.total=res;
-                } })
+            this.atBrokerLoaded(val)
         })
+        this.doSubscribe("brokersLoadedAfterConfigEvent",this.tradingService.brokersLoadedAfterConfigEvent,(val) => {
+            this.atBrokerLoaded(val)
+        })
+
+    }
+    atBrokerLoaded(val){
+        this.brokerLoaded(val)
+        this.doSubscribe("UIEvent",this.eventService.UIEvent,(val)=>{
+            if(val && val.key=="portfolio-value") {
+                this.values[val.val.broker]=val.val.value;
+                let res=0;
+                for(let k in this.values)
+                    if(this.values[k]>0) res+=this.values[k]
+                this.total=res;
+            } })
     }
     ngOnDestroy(){
         this.unsubscribeAllEvents()

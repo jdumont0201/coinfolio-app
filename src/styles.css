@@ -2723,3 +2723,14 @@ app-broker-connect section.widget{border-color:#ccc!important}
 app-broker-connect h5, app-broker-connect span:not(.mat-button-wrapper), app-broker-connect div {
     color: #444!important;
 }
+.mat-expansion-panel-body{position:relative;padding:0!important;}
+
+.broker-newconfig h5{
+    font-size:19px
+}
+.bgwhite{}
+.theme-dark .bgwhite  .mat-tab-label, .theme-dark .bgwhite  .mat-tab-link{color:#888!important; }
+.bgwhite mat-icon,.bgwhite .mat-step-icon-not-touched span,.bgwhite .mat-step-icon span{color:#444!important}
+.broker-connection-table-tr:last-child {
+    border-bottom: solid 1px #ccc!important;
+}

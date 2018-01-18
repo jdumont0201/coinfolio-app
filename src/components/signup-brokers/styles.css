@@ -56,10 +56,6 @@ span.welcome-message {
 
 }
 
-#welcome .mat-horizontal-stepper-content[aria-expanded=false] {
-    height: 0%
-}
-
 #welcome .mat-horizontal-content-container {
     padding: 0;
     height: 100%;
@@ -129,12 +125,6 @@ span.welcome-message {
     margin: 20px 0;
 }
 
-#welcome .mat-horizontal-stepper-header-container {
-    position: absolute;
-
-    width: 100%;
-    bottom: 0;
-}
 
 #welcome table {
     margin: auto;

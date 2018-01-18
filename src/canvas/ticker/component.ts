@@ -24,26 +24,30 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
     constructor(public refreshService: RefreshService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public apiService: ApiService, public logic: Logic, public authService: AuthService, public workspaceService: WorkspaceService, public router: Router, private cd: ChangeDetectorRef) {
         super(refreshService, eventService, consoleService)
         //console.log("+ TOPTICKER")
-        this.doSubscribe("favoriteUpdatedEvent", this.eventService.favoriteUpdatedEvent,(val) => {
+        this.doSubscribe("favoriteUpdatedEvent", this.eventService.favoriteUpdatedEvent, (val) => {
             this.favorites = val;
-        },"ticker")
+        }, "ticker")
         this.logic.getMe((user) => {
             if (user)
                 this.favorites = user.favoritePairs
             this.cd.markForCheck()
         })
-        this.doSubscribe("loginChanged",this.authService.loginChanged,(val) => {
+        this.doSubscribe("loginChanged", this.authService.loginChanged, (val) => {
             this.consoleService.eventReceived("loginChanged --> ticker")
             this.logic.getMe((user) => {
                 if (user)
                     this.favorites = user.favoritePairs
                 this.cd.markForCheck()
             })
-        },"ticker")
-        this.doSubscribe("EnabledBrokersLoadingFinishedEvent",        this.tradingService.EnabledBrokersLoadingFinishedEvent,(val) => {
+        }, "ticker")
+        this.doSubscribe("EnabledBrokersLoadingFinishedEvent", this.tradingService.EnabledBrokersLoadingFinishedEvent, (val) => {
             this.cd.markForCheck()
             this.subscribeToBrokerUpdates()
-        },"ticker")
+        }, "ticker")
+        this.doSubscribe("brokersLoadedAfterConfigEvent", this.tradingService.brokersLoadedAfterConfigEvent, (val) => {
+            this.cd.markForCheck()
+            this.subscribeToBrokerUpdates()
+        }, "ticker")
     }
 
 
@@ -71,12 +75,13 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
     }
 
     demoInterval
-demovalue2
+    demovalue2
+
     ngOnInit() {
 
         this.demoInterval = setInterval(() => {
-            this.demovalue = Math.round(Math.random() * 100 * 100) / 100-30
-            this.demovalue2 = Math.round(Math.random() * 100 * 100) / 100-30
+            this.demovalue = Math.round(Math.random() * 100 * 100) / 100 - 30
+            this.demovalue2 = Math.round(Math.random() * 100 * 100) / 100 - 30
             this.cd.markForCheck()
         }, 1500)
     }
