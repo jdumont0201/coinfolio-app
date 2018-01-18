@@ -113,7 +113,7 @@
                         <td>Choose</td>
                         <ng-container *ngFor="let p of plans">
                             <td *ngIf="p.amount==0">
-                                <button mat-raised-button [color]="'primary'" (click)="close()">Stay as guest</button>
+                                <button mat-raised-button [color]="'primary'" (click)="close()">Stay    as guest</button>
                             </td>
                         </ng-container>
                         <ng-container *ngFor="let p of plans">
@@ -158,7 +158,7 @@
                             <div class="form-invalid" *ngIf="form.controls.confpassword.dirty && form.controls.confpassword.errors?.MatchPassword">Passwords must match</div>
 
                         </div>
-                        <button mat-raised-button="" class="large" [disabled]="!form.valid" (click)="submit()" color="primary">Continue
+                        <button mat-raised-button="" class="large" [disabled]="!form.valid" (click)="submit()" color="primary">Send
                         </button>
                     </form>
                 </div>

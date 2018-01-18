@@ -51,7 +51,7 @@ You are trying to access a Plus feature. Plus features are premium features mark
             </mat-form-field>
 
           </div>
-          <button mat-raised-button="" [disabled]="!form.valid && (form.controls.confpassword.value != form.controls.password.value)" (click)="submit()" color="primary">Continue</button>
+          <button class="large hasicon" mat-raised-button="" [disabled]="!form.valid && (form.controls.confpassword.value != form.controls.password.value)" (click)="submit()" color="primary"><mat-icon>send</mat-icon>Send</button>
         </form>
       </div>
 
