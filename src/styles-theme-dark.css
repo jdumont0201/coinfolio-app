@@ -19,7 +19,7 @@
 }
 .theme-dark .mat-tab-label-active{background:#444!important;}
 .theme-dark *{    color: white;font-size:12px;
-    line-height: 24px;}
+    line-height: 18px;}
 .theme-dark mat-icon { font-size:19px}
 .theme-dark select,.theme-dark option{    color: black;}
 .theme-dark *:not(.mat-icon){    font-family:"Open Sans"}

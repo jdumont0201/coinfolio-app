@@ -213,9 +213,11 @@ span.welcome-message {
     .welcome-right-in > div {
         border: 0
     }
-
+    span.welcome-message {
+        margin-left:10px
+    }
     .welcome-right {
-        padding: 20px;
+        padding: 20px 0px;
         width: 100%;
         box-sizing: border-box;
     }
@@ -308,7 +310,8 @@ span.welcome-message {
     font-size: 35px;
     font-family: London !important;
     margin: 100px 0;
-    text-align: center
+    text-align: center;
+    line-height: 39px;
 }
 
 .welcome-signup {
@@ -317,8 +320,10 @@ span.welcome-message {
 }
 
 div#welcome-tweet-demo {
-    background: #607294;
-    width: 200px;border-radius:5px;
+    background: #ffffff;
+    width: 200px;
+    border-radius: 5px;
+    border: solid 1px #55c0ff
 }
 
 #welcome-allocation-demo {
@@ -334,6 +339,7 @@ div#welcome-tweet-demo {
 #welcome-portolio-demo {
     width: 200px !important;
     overflow: hidden;
+    min-width: 200px;
 }
 
 #welcome-portolio-demo ul li:hover {
@@ -348,3 +354,7 @@ div#welcome-tweet-demo {
 #welcome-tweet-demo li.tweet .tweet-date {
     color: #c5c5c5;
 }
+.tweet .user{
+    width:initial
+}
+#welcome-tweet-demo .tweet-url{color:#444}

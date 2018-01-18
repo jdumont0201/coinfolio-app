@@ -2781,3 +2781,8 @@ app-broker-connect h5, app-broker-connect span:not(.mat-button-wrapper), app-bro
     margin: 80px auto;
     max-width: 500px;
 }
+
+span.tweet-text {
+    line-height: 16px!important;
+    display: inline-block;
+}

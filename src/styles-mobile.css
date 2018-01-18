@@ -36,7 +36,9 @@
     }
     #panel-creator-workspace,.mat-drawer ,#panel-creator-top{width:70%!important}
 
-
+    li.tweet{
+        padding: 10px;
+    }
     .form-invalid {
 
         padding: 5px;

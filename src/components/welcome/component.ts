@@ -37,7 +37,8 @@ export class AppWelcomeComponent extends AppSubscribeComponent {
     demoInterval
     demovalue2
     demoPortfolio = {binance: 5045.2, kraken: 2165.55, 'hitbtc': 1989.74}
-    tweets = [{userscreenname: 'YourLatestCoinNews', username: 'YourLatestCoinNews', retweets: 15, favorites: 15, text: "New listing : ABCDEF coin will be listed by ABroker on Wednesday", date: new Date().getTime()}]
+    dd=new Date("2018/01/16")
+    tweets = [{userscreenname: 'Bitcoin News', username: 'BTCTN', retweets: 74, favorites: 140, text: "Cryptocurrency App Users Increase 14-Fold in South Korea http://ift.tt/2B6AS1e  #Bitcoin"}]
     chartOptions = {
         chart: {
             type: 'pie', margin: 0, backgroundColor: {

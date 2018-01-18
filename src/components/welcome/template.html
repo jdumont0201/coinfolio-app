@@ -48,12 +48,12 @@
                 <div>
                     <div id="welcome-tweet-demo">
                         <ul>
-                            <li *ngFor="let t of tweets" class="tweet">
+                            <li *ngFor="let t of tweets" class= "tweet bgwhite">
                                 <div>
                                     <div>
                                     <div>
                                         <a target="_blank" href="http://twitter.com/{{t.userscreenname}}">
-                                            <div class="tweet-image" [ngStyle]="{'background-image': 'url(https://pbs.twimg.com/profile_images/952660250871648257/leheDWmP_bigger.jpg)'}"></div>
+                                            <div class="tweet-image" [ngStyle]="{'background-image': 'url(https://pbs.twimg.com/profile_images/692197905265004545/ItJpuaN1_bigger.png)'}"></div>
                                         </a>
                                     </div>
                                     <div class="user">
@@ -71,7 +71,7 @@
                                     </div>
                                     <div>
                                         <span class="tweet-text">{{t.text}}</span><br>
-                                        <span class="tweet-date">{{t.date | date:"medium"}}</span><br>
+                                        <span class="tweet-date">{{dd | date:"medium"}}</span><br>
                                     </div>
 
                                     <a rel="external"  (click)="more()"                             class="tweet-url">More...</a>
