@@ -361,4 +361,5 @@ div#welcome-tweet-demo {
 }
 #welcome-tweet-demo .tweet-url{color:#444}
 
+.welcome-right .desc ul {margin-top:10px}
 .welcome-right ul:not(#portfolio-demo) li{list-style-type: disc;margin-left:20px;border-bottom:none}
