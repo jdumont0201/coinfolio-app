@@ -20,7 +20,7 @@
 
 .welcome-right {
     padding: 0px 20px;
-    width: 100%;
+    width: 100%;box-sizing: border-box;
     color: white;
 }
 
@@ -33,24 +33,23 @@ span.welcome-message {
     color: #ff8f00;
     font-family: Open Sans;
     font-weight: 300;
+    margin-left: 20px;
 }
 
 #welcome {
-    position: absolute;
     width: 100%;
-    z-index: 20;
     top: 0px;
     left: 0;
     background: white;
-    box-shadow: 4px 3px 5px #00000059;
+    box-shadow: 4px 3px 5px #00000059;padding-bottom: 100px;
     margin: auto;
     right: 0;
-    height: 100%;
+      background: linear-gradient(45deg, #1f3550,  #004aa5, #0499c3);
+
 }
 
 #welcome .mat-horizontal-stepper-content {
-    background: linear-gradient(45deg, #1f3550,  #004aa5, #0499c3);
-    height: 100%
+
 }
 
 #welcome .mat-horizontal-stepper-content[aria-expanded=false] {
@@ -264,3 +263,19 @@ span.welcome-message {
     background-image: url(/assets/img/portfolio-example.png)
 }
 
+.welcome-right{background: white;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
+    clip-path: polygon(0 6%, 100% 0%, 100% 93%, 0 100%);
+    padding-top: 87px;
+    padding-bottom: 60px;}
+.welcome-right-in{display:block}
+.welcome-right-in h2{color:#444;
+    font-family: London!important;}
+.welcome-right-in > div {display:flex}
+.welcome-right-in .desc{margin-left:20px}
+.welcome-image{border-radius:100px;border:0;
+    margin: 0;}
+.welcome-slogan{font-size:35px;font-family:London!important;margin:100px 0;text-align:center}
+.welcome-signup{
+    margin: 80px auto;
+    max-width: 500px;}

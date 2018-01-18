@@ -1,51 +1,66 @@
 <div id="welcome" *ngIf="eventService.isWelcomeVisible">
 
-    <mat-horizontal-stepper linear #stepper>
-        <mat-step label="Welcome">
-            <div class="welcome-banner">
-                <div class="welcome-left padded">
-                    <div class="welcome-header">
-                    <span id="logo" class="logo-white"> </span>
-                    <span class="line">Made by traders. For the traders.</span>
-                    </div>
-                    <br><br><br>
-                    <span class="welcome-message">Sign up</span>
 
-                    <div class="centered">
-                        <div id="welcome-register">
-                        <app-form-register [submitText]="'Join Coinamics'"></app-form-register>
-                            <div hidden class="disclaimer">DISCLAIMER<br>
-                                Coinamics is not a financial advisor. Coinamics is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford to lose.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="welcome-right">
-                    <span class="welcome-message">Top features</span>
-                    <div class="welcome-right-in">
-                        <div><h2>Connect your favorite brokers</h2>
-                            <div id="welcome-portolio" class="welcome-image"></div>
-                            <span></span>
-                        </div>
-                        <div><h2>Access all your news & tweets</h2>
-                            <div id="welcome-tweet" class="welcome-image"></div>
-                            <span></span>
-                        </div>
-                        <div>
-                            <h2>Optimize your portofolio allocation</h2>
-                            <div id="welcome-allocation" class="welcome-image"></div>
-                            <span></span>
-                        </div>
-                        <div><h2>Perform arbitrage decisions easily</h2>
-                            <div id="welcome-arbitrage" class="welcome-image"></div>
-                            <span></span>
-                        </div>
-
-
-                    </div>
-                </div>
-                <br><br><br>
+    <div class="welcome-banner">
+        <div class="welcome-left padded">
+            <div class="welcome-header">
+                <span id="logo" class="logo-white"> </span>
+                <span class="line">Made by traders. For the traders.</span>
             </div>
+            <div class="welcome-slogan">Manage your crypto portfolio efficiently</div>
+
+        </div>
+        <div class="welcome-right">
+            <span class="welcome-message">Top features</span>
+            <div class="welcome-right-in">
+                <div>
+                    <div id="welcome-portolio" class="welcome-image"></div>
+                    <div class="desc"><h2>Connect your favorite brokers</h2>
+
+                        <span></span></div>
+                </div>
+                <div>
+                    <div id="welcome-tweet" class="welcome-image"></div>
+                    <div class="desc"><h2>Access all your news & tweets</h2>
+
+                        <span></span></div>
+                </div>
+                <div>
+                    <div id="welcome-allocation" class="welcome-image"></div>
+                    <div class="desc"><h2>Optimize your portofolio allocation</h2>
+
+                        <span></span></div>
+                </div>
+                <div>
+                    <div id="welcome-arbitrage" class="welcome-image"></div>
+                    <div class="desc"><h2>Perform arbitrage decisions easily</h2>
+
+                        <span></span></div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="welcome-signup">
+            <span class="welcome-message">Sign up now</span>
+
+            <div class="centered">
+                <div id="welcome-register">
+                    <app-form-register [submitText]="'Join Coinamics'"></app-form-register>
+                    <div hidden class="disclaimer">DISCLAIMER<br>
+                        Coinamics is not a financial advisor. Coinamics is not a trading platform. Buying and sellings cryptocurrencies is risky. Only invest money you can afford
+                        to lose.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template *ngIf="false">
+    <mat-horizontal-stepper linear #stepper hidden>
+        <mat-step label="Welcome">
         </mat-step>
         <mat-step label="Plans">
             <div class="padded">
@@ -113,7 +128,7 @@
                         <td>Choose</td>
                         <ng-container *ngFor="let p of plans">
                             <td *ngIf="p.amount==0">
-                                <button mat-raised-button [color]="'primary'" (click)="close()">Stay    as guest</button>
+                                <button mat-raised-button [color]="'primary'" (click)="close()">Stay as guest</button>
                             </td>
                         </ng-container>
                         <ng-container *ngFor="let p of plans">
@@ -206,5 +221,5 @@
         </mat-step>
 
     </mat-horizontal-stepper>
+</ng-template>
 
-</div>
