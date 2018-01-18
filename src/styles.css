@@ -2755,3 +2755,29 @@ app-broker-connect h5, app-broker-connect span:not(.mat-button-wrapper), app-bro
        }
 
 #config-loading app-loading{position:initial}
+.slash-header{
+                  font-size: 35px!important;
+                  font-family: London !important;
+
+                  text-align: center
+              }
+#slash-register {
+    max-width: 500px;
+    border: solid 1px #ffffff45;
+    padding: 20px;
+    border-radius: 6px;
+}
+
+.slash-message {
+    font-size: 32px!important;
+
+    color: #ff8f00!important;
+    font-family: Open Sans!important;
+    font-weight: 300;
+    margin-left: 20px;
+}
+
+.slash-signup {
+    margin: 80px auto;
+    max-width: 500px;
+}

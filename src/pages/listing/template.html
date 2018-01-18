@@ -2,88 +2,95 @@
     <mat-toolbar>
         <h3>Listing</h3>
     </mat-toolbar>
-    <app-top-right-buttons  [placeholder]="'Search listing...'"></app-top-right-buttons>
 
-    <div *ngIf="!authService.isAuthenticated()" class="alert-configure-broker">
-        <mat-icon>lock</mat-icon>
-        <span>Please login or sign up to access your private trading dashboard.</span><br>
-        <button mat-raised-button="" color="primary" routerLink="/auth">Login / Sign up</button>
-    </div>
-    <div *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()" class="alert-configure-broker">
-        <app-configure-broker></app-configure-broker>
-    </div>
-    <ng-container *ngIf="authService.isAuthenticated()  && !tradingService?.hasBrokersEnabled()">
-        <app-please-addbroker></app-please-addbroker>
+
+    <ng-container *ngIf="!authService.isAuthenticated() ">
+        <app-please-login></app-please-login>
     </ng-container>
-    <ng-container *ngIf="listing.length>0 || isRefreshing">
-        <button id="listing-view" mat-raised-button (click)="setGraphView()">
-            <mat-icon class="switch">{{showGraphs?"view_list":"insert_chart"}}</mat-icon>
-            {{showGraphs?"Chart view":"Ask / bid view"}}
-        </button>
-        <h5 class="options"> {{listing?.length}} pairs - Sort by
-            <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span></div>
-            Price unit
-            <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu2">   {{priceview}}     <mat-icon>expand_more</mat-icon>    </span></div>
-            Base symbols
-            <div class="header-select  header-button-{{supports[sup].active?'selected':'unselected'}}" *ngFor="let sup of getObjectKeys(supports);let index=index" (click)="supports[sup].active=!supports[sup].active;filterData()"><span class="header-button">   {{sup}}     </span></div>
-      Brokers
-            <div class="header-select  header-button-{{brokerOptions[sup].active?'selected':'unselected'}}" *ngFor="let sup of getObjectKeys(brokerOptions);let index=index" (click)="brokerOptions[sup].active=!brokerOptions[sup].active;filterData()"><span class="header-button">   {{sup}}     </span></div>
+    <ng-container *ngIf="authService.isAuthenticated() ">
 
-        </h5>
-
-        <mat-menu #appMenu="matMenu">
-            <button (click)="sortby=i;sort()" mat-menu-item
-                    *ngFor="let i of possibleSorts">{{i}}
+        <ng-container *ngIf=" !tradingService?.hasBrokersEnabled()">
+            <app-please-addbroker></app-please-addbroker>
+        </ng-container>
+        <app-configure-broker *ngIf="authService.isAuthenticated() && !isLoading && !tradingService?.isAnyBrokerConfigured()"></app-configure-broker>
+        <app-top-right-buttons [placeholder]="'Search listing...'"></app-top-right-buttons>
+        <ng-container *ngIf="listing.length>0 || isRefreshing">
+            <button id="listing-view" mat-raised-button (click)="setGraphView()">
+                <mat-icon class="switch">{{showGraphs?"view_list":"insert_chart"}}</mat-icon>
+                {{showGraphs?"Chart view":"Ask / bid view"}}
             </button>
-        </mat-menu>
-        <mat-menu #appMenu2="matMenu">
-            <button (click)="priceview=i;sort()" mat-menu-item
-                    *ngFor="let i of possiblePriceviews">{{i}}
-            </button>
-        </mat-menu>
+            <h5 class="options"> {{listing?.length}} pairs - Sort by
+                <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span></div>
+                Price unit
+                <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu2">   {{priceview}}     <mat-icon>expand_more</mat-icon>    </span></div>
+                Base symbols
+                <div class="header-select  header-button-{{supports[sup].active?'selected':'unselected'}}" *ngFor="let sup of getObjectKeys(supports);let index=index"
+                     (click)="supports[sup].active=!supports[sup].active;filterData()"><span class="header-button">   {{sup}}     </span></div>
+                Brokers
+                <div class="header-select  header-button-{{brokerOptions[sup].active?'selected':'unselected'}}" *ngFor="let sup of getObjectKeys(brokerOptions);let index=index"
+                     (click)="brokerOptions[sup].active=!brokerOptions[sup].active;filterData()"><span class="header-button">   {{sup}}     </span></div>
+
+            </h5>
+
+            <mat-menu #appMenu="matMenu">
+                <button (click)="sortby=i;sort()" mat-menu-item
+                        *ngFor="let i of possibleSorts">{{i}}
+                </button>
+            </mat-menu>
+            <mat-menu #appMenu2="matMenu">
+                <button (click)="priceview=i;sort()" mat-menu-item
+                        *ngFor="let i of possiblePriceviews">{{i}}
+                </button>
+            </mat-menu>
 
 
-        <mat-table #table class="data" [dataSource]="dataSource" matSort>
-            <ng-container matColumnDef="traded">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Ever traded ?</mat-header-cell>
-                <mat-cell *matCellDef="let element"><mat-icon>{{element.hasTraded?"check":""}}</mat-icon></mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="inptf">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> In PTF ?</mat-header-cell>
-                <mat-cell *matCellDef="let element"><mat-icon>{{element.inptf?"check":""}}</mat-icon></mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="broker">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Broker</mat-header-cell>
-                <mat-cell *matCellDef="let element"><span class="broker-{{element.broker}}"><span class="broker-icon notext broker-{{element.broker}}"></span>{{element.broker}}</span></mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="pair">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
-                <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/pair/'+element.pair+'/broker/'+element.broker">{{element.supra}} / {{element.infra}}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="volume">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>24h Volume</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.volume}}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="24hevol">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>24h Evol</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{100*(element.pricemoy/element.changelastprice -1)| number:'1.2-2'}}</mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="bid">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Bid</mat-header-cell>
-                <mat-cell *matCellDef="let s"><span class="{{s.oldbid>s.bid?'valneg':'valpos'}}"> {{s.bid}} <mat-icon>{{s.oldbid>s.bid?"arrow_downward":"arrow_upward"}}</mat-icon></span>
-                    <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdbid | number :'1.2-5'}}</span></mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="ask">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Ask</mat-header-cell>
-                <mat-cell *matCellDef="let s">
-                    <span class="{{s.oldask>s.ask?'valneg':'valpos'}}"> {{s.ask}} <mat-icon>{{s.oldask>s.ask?"arrow_downward":"arrow_upward"}}</mat-icon> </span>
-                    <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdask            | number :'1.2-5'}}</span></mat-cell>
-            </ng-container>
+            <mat-table #table class="data" [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="traded">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Ever traded ?</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <mat-icon>{{element.hasTraded?"check":""}}</mat-icon>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="inptf">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> In PTF ?</mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                        <mat-icon>{{element.inptf?"check":""}}</mat-icon>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="broker">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Broker</mat-header-cell>
+                    <mat-cell *matCellDef="let element"><span class="broker-{{element.broker}}"><span class="broker-icon notext broker-{{element.broker}}"></span>{{element.broker}}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="pair">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/pair/'+element.pair+'/broker/'+element.broker">{{element.supra}} / {{element.infra}}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="volume">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>24h Volume</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.volume}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="24hevol">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>24h Evol</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{100*(element.pricemoy/element.changelastprice -1)| number:'1.2-2'}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="bid">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Bid</mat-header-cell>
+                    <mat-cell *matCellDef="let s"><span class="{{s.oldbid>s.bid?'valneg':'valpos'}}"> {{s.bid}} <mat-icon>{{s.oldbid>s.bid?"arrow_downward":"arrow_upward"}}</mat-icon></span>
+                        <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdbid | number :'1.2-5'}}</span></mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ask">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Ask</mat-header-cell>
+                    <mat-cell *matCellDef="let s">
+                        <span class="{{s.oldask>s.ask?'valneg':'valpos'}}"> {{s.ask}} <mat-icon>{{s.oldask>s.ask?"arrow_downward":"arrow_upward"}}</mat-icon> </span>
+                        <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdask            | number :'1.2-5'}}</span></mat-cell>
+                </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>
-        </mat-table>
+                <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>
+            </mat-table>
 
-
+        </ng-container>
     </ng-container>
 </div>

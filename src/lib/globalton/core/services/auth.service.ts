@@ -298,6 +298,7 @@ export class AuthService {
         this.userId = null;
         this.user = null;
         localStorage.removeItem(this.localStorageKey);
+
         this.emitAuthStatus();
         console.log('Session has been cleared');
     }

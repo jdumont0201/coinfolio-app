@@ -11,9 +11,10 @@ import {RefreshService} from "./refresh.service";
 
 import {Strings} from "../../../lib/globalton/core/utils/utils"
 import {CurrencyService} from "../../globalton/core/services/currency.service";
+import {CheckValid} from "../components/CheckValid/component";
 
 @Injectable()
-export class TradingService {
+export class TradingService extends CheckValid {
     brokers: BrokerCollection;
     globalBroker: Broker;
     brokersConnected = false;
@@ -34,9 +35,10 @@ export class TradingService {
 
 
     constructor(public authService: AuthService,public currencyService:CurrencyService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public refreshService: RefreshService, public logic: Logic) {
+        super(consoleService)
         consoleService.trade("+", this.authService, this.authService.loginChanged)
         this.consoleService.trade(" + tradingservice", this.authService, this.authService.loginChanged)
-        this.authService.loginChanged.subscribe(value => this.loginUpdated(value), error => console.log("Error reading loginupdated" + error), () => console.log('done'));
+        this.doSubscribe("loginChanged",this.authService.loginChanged,value => this.loginUpdated(value));
         this.refreshService.setTradingService(this);
         this.brokers = new BrokerCollection(logic, currencyService,eventService, this, this.refreshService, this.consoleService,this.appConfigService);
         this.globalBroker = new Broker(logic, currencyService,"global", eventService, this.refreshService, this, this.consoleService,this.appConfigService)
@@ -77,6 +79,8 @@ export class TradingService {
         this.consoleService.trade(" loginupdated")
         if (this.authService.isAuthenticated())
             this.init();
+        else
+            this.unloadAllBrokers()
     }
 
     getListing() {
@@ -123,6 +127,11 @@ export class TradingService {
         })
     }
 
+    unloadAllBrokers(){
+        this.enabledBrokers.forEach((b)=>{
+            this.getBrokerByName(b).unloadBroker()
+        })
+    }
     init() {
         this.eventService.showLoading()
         this.consoleService.trade(" init")

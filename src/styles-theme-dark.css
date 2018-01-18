@@ -1,5 +1,7 @@
 .theme-dark .mat-drawer-content {
     background: linear-gradient(-254deg,#00adff,#0758aa)!important;
+    background: linear-gradient(45deg, #1f3550, #004aa5, #0499c3)!important;
+
 
 }
 .theme-dark h3.title, .theme-dark  mat-toolbar h3 {

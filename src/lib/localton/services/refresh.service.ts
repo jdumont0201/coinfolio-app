@@ -134,6 +134,7 @@ export class RefreshService {
     loginChanged(val: { authentificated: boolean, isTourDone: boolean, user: any }) {
         if (!val.authentificated) {
             this.stopAll()
+
         }
     }
 
