@@ -1,7 +1,5 @@
 import * as Raphael from "raphael/raphael"
 import * as Fabric from "fabric"
-
-
 import * as FontFaceObserver from "FontFaceObserver"
 
 export enum DrawMethods {SVG, Canvas}
