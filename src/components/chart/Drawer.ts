@@ -1,7 +1,8 @@
 
 import * as Raphael from "raphael/raphael"
 import * as Fabric from "fabric"
-import {DrawMethods,RawLoadedData,Row} from "./Types"
+export enum DrawMethods {SVG, Canvas}
+import {RawLoadedData,Row} from "./Types"
 export class Drawer {
     constructor(public method,public consoleService){
 
@@ -10,7 +11,21 @@ export class Drawer {
     paper;
     chartId;
 
+clear(){
+    if (this.method == DrawMethods.SVG)
+        this.paper.clear()
+    else
+        this.canvas.clear();
+}
+render(){
+    this.canvas.renderAll()
+}
+isValid():boolean{
 
+    if (this.method == DrawMethods.SVG && !this.paper) return false
+    if (this.method == DrawMethods.Canvas && !this.canvas) return false;
+    return true
+}
     setDrawer(w:number,h:number,chartId:string,inside?) {
         this.chartId=chartId;
         if (this.isPaperSet()) {
@@ -80,7 +95,7 @@ export class Drawer {
     }
 
     drawRect(name: string, x, y, w, h, fill, strokeWidth, stroke, g: Row, isTooltip?: boolean) {
-        //this.consoleService.chart("draw Rect", name, x, y, w, h)
+        this.consoleService.chart("draw Rect", name, x, y, w, h)
         if (this.method == DrawMethods.SVG) {
             if (Math.round(x) == x) x += 0.5
             if (Math.round(y) == y) y += 0.5

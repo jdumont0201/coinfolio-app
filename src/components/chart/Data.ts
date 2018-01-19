@@ -1,6 +1,7 @@
 import {OHLC} from "./OHLC"
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 import {DrawMethods,RawLoadedData,Row} from "./Types"
+import {Arranger} from "./Arranger";
 export class Data {
     ohlc: OHLC[] = []
     //SPAN
@@ -11,7 +12,16 @@ export class Data {
     spanX;
     spanY;
 
-    constructor(public consoleService: ConsoleService) {
+    hasData(){
+        return this.ohlc.length>0
+    }
+    isEmpty(){
+        return this.ohlc.length==0
+    }
+    getSize():number{
+        return this.ohlc.length
+    }
+    constructor(public consoleService: ConsoleService,public arranger:Arranger) {
 
     }
 
@@ -24,20 +34,23 @@ export class Data {
     }
 
     setWorkingData(d) {
-        this.consoleService.chart("DATA SETWD", d)
-        this.ohlc.push(new OHLC(d))
+        //this.consoleService.chart("DATA SETWD", d)
+        this.ohlc.push(new OHLC(d,this.arranger))
     }
 
-    getTick(i) {
+    getTick(i):Row {
         return this.ohlc[i].data
     }
-
+    get(i){
+        console.log("chart get",i)
+        return this.ohlc[i]
+    }
     read(content) {
-        this.consoleService.chart("DATA READ", content)
+        //this.consoleService.chart("DATA READ", content)
         content.forEach((d:RawLoadedData) => {
             this.setWorkingData(d)
         })
-        this.consoleService.chart("DATA READ", this.ohlc)
+        //this.consoleService.chart("DATA READ", this.ohlc)
     }
 
     addMeta() {

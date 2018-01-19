@@ -1,10 +1,15 @@
 
 import {DrawMethods,RawLoadedData,Row} from "./Types"
+import {Arranger} from "./Arranger";
 
 export class OHLC {
     data: Row
-
-    constructor(d:RawLoadedData) {
+    arrange(){
+        this.a.scaleData(this.data)
+        this.a.flipData(this.data)
+        this.a.roundData(this.data)
+    }
+    constructor(d:RawLoadedData,public a:Arranger) {
         this.data={raw:d,scaled:{},flipped:{},meta:{},draw:{}};
     }
 
@@ -22,5 +27,6 @@ export class OHLC {
         //this.consoleService.chart("ap", JSON.stringify(g))
 
     }
+
 
 }
