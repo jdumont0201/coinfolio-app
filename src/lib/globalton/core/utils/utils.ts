@@ -19,15 +19,16 @@ export class Strings{
         return Math.random().toString(36).substring(n);}
 
 }
-export class HTML{
+export class HTML {
 
- static objToQueryString(obj) :string{
-    var str = [];
-    for(var p in obj)
-        if (obj.hasOwnProperty(p)) {
-            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-        }
-    return str.join("&");
+    static objToQueryString(obj): string {
+        var str = [];
+        for (var p in obj)
+            if (obj.hasOwnProperty(p)) {
+                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        return str.join("&");
+    }
 }
 export class Structures {
     static objectToArray(obj: Object): any[] {
