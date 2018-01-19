@@ -29,6 +29,8 @@ export class UniversalLoader {
                         total: parseFloat(d.reserved)+parseFloat(d.available)
                     }
                 })
+            } else if (broker == "bitmex") {
+               A['BTC']=data.amount
             }
 
             return A;
@@ -55,6 +57,20 @@ export class UniversalLoader {
                         }
                     }
 
+            }
+            return A;
+        }else if(task =="ohlc"){
+            let A=[]
+            if(broker=="binance"){
+                data.forEach((d)=>{
+                    A.push({
+                        ts:parseInt(d[0]),
+                        o:parseFloat(d[1]),
+                        h:parseFloat(d[2]),
+                        l:parseFloat(d[3]),
+                        c:parseFloat(d[4])
+                    })
+                })
             }
             return A;
         }

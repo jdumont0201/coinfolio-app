@@ -19,11 +19,8 @@
     </mat-toolbar>
     <mat-tab-group>
         <mat-tab label="Live">
-                    <app-live-price [refresh]="true" [pair]="pairId" [broker]="broker" [trades]="trades" [period]="'1m'"></app-live-price>
-                    <app-live-price [refresh]="true" [broker]="broker"  [pair]="pairId" [period]="'5m'"></app-live-price>
-                    <app-live-price [pair]="pairId"  [broker]="broker" [period]="'15m'"></app-live-price>
-                    <app-live-price [pair]="pairId"  [broker]="broker" [period]="'1h'"></app-live-price>
-                    <app-live-price [pair]="pairId"  [broker]="broker" [period]="'1d'"></app-live-price>
+
+                    <app-live-price [pair]="pairId"  [broker]="broker" [isZoomed]="true" [period]="'15m'"></app-live-price>
         </mat-tab>
         <mat-tab label="Depth">
             <app-live-depth [lastPrice]="lastPrice" [pairId]="pairId"></app-live-depth>

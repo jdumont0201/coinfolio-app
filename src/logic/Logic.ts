@@ -5,6 +5,7 @@ import {ApiService} from "../lib/globalton/core/services/api.service";
 import {AuthService} from "../lib/globalton/core/services/auth.service";
 import {RequestService} from "../lib/globalton/core/services/request.service";
 import {UniversalLoader} from "./UniversalLoader";
+import {HTML} from "../lib/globalton/core/utils/utils";
 
 @Injectable()
 export class Logic {
@@ -14,11 +15,7 @@ export class Logic {
 
 
     BinanceGetAllocation(f: Function) {
-        this.apiService.noauthget("user/connect/binance/balance?userId=" + this.authService.userId, (res) => {
-            if (res && "result" in res && res.result.success)
-                f(res.result.data)
-            else f(null)
-        })
+        this.getFromBroker("binance","balance",f)
     }
 
     BinanceGetLivePrices(f: Function) {
@@ -70,24 +67,16 @@ export class Logic {
     }
 
     BinanceGetOHLC(symbol: string, interval: string, f: Function) {
-        this.apiService.noauthget("user/connect/binance/ohlc?symbol=" + symbol + "&interval=" + interval + "&userId=" + this.authService.userId, (res) => {
-            if (res && "result" in res && res.result.success)
-                f(res.result.data)
-            else f(null)
-        })
+        this.getFromBroker("binance","ohlc",f,"symbol=" + symbol + "interval=" + interval )
     }
 
     KrakenGetAllocation(f: Function) {
-        this.apiService.noauthget("user/connect/kraken/balance?userId=" + this.authService.userId, (res) => {
-            if (res && "result" in res && res.result.success)
-                f(res.result.data)
-            else f(null)
-        })
+        this.getFromBroker("kraken","balance",f)
     }
 
-    getFromBroker(broker, task, f: Function, query?: string) {
-        this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId, (res) => {
-
+    getFromBroker(broker, task, f: Function, query?: string|any) {
+        let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
+        this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId+"&"+queryStr, (res) => {
             if (res && "result" in res && res.result.success){
                 let A=UniversalLoader.load(broker, task, res.result.data);
 
@@ -105,6 +94,9 @@ export class Logic {
 
     HitbtcGetAllocation(f: Function) {
         this.getFromBroker("hitbtc","balance",f)
+    }
+    BitmexGetAllocation(f: Function) {
+        this.getFromBroker("bitmex","balance",f)
     }
 
 

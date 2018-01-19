@@ -1720,10 +1720,6 @@ section.widget.price2 {
     margin-bottom: 0;
 
 }
-section.widget.price2.zoomed {
-    background: linear-gradient(-254deg,#00adff,#0758aa)!important; /*  border: solid 4px #171e46;*/
-
-}
 
 section.widget.price .highchart-box { /*  border: solid 4px #171e46;*/
     height: 250px;
@@ -2192,9 +2188,10 @@ span.infra {
     position: absolute;
     top: 0;
     left: 0;
-    height: calc(100vh  - 60px)!important;
+    height:100vh !important;
     width: 100%;
-    z-index: 20
+    z-index: 20;
+    border: 0;
 }
 
 .zoomed .highchart-box {
@@ -2304,12 +2301,12 @@ div#ticker {
     margin-bottom: 60px;
     position: relative;
 
-    overflow-x: hidden;
+    overflow: hidden;
 }
 #underticker {
 
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 #bottom {
@@ -2505,6 +2502,7 @@ mat-table.data mat-row {
     background-position: 1px 0px;
     margin-right: 6px;}
 .broker-kraken{background-position:-16px 0!important}
+.broker-bitmex{background-position:-49px 0!important}
 .broker-hitbtc{background-position:-32px 0!important}
 li.leftpad {
     padding-left: 20px!important;
@@ -2812,3 +2810,6 @@ h2 {
     font-size: 18px!important;
     font-family: London!important;
     }
+
+.ticker-invisible #bottom{width:120px!important}
+.menu-invisible #status{display:none!important;}

@@ -15,6 +15,19 @@ export class Strings{
     static Capitalize(s:string):string{
         return s.substring(0,1).toUpperCase()+s.slice(1)
     }
+    static getRandom(n:number):string{
+        return Math.random().toString(36).substring(n);}
+
+}
+export class HTML{
+
+ static objToQueryString(obj) :string{
+    var str = [];
+    for(var p in obj)
+        if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+    return str.join("&");
 }
 export class Structures {
     static objectToArray(obj: Object): any[] {

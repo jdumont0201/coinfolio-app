@@ -10,6 +10,8 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 
 import * as Raphael from "raphael/raphael"
 import * as Fabric from "fabric"
+import {CheckValid} from "../../lib/localton/components/CheckValid/component";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
 enum DrawMethods {SVG, Canvas}
 
@@ -60,7 +62,7 @@ export class CandleStick {
 
 })
 @Injectable()
-export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
+export class AppChartComponent extends CheckValid implements OnChanges, OnInit, AfterViewInit {
     @Input() data: any[] = [];
     @Input() gdata: Row[] = [];
     //@ViewChild('mycanvas') canvas: ElementRef;
@@ -73,9 +75,9 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
     //MARGINS
     MT = 0;
-    MB = 60;
+    MB = 50;
     ML = 0;
-    MR = 0;
+    MR = 100;
     DH;
     DW;
 
@@ -91,7 +93,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
     spanY;
 
     //BAR WIDTH
-    cW = 8;
+    cW = 6;
     cWMargin = 4;
 
     yAxis = [];
@@ -111,7 +113,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
             }
         },
         xAxis: {
-            height: 30,
+            height: 20,
             grid: {
                 color: "rgba(255,255,255,0.2)",
                 textColor: "rgba(255,255,255,0.5)",
@@ -154,18 +156,25 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
     crosshairLines1 = [[[0, 0], [0, 0]]]
     crosshairLines2 = [[[0, 100], [200, 100]]]
 
-    constructor(public logic: Logic, public tradingService: TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService, elementRef: ElementRef) {
+    constructor(public logic: Logic, public tradingService: TradingService, public consoleService: ConsoleService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService, elementRef: ElementRef) {
+        super(consoleService)
+        this.consoleService.chart("+")
         this.el = elementRef.nativeElement;
-        this.method = DrawMethods.SVG
+        this.method = DrawMethods.Canvas
 
     }
 
     ngOnInit() {
-        this.eventService.windowResizedEvent.subscribe((val) => {
+        this.consoleService.chart("ngoninit")
+        if (!this.chartId) this.consoleService.chart("ERR NO CHART ID", this.chartId)
+        this.doSubscribe("windowResizedEvent-" + this.chartId, this.eventService.windowResizedEvent, (val) => {
             this.windowResized(val)
         })
-        this.eventService.isFullscreenEvent.subscribe((val) => {
-            //console.log("chart chardid", val)
+        this.doSubscribe("menuDisplayUpdatedEvent-" + this.chartId, this.eventService.menuDisplayUpdatedEvent, (val) => {
+            this.windowResized(val)
+        })
+        this.doSubscribe("isFullscreenEvent-" + this.chartId, this.eventService.isFullscreenEvent, (val) => {
+            //this.consoleService.chart("pair-chart chardid", val)
             if (this.chartId == val.id)
                 setTimeout(() => {
                     this.windowResized(val)
@@ -174,40 +183,16 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
     }
 
-    /*
-        isResizing = false;
-        lastResize;
-        redrawInterval;
-        isResizeListenerStarted = false;
-
-        startResizeListener() {
-            this.isResizeListenerStarted = true;
-            this.redrawInterval = setInterval(() => {
-                let d = new Date().getTime();
-                console.log("chart lastresize", this.redrawInterval, d, this.lastResize, d - this.lastResize)
-                if (d - this.lastResize > 1000) {
-                    console.log("chart reflow && clear", this.redrawInterval)
-                    //this.draw()
-                    this.updateAfterResize()
-                    this.isResizing = false;
-                    //for (var i = 1; i < this.redrawInterval; i++)
-                    //window.clearInterval(i);
-                    window.clearInterval(this.redrawInterval)
-                    this.isResizeListenerStarted = false
-                }
-            }, 1000)
-        }
-    */
     resizeTimer;
 
     windowResized(val) {
+        this.consoleService.chart("--> windowResized")
         clearTimeout(this.resizeTimer);
         this.resizeTimer = setTimeout(() => {
-
-            this.setCanvasSize(100, 300)
-            setTimeout(() => {
-                this.updateAfterResize()
-            }, 100)
+            //this.setCanvasSize(100, 300)
+            //setTimeout(() => {
+            this.updateAfterResize()
+            //}, 100)
         }, 100);
 
     }
@@ -222,54 +207,65 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
     method
 
-    initSize(): boolean {
-        //console.log("CHART initsize")
+    initSize(f) {
         let C = this.chartcontainer.nativeElement
-        return this.setCanvasSize(C.offsetWidth, C.offsetHeight)
+        this.consoleService.chart("  initsize" ,C.offsetWidth,C.offsetHeight)
+        setTimeout(()=>{
+            f(this.setCanvasSize(C.offsetWidth, C.offsetHeight))
+        },200)
+
     }
 
     ngAfterViewInit() {
+        this.consoleService.chart("--> ngafterviewinit")
         let C = this.chartcontainer.nativeElement
-        //console.log("raph",JSON.stringify(document.getElementById('chartcontainer')),this.W,this.H)
 
-        let ready = this.initSize()
-        if (this.isReady) this.initData()
+        let ready = this.initSize(()=>{
+            if (this.isReady) this.initData()
+        })
+
 
     }
 
     initData() {
-
-        this.readData()
-        this.addMeta()
-        this.setBarWidth()
-        this.setInitialView()
-        this.recompute()
-        this.draw();
-
+        if (this.data) {
+            this.consoleService.chart("initData", this.data)
+            this.readData()
+            this.addMeta()
+            this.setBarWidth()
+            this.setInitialView()
+            this.recompute()
+            this.draw();
+        }
     }
 
     updateAfterDataChange() {
+
         if (!this.data) return
-        //console.log("chart DATA N", this.data.length)
+        this.consoleService.chart("updateAfterDataChange", this.data)
         this.reset()
         this.initData()
     }
 
     updateAfterResize() {
-        //console.log("CHART updateafterresize")
-        this.initSize()
-        this.setBarWidth()
-        this.setViewAfterResize()
-        this.recompute()
-        this.draw()
+        this.consoleService.chart("updateafterresize")
+        if (!this.data) return
+        this.initSize(()=>{
+            this.setBarWidth()
+            this.setViewAfterResize()
+            this.recompute()
+            this.draw()
+        })
+
     }
 
     updateAfterChangeView() {
+        this.consoleService.chart("updateAfterChangeView")
         this.recompute()
         this.draw();
     }
 
-    setView() {
+    setViewport() {
         this.minYView = 1000000;
         this.maxYView = -100;
 
@@ -280,14 +276,15 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
             this.minYView = Math.min(this.minYView, this.gdata[i].raw.l)
             this.maxYView = Math.max(this.maxYView, this.gdata[i].raw.h)
         }
-        //console.log("chart view", this.gdata, this.minXView, this.maxXView, "[", this.minYView, this.maxYView, "]")
+        //this.consoleService.chart("pair-chart view", this.gdata, this.minXView, this.maxXView, "[", this.minYView, this.maxYView, "]")
     }
 
     recompute() {
+        this.consoleService.chart("  recompute")
         this.timerRecompute = new Date().getTime()
         if (!this.data) return
         this.setBarWidth()
-        this.setView();
+        this.setViewport();
         for (let i = this.idxMin; i <= this.idxMax; ++i) {
             let d = this.gdata[i]
             this.scaleData(d)
@@ -299,13 +296,14 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
         }
         this.computeYAxis()
         this.computeXAxis()
-        //console.log("CHART STAT recompute", new Date().getTime() - this.timerRecompute)
+        this.consoleService.chart("STAT recompute", new Date().getTime() - this.timerRecompute)
     }
 
     canvas;
 
     setCanvasSize(w, h): boolean {
-        //console.log("CHART setcanvassize", w, h)
+
+        this.consoleService.chart("  setcanvassize", w, h)
         if (!w || !h) return false
         if (this.W == w && this.H == h) return
 
@@ -319,26 +317,16 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
         if (this.W < 600) this.Nshow = 40
         else this.Nshow = 100
         if (this.paper) {
-            //console.log("chart existing set ", w, h)
+            //this.consoleService.chart("pair-chart existing set ", w, h)
             if (this.method == DrawMethods.SVG)
                 this.paper.setSize(w, h)
             else {
-                this.canvas = new Fabric.fabric.Canvas('chart-canvas' + this.chartId);
+                if (!this.chartId) this.consoleService.chart("err no chartid", this.chartId)
+                this.canvas = new Fabric.fabric.StaticCanvas('chart-canvas' + this.chartId);
                 this.canvas.setHeight(h);
                 this.canvas.setWidth(w);
             }
         } else {
-            /*
-                        if (this.paper) {
-                            console.log("chart overwrite ", w, h)
-                            this.reset()
-                            this.readData()
-                            this.addMeta()
-
-                            this.paper = new Raphael(this.chartcontainer.nativeElement, this.W, this.H); //option (b)
-
-                        } else{*/
-            //console.log("chart new set ", w, h)
             if (this.method == DrawMethods.SVG)
                 this.paper = new Raphael(this.chartcontainer.nativeElement, this.W, this.H); //option (b)
             else {
@@ -359,7 +347,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
 
     ngOnChanges(changes: SimpleChanges) {
-        //console.log("DATA", "change N=", this.data ? this.data.length : "")
+        this.consoleService.chart("--> onChanges")
         this.updateAfterDataChange()
     }
 
@@ -371,13 +359,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
             draw: {},
             flipped: {},
             scaled: {},
-            raw: {
-                o: parseFloat(d[1]),
-                ts: parseInt(d[0]),
-                h: parseFloat(d[2]),
-                l: parseFloat(d[3]),
-                c: parseFloat(d[4])
-            }
+            raw: d
         }
 
         this.gdata.push(g)
@@ -402,14 +384,14 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
     //data related
     addMetaData(g: Row) {
-        //console.log("av", JSON.stringify(g))
+        //this.consoleService.chart("av", JSON.stringify(g))
         //d.ts = Math.round((d.ts - this.minX) * 2 / 1000) / 2
         g.meta = {}
         g.meta.maxoc = Math.max(g.raw.o, g.raw.c)
         g.meta.minoc = Math.min(g.raw.o, g.raw.c)
         g.raw.H = Math.abs(g.raw.c - g.raw.o)
 
-        //console.log("ap", JSON.stringify(g))
+        //this.consoleService.chart("ap", JSON.stringify(g))
 
     }
 
@@ -476,12 +458,12 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
         let range: number = max - min;
         let first = Math.ceil(min / level)
         let last = Math.floor(max / level)
-        //console.log("chart range", min, max, " steps", first * level, "la", last * level)
+        //this.consoleService.chart("pair-chart range", min, max, " steps", first * level, "la", last * level)
         let A = []
         for (let i = first; i <= last; i++) {
             A.push(i * level)
         }
-        //console.log("chart level", A)
+        //this.consoleService.chart("pair-chart level", A)
         return A
     }
 
@@ -513,17 +495,17 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
     computeYAxis() {
         let level = this.getAxisLevel()
-        //console.log("chart level gr", level)
+        //this.consoleService.chart("pair-chart level gr", level)
         let levels: number[] = this.findRoundNumbersBetween(this.minYView, this.maxYView, level)
         this.yAxis = []
         for (let i = 0; i < levels.length; ++i) {
             //let level = this.minYView + (this.maxYView - this.minYView) / this.nLines * i;
-          //  console.log("chart level comp", levels[i])
+            //  this.consoleService.chart("pair-chart level comp", levels[i])
             let l = levels[i]
-            let v= Math.round(this.flip(this.scaleY(l)))
-            if(this.method==DrawMethods.SVG) v+=0.5
-            levels[i]=Math.round(levels[i]*100000000)/100000000
-            this.yAxis.push({val:v, text: levels[i]})
+            let v = Math.round(this.flip(this.scaleY(l)))
+            if (this.method == DrawMethods.SVG) v += 0.5
+            levels[i] = Math.round(levels[i] * 100000000) / 100000000
+            this.yAxis.push({val: v, text: levels[i]})
         }
     }
 
@@ -542,7 +524,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
     readData() {
         if (!this.data) return
         let N = this.data.length;
-        //console.log("chart data", this.data)
+        //this.consoleService.chart("pair-chart data", this.data)
         this.data.forEach((d) => {
 
             this.setWorkingData(d)
@@ -551,7 +533,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
 
     addMeta() {
-        //console.log("DATABOX", this.minX, this.minY, this.maxX, this.maxY)
+        //this.consoleService.chart("DATABOX", this.minX, this.minY, this.maxX, this.maxY)
         this.gdata.forEach((d) => {
             this.computeMinMax(d)
         })
@@ -562,12 +544,12 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
     computeLines(g) {
         g.draw.lines = [[g.flipped.fx + this.cW / 2, g.flipped.fl], [g.flipped.fx + this.cW / 2, g.flipped.fh]]
-        if(this.method==DrawMethods.SVG)
+        if (this.method == DrawMethods.SVG)
             g.draw.borderlines = [
-            [[g.flipped.fx, g.flipped.fo], [g.flipped.fx, g.flipped.fc]],   //left
-            [[g.flipped.fx, g.flipped.fc], [g.flipped.fx + this.cW, g.flipped.fc]], //top
-            [[g.flipped.fx + this.cW, g.flipped.fc], [g.flipped.fx + this.cW, g.flipped.fo]],  //right
-            [[g.flipped.fx + this.cW, g.flipped.fo], [g.flipped.fx, g.flipped.fo]]]  //bottom
+                [[g.flipped.fx, g.flipped.fo], [g.flipped.fx, g.flipped.fc]],   //left
+                [[g.flipped.fx, g.flipped.fc], [g.flipped.fx + this.cW, g.flipped.fc]], //top
+                [[g.flipped.fx + this.cW, g.flipped.fc], [g.flipped.fx + this.cW, g.flipped.fo]],  //right
+                [[g.flipped.fx + this.cW, g.flipped.fo], [g.flipped.fx, g.flipped.fo]]]  //bottom
     }
 
     computeStick(g) {
@@ -576,16 +558,17 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
     }
 
     setBarWidth() {
-        if (this.data){
-        //    this.cW = Math.round(this.W / Math.min(this.data.length, this.Nshow) * 0.7);
-            this.Nshow=Math.round(this.W/(this.cW+this.cWMargin))
-            //console.log("chart cw",this.cW,this.W,this.Nshow)
+        if (this.data) {
+            //    this.cW = Math.round(this.W / Math.min(this.data.length, this.Nshow) * 0.7);
+            this.Nshow = Math.round(this.W / (this.cW + this.cWMargin))
+            //this.consoleService.chart("pair-chart cw",this.cW,this.W,this.Nshow)
         }
     }
 
     isMouseDownNavigator = false;
 
     setViewByNavigator(pc) {
+        this.consoleService.chart("setViewByNavigator", pc)
         let N = this.data.length
         if (pc < this.Nshow / 2 / N) {
             this.idxMin = 0;
@@ -600,114 +583,157 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
     }
 
     clear() {
+        this.consoleService.chart("CLEAR")
         if (this.method == DrawMethods.SVG)
             this.paper.clear()
         else
             this.canvas.clear();
     }
 
+    paintYAxis() {
+
+        this.yAxis.forEach((li) => {
+            //this.consoleService.chart("yaxis line ", 0, li.val, this.W, li.val)
+            this.drawLine("yaxis-" + li.val, 0, li.val, this.W, li.val, this.options.yAxis.grid.strokeWidth, this.options.yAxis.grid.color);
+            //this.consoleService.chart("yaxis text ", 30, li.val, li.text)
+            this.drawText(this.W-50, Math.round(li.val - 15), li.text, this.options.yAxis.grid.textColor);
+        })
+    }
+
+    paintXAxis() {
+        //XAXIS
+        let xAxisY = this.H - this.options.navigator.height - this.options.xAxis.height;
+        this.drawRect("xaxis-bar", 0, xAxisY, this.W, this.options.xAxis.height, "rgba(0,0,0,1)", 0, null, null)
+        this.xAxis.forEach((li) => {
+            this.drawLine("xaxis-" + li.val, li.val, this.MT, li.val, this.H - this.MB, this.options.xAxis.grid.strokeWidth, this.options.xAxis.grid.color);
+            this.drawText(li.val-10, Math.round(xAxisY + this.options.xAxis.height / 2)-5, li.text, "rgb(255,255,255)");
+        })
+    }
+
+    paintNavigator() {
+        //NAVIGATOR
+        let navY = this.H - this.options.navigator.height;
+        let navXm = Math.round((this.minXView - this.minX) / (this.spanX) * this.DW);
+        let navXM = Math.round((this.maxXView - this.minXView) / (this.spanX) * this.DW)
+        let navbar = this.drawRect("navbar", navXm, navY, navXM, this.options.navigator.height, "rgba(255,255,255,1)", 0, null, null, null)
+        let nav = this.drawRect("nav", 0, navY, this.W, this.options.navigator.height, "rgba(255,255,255,0.5)", 0, null, null, null)
+        nav.on('mouseup', (e) => {
+            this.consoleService.chart("nav up",e)
+            this.isMouseDownNavigator = false
+        })
+        nav.on('mousedown', (e) => {
+
+            this.isMouseDownNavigator = true
+            let pc = e.e.offsetX / this.W;
+            if(pc){
+            this.consoleService.chart("nav down",pc,e)
+            this.setViewByNavigator(pc)
+            this.updateAfterChangeView()
+            }
+        })
+        nav.on('mousemove',(e)=>{
+            if (this.isMouseDownNavigator) {
+                let pc = e.e.offsetX / this.W;
+                if(pc){
+                this.setViewByNavigator(pc)
+                this.updateAfterChangeView()
+                }
+            }
+        })
+
+    }
+
+    paintCandleSticks() {
+        //CANDLESTICKS
+        for (let i = this.idxMin; i <= this.idxMax; ++i) {
+            this.paintCandleStick(i)
+
+        }
+    }
+
+    paintCandleStick(i) {
+        let g = this.gdata[i]
+        let r;
+        //low high
+        ////this.consoleService.chart("DRAW HL")
+        this.drawLine("candle-" + i + "lowhigh", g.draw.lines[0][0], g.draw.lines[0][1], g.draw.lines[1][0], g.draw.lines[1][1], this.options.candlestick.line.width, g.raw.c > g.raw.o ? this.options.candlestick.line.upColor : this.options.candlestick.line.downColor);
+
+
+        //body
+        if (true) {
+            //  //this.consoleService.chart("DRAW BODY")
+            let r = this.drawRect("candle-" + i + "-body", g.flipped.fx, g.flipped.fy - g.flipped.fH, this.cW, g.flipped.fH, g.raw.c > g.raw.o ? this.options.candlestick.body.upColor : this.options.candlestick.body.downColor, this.options.candlestick.body.strokeWidth, g.raw.c > g.raw.o ? this.options.candlestick.body.upColor : this.options.candlestick.body.downColor, g);
+
+
+        }
+        if (this.method == DrawMethods.SVG) {
+            //border
+            ////this.consoleService.chart("DRAW BORDER")
+            g.draw.borderlines.forEach((l) => {
+                this.drawLine("candle-" + i + "-border-", l[0][0], l[0][1], l[1][0], l[1][1],
+                    this.options.candlestick.line.width, g.raw.c > g.raw.o ? this.options.candlestick.line.upColor : this.options.candlestick.line.downColor
+                )
+                ;
+            })
+        }
+    }
+
+    setEvents() {
+        this.canvas.selection = false
+        this.canvas.on('mouse:over', (e) => {
+            this.consoleService.chart("event mouseover target=", e.target ? e.target.name : "")
+            if (e.target) {
+                //e.target.set('fill', 'red');
+                //this.canvas.renderAll();
+            }
+        });
+        this.canvas.on('mouse:down', (e) => {
+            this.consoleService.chart("event down", e.target)
+            this.isMouseDownNavigator = true
+        })
+        this.canvas.on('mouse:up', (e) => {
+            this.consoleService.chart("event up", e.target)
+            this.isMouseDownNavigator = false
+        })
+    }
+
     draw() {
+        this.consoleService.chart("    draw")
         this.timerDraw = new Date().getTime()
+
+        this.canvas.selection = false
+
         if (this.method == DrawMethods.SVG && !this.paper) return
         if (this.method == DrawMethods.Canvas && !this.canvas) return
         if (!this.data) return
         if (!this.isReady) return
         this.clear()
-        this.yAxis.forEach((li) => {
-            //console.log("CHART yaxis line ", 0, li.val, this.W, li.val)
-            this.drawLine(0, li.val, this.W, li.val, this.options.yAxis.grid.strokeWidth, this.options.yAxis.grid.color);
-            //console.log("CHART yaxis text ", 30, li.val, li.text)
-            this.drawText(30, Math.round(li.val - this.H * 0.02), li.text, this.options.yAxis.grid.textColor);
-        })
-
-        this.drawLine(0, 0,this.W, 0, this.options.xAxis.grid.strokeWidth, "rgba(0,0,0,1)");
+        this.paintYAxis()
+        this.drawLine("topline", 0, 0, this.W, 0, this.options.xAxis.grid.strokeWidth, "rgba(0,0,0,1)");
+        this.paintXAxis()
 
 
-        //XAXIS
-        let xAxisY = this.H - this.options.navigator.height - this.options.xAxis.height;
-        this.drawRect(0, xAxisY, this.W, this.options.xAxis.height, "rgba(0,0,0,0.5)", 0, null, null)
-        this.xAxis.forEach((li) => {
-            //this.drawLine(li.val,10, this.W, li.val, this.options.yAxis.grid.strokeWidth, this.options.yAxis.grid.color);
-            this.drawLine(li.val, this.MT, li.val, this.H-this.MB, this.options.xAxis.grid.strokeWidth, this.options.xAxis.grid.color);
-            //console.log("CHART xaxis text", li.val, this.H - 30 - this.options.xAxis.height, li.text)
-            this.drawText(li.val, xAxisY + this.options.xAxis.height / 2, li.text, "rgb(255,255,255)");
-        })
-
-        //NAVIGATOR
-        let navY = this.H - this.options.navigator.height;
-
-        let navbar = this.drawRect((this.minXView - this.minX) / (this.spanX) * this.DW, navY, (this.maxXView - this.minXView) / (this.spanX) * this.DW, this.options.navigator.height, "rgba(0,0,0,1)", 0, null, null, null, "nav")
-        if (this.method == DrawMethods.SVG) {
-            navbar.mousedown((e) => {
-                console.log("chart e", e)
-            })
-
-        } else {
-        }
-
-        let nav = this.drawRect(0, navY, this.W, this.options.navigator.height, "rgba(0,0,0,0.5)", 0, null, null, null, "nav")
-        if (this.method == DrawMethods.SVG) {
-            nav.mouseup((e) => {
-                this.isMouseDownNavigator = false
-            })
-            nav.mousedown((e) => {
-                this.isMouseDownNavigator = true
-                let pc = e.offsetX / this.W;
-                this.setViewByNavigator(pc)
-                this.updateAfterChangeView()
-
-            })
-            nav.mousemove((e) => {
-                if (this.isMouseDownNavigator) {
-                    let pc = e.offsetX / this.W;
-                    this.setViewByNavigator(pc)
-                    this.updateAfterChangeView()
-                }
-            })
-        } else {
-
-        }
-        ////console.log("CHART navigator", this.minXView, this.spanX, "start", (this.minXView - this.minX) / (this.spanX), " %=", (this.minXView - this.minX) / (this.spanX) * this.DW, "width", (this.maxXView - this.minXView) / (this.spanX) * this.DW)
-
-
-        //CANDLESTICKS
-        for (let i = this.idxMin; i <= this.idxMax; ++i) {
-            let g = this.gdata[i]
-            let r;
-            //low high
-            ////console.log("DRAW HL")
-            this.drawLine(g.draw.lines[0][0], g.draw.lines[0][1], g.draw.lines[1][0], g.draw.lines[1][1], this.options.candlestick.line.width, g.raw.c > g.raw.o ? this.options.candlestick.line.upColor : this.options.candlestick.line.downColor);
-
-
-            //body
-            if (true) {
-                //  //console.log("DRAW BODY")
-                this.drawRect(g.flipped.fx, g.flipped.fy - g.flipped.fH, this.cW, g.flipped.fH, g.raw.c > g.raw.o ? this.options.candlestick.body.upColor : this.options.candlestick.body.downColor, this.options.candlestick.body.strokeWidth, g.raw.c > g.raw.o ? this.options.candlestick.body.upColor : this.options.candlestick.body.downColor, g);
-
-            }
-            if (this.method == DrawMethods.SVG) {
-                //border
-                ////console.log("DRAW BORDER")
-                g.draw.borderlines.forEach((l) => {
-                    this.drawLine(l[0][0], l[0][1], l[1][0], l[1][1],
-                        this.options.candlestick.line.width, g.raw.c > g.raw.o ? this.options.candlestick.line.upColor : this.options.candlestick.line.downColor
-                    )
-                    ;
-                })
-            }
-
-        }
+        this.paintNavigator()
+        this.paintCandleSticks()
+        this.setEvents()
         if (this.method == DrawMethods.Canvas) {
-            this.canvas.selection = false;
-            this.canvas.forEachObject(function (o) {
-                ////console.log(o)
+            //this.canvas.selection = false;
+            /*this.canvas.forEachObject(function (o) {
+                ////this.consoleService.chart(o)
+
                 o.selectable = false;
-            });
-            //console.log("chart render")
+            });*/
+
+            this.consoleService.chart("STAT draw", new Date().getTime() - this.timerDraw)
+            this.timerDraw = new Date().getTime()
+            this.consoleService.chart("      render")
             this.canvas.renderAll();
-            setTimeout(()=> {this.canvas.renderAll();},200)
+            this.consoleService.chart("STAT render", new Date().getTime() - this.timerDraw)
+            /*setTimeout(() => {
+                this.canvas.renderAll();
+            }, 200)*/
         }
-        ////console.log("CHART STAT draw", new Date().getTime() - this.timerDraw)
+
     }
 
     idxMin;
@@ -719,13 +745,17 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
         if (!this.data) return
         this.idxMin = Math.max(0, this.data.length - this.Nshow)
         this.idxMax = this.data.length - 1
-        //console.log("chart VIEW", this.idxMin, this.idxMax)
+        this.consoleService.chart("setInitialView",this.idxMin,this.idxMax)
+        //this.consoleService.chart("pair-chart VIEW", this.idxMin, this.idxMax)
     }
+
     setViewAfterResize() {
+
         if (!this.data) return
         this.idxMin = Math.max(0, this.data.length - this.Nshow)
+        this.consoleService.chart("setviewafterresize",this.idxMin,this.idxMax)
         //this.idxMax = this.data.length - 1
-        //console.log("chart VIEW", this.idxMin, this.idxMax)
+        //this.consoleService.chart("pair-chart VIEW", this.idxMin, this.idxMax)
     }
 
 
@@ -761,16 +791,15 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
 
     }
 
-    drawRect(x, y, w, h, fill, width, stroke, g: Row, isTooltip?: boolean, type?: string) {
-
-        ////console.log("chart Rect", x, y, w, h)
+    drawRect(name: string, x, y, w, h, fill, strokeWidth, stroke, g: Row, isTooltip?: boolean) {
+        //this.consoleService.chart("draw Rect", name, x, y, w, h)
         if (this.method == DrawMethods.SVG) {
             if (Math.round(x) == x) x += 0.5
             if (Math.round(y) == y) y += 0.5
             let r = this.paper.rect(x, y, w, h).attr("fill", fill);
             if (stroke) {
                 r.attr("stroke", stroke);
-                r.attr("stroke-width", width);
+                r.attr("stroke-width", strokeWidth);
             }
             if (g)
                 r.mouseover((e) => {
@@ -778,7 +807,7 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
                     //r.attr({'cursor':'pointer'})
                     x = e.pageX + 50;
                     y = e.pageY;
-                    //console.log(g.raw)
+                    //this.consoleService.chart(g.raw)
                     this.drawTooltip(g)
                     /*if (!isTooltip) {
                         let rr = this.drawRect(g.flipped.fx, 0, this.cW * 1.2, this.H, "rgba(0,0,0,0.5)", null, null, g, true);
@@ -787,24 +816,6 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
                         })
                     }*/
                 });
-            /*
-            this.drawLine(g.draw.lines[0][0], g.draw.lines[0][1], g.draw.lines[1][0], g.draw.lines[1][1], this.options.candlestick.line.width, 'rgb(0,0,0)');
-            this.drawRect(g.flipped.fx, g.flipped.fy - g.flipped.fH, this.cW, g.flipped.fH, g.raw.c > g.raw.o ? this.options.candlestick.body.upColor : this.options.candlestick.body.downColor,
-                this.options.candlestick.body.strokeWidth, g.raw.c > g.raw.o ? this.options.candlestick.body.upColor : this.options.candlestick.body.downColor, g);
-            g.draw.borderlines.forEach((l) => {
-                this.drawLine(l[0][0], l[0][1], l[1][0], l[1][1],
-                    this.options.candlestick.line.width, 'rgb(0,0,0)'
-                )
-                ;
-            })*/
-
-
-            /*
-             t=this.paper.text(txmm,tym,"Date:"+this.getTimeLabel(raw.ts));t.attr("fill","rgb(0,0,0)")
-             t=this.paper.text(txmm+txm,tym,"O:"+raw.o);t.attr("fill","rgb(0,0,0)")
-             t=this.paper.text(txmm+2*txm,tym,"H:"+raw.h);t.attr("fill","rgb(0,0,0)")
-             t=this.paper.text(txmm+3*txm,tym,"L:"+raw.l);t.attr("fill","rgb(0,0,0)")
-             t=this.paper.text(txmm+4*txm,tym,"C:"+raw.c);t.attr("fill","rgb(0,0,0)")*/
 
             if (g)
                 r.mouseout((e) => {
@@ -820,40 +831,22 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
                 height: h,
                 strokeWidth: 1, stroke: 'rgba(255,255,255,1)'
             });
-
-
+            rect.set('selectable', false);
+            /*rect.on('mousemove', (e) => {
+                this.consoleService.chart("rectmove", e)
+            })*/
+            rect.name = name
             rect.lockUniScaling = true
             this.canvas.add(rect);
-            if (type == "nav")
-                rect.on('mousedown',
-                    (e) => {
 
-                        this.isMouseDownNavigator = true
-                        let pc = e.e.offsetX / this.W;
-                        //console.log("chart click", e, pc)
-                        this.setViewByNavigator(pc)
-                        this.updateAfterChangeView()
-
-                    }
-                );
-            rect.on('mouseup',(e) => {
-                this.isMouseDownNavigator = false
-            })
-
-            rect.on('mouse:move',(e) => {
-                if (this.isMouseDownNavigator) {
-                    let pc = e.offsetX / this.W;
-                    this.setViewByNavigator(pc)
-                    this.updateAfterChangeView()
-                }
-            })
-            this.canvas.item(0).selectable = false;
+            return rect;
         }
 
     }
 
+
     drawText(x, y, t: string, color) {
-        ////console.log("chart text",x,y,t)
+        ////this.consoleService.chart("pair-chart text",x,y,t)
         if (this.method == DrawMethods.SVG) {
             let r = this.paper.text(x, y, t)
             r.attr("fill", color)
@@ -862,17 +855,18 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
             let r = new Fabric.fabric.Textbox(t, {
                 left: x,
                 top: y,
-                width: 120,fill:color,
-                fontSize: 10, color: color,fontFamily:"Arial"
+                width: 120, fill: color,
+                fontSize: 10, color: color, fontFamily: "Arial"
 
             });
             this.canvas.add(r)
             this.canvas.item(0).selectable = false;
+            return r;
         }
     }
 
-    drawLine(x, y, x2, y2, width, color) {
-        ////console.log("chart Line",x,y,x2,y2,"width",width,"color",color)
+    drawLine(name, x, y, x2, y2, width, color) {
+        ////this.consoleService.chart("pair-chart Line",x,y,x2,y2,"width",width,"color",color)
         if (this.method == DrawMethods.SVG) {
             if (Math.round(x) == x) x += 0.5
             if (Math.round(y) == y) y += 0.5
@@ -889,8 +883,10 @@ export class AppChartComponent implements OnChanges, OnInit, AfterViewInit {
                 strokeWidth: width,
 
             });
+            line.name = name;
             this.canvas.add(line);
             this.canvas.item(0).selectable = false;
+            return line
         }
     }
 

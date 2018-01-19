@@ -82,10 +82,16 @@ export class AppComponent {
         this.showLogin = val;
     }
 
-    closeMenu() {
+    switchMenu() {
+        console.log("changing switch",this.eventService.isMenuPinned)
         this.sidenav.toggle();
+
+        if(this.eventService.isMenuDisplayed)
+            this.eventService.closeMenu()
+        else
+            this.eventService.openMenu(false)
         this.eventService.isMenuPinned = false;
-        this.eventService.isMenuDisplayed = !this.eventService.isMenuDisplayed
+
     }
 
     rightMenuUpdated(tab) {
@@ -95,18 +101,23 @@ export class AppComponent {
     }
 
     processPin() {
-        this.eventService.isMenuPinned = !this.eventService.isMenuPinned;
-        if (this.eventService.isMenuPinned)
-            this.eventService.isMenuDisplayed = true;
-        else
-            this.eventService.isMenuDisplayed = false
+        console.log("changing switch prpin",this.eventService.isMenuPinned)
+        if (this.eventService.isMenuPinned) {
+            console.log("changing switch prpin",this.eventService.isMenuPinned)
+            this.eventService.closeMenu()
+            this.eventService.isMenuPinned = false
+        }else{
+            this.eventService.openMenu(true)
+            this.eventService.isMenuPinned = true
+        }
+
     }
 
     backdrop() {
         //if (!this.eventService.isMobile) {
         console.log("BBBack")
             this.sidenav.close();
-            this.eventService.isMenuDisplayed = false
+            this.eventService.closeMenu()
         //}
     }
 }

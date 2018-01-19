@@ -71,35 +71,12 @@ export class Ticker {
     loadTicker(f: Function) {
         //console.log("TICKER LOAD ", this.key)
         if (this.key == "binance") {
-            this.loadBinance((success) => {
-                if (success) {
-                    this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: "all"})
-                    this.tradingService.PriceUpdatedEvent.emit({pair: "all", broker: this.key})
-                    f(true)
-                } else {
-                    f(false)
-                }
-            });
+            this.loadBinance(f)
         } else if (this.key == "kraken") {
-            this.loadUniversal((success) => {
-                if (success) {
-                    this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: "all"})
-                    this.tradingService.PriceUpdatedEvent.emit({pair: "all", broker: this.key})
-                    f(true)
-                } else {
-                    f(false)
-                }
-            });
+            this.loadUniversal(f)
         } else if (this.key == "hitbtc") {
-            this.loadUniversal((success) => {
-                if (success) {
-                    this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: "all"})
-                    this.tradingService.PriceUpdatedEvent.emit({pair: "all", broker: this.key})
-                    f(true)
-                } else {
-                    f(false)
-                }
-            });
+            this.loadUniversal(f)
+
         } else {
             f(false)
         }
@@ -214,6 +191,7 @@ export class Ticker {
     }
 
     afterLoad() {
+
         let isInitialLoad = !this.connected
         if (isInitialLoad) {
             this.refreshService.createPool(this.key + "-ticker")
@@ -223,6 +201,8 @@ export class Ticker {
         }
 
         this.connected = true;
+        this.consoleService.eventSent("PriceUpdatedEvent <-- Ticker", {broker: this.key, pair: "all"})
+        this.tradingService.PriceUpdatedEvent.emit({pair: "all", broker: this.key})
 
     }
 

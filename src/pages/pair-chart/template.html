@@ -1,0 +1,17 @@
+<app-wrong-param [isErrored]="isErrored" [errorMessage]="errorMessage"></app-wrong-param>
+
+<div [@.disabled]="true" *ngIf="!isErrored">
+    <mat-toolbar>
+        <h3>{{supra}}/{{infra}} </h3>
+        @{{broker.substring(0,1).toUpperCase()+broker.slice(1)}}
+        <div class="ticker">
+            <div class="ticker-price ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}">{{lastPrice| number:numberFormat}}</div>
+            <div *ngIf="lastPrice" class="ticker-evol-{{lastPrice > prevLastPrice?'up':'down'}}">
+                <mat-icon>{{lastPrice > prevLastPrice?'arrow_upward':'arrow_downward'}}</mat-icon>
+            </div>
+        </div>
+    </mat-toolbar>
+
+    <app-live-price [pair]="pairId" [broker]="broker" [isZoomed]="true" [period]="'15m'"></app-live-price>
+
+</div>

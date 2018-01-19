@@ -20,13 +20,13 @@ export interface Message {
 }
 
 @Component({
-    selector: 'app-pair-item',
+    selector: 'app-pair-chart',
     templateUrl: 'template.html',
     styleUrls: ['styles.css']
 
 })
 @Injectable()
-export class AppPairItemPage extends CheckValid implements OnDestroy,OnChanges {
+export class AppPairChartPage extends CheckValid implements OnDestroy,OnChanges {
     pairId: string;
     brokerId: string;
     maxVol = 0;

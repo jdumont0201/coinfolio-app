@@ -52,11 +52,13 @@ export class Portfolio {
     loadPortfolio(f: Function) {
         //console.log("  PTF LOAD", this.key)
         if (this.key == "binance") {
-            this.loadUniversal(this.key, f)
+            this.loadUniversal( f)
         } else if (this.key === "kraken") {
-            this.loadUniversal(this.key, f)
+            this.loadUniversal(f)
         } else if (this.key === "hitbtc") {
-            this.loadUniversal(this.key, f)
+            this.loadUniversal( f)
+        } else if (this.key === "bitmex") {
+            this.loadUniversal( f)
         } else {
             f(false)
         }
@@ -158,9 +160,9 @@ export class Portfolio {
 
     }
 
-    loadUniversal(broker, f: Function) {
+    loadUniversal( f: Function) {
         //console.log("TRADE PTF LOAD BINANCE")
-        this.logic.getFromBroker(broker, "balance", (alloc) => {
+        this.logic.getFromBroker(this.key, "balance", (alloc) => {
             this.dataTime = new Date();
             //console.log("TRADE PTF LOAD ", this.key, " RES", alloc)
             if (alloc) {

@@ -139,7 +139,7 @@ export class BrokerCollection {
     connectedBrokersKeys: string[] = [];
     isLoaded = false;
 
-    getBrokers(): { [name: string]: Broker } {
+        getBrokers(): { [name: string]: Broker } {
         return this.brokers
     }
 

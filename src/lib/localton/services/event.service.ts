@@ -39,6 +39,27 @@ export class EventService implements OnInit {
     isWelcomeVisible: boolean = false;
     isFullscreen: boolean = false;
 
+    openMenu(broadcast?:boolean){
+        this.isMenuDisplayed = true
+        if(this.isMenuPinned || broadcast) {
+            console.log("changing view -> update")
+            this.consoleService.eventSent("menuDisplayUpdatedEvent <-- eventService")
+            this.menuDisplayUpdatedEvent.emit(true)
+        }else{
+            console.log("no changing view",this.isMenuPinned)
+        }
+    }
+    closeMenu(){
+        this.isMenuDisplayed = false
+        if(this.isMenuPinned){
+            console.log("changing view -> update")
+        this.consoleService.eventSent("menuDisplayUpdatedEvent <-- eventService")
+        this.menuDisplayUpdatedEvent.emit(false)
+        }else{
+            console.log("no changing view",this.isMenuPinned)
+        }
+
+    }
     enableFullscreen(chartId) {
         this.isFullscreen = true
         this.isFullscreenEvent.emit({fullscreen:true,id:chartId})

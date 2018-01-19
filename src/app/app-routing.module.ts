@@ -16,7 +16,7 @@ import {AppPositionsPage}from "../pages/positions/component"
 import {AppCalendarPage}from "../pages/calendar/component"
 import {AppAuthPage}from "../pages/auth-login/component"
 import {AppConfigFavoritesPage} from "../pages/config-favorites/component";
-
+import {AppPairChartPage} from "../pages/pair-chart/component";
 import {AppAuthResetpassword}from "../pages/auth-resetpassword/component"
 import {AppConfigSubscriptionPage} from "../pages/config-subscription/component";
 import {AppConfigImportsPage} from "../pages/config-imports/component";
@@ -64,6 +64,7 @@ export const routes: Routes = [
   { path: 'generic', component: AppGenericPage },
   { path: 'symbol/:id', component: AppSymbolItemPage },
   { path: 'pair/:pairId/broker/:broker', component: AppPairItemPage },
+  { path: 'chart/:pairId/broker/:broker', component: AppPairChartPage },
 ];
 @NgModule({
   exports: [ RouterModule ]

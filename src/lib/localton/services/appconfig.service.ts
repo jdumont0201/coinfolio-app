@@ -34,7 +34,7 @@ export class AppConfigService {
 
     isCustomDashboardEnabled = false;
 
-    possibleBrokers: string[] = ["binance", "kraken", "hitbtc"]
+    possibleBrokers: string[] = ["binance", "kraken", "hitbtc","bitmex"]
     brokersLinks = {
         "binance": {
             signup: "https://www.binance.com/register.html",
@@ -52,7 +52,13 @@ export class AppConfigService {
             signup: "https://hitbtc.com/signupapp",
             infras: ['BTC', 'ETH', 'BNB', 'USD','USDT'],
             ignoredPairs: []
+        }, "bitmex": {
+            api: "https://www.bitmex.com/app/apiKeys",
+            signup: "https://www.bitmex.com/register",
+            infras: ['BTC', 'ETH', 'BNB', 'USD','USDT'],
+            ignoredPairs: []
         }
+
     }
     ohlcColors = {
         orange: {

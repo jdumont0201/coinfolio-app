@@ -64,7 +64,7 @@
                 </ng-container>
                 <ng-container matColumnDef="pair">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
-                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/pair/'+element.pair+'/broker/'+element.broker">{{element.supra}} / {{element.infra}}
+                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/chart/'+element.pair+'/broker/'+element.broker">{{element.supra}} / {{element.infra}}
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="volume">

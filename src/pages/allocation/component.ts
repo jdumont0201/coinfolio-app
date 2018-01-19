@@ -230,7 +230,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         }, key)
         this.charts[key] = new Chart(JSON.parse(JSON.stringify(this.options[key])));
         this.isLoading = false
-        console.log("  alloc chart", key, JSON.stringify(this.options[key]))
+        console.log("  alloc pair-chart", key, JSON.stringify(this.options[key]))
         this.cd.markForCheck()
     }
 

@@ -9,6 +9,7 @@ import {FormGroup} from "@angular/forms";
 import {PageWithTabs} from "../../lib/localton/components/PageWithTabs/component";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -20,7 +21,7 @@ export class AppAuthPage extends PageWithTabs  {
 
     selectedIndex = 0
 
-    constructor(public authService: AuthService, public requestService: RequestService,  public consoleService:ConsoleService  ,public dataService: DataService,  public refreshService: RefreshService ,public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
+    constructor(public authService: AuthService,public router:Router, public requestService: RequestService,  public consoleService:ConsoleService  ,public dataService: DataService,  public refreshService: RefreshService ,public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
         super(refreshService,eventService,consoleService)
 
     }
@@ -29,7 +30,7 @@ export class AppAuthPage extends PageWithTabs  {
         this.eventService.UIEvent.subscribe((val)=>{if(val && val.key=="showforgottenpassword") this.setTab(2)});
     }
     afterSignup() {
-
+            this.router.navigate(["/"])
     }
 
     afterLogin() {

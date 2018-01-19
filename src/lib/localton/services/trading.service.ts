@@ -117,7 +117,7 @@ export class TradingService extends CheckValid {
             this.appConfigService.possibleBrokers.forEach((k) => {
                 let prop = "Connection" + Strings.Capitalize(k)
                 console.log("check", prop,user)
-                if (user[prop]==="true" ) {
+                if (user[prop]==="true" || (user[prop] && user[prop]!="false")) {
                     r.push(k)
                 }
             })

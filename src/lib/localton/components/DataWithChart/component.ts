@@ -10,8 +10,9 @@ import {EventService} from "../../services/event.service";
 import {RefreshedPage} from "../RefreshedPage/component";
 import {RefreshService} from "../../services/refresh.service";
 import {ConsoleService} from "../../../globalton/core/services/console.service";
+import {ZoomableRefreshable} from "../ZoomableRefreshable/component";
 
-export abstract class DataAndChartTemplate extends RefreshedPage implements OnInit {
+export abstract class DataAndChartTemplate extends ZoomableRefreshable implements OnInit {
 
     displayedColumns
     dataSource;
@@ -26,7 +27,7 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
     }
 
     highchart;
-    isZoomed = false;
+
     @ViewChild('myChart') myChart: ElementRef;
     stockChartDefOptions = {
 
@@ -83,9 +84,9 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
 
     constructor( public consoleService:ConsoleService  ,public refreshService:RefreshService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public type?) {
         super(refreshService,eventService,consoleService)
-        /*if (type === "stock") this.chart = new StockChart(this.stockChartDefOptions)
-        if (type === "plain") this.chart = new Chart(this.plainChartDefOptions)
-        else this.chart = new StockChart(this.stockChartDefOptions)
+        /*if (type === "stock") this.pair-chart = new StockChart(this.stockChartDefOptions)
+        if (type === "plain") this.pair-chart = new Chart(this.plainChartDefOptions)
+        else this.pair-chart = new StockChart(this.stockChartDefOptions)
 */this.chartId=Math.round(Math.random()*100000)
         if (this.isDataSourceArray)
             this.dataSource = [];
@@ -99,23 +100,8 @@ export abstract class DataAndChartTemplate extends RefreshedPage implements OnIn
 
     oldParentViewContainerRef;
     newParentViewContainerRef;
-chartId;
-    zoom() {
-        this.isZoomed = !this.isZoomed
-        if (this.isZoomed) {
-            this.scrollY = window.scrollY;
-            window.scrollTo(0, 0);
-            this.eventService.enableFullscreen(this.chartId)
-        }
-        else {
-            window.scrollTo(0, this.scrollY)
-            this.eventService.disableFullscreen(this.chartId)
-        }
-            setTimeout(() => {
-                this.draw()
-            }, 100)
 
-    }
+
 
     backupData;
 
@@ -125,7 +111,7 @@ chartId;
 
     }
 
-    scrollY = window.scrollY;
+
 
     draw() {
         this.options = JSON.parse(this.backupOptions);
@@ -134,7 +120,7 @@ chartId;
         else
             this.chart = new Chart(this.options);
         //console.log("draw" ,JSON.stringify(this.options))
-        //console.log("[CHART] draw", this.options, this.type, this.chart, this.myChart, this.backupOptions)
+        //console.log("[CHART] draw", this.options, this.type, this.pair-chart, this.myChart, this.backupOptions)
 
     }
 
