@@ -12,47 +12,10 @@ import * as Raphael from "raphael/raphael"
 import * as Fabric from "fabric"
 import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+export enum DrawMethods {SVG, Canvas}
+import {RawLoadedData,Row} from "./Types"
+import {Data} from "./Data"
 
-enum DrawMethods {SVG, Canvas}
-
-export type Row = {
-
-    raw: {
-        ts: number,
-        o: number, h: number, l: number, c: number, H?: number
-    },
-    scaled: {
-        sx?: number, sy?: number, sH?: number,
-        so?: number, sc?: number, sl?: number, sh?: number,
-    },
-    meta: {
-        maxoc?: number, minoc?: number,
-    }
-
-    flipped: {
-        fo?: number, fc?: number, fl?: number, fh?: number,
-        fy?: number, fx?: number, fH?: number,
-        fcx?: number, fcy?: number
-    }
-
-
-
-
-    draw: {
-        lines?: any[][],
-        borderlines?: any[][],
-    }
-
-
-}
-
-export class CandleStick {
-    data: Row
-
-    draw() {
-
-    }
-}
 
 @Component({
     selector: 'app-chart',
@@ -64,7 +27,7 @@ export class CandleStick {
 @Injectable()
 export class AppChartComponent extends CheckValid implements OnChanges, OnInit, AfterViewInit {
     @Input() data: any[] = [];
-    @Input() gdata: Row[] = [];
+//    @Input() gdata: Row[] = [];
     //@ViewChild('mycanvas') canvas: ElementRef;
     @ViewChild('chartcontainer') chartcontainer: ElementRef;
     @ViewChild('mycanvasbox') canvasbox: ElementRef;
@@ -84,13 +47,6 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
     lastMargin = 30
     lastTs;
 
-    //SPAN
-    minX = 10000000000000;
-    maxX = -100000000000;
-    minY = 10000000000000;
-    maxY = 0;
-    spanX;
-    spanY;
 
     //BAR WIDTH
     cW = 6;
@@ -147,6 +103,8 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         }
     }
 
+    Data;
+
     currentMouseover = null;
     private mouseDown: boolean = false;
     private last: MouseEvent;
@@ -161,7 +119,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         this.consoleService.chart("+")
         this.el = elementRef.nativeElement;
         this.method = DrawMethods.Canvas
-
+        this.Data = new Data(consoleService)
     }
 
     ngOnInit() {
@@ -209,10 +167,10 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
 
     initSize(f) {
         let C = this.chartcontainer.nativeElement
-        this.consoleService.chart("  initsize" ,C.offsetWidth,C.offsetHeight)
-        setTimeout(()=>{
+        this.consoleService.chart("  initsize", C.offsetWidth, C.offsetHeight)
+        setTimeout(() => {
             f(this.setCanvasSize(C.offsetWidth, C.offsetHeight))
-        },200)
+        }, 200)
 
     }
 
@@ -220,7 +178,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         this.consoleService.chart("--> ngafterviewinit")
         let C = this.chartcontainer.nativeElement
 
-        let ready = this.initSize(()=>{
+        let ready = this.initSize(() => {
             if (this.isReady) this.initData()
         })
 
@@ -231,7 +189,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         if (this.data) {
             this.consoleService.chart("initData", this.data)
             this.readData()
-            this.addMeta()
+            this.Data.addMeta()
             this.setBarWidth()
             this.setInitialView()
             this.recompute()
@@ -250,7 +208,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
     updateAfterResize() {
         this.consoleService.chart("updateafterresize")
         if (!this.data) return
-        this.initSize(()=>{
+        this.initSize(() => {
             this.setBarWidth()
             this.setViewAfterResize()
             this.recompute()
@@ -269,12 +227,12 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         this.minYView = 1000000;
         this.maxYView = -100;
 
-        this.minXView = this.gdata[this.idxMin].raw.ts
-        this.maxXView = this.gdata[this.idxMax].raw.ts
+        this.minXView = this.Data.getTick(this.idxMin).raw.ts
+        this.maxXView = this.Data.getTick(this.idxMax).raw.ts
 
         for (let i = this.idxMin; i <= this.idxMax; ++i) {
-            this.minYView = Math.min(this.minYView, this.gdata[i].raw.l)
-            this.maxYView = Math.max(this.maxYView, this.gdata[i].raw.h)
+            this.minYView = Math.min(this.minYView, this.Data.getTick(i).raw.l)
+            this.maxYView = Math.max(this.maxYView, this.Data.getTick(i).raw.h)
         }
         //this.consoleService.chart("pair-chart view", this.gdata, this.minXView, this.maxXView, "[", this.minYView, this.maxYView, "]")
     }
@@ -286,7 +244,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         this.setBarWidth()
         this.setViewport();
         for (let i = this.idxMin; i <= this.idxMax; ++i) {
-            let d = this.gdata[i]
+            let d = this.Data.getTick(i)
             this.scaleData(d)
             this.flipData(d)
             this.roundData(d)
@@ -353,17 +311,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
 
 
     //data related
-    setWorkingData(d) {
-        let g: Row = {
-            meta: {},
-            draw: {},
-            flipped: {},
-            scaled: {},
-            raw: d
-        }
 
-        this.gdata.push(g)
-    }
 
     startTsDraw;
     lastTsDraw;
@@ -372,28 +320,8 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
 
     }
 
-    //data related
-    computeMinMax(g: Row) {
-        this.minX = Math.min(this.minX, g.raw.ts)
-        this.maxX = Math.max(this.maxX, g.raw.ts)
-        this.minY = Math.min(this.minY, g.raw.l)
-        this.maxY = Math.max(this.maxY, g.raw.h)
-        this.spanX = this.maxX - this.minX;
-        this.spanY = this.maxY - this.minY;
-    }
 
     //data related
-    addMetaData(g: Row) {
-        //this.consoleService.chart("av", JSON.stringify(g))
-        //d.ts = Math.round((d.ts - this.minX) * 2 / 1000) / 2
-        g.meta = {}
-        g.meta.maxoc = Math.max(g.raw.o, g.raw.c)
-        g.meta.minoc = Math.min(g.raw.o, g.raw.c)
-        g.raw.H = Math.abs(g.raw.c - g.raw.o)
-
-        //this.consoleService.chart("ap", JSON.stringify(g))
-
-    }
 
     scaleX(v): number {
         return ((v - this.minXView) / (this.maxXView - this.minXView) - 1 / this.Nshow) * this.DW
@@ -525,22 +453,9 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         if (!this.data) return
         let N = this.data.length;
         //this.consoleService.chart("pair-chart data", this.data)
-        this.data.forEach((d) => {
-
-            this.setWorkingData(d)
-        })
+        this.Data.read(this.data)
     }
 
-
-    addMeta() {
-        //this.consoleService.chart("DATABOX", this.minX, this.minY, this.maxX, this.maxY)
-        this.gdata.forEach((d) => {
-            this.computeMinMax(d)
-        })
-        this.gdata.forEach((d) => {
-            this.addMetaData(d)
-        })
-    }
 
     computeLines(g) {
         g.draw.lines = [[g.flipped.fx + this.cW / 2, g.flipped.fl], [g.flipped.fx + this.cW / 2, g.flipped.fh]]
@@ -596,7 +511,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
             //this.consoleService.chart("yaxis line ", 0, li.val, this.W, li.val)
             this.drawLine("yaxis-" + li.val, 0, li.val, this.W, li.val, this.options.yAxis.grid.strokeWidth, this.options.yAxis.grid.color);
             //this.consoleService.chart("yaxis text ", 30, li.val, li.text)
-            this.drawText(this.W-50, Math.round(li.val - 15), li.text, this.options.yAxis.grid.textColor);
+            this.drawText(this.W - 50, Math.round(li.val - 15), li.text, this.options.yAxis.grid.textColor);
         })
     }
 
@@ -606,37 +521,37 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         this.drawRect("xaxis-bar", 0, xAxisY, this.W, this.options.xAxis.height, "rgba(0,0,0,1)", 0, null, null)
         this.xAxis.forEach((li) => {
             this.drawLine("xaxis-" + li.val, li.val, this.MT, li.val, this.H - this.MB, this.options.xAxis.grid.strokeWidth, this.options.xAxis.grid.color);
-            this.drawText(li.val-10, Math.round(xAxisY + this.options.xAxis.height / 2)-5, li.text, "rgb(255,255,255)");
+            this.drawText(li.val - 10, Math.round(xAxisY + this.options.xAxis.height / 2) - 5, li.text, "rgb(255,255,255)");
         })
     }
 
     paintNavigator() {
         //NAVIGATOR
         let navY = this.H - this.options.navigator.height;
-        let navXm = Math.round((this.minXView - this.minX) / (this.spanX) * this.DW);
-        let navXM = Math.round((this.maxXView - this.minXView) / (this.spanX) * this.DW)
+        let navXm = Math.round((this.minXView - this.Data.minX) / (this.Data.spanX) * this.DW);
+        let navXM = Math.round((this.maxXView - this.minXView) / (this.Data.spanX) * this.DW)
         let navbar = this.drawRect("navbar", navXm, navY, navXM, this.options.navigator.height, "rgba(255,255,255,1)", 0, null, null, null)
         let nav = this.drawRect("nav", 0, navY, this.W, this.options.navigator.height, "rgba(255,255,255,0.5)", 0, null, null, null)
         nav.on('mouseup', (e) => {
-            this.consoleService.chart("nav up",e)
+            this.consoleService.chart("nav up", e)
             this.isMouseDownNavigator = false
         })
         nav.on('mousedown', (e) => {
 
             this.isMouseDownNavigator = true
             let pc = e.e.offsetX / this.W;
-            if(pc){
-            this.consoleService.chart("nav down",pc,e)
-            this.setViewByNavigator(pc)
-            this.updateAfterChangeView()
-            }
-        })
-        nav.on('mousemove',(e)=>{
-            if (this.isMouseDownNavigator) {
-                let pc = e.e.offsetX / this.W;
-                if(pc){
+            if (pc) {
+                this.consoleService.chart("nav down", pc, e)
                 this.setViewByNavigator(pc)
                 this.updateAfterChangeView()
+            }
+        })
+        nav.on('mousemove', (e) => {
+            if (this.isMouseDownNavigator) {
+                let pc = e.e.offsetX / this.W;
+                if (pc) {
+                    this.setViewByNavigator(pc)
+                    this.updateAfterChangeView()
                 }
             }
         })
@@ -652,7 +567,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
     }
 
     paintCandleStick(i) {
-        let g = this.gdata[i]
+        let g = this.Data.getTick(i)
         let r;
         //low high
         ////this.consoleService.chart("DRAW HL")
@@ -745,7 +660,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         if (!this.data) return
         this.idxMin = Math.max(0, this.data.length - this.Nshow)
         this.idxMax = this.data.length - 1
-        this.consoleService.chart("setInitialView",this.idxMin,this.idxMax)
+        this.consoleService.chart("setInitialView", this.idxMin, this.idxMax)
         //this.consoleService.chart("pair-chart VIEW", this.idxMin, this.idxMax)
     }
 
@@ -753,18 +668,14 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
 
         if (!this.data) return
         this.idxMin = Math.max(0, this.data.length - this.Nshow)
-        this.consoleService.chart("setviewafterresize",this.idxMin,this.idxMax)
+        this.consoleService.chart("setviewafterresize", this.idxMin, this.idxMax)
         //this.idxMax = this.data.length - 1
         //this.consoleService.chart("pair-chart VIEW", this.idxMin, this.idxMax)
     }
 
 
     reset() {
-        this.gdata = [];
-        this.minX = 10000000000000;
-        this.maxX = -100000000000;
-        this.minY = 10000000000000;
-        this.maxY = 0;
+        this.Data.reset();
         this.yAxis = []
         if (this.paper) this.paper.clear()
     }
@@ -895,7 +806,5 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         let m = d.getMinutes();
         return d.getHours() + ":" + (m > 9 ? m : ("0" + m))
     }
-
-
 }
 
