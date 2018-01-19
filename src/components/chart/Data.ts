@@ -12,10 +12,10 @@ export class Data {
     spanX;
     spanY;
 
-    hasData(){
+    hasData():boolean{
         return this.ohlc.length>0
     }
-    isEmpty(){
+    isEmpty():boolean{
         return this.ohlc.length==0
     }
     getSize():number{
@@ -24,7 +24,9 @@ export class Data {
     constructor(public consoleService: ConsoleService,public arranger:Arranger) {
 
     }
-
+    add(raw:RawLoadedData){
+        this.ohlc.push(new OHLC(raw,this.arranger))
+    }
     reset() {
         this.ohlc = [];
         this.minX = 10000000000000;
@@ -32,8 +34,15 @@ export class Data {
         this.minY = 10000000000000;
         this.maxY = 0;
     }
+    toString():string{
+        let res="";
+        this.ohlc.forEach((o)=>{
+            res+=o.toString()
+        })
+        return res;
+    }
 
-    setWorkingData(d) {
+    setWorkingData(d:RawLoadedData) {
         //this.consoleService.chart("DATA SETWD", d)
         this.ohlc.push(new OHLC(d,this.arranger))
     }
@@ -41,11 +50,14 @@ export class Data {
     getTick(i):Row {
         return this.ohlc[i].data
     }
-    get(i){
-        console.log("chart get",i)
+    get(i:number){
+
         return this.ohlc[i]
     }
-    read(content) {
+    getLast():Row{
+        return this.ohlc[this.ohlc.length-1].data
+    }
+    read(content:RawLoadedData[]) {
         //this.consoleService.chart("DATA READ", content)
         content.forEach((d:RawLoadedData) => {
             this.setWorkingData(d)
@@ -65,7 +77,7 @@ export class Data {
 
     //data related
     computeMinMax(d: OHLC) {
-        this.consoleService.chart("DATA minmax", d)
+        //this.consoleService.chart("DATA minmax", d)
         this.minX = Math.min(this.minX, d.data.raw.ts)
         this.maxX = Math.max(this.maxX, d.data.raw.ts)
         this.minY = Math.min(this.minY, d.data.raw.l)

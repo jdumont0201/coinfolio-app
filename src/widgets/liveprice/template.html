@@ -11,7 +11,7 @@
     <div class="progressbar-placeholder" *ngIf="!isLoading" ></div>
     <div class="errorbar" *ngIf="isError" ></div>
 
-<app-chart [chartId]="chartId" [data]="chartData"></app-chart>
+<app-chart [chartId]="chartId" [data]="chartData" [pair]="pair" [broker]="broker" [steam]="lastCandle"></app-chart>
 
 
 </section>

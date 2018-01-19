@@ -16,6 +16,7 @@ export class Arranger {
     MB = 50;
     ML = 0;
     MR = 100;
+    MRNormal = 100;
     DH;
     DW;
 
@@ -40,8 +41,8 @@ export class Arranger {
 
 
     setInitialView() {
-        if (!this.Data.hasData()) return
-        this.idxMin = Math.max(0, this.Data.getSize()- this.Nshow)
+        if (this.Data.isEmpty()) return
+        this.idxMin = Math.max(0, this.Data.getSize() - this.Nshow)
         this.idxMax = this.Data.getSize() - 1
         this.consoleService.chart("setInitialView", this.idxMin, this.idxMax)
         //this.consoleService.chart("pair-chart VIEW", this.idxMin, this.idxMax)
@@ -49,21 +50,14 @@ export class Arranger {
 
 
     setSize(w, h): boolean {
-
-        this.consoleService.chart("  setcanvassize", w, h)
         if (this.W == w && this.H == h) return
-
-        let isShrinking = false;
-        if (this.W > w)
-            isShrinking = true
         this.W = w
         this.H = h
         this.DW = this.W - this.ML - this.MR;
         this.DH = this.H - this.MT - this.MB;
         if (this.W < 600) this.Nshow = 40
         else this.Nshow = 100
-
-
+        this.consoleService.chart("  setcanvassize", w, h)
     }
 
 
@@ -72,11 +66,17 @@ export class Arranger {
     minYView: number;
     maxYView: number;
 
+
+    lastPrice
+    lastPriceLineX
+    lastPriceLineY
+
+
     constructor(public method, public consoleService: ConsoleService) {
 
     }
 
-    Data:Data;
+    Data: Data;
     options = {
         yAxis: {
             grid: {
@@ -109,8 +109,8 @@ export class Arranger {
                 upColor: "rgb(40,200,40)",
                 downColor: "rgb(162,0,0)",
                 strokeWidth: 1,
-                upStrokeColor: "rgb(40,200,40)",
-                downStrokeColor: "rgb(162,00,00)"
+                upStrokeColor: 'rgba(255,255,255,1)',
+                downStrokeColor: 'rgba(255,255,255,1)'
 
             },
             line: {
@@ -121,12 +121,13 @@ export class Arranger {
         }
     }
     nXAxis = 5;
-    drawer:Drawer;
+    drawer: Drawer;
 
-    setData(d) {
+    setData(d: Data) {
         this.Data = d
     }
-    setViewByNavigator(pc) {
+
+    setViewByNavigator(pc: number) {
         this.consoleService.chart("setViewByNavigator", pc)
         let N = this.Data.getSize()
         if (pc < this.Nshow / 2 / N) {
@@ -141,7 +142,7 @@ export class Arranger {
         }
     }
 
-    setDrawer(d) {
+    setDrawer(d: Drawer) {
         this.drawer = d
     }
 
@@ -195,7 +196,7 @@ export class Arranger {
         d.flipped.fx = Math.round(d.flipped.fx);
         d.flipped.fH = Math.round(d.flipped.fH);
 
-        this.cW = Math.round(this.cW)
+
     }
 
     scaleData(g: Row) {
@@ -275,7 +276,7 @@ export class Arranger {
     }
 
 
-    computeLines(g:Row) {
+    computeLines(g: Row) {
 
         g.draw.lines = [[g.flipped.fx + this.cW / 2, g.flipped.fl], [g.flipped.fx + this.cW / 2, g.flipped.fh]]
         if (this.method == DrawMethods.SVG)
@@ -286,29 +287,38 @@ export class Arranger {
                 [[g.flipped.fx + this.cW, g.flipped.fo], [g.flipped.fx, g.flipped.fo]]]  //bottom
     }
 
-    computeStick(g) {
+    computeStick(g:Row) {
         g.flipped.fcx = g.scaled.sx + this.cW / 2;
         g.flipped.fcy = g.flipped.fy - g.scaled.sH / 2
     }
 
     setBarWidth() {
-        if (this.Data.hasData()) {
-            //    this.cW = Math.round(this.W / Math.min(this.data.length, this.Nshow) * 0.7);
-            this.Nshow = Math.round(this.W / (this.cW + this.cWMargin))
-            //this.consoleService.chart("pair-chart cw",this.cW,this.W,this.Nshow)
-        }
+        if (this.Data.isEmpty()) return
+        //    this.cW = Math.round(this.W / Math.min(this.data.length, this.Nshow) * 0.7);
+        this.Nshow = Math.round(this.W / (this.cW + this.cWMargin))
+        this.cW = Math.round(this.cW)
+        //this.consoleService.chart("pair-chart cw",this.cW,this.W,this.Nshow)
+
     }
+
     timerRecompute
+    isShowingLast():boolean{
+        return this.idxMax==this.Data.getSize()-1
+    }
     recompute() {
         this.consoleService.chart("  recompute")
         this.timerRecompute = new Date().getTime()
         if (this.Data.isEmpty()) return
         this.setBarWidth()
         this.setViewport();
+        /*if(this.isShowingLast()) {
+            this.MR = this.MRNormal
+        }else{
+            this.MR=0}
+            this.setSize(this.W,this.H)*/
         for (let i = this.idxMin; i <= this.idxMax; ++i) {
-            let d:OHLC = this.Data.get(i)
+            let d: OHLC = this.Data.get(i)
             d.arrange()
-
             this.computeLines(d.data)
             this.computeStick(d.data)
         }
@@ -318,7 +328,7 @@ export class Arranger {
     }
 
 
-    getMarginRatio() {
+    getMarginRatio():number {
         if (this.idxMax == this.Data.getSize() - 1)
             return 0.95
         else

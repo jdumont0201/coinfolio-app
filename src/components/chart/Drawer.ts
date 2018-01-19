@@ -1,33 +1,44 @@
-
 import * as Raphael from "raphael/raphael"
 import * as Fabric from "fabric"
-export enum DrawMethods {SVG, Canvas}
-import {RawLoadedData,Row} from "./Types"
-export class Drawer {
-    constructor(public method,public consoleService){
 
+
+import * as FontFaceObserver from "FontFaceObserver"
+
+export enum DrawMethods {SVG, Canvas}
+
+import {RawLoadedData, Row} from "./Types"
+
+export class Drawer {
+    constructor(public method, public consoleService) {
+        this.loadAndUse("London",(res)=>{console.log("chart font res",res)});
     }
+
     canvas;
     paper;
     chartId;
 
-clear(){
-    if (this.method == DrawMethods.SVG)
-        this.paper.clear()
-    else
-        this.canvas.clear();
-}
-render(){
-    this.canvas.renderAll()
-}
-isValid():boolean{
+    clear() {
+        this.consoleService.chart("clear")
+        if (this.method == DrawMethods.SVG)
+            this.paper.clear()
+        else
+            this.canvas.clear();
+    }
 
-    if (this.method == DrawMethods.SVG && !this.paper) return false
-    if (this.method == DrawMethods.Canvas && !this.canvas) return false;
-    return true
-}
-    setDrawer(w:number,h:number,chartId:string,inside?) {
-        this.chartId=chartId;
+    render() {
+        this.canvas.renderAll()
+    }
+
+    isValid(): boolean {
+
+        if (this.method == DrawMethods.SVG && !this.paper) return false
+        if (this.method == DrawMethods.Canvas && !this.canvas) return false;
+        return true
+    }
+
+    setDrawer(w: number, h: number, chartId: string, inside?) {
+        this.consoleService.chart("setdrawer", w, h)
+        this.chartId = chartId;
         if (this.isPaperSet()) {
             //this.consoleService.chart("pair-chart existing set ", w, h)
             if (this.method == DrawMethods.SVG)
@@ -40,12 +51,14 @@ isValid():boolean{
             }
         } else {
             if (this.method == DrawMethods.SVG)
-                this.paper = new Raphael(inside, w,h); //option (b)
+                this.paper = new Raphael(inside, w, h); //option (b)
             else {
-                this.canvas = new Fabric.fabric.Canvas('chart-canvas-' + this.chartId);
+                if (!this.canvas)
+                    this.canvas = new Fabric.fabric.Canvas('chart-canvas-' + this.chartId);
                 this.canvas.renderOnAddRemove = false
-                this.canvas.setHeight(h);
-                this.canvas.setWidth(w);
+                this.canvas.setDimensions({width: w, height: h});
+                //this.canvas.setHeight(h);
+                //his.canvas.setWidth(w);
 
             }
         }
@@ -57,19 +70,25 @@ isValid():boolean{
         let m = d.getMinutes();
         return d.getHours() + ":" + (m > 9 ? m : ("0" + m))
     }
-    setCanvas(c){
-        this.canvas=c;
+
+    setCanvas(c) {
+        this.canvas = c;
     }
-    setPaper(p){
-        this.paper=p
+
+    setPaper(p) {
+        this.paper = p
     }
-    isPaperSet(){
+
+    isPaperSet() {
         return this.paper
     }
-    isCanvasSet(){
+
+    isCanvasSet() {
         return this.canvas;
     }
+
     currentMouseover = null;
+
     drawTooltip(g) {
         let tx = 0;
         let ty = 0;
@@ -90,12 +109,13 @@ isValid():boolean{
         t = this.paper.text(txmm, tym + 4 * tymm, "Close:" + g.raw.c).attr("fill", tc).attr({'text-anchor': 'start'})
 
     }
-    draw(){
+
+    draw() {
 
     }
 
     drawRect(name: string, x, y, w, h, fill, strokeWidth, stroke, g: Row, isTooltip?: boolean) {
-        this.consoleService.chart("draw Rect", name, x, y, w, h)
+        //    this.consoleService.chart("draw Rect", name, x, y, w, h)
         if (this.method == DrawMethods.SVG) {
             if (Math.round(x) == x) x += 0.5
             if (Math.round(y) == y) y += 0.5
@@ -132,7 +152,8 @@ isValid():boolean{
                 fill: fill,
                 width: w,
                 height: h,
-                strokeWidth: 1, stroke: 'rgba(255,255,255,1)'
+                strokeWidth: 1,
+                stroke: stroke
             });
             rect.set('selectable', false);
             /*rect.on('mousemove', (e) => {
@@ -148,24 +169,43 @@ isValid():boolean{
     }
 
 
-    drawText(x, y, t: string, color) {
+    drawText(x, y, t: string, color, align: string = "left", font,fontSize?) {
         ////this.consoleService.chart("pair-chart text",x,y,t)
         if (this.method == DrawMethods.SVG) {
             let r = this.paper.text(x, y, t)
             r.attr("fill", color)
         } else {
             t = t.toString()
-            let r = new Fabric.fabric.Textbox(t, {
+            let r = new Fabric.fabric.IText(t, {
                 left: x,
                 top: y,
                 width: 120, fill: color,
-                fontSize: 10, color: color, fontFamily: "Arial"
-
+                fontSize: 10, color: color, fontFamily: "Arial",
+                textAlign: align
             });
+
+            if (font) {r.set("fontFamily", font);            }
+            if(fontSize){r.setFontSize(fontSize)}
             this.canvas.add(r)
             this.canvas.item(0).selectable = false;
             return r;
         }
+    }
+
+    loadAndUse(font, f) {
+        var myfont = new FontFaceObserver(font)
+        myfont.load()
+            .then(() => {
+                // when font is loaded, use it.
+                console.log("chrat font ok")
+                //this.canvas.getActiveObject().set("fontFamily", font);
+                //this.canvas.requestRenderAll();
+                f(true)
+            }).catch(function (e) {
+            console.log(e)
+            //alert('font loading failed ' + font);
+            f(false)
+        });
     }
 
     drawLine(name, x, y, x2, y2, width, color) {

@@ -12,6 +12,7 @@ import {Refreshing} from "../../lib/localton/components/Refreshing/component";
 import {Strings} from "../../lib/globalton/core/utils/utils";
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {ZoomableRefreshable} from "../../lib/localton/components/ZoomableRefreshable/component";
+import {WebsocketService} from "../../lib/globalton/core/services/websocket.service";
 
 @Component({
     selector: 'app-live-price',
@@ -41,19 +42,17 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
     draw() {
     }
 
-    constructor(public consoleService: ConsoleService, public tradingService: TradingService, public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
+    constructor(public consoleService: ConsoleService,public websocketService:WebsocketService, public tradingService: TradingService, public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
         super(refreshService, eventService, consoleService)
         this.chartId = Strings.getRandom(7)
-
 
     }
 
 
-
     ngOnChanges(changes: SimpleChanges) {
-        console.log("preChart  change",JSON.stringify(changes))
-        if(this.isInit)
-        this.init()
+        console.log("preChart  change", JSON.stringify(changes))
+        if (this.isInit)
+            this.init()
     }
 
     init() {
@@ -70,10 +69,12 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
             this.firstLoadData()
         }
     }
-    isInit=false;
+
+    isInit = false;
+
     ngOnInit() {
         console.log("preChart  --> oninit")
-        this.isInit=true
+        this.isInit = true
         this.init()
 
     }
@@ -90,13 +91,17 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
     }
 
     chartData;
-
+    lastCandle;
     updateData() {
         console.log("preChart  updatedata", this.period, this.pair)
         this.isLoading = true;
         this.isError = false;
         this.logic.getFromBroker(this.broker, "ohlc", (res) => {
-
+            const url = "wss://stream.binance.com:9443/ws/" + this.pair.toLowerCase() + "@kline_"+this.period
+            this.websocketService.create(this.pair+"-"+this.broker+"-"+this.period,url,(m:any) => {
+                console.log(m)
+                this.lastCandle={ts:m.k.t,o:m.k.o,h:m.k.h,l:m.k.l,c:m.k.c};
+            })
             if (!res || res.error) {
                 this.isError = true;
                 this.isLoading = false;

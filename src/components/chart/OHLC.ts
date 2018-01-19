@@ -4,6 +4,9 @@ import {Arranger} from "./Arranger";
 
 export class OHLC {
     data: Row
+    toString(){
+        return JSON.stringify(this.data)
+    }
     arrange(){
         this.a.scaleData(this.data)
         this.a.flipData(this.data)
