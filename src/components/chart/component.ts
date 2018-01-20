@@ -111,7 +111,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
 
     }
 
-    ngDoCheck(a) {
+    ngDoCheck() {
      /*   if (!this.steam) return
         let s = JSON.parse(JSON.stringify(this.steam))
 
@@ -322,7 +322,16 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         })
 
     }
-
+    paintIndicators() {
+        let ind: Row = this.Data.indicators.SMAScaled;
+        let opt = this.arranger.options;
+        for (let i = this.arranger.idxMin; i <= this.arranger.idxMax-1; ++i) {
+            let g: Row = this.Data.getTick(i)
+            let gg: Row = this.Data.getTick(i+1)
+            this.drawer.drawLine("SMA-" + i ,  g.flipped.fx, ind[i], gg.flipped.fx,ind[i+1], opt.candlestick.line.width, "rgb(255,140,0)");
+        console.log("SMA",i,  g.flipped.fx, ind[i], gg.flipped.fx,ind[i+1])
+        }
+    }
     paintCandleSticks() {
         //CANDLESTICKS
         for (let i = this.arranger.idxMin; i <= this.arranger.idxMax; ++i) {
@@ -422,6 +431,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
 
         this.paintMarker()
         this.paintNavigator()
+        this.paintIndicators()
         this.paintCandleSticks()
     //    this.paintPrice()
         this.setEvents()

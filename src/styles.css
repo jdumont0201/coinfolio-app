@@ -2822,7 +2822,7 @@ h2 {
 .chart-header{
     position: absolute;
     top: 35px;
-    left: 10px;
+    left: 10px;background:rgba(0,0,0,0.7)
 
 }
 .chart-broker{

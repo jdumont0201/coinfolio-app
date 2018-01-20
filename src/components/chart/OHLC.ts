@@ -4,6 +4,7 @@ import {Arranger} from "./Arranger";
 
 export class OHLC {
     data: Row
+    indicators
     toString(){
         return JSON.stringify(this.data)
     }
@@ -13,7 +14,7 @@ export class OHLC {
         this.a.roundData(this.data)
     }
     constructor(d:RawLoadedData,public a:Arranger) {
-        this.data={raw:d,scaled:{},flipped:{},meta:{},draw:{}};
+        this.data={raw:d,scaled:{},flipped:{},meta:{},draw:{},indicators:{}};
     }
 
     draw() {

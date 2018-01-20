@@ -211,7 +211,7 @@ export class Arranger {
 
     }
 
-    getAxisLevel(): number {
+    getYAxisLevel(): number {
         let range = this.maxYView - this.minYView
         if (range > 2000) return 500
         if (range > 1000) return 500
@@ -238,7 +238,7 @@ export class Arranger {
     }
 
     computeYAxis() {
-        let level = this.getAxisLevel()
+        let level = this.getYAxisLevel()
         //this.consoleService.chart("pair-chart level gr", level)
         let levels: number[] = this.findRoundNumbersBetween(this.minYView, this.maxYView, level)
         this.yAxis = []
@@ -267,7 +267,9 @@ export class Arranger {
     }
 
     computeXAxis() {
+        let range=this.maxXView-this.maxYView
         this.xAxis = []
+
         for (let i = 0; i < this.nXAxis; ++i) {
             let level = this.minXView + (this.maxXView - this.minXView) / this.nXAxis * i;
             let d = new Date(level)
@@ -324,6 +326,7 @@ export class Arranger {
         }
         this.computeYAxis()
         this.computeXAxis()
+        this.Data.computeIndicators()
         this.consoleService.chart("STAT recompute", new Date().getTime() - this.timerRecompute)
     }
 

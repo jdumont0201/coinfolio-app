@@ -21,7 +21,7 @@ export type Row = {
         fy?: number, fx?: number, fH?: number,
         fcx?: number, fcy?: number
     }
-
+    indicators:{},
 
 
 

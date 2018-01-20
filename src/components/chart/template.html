@@ -2,6 +2,6 @@
     <canvas *ngIf="method==1" id="chart-canvas-{{chartId}}"></canvas>
 <div class="chart-header"> <span class="chart-title">{{pair}}</span>
 <span class="chart-broker">@{{broker}}</span>
-<span class="chart-price">@{{currentPrice}}</span>
+<span class="chart-price {{prevPrice>currentPrice?'valneg':'valpos'}}"> {{currentPrice}}</span>
 </div>
 </div>

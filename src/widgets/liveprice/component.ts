@@ -99,7 +99,8 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
         this.isError = false;
         this.logic.getFromBroker(this.broker, "ohlc", (res) => {
             const url = "wss://stream.binance.com:9443/ws/" + this.pair.toLowerCase() + "@kline_"+this.period
-            this.websocketService.create(this.pair+"-"+this.broker+"-"+this.period,url,(m:any) => {
+            const id=this.broker+"-"+this.pair+"-live-"+this.period;
+            this.websocketService.create(id,url,(m:any) => {
                 console.log(m)
                 this.lastCandle={ts:m.k.t,o:m.k.o,h:m.k.h,l:m.k.l,c:m.k.c};
                 console.log("candle",this.lastCandle)
@@ -128,7 +129,8 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
     }
 
     setInterval(v: number) {
-        this.websocketService.close(this.pair+"-"+this.broker+"-"+this.period)
+        const id=this.broker+"-"+this.pair+"-live-"+this.period
+        this.websocketService.close(id)
         this.period = v.toString();
 
         this.updateData();

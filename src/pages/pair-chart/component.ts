@@ -92,7 +92,7 @@ export class AppPairChartPage extends CheckValid implements OnDestroy,OnChanges 
                 this.logic.BinanceGetMyTrades(this.pairId, (trades) => {
                     this.trades = trades;
                 })
-                this.runLastPriceWS()
+             //   this.runLastPriceWS()
             }
         });
     }
@@ -113,7 +113,7 @@ export class AppPairChartPage extends CheckValid implements OnDestroy,OnChanges 
         this.unsubscribeAllEvents()
     }
 
-
+/*
     runLastPriceWS() {
         const url = "wss://stream.binance.com:9443/ws/" + this.pairId.toLowerCase() + "@aggTrade"
 
@@ -123,6 +123,6 @@ export class AppPairChartPage extends CheckValid implements OnDestroy,OnChanges 
             this.numberFormat = Crypto.getNbFormat(this.lastPrice)
         })
     }
-
+*/
 
 }

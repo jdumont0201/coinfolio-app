@@ -2,8 +2,10 @@ import {OHLC} from "./OHLC"
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 import {DrawMethods,RawLoadedData,Row} from "./Types"
 import {Arranger} from "./Arranger";
+import {SMA} from 'technicalindicators/dist'
 export class Data {
     ohlc: OHLC[] = []
+    indicators;
     //SPAN
     minX = 10000000000000;
     maxX = -100000000000;
@@ -69,12 +71,33 @@ export class Data {
 
     addMeta() {
         //this.consoleService.chart("DATABOX", this.minX, this.minY, this.maxX, this.maxY)
+
         this.ohlc.forEach((d: OHLC) => {
             this.computeMinMax(d)
+
         })
         this.ohlc.forEach((d: OHLC) => {
             d.addMetaData()
         })
+
+
+    }
+    computeIndicators(){
+        this.indicators={}
+        this.indicators.close=[]
+        this.ohlc.forEach((d: OHLC) => {
+            d.addMetaData()
+            this.indicators.close.push(d.data.raw.c)
+        })
+
+        this.consoleService.chart("sma close",JSON.stringify(this.indicators.close))
+        this.indicators.SMA=SMA.calculate({period:5,values:this.indicators.close})
+        this.indicators.SMAScaled=[]
+        this.indicators.SMA.forEach((v) => {
+            this.indicators.SMAScaled.push(Math.round(this.arranger.flip(this.arranger.scaleY(v))))
+        })
+        this.consoleService.chart("sma close def=",JSON.stringify(this.indicators.close))
+        console.log("sma",this.indicators.SMA,this.indicators.close)
     }
 
     //data related
