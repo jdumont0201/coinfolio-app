@@ -2813,3 +2813,24 @@ h2 {
 
 .ticker-invisible #bottom{width:120px!important}
 .menu-invisible #status{display:none!important;}
+
+
+.chart-title {
+    font-size: 35px!important;;
+    font-family: London!important;;
+}
+.chart-header{
+    position: absolute;
+    top: 35px;
+    left: 10px;
+
+}
+.chart-broker{
+
+    font-size: 15px!important;
+
+}
+.chart-price{
+    font-size: 35px!important;;
+    font-family: London!important;;
+}

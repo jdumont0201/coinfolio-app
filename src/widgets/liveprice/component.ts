@@ -92,6 +92,7 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
 
     chartData;
     lastCandle;
+
     updateData() {
         console.log("preChart  updatedata", this.period, this.pair)
         this.isLoading = true;
@@ -101,6 +102,7 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
             this.websocketService.create(this.pair+"-"+this.broker+"-"+this.period,url,(m:any) => {
                 console.log(m)
                 this.lastCandle={ts:m.k.t,o:m.k.o,h:m.k.h,l:m.k.l,c:m.k.c};
+                console.log("candle",this.lastCandle)
             })
             if (!res || res.error) {
                 this.isError = true;
@@ -126,7 +128,9 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
     }
 
     setInterval(v: number) {
+        this.websocketService.close(this.pair+"-"+this.broker+"-"+this.period)
         this.period = v.toString();
+
         this.updateData();
     }
 

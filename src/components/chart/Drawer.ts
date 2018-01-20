@@ -1,6 +1,6 @@
 import * as Raphael from "raphael/raphael"
 import * as Fabric from "fabric"
-import * as FontFaceObserver from "FontFaceObserver"
+//import * as FontFaceObserver from "FontFaceObserver"
 
 export enum DrawMethods {SVG, Canvas}
 
@@ -182,14 +182,14 @@ export class Drawer {
                 textAlign: align
             });
 
-            if (font) {r.set("fontFamily", font);            }
+        //    if (font) {r.set("fontFamily", font);            }
             if(fontSize){r.setFontSize(fontSize)}
             this.canvas.add(r)
             this.canvas.item(0).selectable = false;
             return r;
         }
     }
-
+/*
     loadAndUse(font, f) {
         var myfont = new FontFaceObserver(font)
         myfont.load()
@@ -205,7 +205,7 @@ export class Drawer {
             f(false)
         });
     }
-
+*/
     drawLine(name, x, y, x2, y2, width, color) {
         ////this.consoleService.chart("pair-chart Line",x,y,x2,y2,"width",width,"color",color)
         if (this.method == DrawMethods.SVG) {

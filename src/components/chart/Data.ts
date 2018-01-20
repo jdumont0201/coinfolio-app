@@ -25,7 +25,9 @@ export class Data {
 
     }
     add(raw:RawLoadedData){
+        this.consoleService.chart("chart new add ohlc",raw)
         this.ohlc.push(new OHLC(raw,this.arranger))
+
     }
     reset() {
         this.ohlc = [];

@@ -5,7 +5,7 @@
         <div class="right"><span class="last-refreshed">Last refreshed : {{loadTime | date:"HH:mm:ss"}}</span> <mat-icon class="button-zoom" (click)="zoom()">{{isZoomed?'zoom_out':'zoom_in'}}</mat-icon></div>
     </h5>
     <mat-menu #appMenu2="matMenu">
-        <button (click)="period=i;updateData()" mat-menu-item *ngFor="let i of possiblePeriods">{{i}}</button>
+        <button (click)="setInterval(i)" mat-menu-item *ngFor="let i of possiblePeriods">{{i}}</button>
     </mat-menu>
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
     <div class="progressbar-placeholder" *ngIf="!isLoading" ></div>

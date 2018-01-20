@@ -1,4 +1,7 @@
-import {Component, Input, OnInit, Injectable, ViewChild, ViewEncapsulation, SimpleChanges, SimpleChange, OnChanges, ElementRef, HostListener, AfterViewInit} from '@angular/core';
+import {
+    Component, Input, OnInit, Injectable, ViewChild, ViewEncapsulation, SimpleChanges, SimpleChange, OnChanges, ElementRef, HostListener, AfterViewInit,
+    DoCheck
+} from '@angular/core';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {EventService} from "../../lib/localton/services/event.service";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
@@ -29,7 +32,7 @@ import {Arranger} from "./Arranger";
 
 })
 @Injectable()
-export class AppChartComponent extends CheckValid implements OnChanges, OnInit, AfterViewInit {
+export class AppChartComponent extends CheckValid implements OnChanges, OnInit, AfterViewInit, DoCheck {
     @Input() data: any[] = [];
     @Input() lastCandle: any[] = [];
     @Input() steam
@@ -50,7 +53,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
     paper;
     isReady = false;
 
-    Data:Data;
+    Data: Data;
 
     currentMouseover = null;
     private mouseDown: boolean = false;
@@ -108,34 +111,59 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
 
     }
 
+    ngDoCheck(a) {
+     /*   if (!this.steam) return
+        let s = JSON.parse(JSON.stringify(this.steam))
+
+        let newP = parseFloat(s.c);
+        console.log("ngdocheck", this.steam, "lastts", this.lastTs, "lastp", this.currentPrice, "newts", this.lastTs, "newp", newP, newP - this.currentPrice, ( newP !== this.currentPrice) && (s.ts !== this.lastTs), ( newP !== this.currentPrice), (s.ts !== this.lastTs))
+        if (( newP !== this.currentPrice) || (s.ts !== this.lastTs)) {
+            this.lastTs = s.ts
+            this.prevPrice = this.currentPrice;
+            this.currentPrice = parseFloat(s.c)
+            console.log("ngdocheck ok", this.steam, "p", this.currentPrice, "ts", this.lastTs)
+            this.updateSteam(this.steam)
+        }
+*/
+    }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.consoleService.chart("--> onChanges",changes)
+        this.consoleService.chart("--> onChanges", changes)
 
-        if(changes.steam)
-            this.updateSteam(changes.steam.currentValue)
+        if (changes.steam)
+
+        this.updateSteam(changes.steam.currentValue)
         else
             this.updateAfterDataChange()
     }
+
     currentPrice;
     prevPrice;
-    updateSteam(lastBar:UnparsedRawLoadedData){
-        if(this.Data.isEmpty()) return
-        this.consoleService.chart("chart new steal",lastBar,this.Data.getLast())
-        let ne={
-            ts:parseInt(lastBar.ts),
-            o:parseFloat(lastBar.o),
-            h:parseFloat(lastBar.h),
-            c:parseFloat(lastBar.c),
-            l:parseFloat(lastBar.l),
-        }
-        this.prevPrice=this.currentPrice;
-        this.currentPrice=ne.c
-        if(ne.ts==this.Data.getLast().raw.ts){
-            this.Data.getLast().raw.c=ne.c;
+    lastTs;
 
-        }else{
+    updateSteam(lastBar: UnparsedRawLoadedData) {
+        if (this.Data.isEmpty()) return
+        this.consoleService.chart("chart new steal", lastBar, this.Data.getLast())
+        let ne = {
+            ts: parseInt(lastBar.ts),
+            o: parseFloat(lastBar.o),
+            h: parseFloat(lastBar.h),
+            c: parseFloat(lastBar.c),
+            l: parseFloat(lastBar.l),
+        }
+        this.prevPrice = this.currentPrice;
+        this.currentPrice = ne.c
+        console.log("chart new", ne.ts == this.Data.getLast().raw.ts)
+
+        if (ne.ts == this.Data.getLast().raw.ts) {
+            this.Data.getLast().raw.c = ne.c;
+            this.lastTs = ne.ts;
+        } else {
+            console.log("chart new add", this.Data.getSize(), this.Data.ohlc.length)
             this.Data.add(ne)
+            this.lastTs = ne.ts;
+            this.arranger.idxMax++;
+            console.log("chart new add end", this.Data.getSize(), this.Data.ohlc.length)
         }
         this.updateAfterDataChange()
     }
@@ -246,7 +274,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
             //this.consoleService.chart("yaxis line ", 0, li.val, this.W, li.val)
             this.drawer.drawLine("yaxis-" + li.val, 0, li.val, this.arranger.W, li.val, opt.yAxis.grid.strokeWidth, opt.yAxis.grid.color);
             //this.consoleService.chart("yaxis text ", 30, li.val, li.text)
-            this.drawer.drawText(this.arranger.W - 35, Math.round(li.val - 12), li.text, opt.yAxis.grid.textColor, "right",null);
+            this.drawer.drawText(this.arranger.W - 35, Math.round(li.val - 12), li.text, opt.yAxis.grid.textColor, "right", null);
         })
     }
 
@@ -257,7 +285,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         this.drawer.drawRect("xaxis-bar", 0, xAxisY, this.arranger.W, opt.xAxis.height, "rgba(0,0,0,1)", 0, null, null)
         this.arranger.xAxis.forEach((li) => {
             this.drawer.drawLine("xaxis-" + li.val, li.val, this.arranger.MT, li.val, this.arranger.H - this.arranger.MB, opt.xAxis.grid.strokeWidth, opt.xAxis.grid.color);
-            this.drawer.drawText(li.val - 10, Math.round(xAxisY + opt.xAxis.height / 2) - 5, li.text, "rgb(255,255,255)","left",null);
+            this.drawer.drawText(li.val - 10, Math.round(xAxisY + opt.xAxis.height / 2) - 5, li.text, "rgb(255,255,255)", "left", null);
         })
     }
 
@@ -364,15 +392,16 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
     }
 
 
-    paintPrice(){
+    paintPrice() {
 
-        this.drawer.drawRect("price-bg", 5,5,390,45,"rgb(0,0,0)",1,"rgb(40,40,40)",null);
-        this.drawer.drawText(10, 10, this.pair, "rgb(255,255,255)","left","London",35);
-        this.drawer.drawText(150, 30,"@" +this.broker, "rgb(200,200,200)","left","London",15);
-        if(this.currentPrice)
-            this.drawer.drawText(250, 10, this.currentPrice, this.prevPrice>this.currentPrice?"rgb(200,0,0)":"rgb(40,240,40)","left","London",35);
+        this.drawer.drawRect("price-bg", 5, 5, 390, 45, "rgb(0,0,0)", 1, "rgb(40,40,40)", null);
+        this.drawer.drawText(10, 10, this.pair, "rgb(255,255,255)", "left", "London", 35);
+        this.drawer.drawText(150, 30, "@" + this.broker, "rgb(200,200,200)", "left", "London", 15);
+        if (this.currentPrice)
+            this.drawer.drawText(250, 10, this.currentPrice, this.prevPrice > this.currentPrice ? "rgb(200,0,0)" : "rgb(40,240,40)", "left", "London", 35);
 
     }
+
     draw() {
 
         if (!this.drawer.isValid()) return
@@ -391,11 +420,10 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         this.paintXAxis()
 
 
-
         this.paintMarker()
         this.paintNavigator()
         this.paintCandleSticks()
-        this.paintPrice()
+    //    this.paintPrice()
         this.setEvents()
 
 
