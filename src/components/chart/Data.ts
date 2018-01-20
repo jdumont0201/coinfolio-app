@@ -2,8 +2,38 @@ import {OHLC} from "./OHLC"
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 import {DrawMethods,RawLoadedData,Row} from "./Types"
 import {Arranger} from "./Arranger";
-import * as tulind from "tulind"
+//import * as technicalindicators from "./indicators/All"
+//import * as talib from "talib"
+//import * as tulind from "tulind"
+export class IndicatorBuilder{
 
+    SMA(V:number[],options){
+        let res=[];
+        let period=options.period
+        for(let i=0;i<V.length;++i){
+            res.push(this.SMAVal(V,i,period))
+        }
+    }
+    SMAVal(V:number[],i:number,period:number){//todo optimize
+        let s=0
+        for(let k=i-period;k<i;++k){
+            s+=V[k]
+        }
+        return s/period;
+    }
+    build(f){
+        //this.indicators.SMA=technicalindicators.sma({period : 5, values : [1,2,3,4,5,6,7,8,9], reversedInput : true});
+        /*let r=tulind.indicators.sma.indicator([close], [3], function(err, results) {
+            console.log("sma",results)
+            this.indicators.sma=results[0]
+        });
+
+        this.indicators.SMAScaled=[]
+        this.indicators.SMA.forEach((v) => {
+            this.indicators.SMAScaled.push(Math.round(this.arranger.flip(this.arranger.scaleY(v))))
+        })*/
+    }
+}
 export class Data {
     ohlc: OHLC[] = []
     indicators;
@@ -14,7 +44,7 @@ export class Data {
     maxY = 0;
     spanX;
     spanY;
-
+    indicatorBuilder;
     hasData():boolean{
         return this.ohlc.length>0
     }
@@ -25,7 +55,7 @@ export class Data {
         return this.ohlc.length
     }
     constructor(public consoleService: ConsoleService,public arranger:Arranger) {
-
+        this.indicatorBuilder=new IndicatorBuilder();
     }
     add(raw:RawLoadedData){
         this.consoleService.chart("chart new add ohlc",raw)
@@ -92,18 +122,31 @@ export class Data {
         })
 
         this.consoleService.chart("sma close",JSON.stringify(this.indicators.close))
-        /*this.indicators.SMA=tulind.indicators.sma.indicator([close], [3], function(err, results) {
+//        this.indicators.SMA=technicalindicators.sma({period : 5, values : this.indicators.close, reversedInput : true});
+
+/*        this.indicators.SMA=tulind.indicators.sma.indicator([close], [3], function(err, results) {
             console.log("sma",results)
             this.indicators.sma=results[0]
-        });
+        });*/
 
-        this.indicators.SMAScaled=[]
+        /*talib.execute({
+            name: "SMA",
+            startIdx: 0,
+            endIdx: this.indicators.close.length - 1,
+            close: this.indicators.close,
+            optInTimePeriod: 9
+        }, function (err, result) {
+            this.indicators.sma=result
+        });*/
+
+
+            this.indicators.SMAScaled=[]
         this.indicators.SMA.forEach((v) => {
             this.indicators.SMAScaled.push(Math.round(this.arranger.flip(this.arranger.scaleY(v))))
         })
         this.consoleService.chart("sma close def=",JSON.stringify(this.indicators.close))
         console.log("sma",this.indicators.SMA,this.indicators.close)
-        */
+
     }
 
     //data related

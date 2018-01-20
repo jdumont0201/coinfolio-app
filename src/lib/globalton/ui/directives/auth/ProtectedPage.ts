@@ -30,31 +30,7 @@ export abstract class ProtectedPage {
     isAuthenticated: boolean = false;
     abstract run();
     console;
-    cons(){
 
-    }
-    addOptionsBarDashboard(){
-        this.actionsbar.push(new OptionsBarItem("bar.backtodashboard","back","/")) ;
-    }
-    addOptionsBarCompany(id){
-        this.actionsbar.push(new OptionsBarItem("bar.backtocompany","back","/company/"+id) );
-    }
-
-    addOptionsBarPosition(id,poid){
-        this.actionsbar.push(new OptionsBarItem("bar.backtoposition","back","/company/"+id+"/job/"+poid) );
-    }
-    addOptionsBarLogin(){
-        this.actionsbar.push(new OptionsBarItem("bar.backtologin","back","/") );
-    }
-    addOptionsBarConfig(){
-        this.actionsbar.push(new OptionsBarItem("bar.backtoconfig","back","/config-all/all") );
-    }
-    addOptionsBarContact(id){
-        this.actionsbar.push(new OptionsBarItem("bar.backtocontact","back","/contact/"+id) );
-    }
-    addOptionsBarAnnounce(positionId,companyId){
-        this.actionsbar.push(new OptionsBarItem("bar.backtoannounces","back","/company/"+companyId+"/job/"+positionId+"/announce") );
-    }
     updateLoginForm(loginValue:LoginChangedInterface) {
         //this.console.serv("ProtectedPage updateLoginForm",loginValue);
         if (!this.isAuthenticated) {
@@ -63,7 +39,7 @@ export abstract class ProtectedPage {
         }
     }
 
-    constructor( pageService: PageService,route:ActivatedRoute,router:Router,isprotected?:boolean ) {
+    constructor( pageService: PageService,route:ActivatedRoute,router:Router,isprotected:boolean ) {
         console.log("--------------------------------------------------");
         if (typeof isprotected !== 'undefined')   this.protected=isprotected;
         //console.log("ISPROTECTED",this.protected);
@@ -88,43 +64,13 @@ export abstract class ProtectedPage {
 
     }
     ngOnInit(){
-        //console.log("compo init");
-/*
-        let o:OptionsBarConfig=new OptionsBarConfig([]);
-        this.noAuthPageConfig=new PageConfig(new HeaderDefaultInterface("Login"),o);
-        if(this.actionsbar){
-            let O=new OptionsBarConfig(this.actionsbar)
-            this.pageService.optionsBarService.setOptions(O);
-            this.pageConfig=new PageConfig(new HeaderDefaultInterface(this.classname),O);
-        }else{
-            if(this.actions){
-                //console.log("hasaction",this.buildActionButtons());
-                this.pageConfig=new PageConfig(new HeaderDefaultInterface(this.classname),this.buildActionButtons());
-            }else{
-                //console.log("hasactionno");
-                this.pageConfig=new PageConfig(new HeaderDefaultInterface(this.classname),this.getOptionsByClassname());
-            }
-        }
-        //console.log(" > PageConfig",this.pageConfig);
 
-        if (!this.isAuthenticated && this.protected) {
-            this.pageService.preparePage(this.noAuthPageConfig);
-        }else{
-            this.dorun();
-        }*/
     }
     ngOnDestroy() {
         //console.log("destroy PPage");
         //this.modelService.modelUpdated.unsubscribe();
     }
-/*    getOptionsByClassname():OptionsBarConfig{
-        return this.pageService.configService.getActionBar(this.classname,this.routeParams);
-    }
 
-    buildActionButtons():OptionsBarConfig{
-        return this.pageService.configService.getActionBar2(this.actions,this.routeParams);
-    }
-*/
 
     dorun():void{
         //     this.pageService.consoleService.log("RUN",this.pageConfig);

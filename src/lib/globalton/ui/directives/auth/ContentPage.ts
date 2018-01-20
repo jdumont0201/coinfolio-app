@@ -8,7 +8,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 @Injectable()
 export abstract class ContentPage extends ProtectedPage {
     protected:boolean=false;
-    constructor( pageService: PageService,route:ActivatedRoute,router:Router,isprotected?:boolean) {
+    constructor( pageService: PageService,route:ActivatedRoute,router:Router) {
         super(pageService,route,router,false)
     }
 }

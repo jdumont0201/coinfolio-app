@@ -82,7 +82,7 @@ export abstract class DataAndChartTemplate extends ZoomableRefreshable implement
     }
     optionsBase: any;
 
-    constructor( public consoleService:ConsoleService  ,public refreshService:RefreshService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public type?) {
+    constructor( public consoleService:ConsoleService  ,public refreshService:RefreshService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public type="chart") {
         super(refreshService,eventService,consoleService)
         /*if (type === "stock") this.pair-chart = new StockChart(this.stockChartDefOptions)
         if (type === "plain") this.pair-chart = new Chart(this.plainChartDefOptions)
