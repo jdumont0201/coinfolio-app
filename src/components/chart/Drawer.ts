@@ -8,7 +8,7 @@ import {RawLoadedData, Row} from "./Types"
 
 export class Drawer {
     constructor(public method, public consoleService) {
-        this.loadAndUse("London",(res)=>{console.log("chart font res",res)});
+        //this.loadAndUse("London",(res)=>{console.log("chart font res",res)});
     }
 
     canvas;
