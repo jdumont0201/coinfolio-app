@@ -2825,6 +2825,7 @@ h2 {
     left: 10px;background:rgba(0,0,0,0.7)
 
 }
+.menu-invisible .chart-header{left:80px}
 .chart-broker{
 
     font-size: 15px!important;

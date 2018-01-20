@@ -177,7 +177,9 @@ import { NgvasModule, tweens, hitAreas } from "ngvas";
 
 @NgModule({
     declarations: [
-        AppComponent,AppFormRenewPassword,AppBrokerAllPanelsComponent,AppPairChartPage,AppSignupBrokersComponent,AppAuthBrokersPage,AppEventsComponent,WelcomeDialog,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,AppChartComponent,AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
+        AppComponent,AppFormRenewPassword,AppBrokerAllPanelsComponent,AppPairChartPage,AppSignupBrokersComponent,AppAuthBrokersPage,AppEventsComponent,WelcomeDialog,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,
+        AppChartComponent,
+        AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,

@@ -1,18 +1,18 @@
 import {
-    Component, Input, OnInit, Injectable, ViewChild, ViewEncapsulation, SimpleChanges, SimpleChange, OnChanges, ElementRef, HostListener, AfterViewInit,
-    DoCheck
+    Component, Input, OnInit, Injectable, ViewChild, ViewEncapsulation, SimpleChanges, SimpleChange, OnChanges, ElementRef, HostListener, AfterViewInit
 } from '@angular/core';
 import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {EventService} from "../../lib/localton/services/event.service";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
-import {AppSubscribeComponent} from "../subscribe/component";
+
 import {Logic} from "../../logic/Logic";
 import {RequestService} from "../../lib/globalton/core/services/request.service";
 import {ApiService} from "../../lib/globalton/core/services/api.service";
 import {TradingService} from "../../lib/localton/services/trading.service";
 
-import * as Raphael from "raphael/raphael"
+/*import * as Raphael from "raphael/raphael"
 import * as Fabric from "fabric"
+*/
 import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
@@ -23,7 +23,6 @@ import {Data} from "./Data"
 import {Drawer} from "./Drawer";
 import {Arranger} from "./Arranger";
 
-
 @Component({
     selector: 'app-chart',
     templateUrl: 'template.html',
@@ -32,12 +31,13 @@ import {Arranger} from "./Arranger";
 
 })
 @Injectable()
-export class AppChartComponent extends CheckValid implements OnChanges, OnInit, AfterViewInit, DoCheck {
+export class AppChartComponent extends CheckValid {
     @Input() data: any[] = [];
     @Input() lastCandle: any[] = [];
     @Input() steam
     @Input() pair: string
     @Input() broker: string
+    @Input() chartId;
 
 //    @Input() gdata: Row[] = [];
     //@ViewChild('mycanvas') canvas: ElementRef;
@@ -45,15 +45,16 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
     @ViewChild('mycanvasbox') canvasbox: ElementRef;
 
 
-    @Input() chartId;
-
-
     method
 
     paper;
     isReady = false;
 
-    Data: Data;
+
+    currentPrice;
+    prevPrice;
+    lastTs;
+
 
     currentMouseover = null;
     private mouseDown: boolean = false;
@@ -65,7 +66,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
     crosshairLines2 = [[[0, 100], [200, 100]]]
     drawer: Drawer;
     arranger: Arranger;
-
+    Data: Data;
     resizeTimer;
 
 
@@ -112,19 +113,7 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
     }
 
     ngDoCheck() {
-     /*   if (!this.steam) return
-        let s = JSON.parse(JSON.stringify(this.steam))
 
-        let newP = parseFloat(s.c);
-        console.log("ngdocheck", this.steam, "lastts", this.lastTs, "lastp", this.currentPrice, "newts", this.lastTs, "newp", newP, newP - this.currentPrice, ( newP !== this.currentPrice) && (s.ts !== this.lastTs), ( newP !== this.currentPrice), (s.ts !== this.lastTs))
-        if (( newP !== this.currentPrice) || (s.ts !== this.lastTs)) {
-            this.lastTs = s.ts
-            this.prevPrice = this.currentPrice;
-            this.currentPrice = parseFloat(s.c)
-            console.log("ngdocheck ok", this.steam, "p", this.currentPrice, "ts", this.lastTs)
-            this.updateSteam(this.steam)
-        }
-*/
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -132,14 +121,10 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
 
         if (changes.steam)
 
-        this.updateSteam(changes.steam.currentValue)
+            this.updateSteam(changes.steam.currentValue)
         else
             this.updateAfterDataChange()
     }
-
-    currentPrice;
-    prevPrice;
-    lastTs;
 
     updateSteam(lastBar: UnparsedRawLoadedData) {
         if (this.Data.isEmpty()) return
@@ -322,16 +307,22 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         })
 
     }
+
     paintIndicators() {
-        let ind: Row = this.Data.indicators.SMAScaled;
-        let opt = this.arranger.options;
-        for (let i = this.arranger.idxMin; i <= this.arranger.idxMax-1; ++i) {
-            let g: Row = this.Data.getTick(i)
-            let gg: Row = this.Data.getTick(i+1)
-            this.drawer.drawLine("SMA-" + i ,  g.flipped.fx, ind[i], gg.flipped.fx,ind[i+1], opt.candlestick.line.width, "rgb(255,140,0)");
-        console.log("SMA",i,  g.flipped.fx, ind[i], gg.flipped.fx,ind[i+1])
+        if (this.Data.indicators) {
+        if (this.Data.indicators.SMAScaled) {
+            let ind: Row = this.Data.indicators.SMAScaled;
+            let opt = this.arranger.options;
+            for (let i = this.arranger.idxMin; i <= this.arranger.idxMax - 1; ++i) {
+                let g: Row = this.Data.getTick(i)
+                let gg: Row = this.Data.getTick(i + 1)
+                this.drawer.drawLine("SMA-" + i, g.flipped.fx, ind[i], gg.flipped.fx, ind[i + 1], opt.candlestick.line.width, "rgb(255,140,0)");
+                console.log("SMA", i, g.flipped.fx, ind[i], gg.flipped.fx, ind[i + 1])
+            }
+        }
         }
     }
+
     paintCandleSticks() {
         //CANDLESTICKS
         for (let i = this.arranger.idxMin; i <= this.arranger.idxMax; ++i) {
@@ -433,26 +424,19 @@ export class AppChartComponent extends CheckValid implements OnChanges, OnInit, 
         this.paintNavigator()
         this.paintIndicators()
         this.paintCandleSticks()
-    //    this.paintPrice()
+        //    this.paintPrice()
         this.setEvents()
 
 
         if (this.method == DrawMethods.Canvas) {
             //this.canvas.selection = false;
-            /*this.canvas.forEachObject(function (o) {
-                ////this.consoleService.chart(o)
 
-                o.selectable = false;
-            });*/
 
             this.consoleService.chart("STAT draw", new Date().getTime() - this.timerDraw)
             this.timerDraw = new Date().getTime()
             this.consoleService.chart("      render")
             this.drawer.render();
             this.consoleService.chart("STAT render", new Date().getTime() - this.timerDraw)
-            /*setTimeout(() => {
-                this.canvas.renderAll();
-            }, 200)*/
         }
 
     }

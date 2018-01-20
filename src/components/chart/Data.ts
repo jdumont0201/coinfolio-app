@@ -2,7 +2,8 @@ import {OHLC} from "./OHLC"
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 import {DrawMethods,RawLoadedData,Row} from "./Types"
 import {Arranger} from "./Arranger";
-import {SMA} from 'technicalindicators/dist'
+import * as tulind from "tulind"
+
 export class Data {
     ohlc: OHLC[] = []
     indicators;
@@ -91,13 +92,18 @@ export class Data {
         })
 
         this.consoleService.chart("sma close",JSON.stringify(this.indicators.close))
-        this.indicators.SMA=SMA.calculate({period:5,values:this.indicators.close})
+        /*this.indicators.SMA=tulind.indicators.sma.indicator([close], [3], function(err, results) {
+            console.log("sma",results)
+            this.indicators.sma=results[0]
+        });
+
         this.indicators.SMAScaled=[]
         this.indicators.SMA.forEach((v) => {
             this.indicators.SMAScaled.push(Math.round(this.arranger.flip(this.arranger.scaleY(v))))
         })
         this.consoleService.chart("sma close def=",JSON.stringify(this.indicators.close))
         console.log("sma",this.indicators.SMA,this.indicators.close)
+        */
     }
 
     //data related

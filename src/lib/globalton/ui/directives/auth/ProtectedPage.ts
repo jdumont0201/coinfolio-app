@@ -9,6 +9,7 @@ import {Component, Injectable, Injector} from '@angular/core';
 
 
 import {LoginChangedInterface} from '../../../core/interfaces/interfaces'
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Injectable()
 export abstract class ProtectedPage {
@@ -62,7 +63,7 @@ export abstract class ProtectedPage {
         }
     }
 
-    constructor( pageService: PageService,route:any,router:any,isprotected?:boolean ) {
+    constructor( pageService: PageService,route:ActivatedRoute,router:Router,isprotected?:boolean ) {
         console.log("--------------------------------------------------");
         if (typeof isprotected !== 'undefined')   this.protected=isprotected;
         //console.log("ISPROTECTED",this.protected);
