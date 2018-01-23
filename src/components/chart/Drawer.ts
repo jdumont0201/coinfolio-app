@@ -17,7 +17,7 @@ export class Drawer {
     chartId;
 
     clear() {
-        this.consoleService.chart("clear")
+    //    this.consoleService.chart("clear")
         if (this.method == DrawMethods.SVG)
             this.paper.clear()
         else
@@ -46,7 +46,7 @@ export class Drawer {
     h
     setDrawer(w: number, h: number, chartId: string, inside?) {
         this.w=w;this.h=h;
-        this.consoleService.chart("setdrawer", w, h)
+      //  this.consoleService.chart("setdrawer", w, h)
         this.chartId = chartId;
         if (this.isPaperSet()) {
             //this.consoleService.chart("pair-chart existing set ", w, h)

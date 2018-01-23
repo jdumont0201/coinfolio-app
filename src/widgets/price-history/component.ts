@@ -115,9 +115,9 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
             const url="ws://34.242.69.165:8080/?task="+task+"&pair="+this.pair.toUpperCase()+"&interval="+this.period
             const socket = socketio(url);
             socket.on("m",(m)=>{
-                console.log("message",m)
+                //console.log("message",m)
                 this.lastCandle={ts:m.t,o:m.o,h:m.h,l:m.l,c:m.c};
-                console.log("candle",this.lastCandle)
+                //console.log("candle",this.lastCandle)
             })
 
 

@@ -32,7 +32,7 @@ export class Data {
     }
 
     add(raw: RawLoadedData) {
-        this.consoleService.chart("chart new add ohlc", raw)
+        //this.consoleService.chart("chart new add ohlc", raw)
         this.ohlc.push(new OHLC(raw))
 
     }
@@ -107,7 +107,7 @@ export class Data {
         })
 
 
-        this.indicators.SMA=technicalindicators.sma({period : 5, values : this.indicators.close, reversedInput : true});
+        this.indicators.SMA=technicalindicators.sma({period : 10, values : this.indicators.close, reversedInput : true});
         for(let i=0;i<5-1;++i) this.indicators.SMA.unshift(0)
         //console.log(this.ohlc,this.indicators.close,this.indicators.SMA)
         /*        this.indicators.SMA=tulind.indicators.sma.indicator([close], [3], function(err, results) {

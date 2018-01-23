@@ -37,11 +37,12 @@ export class Arranger {
 
     setInitialView() {
         if (this.Data.isEmpty()) return
-        let N = Math.floor(this.W / (this.options.chart.cW + this.options.chart.cWMargin));
-        console.log("chartN", this.W, N, this.options.chart.cW, this.options.chart.cWMargin)
-        this.idxMin = Math.max(0, this.Data.getSize() - N)
+
+        this.Nshow = Math.round(this.W / (this.options.chart.cW + this.options.chart.cWMargin))
+      //  console.log("chartN", this.W, this.Nshow, this.options.chart.cW, this.options.chart.cWMargin)
+        this.idxMin = Math.max(0, this.Data.getSize() - this.Nshow)
         this.idxMax = this.Data.getSize() - 1
-        this.consoleService.chart("setInitialView", this.idxMin, this.idxMax,this.Data.ohlc)
+    //    this.consoleService.chart("setInitialView", this.idxMin, this.idxMax,this.Data.ohlc)
         //this.consoleService.chart("pair-chart VIEW", this.idxMin, this.idxMax)
     }
 
@@ -52,8 +53,8 @@ export class Arranger {
         this.H = h
         this.DW = this.W - this.options.chart.ML - this.options.chart.MR;
         this.DH = this.H - this.options.chart.MT - this.options.chart.MB;
-        
-        this.consoleService.chart("  setcanvassize", w, h)
+
+        //this.consoleService.chart("  setcanvassize", w, h)
     }
 
 
@@ -110,14 +111,14 @@ export class Arranger {
                     upColor: "rgb(40,200,40)",
                     downColor: "rgb(255,0,30)",
                     strokeWidth: 1,
-                    upStrokeColor: this.format == "mini" ? 'rgb(40,250,40)' : 'rgba(255,255,255,1)',
-                    downStrokeColor: this.format == "mini" ? 'rgb(250,40,70)' : 'rgba(255,255,255,1)',
+                    upStrokeColor: this.format == "mini" ? 'rgb(80,250,100)' : 'rgba(255,255,255,1)',
+                    downStrokeColor: this.format == "mini" ? 'rgb(250,50,100)' : 'rgba(255,255,255,1)',
 
                 },
                 line: {
                     width: 1,
-                    upColor: this.format == "mini" ? 'rgb(40,200,40)' : 'rgba(255,255,255,1)',
-                    downColor: this.format == "mini" ? 'rgb(200,0,0)' : 'rgba(255,255,255,1)',
+                    upColor: this.format == "mini" ? 'rgb(80,250,100)' : 'rgba(255,255,255,1)',
+                    downColor: this.format == "mini" ? 'rgb(250,50,100)' : 'rgba(255,255,255,1)',
                 }
             }
         }
@@ -134,7 +135,7 @@ export class Arranger {
     }
 
     setViewByNavigator(pc: number) {
-        this.consoleService.chart("setViewByNavigator", pc)
+        //this.consoleService.chart("setViewByNavigator", pc)
         let N = this.Data.getSize()
         if (pc < this.Nshow / 2 / N) {
             this.idxMin = 0;
@@ -164,7 +165,7 @@ export class Arranger {
             this.minYView = Math.min(this.minYView, this.Data.getTick(i).raw.l)
             this.maxYView = Math.max(this.maxYView, this.Data.getTick(i).raw.h)
         }
-        this.consoleService.chart("setViewport", this.minXView, this.maxXView, "[", this.minYView, this.maxYView, "]")
+        //this.consoleService.chart("setViewport", this.minXView, this.maxXView, "[", this.minYView, this.maxYView, "]")
     }
 
     scaleX(v): number {
@@ -304,6 +305,7 @@ export class Arranger {
     setBarWidth() {
         if (this.Data.isEmpty()) return
         //    this.cW = Math.round(this.W / Math.min(this.data.length, this.Nshow) * 0.7);
+
         this.Nshow = Math.round(this.W / (this.options.chart.cW + this.options.chart.cWMargin))
         this.options.chart.cW = Math.round(this.options.chart.cW)
         //this.consoleService.chart("pair-chart cw",this.cW,this.W,this.Nshow)
@@ -317,7 +319,7 @@ export class Arranger {
     }
 
     recompute() {
-        this.consoleService.chart("  recompute")
+        //this.consoleService.chart("  recompute")
         this.timerRecompute = new Date().getTime()
         if (this.Data.isEmpty()) return
         this.setBarWidth()
@@ -336,7 +338,7 @@ export class Arranger {
         this.computeYAxis()
         this.computeXAxis()
         this.Data.scaleIndicators()
-        this.consoleService.chart("STAT recompute", new Date().getTime() - this.timerRecompute)
+        //this.consoleService.chart("STAT recompute", new Date().getTime() - this.timerRecompute)
     }
 
 

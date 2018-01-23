@@ -121,7 +121,7 @@ export class AppChartComponent extends CheckValid {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        this.consoleService.chart("--> onChanges", changes)
+        //this.consoleService.chart("--> onChanges", changes)
 
         if (changes.steam)
 
@@ -132,7 +132,7 @@ export class AppChartComponent extends CheckValid {
 
     updateSteam(lastBar: UnparsedRawLoadedData) {
         if (!this.Data || this.Data.isEmpty()) return
-        this.consoleService.chart("chart new steal", lastBar, this.Data.getLast())
+        //this.consoleService.chart("chart new steal", lastBar, this.Data.getLast())
         let ne = {
             ts: parseInt(lastBar.ts),
             o: parseFloat(lastBar.o),
@@ -142,19 +142,19 @@ export class AppChartComponent extends CheckValid {
         }
         this.prevPrice = this.currentPrice;
         this.currentPrice = ne.c
-        console.log("chart new", ne.ts == this.Data.getLast().raw.ts)
+        //console.log("chart new", ne.ts == this.Data.getLast().raw.ts)
 
         //console.log("OLDDATA", JSON.stringify(this.Data.ohlc))
         if (ne.ts == this.Data.getLast().raw.ts) {
             this.Data.getLast().raw.c = ne.c;
             this.lastTs = ne.ts;
         } else {
-            console.log("chart new add", this.Data.getSize(), this.Data.ohlc.length)
+          //  console.log("chart new add", this.Data.getSize(), this.Data.ohlc.length)
             this.data.push(ne)
             this.Data.add(ne)
             this.lastTs = ne.ts;
             this.arranger.idxMax++;
-            console.log("chart new add end", this.Data.getSize(), this.Data.ohlc.length)
+            //console.log("chart new add end", this.Data.getSize(), this.Data.ohlc.length)
         }
         //console.log("NEWDATA", JSON.stringify(this.Data.ohlc))
         this.updateAfterDataChange()
@@ -185,7 +185,7 @@ export class AppChartComponent extends CheckValid {
 
     initData() {
         if (this.data) {
-            this.consoleService.chart("initData", this.data, this.arranger.W, this.arranger.H)
+            //this.consoleService.chart("initData", this.data, this.arranger.W, this.arranger.H)
             this.readData()
             this.Data.addMeta()
             this.arranger.setBarWidth()
@@ -199,7 +199,7 @@ export class AppChartComponent extends CheckValid {
     updateAfterDataChange() {
 
         if (!this.data) return
-        this.consoleService.chart("  updateAfterDataChange", this.data)
+        //this.consoleService.chart("  updateAfterDataChange", this.data)
         this.reset()
 
         this.drawer.reinit()
@@ -249,7 +249,7 @@ export class AppChartComponent extends CheckValid {
     readData() {
         if (!this.data) return
         let N = this.data.length;
-        this.consoleService.chart("pair-chart readdata", this.data)
+        //this.consoleService.chart("pair-chart readdata", this.data)
         this.Data.read(this.data)
     }
 
@@ -275,13 +275,14 @@ export class AppChartComponent extends CheckValid {
     paintXAxis() {
         let opt = this.arranger.options
         //XAXIS
-
+        let D=this.getDrawer();
         let xAxisY = this.arranger.H - (this.arranger.options.navigator.enabled ? opt.navigator.height : 0) - opt.xAxis.height;
-        this.drawer.drawRect("xaxis-bar", 0, xAxisY, this.arranger.W, opt.xAxis.height, "rgba(0,0,0,1)", 0, null, null)
+        this.getDrawer().drawRect("xaxis-bar", 0, xAxisY, this.arranger.W, opt.xAxis.height, "rgba(0,0,0,1)", 0, null, null)
         this.arranger.xAxis.forEach((li) => {
-            this.drawer.drawLine("xaxis-" + li.val, li.val, this.arranger.options.chart.MT, li.val, this.arranger.H - this.arranger.options.MB, opt.xAxis.grid.strokeWidth, opt.xAxis.grid.color);
-            this.drawer.drawText(li.val - 10, Math.round(xAxisY + opt.xAxis.height / 2) - 5, li.text, "rgb(255,255,255)", "left", null);
+            D.drawLine("xaxis-" + li.val, li.val, this.arranger.options.chart.MT, li.val, this.arranger.H - this.arranger.options.MB, opt.xAxis.grid.strokeWidth, opt.xAxis.grid.color);
+            D.drawText(li.val - 10, Math.round(xAxisY + opt.xAxis.height / 2) - 5, li.text, "rgb(255,255,255)", "left", null);
         })
+
     }
 
     paintNavigator() {
@@ -329,7 +330,7 @@ export class AppChartComponent extends CheckValid {
                     let g: Row = this.Data.getTick(i)
                     let gg: Row = this.Data.getTick(i + 1)
                     if (ind[i] && ind[i + 1] && i > 4) {
-                        this.getDrawer().drawLine("SMA-" + i, g.flipped.fx, ind[i], gg.flipped.fx, ind[i + 1], opt.stick.line.width, "rgb(255,140,0)");
+                        this.getDrawer().drawLine("SMA-" + i, g.flipped.fx, ind[i], gg.flipped.fx, ind[i + 1], opt.candlestick.line.width, "rgb(0,140,255)");
                         //console.log("SMA", i, "[", g.flipped.fx, ",", ind[i], "] [", gg.flipped.fx, ",", ind[i + 1], "]")
                     }
                 }
@@ -423,7 +424,7 @@ export class AppChartComponent extends CheckValid {
         if (!this.data) return
         if (!this.isReady) return
         if (!this.drawer) return
-        this.consoleService.chart("    draw --> ", this.arranger.W, this.arranger.H)
+        //this.consoleService.chart("    draw --> ", this.arranger.W, this.arranger.H)
         this.timerDraw = new Date().getTime()
         let opt = this.arranger.options
 
@@ -433,12 +434,13 @@ export class AppChartComponent extends CheckValid {
         this.paintYAxis()
         this.drawer.drawLine("topline", 0, 0, this.arranger.W, 0, opt.xAxis.grid.strokeWidth, "rgba(0,0,0,1)");
         this.paintXAxis()
-
+        this.paintIndicators()
 
         this.paintMarker()
+
         if (this.arranger.options.navigator.enabled)
             this.paintNavigator()
-      //  this.paintIndicators()
+
         this.paintCandleSticks()
         this.setEvents()
 

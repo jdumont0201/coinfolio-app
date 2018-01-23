@@ -52,7 +52,7 @@ export class WorkspaceService {
             this.logic.loadMyPanels((res) => {
                 this.consoleService.ws("loading my panels my", res)
                 this.logic.loadTemplatePanels((res2) => {
-                    this.consoleService.ws("loading my panels template", res2)
+                    //this.consoleService.ws("loading my panels template", res2)
                     appendArrayToArray(res2, res.array);
                     appendArrayToObject(res2, res.object);
 
@@ -128,7 +128,7 @@ export class WorkspaceService {
     }
 
     getPanelsObject() {
-        this.consoleService.ws("getPanelsObject", this.panelsObject)
+        //this.consoleService.ws("getPanelsObject", this.panelsObject)
         return this.panelsObject
     }
 
