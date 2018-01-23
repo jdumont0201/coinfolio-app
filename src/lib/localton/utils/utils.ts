@@ -1,5 +1,17 @@
 export class Crypto {
-
+static getIntervalSeconds(inter:string){
+    if(inter=="1m") return 1
+    if(inter=="5m") return 5
+    if(inter=="15m") return 15
+    if(inter=="30m") return 30
+    if(inter=="1h") return 60
+    if(inter=="2h") return 120
+    if(inter=="4h") return 240
+    if(inter=="6h") return 360
+    if(inter=="12h") return 720
+    if(inter=="1d") return 1440
+    if(inter=="1w") return 10080
+}
     static getSymbolsFromPair(pair: string,possible:string[]) {
         if(!possible){  console.log("error no possible");return}
 

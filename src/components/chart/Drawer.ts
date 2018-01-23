@@ -7,8 +7,9 @@ export enum DrawMethods {SVG, Canvas}
 import {RawLoadedData, Row} from "./Types"
 
 export class Drawer {
-    constructor(public method, public consoleService) {
+    constructor(public method, public consoleService,public format:string) {
         //this.loadAndUse("London",(res)=>{console.log("chart font res",res)});
+
     }
 
     canvas;
@@ -28,13 +29,23 @@ export class Drawer {
     }
 
     isValid(): boolean {
-
         if (this.method == DrawMethods.SVG && !this.paper) return false
         if (this.method == DrawMethods.Canvas && !this.canvas) return false;
         return true
     }
 
+    reinit(){
+        if(!this.chartId) return
+        if(this.format=="mini")
+            this.canvas = new Fabric.fabric.StaticCanvas('chart-canvas-' + this.chartId);
+        else
+            this.canvas = new Fabric.fabric.Canvas('chart-canvas-' + this.chartId);
+        this.canvas.setDimensions({width: this.w, height: this.h});
+    }
+    w;
+    h
     setDrawer(w: number, h: number, chartId: string, inside?) {
+        this.w=w;this.h=h;
         this.consoleService.chart("setdrawer", w, h)
         this.chartId = chartId;
         if (this.isPaperSet()) {
@@ -52,6 +63,9 @@ export class Drawer {
                 this.paper = new Raphael(inside, w, h); //option (b)
             else {
                 if (!this.canvas)
+                    if(this.format=="mini")
+                    this.canvas = new Fabric.fabric.StaticCanvas('chart-canvas-' + this.chartId);
+                    else
                     this.canvas = new Fabric.fabric.Canvas('chart-canvas-' + this.chartId);
                 this.canvas.renderOnAddRemove = false
                 this.canvas.setDimensions({width: w, height: h});
@@ -189,23 +203,23 @@ export class Drawer {
             return r;
         }
     }
-/*
-    loadAndUse(font, f) {
-        var myfont = new FontFaceObserver(font)
-        myfont.load()
-            .then(() => {
-                // when font is loaded, use it.
-                console.log("chrat font ok")
-                //this.canvas.getActiveObject().set("fontFamily", font);
-                //this.canvas.requestRenderAll();
-                f(true)
-            }).catch(function (e) {
-            console.log(e)
-            //alert('font loading failed ' + font);
-            f(false)
-        });
-    }
-*/
+    /*
+        loadAndUse(font, f) {
+            var myfont = new FontFaceObserver(font)
+            myfont.load()
+                .then(() => {
+                    // when font is loaded, use it.
+                    console.log("chrat font ok")
+                    //this.canvas.getActiveObject().set("fontFamily", font);
+                    //this.canvas.requestRenderAll();
+                    f(true)
+                }).catch(function (e) {
+                console.log(e)
+                //alert('font loading failed ' + font);
+                f(false)
+            });
+        }
+    */
     drawLine(name, x, y, x2, y2, width, color) {
         ////this.consoleService.chart("pair-chart Line",x,y,x2,y2,"width",width,"color",color)
         if (this.method == DrawMethods.SVG) {

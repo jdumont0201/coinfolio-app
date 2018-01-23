@@ -6,7 +6,7 @@ import {AuthService} from "../lib/globalton/core/services/auth.service";
 import {RequestService} from "../lib/globalton/core/services/request.service";
 import {UniversalLoader} from "./UniversalLoader";
 import {HTML} from "../lib/globalton/core/utils/utils";
-
+import {Crypto} from "../lib/localton/utils/utils";
 @Injectable()
 export class Logic {
     constructor(public requestService: RequestService, public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
@@ -77,6 +77,34 @@ export class Logic {
     getFromBroker(broker, task, f: Function, query?: string|any) {
         let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
         this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId+"&"+queryStr, (res) => {
+            if (res && "result" in res && res.result.success){
+                let A=UniversalLoader.load(broker, task, res.result.data);
+
+                f(A)
+            }
+            else f(null)
+        })
+    }
+
+    getPrice(broker,f:Function,supra,infra,interval,limit){
+        let url="recordprice"
+        if(typeof interval=="string") interval=Crypto.getIntervalSeconds(interval);
+        let where={
+            source: broker,
+            interval: interval,
+            symbol: supra,
+            base: infra
+        }
+        console.log("getprice" ,where)
+        this.dataService.getAll(url, (res)=>{
+            res=res.reverse()
+            f(res)
+        },where, {key: "ts", dir: "desc"},limit)
+
+    }
+    getFromDB(broker, task, f: Function, query?: string|any) {
+        let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
+        this.dataService.getAll("recordprice/" + broker + '/' + task + "?userId=" + this.authService.userId+"&"+queryStr, (res) => {
             if (res && "result" in res && res.result.success){
                 let A=UniversalLoader.load(broker, task, res.result.data);
 

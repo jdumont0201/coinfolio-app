@@ -1720,6 +1720,11 @@ section.widget.price2 {
     margin-bottom: 0;
 
 }
+section.widget.price2mini {
+    background: #11191d;
+    margin-bottom: 0;
+
+}
 
 section.widget.price .highchart-box { /*  border: solid 4px #171e46;*/
     height: 250px;
@@ -2559,7 +2564,8 @@ section.widget{
 }
 
 app-chart{}
-.chartcontainer{height:calc(100% - 26px);    overflow: hidden;}
+.chartcontainer{height:calc(100% - 26px);    overflow: hidden; position:relative;
+    background: #1a282f;}
 
 .mat-stepper-horizontal, .mat-stepper-vertical{background:transparent!important;}
 #portfolio-example,#arbitrage-example,#listing-example{
@@ -2819,6 +2825,15 @@ h2 {
     font-size: 35px!important;;
     font-family: London!important;;
 }
+.chartcontainer.mini{
+    padding:0;
+
+    height: 250px;
+}
+.chartcontainer.mini .chart-header {
+    display:none;
+
+}
 .chart-header{
     position: absolute;
     top: 35px;
@@ -2834,4 +2849,23 @@ h2 {
 .chart-price{
     font-size: 35px!important;;
     font-family: London!important;;
+}
+.price-grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+app-price-history {
+    flex: 1;
+    flex-grow: 1;
+    max-width:400px;
+    flex-shrink: 1;
+}
+.theme-blue{
+    background: linear-gradient(-254deg,#00adff,#0758aa)!important;
+    background: linear-gradient(45deg, #1f3550, #004aa5, #0499c3)!important;
+}
+.theme-black{
+    background: linear-gradient(-254deg,#00adff,#0758aa)!important;
+    background:linear-gradient(45deg, #000000, #11191d, #2d4754)!important;min-height: 100vh;
 }

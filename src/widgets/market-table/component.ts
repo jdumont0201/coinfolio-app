@@ -7,33 +7,31 @@ import {AppConfigService} from "../../lib/localton/services/appconfig.service"
 import {MatTableDataSource} from '@angular/material';
 import {Logic} from "../../logic/Logic";
 
-import   {DataWithPaginationTemplate} from "../../lib/localton/components/DataWithPagination/component"
+import {DataWithPaginationTemplate} from "../../lib/localton/components/DataWithPagination/component"
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+
 @Component({
-  selector: 'app-marketcap-table',
-  templateUrl: 'template.html'
+    selector: 'app-marketcap-table',
+    templateUrl: 'template.html'
 
 })
 @Injectable()
 export class AppMarketCapTableComponent extends DataWithPaginationTemplate {
+    base: string = "USD"
+    source: string = "ccc"
+    ts: number = 1512509400;
+    displayedColumns = ['symbol', 'cap'];
 
-  base: string = "USD"
-  source: string = "ccc"
-ts:number=1512509400;
-
-  displayedColumns = ['symbol', 'cap'];
-
-
-  constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService) {
-    super(logic,appConfigService)
-  }
+    constructor(public consoleService: ConsoleService, public logic: Logic, public appConfigService: AppConfigService) {
+        super(logic, appConfigService)
+    }
 
 
-  updateData() {
-    this.logic.getMarketData(this.source, this.base, this.ts,(res) => {
-      this.showData(res)
-    })
-  }
+    updateData() {
+        this.logic.getMarketData(this.source, this.base, this.ts, (res) => {
+            this.showData(res)
+        })
+    }
 
 }
 

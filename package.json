@@ -28,7 +28,6 @@
     "@ngx-translate/http-loader": "^2.0.0",
     "angular-highcharts": "^4.1.0",
     "angular2-qrcode": "^2.0.1",
-
     "builtin-status-codes": "^3.0.0",
     "chown": "*",
     "chownr": "*",
@@ -50,9 +49,9 @@
     "raphael": "^2.2.7",
     "rxjs": "^5.5.2",
     "rxjs-websockets": "^4.0.0",
+    "socket.io-client": "^2.0.4",
     "ssri": "*",
     "to-arraybuffer": "^1.0.1",
-
     "unique-filename": "*",
     "worker-farm": "^1.5.2",
     "zone.js": "^0.8.14"

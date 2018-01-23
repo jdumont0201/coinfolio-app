@@ -1,5 +1,5 @@
 
-import {DrawMethods,RawLoadedData,Row} from "./Types"
+import {DrawMethods, RawLoadedData, RawLoadedDataFull, Row} from "./Types"
 import {Arranger} from "./Arranger";
 
 export class OHLC {
@@ -8,13 +8,19 @@ export class OHLC {
     toString(){
         return JSON.stringify(this.data)
     }
-    arrange(){
-        this.a.scaleData(this.data)
-        this.a.flipData(this.data)
-        this.a.roundData(this.data)
+    arrange(a:Arranger){
+        a.scaleData(this.data)
+        a.flipData(this.data)
+        a.roundData(this.data)
     }
-    constructor(d:RawLoadedData,public a:Arranger) {
-        this.data={raw:d,scaled:{},flipped:{},meta:{},draw:{},indicators:{}};
+    constructor(d:any) {
+        let dd
+            if("open" in d)
+        dd={o:d.open,ts:d.ts,c:d.close,h:d.high,l:d.low}
+        else
+            dd=d;
+
+        this.data={raw:dd,scaled:{},flipped:{},meta:{},draw:{},indicators:{}};
     }
 
     draw() {

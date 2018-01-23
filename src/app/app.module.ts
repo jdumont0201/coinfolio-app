@@ -47,7 +47,7 @@ export function highchartsModules() {
 import {DndModule} from 'ng2-dnd';
 import{RestangularModule, Restangular} from 'ngx-restangular';
 export function RestangularConfigFactory(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://34.242.69.165:3000');
+    RestangularProvider.setBaseUrl('http://34.242.69.165:3002');
     //RestangularProvider.setDefaultHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtX3VzZXIifQ.V2Jh0ImjSe1TvDuImncT1nG9W0zh6FFkmh7UhWWeJnI'});
     RestangularProvider.addFullRequestInterceptor((element, operation, path, url, headers, params) => {
         console.log("[REQ] ", url, "params", params, "headers", headers);
@@ -78,6 +78,7 @@ import {AppArbitragePage} from "../pages/arbitrage/component"
 import {AppArbitrageCalculatorPage} from "../pages/arbitrage-calculator/component"
 import {AppNewsPage} from "../pages/news/component"
 import {AppAdminPage} from "../pages/admin-all/component"
+import {AppDashboardNowPage} from "../pages/dashboard-now/component"
 import {AppAllocationPage} from "../pages/allocation/component"
 import {AppGenericPage} from "../pages/generic/component"
 import {AppCalendarPage} from "../pages/calendar/component"
@@ -113,6 +114,7 @@ import {AppMarketCapTableComponent} from "../widgets/market-table/component";
 import {AppPerfLastWeekComponent} from "../widgets/perf-lastweek/component";
 import {AppCalendarWidget} from "../widgets/calendar/component";
 import {AppMarketCapLiveWidget} from "../widgets/marketcap-live/component";
+import {AppPriceHistoryWidget} from "../widgets/price-history/component";
 import {AppTrendingLastWeekComponent} from "../widgets/trending-lastweek/component";
 import {AppCapLastWeekComponent} from "../widgets/cap-lastweek/component";
 import {AppPriceComponent} from "../widgets/price/component";
@@ -178,7 +180,7 @@ import { NgvasModule, tweens, hitAreas } from "ngvas";
 @NgModule({
     declarations: [
         AppComponent,AppFormRenewPassword,AppBrokerAllPanelsComponent,AppPairChartPage,AppSignupBrokersComponent,AppAuthBrokersPage,AppEventsComponent,WelcomeDialog,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,
-        AppChartComponent,
+        AppChartComponent,AppPriceHistoryWidget,AppDashboardNowPage,
         AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,

@@ -28,13 +28,13 @@ import {Arranger} from "./Arranger";
     templateUrl: 'template.html',
     styleUrls: ['styles.css'],
     encapsulation: ViewEncapsulation.None
-
 })
 @Injectable()
 export class AppChartComponent extends CheckValid {
     @Input() data: any[] = [];
     @Input() lastCandle: any[] = [];
     @Input() steam
+    @Input() format: string
     @Input() pair: string
     @Input() broker: string
     @Input() chartId;
@@ -75,14 +75,15 @@ export class AppChartComponent extends CheckValid {
         this.consoleService.chart("+")
         this.el = elementRef.nativeElement;
         this.method = DrawMethods.Canvas
-        this.arranger = new Arranger(this.method, consoleService)
-        this.Data = new Data(consoleService, this.arranger)
-        this.drawer = new Drawer(this.method, consoleService)
-        this.arranger.setData(this.Data)
-        this.arranger.setDrawer(this.drawer)
+
     }
 
     ngOnInit() {
+        this.arranger = new Arranger(this.method, this.consoleService, this.format)
+        this.Data = new Data(this.consoleService, this.arranger)
+        this.drawer = new Drawer(this.method, this.consoleService, this.format)
+        this.arranger.setData(this.Data)
+        this.arranger.setDrawer(this.drawer)
         this.consoleService.chart(" --> oninit")
         if (!this.chartId) this.consoleService.chart("ERR NO CHART ID", this.chartId)
         this.doSubscribe("windowResizedEvent-chart-" + this.chartId, this.eventService.windowResizedEvent, (val) => {
@@ -106,7 +107,10 @@ export class AppChartComponent extends CheckValid {
         let C = this.chartcontainer.nativeElement
 
         let ready = this.initSize(() => {
-            if (this.isReady) this.initData()
+            if (this.isReady) {
+                this.reset();
+                this.initData()
+            }
         })
 
 
@@ -127,7 +131,7 @@ export class AppChartComponent extends CheckValid {
     }
 
     updateSteam(lastBar: UnparsedRawLoadedData) {
-        if (this.Data.isEmpty()) return
+        if (!this.Data || this.Data.isEmpty()) return
         this.consoleService.chart("chart new steal", lastBar, this.Data.getLast())
         let ne = {
             ts: parseInt(lastBar.ts),
@@ -140,16 +144,19 @@ export class AppChartComponent extends CheckValid {
         this.currentPrice = ne.c
         console.log("chart new", ne.ts == this.Data.getLast().raw.ts)
 
+        //console.log("OLDDATA", JSON.stringify(this.Data.ohlc))
         if (ne.ts == this.Data.getLast().raw.ts) {
             this.Data.getLast().raw.c = ne.c;
             this.lastTs = ne.ts;
         } else {
             console.log("chart new add", this.Data.getSize(), this.Data.ohlc.length)
+            this.data.push(ne)
             this.Data.add(ne)
             this.lastTs = ne.ts;
             this.arranger.idxMax++;
             console.log("chart new add end", this.Data.getSize(), this.Data.ohlc.length)
         }
+        //console.log("NEWDATA", JSON.stringify(this.Data.ohlc))
         this.updateAfterDataChange()
     }
 
@@ -194,6 +201,8 @@ export class AppChartComponent extends CheckValid {
         if (!this.data) return
         this.consoleService.chart("  updateAfterDataChange", this.data)
         this.reset()
+
+        this.drawer.reinit()
         this.initData()
     }
 
@@ -240,7 +249,7 @@ export class AppChartComponent extends CheckValid {
     readData() {
         if (!this.data) return
         let N = this.data.length;
-        //this.consoleService.chart("pair-chart data", this.data)
+        this.consoleService.chart("pair-chart readdata", this.data)
         this.Data.read(this.data)
     }
 
@@ -266,10 +275,11 @@ export class AppChartComponent extends CheckValid {
     paintXAxis() {
         let opt = this.arranger.options
         //XAXIS
-        let xAxisY = this.arranger.H - opt.navigator.height - opt.xAxis.height;
+
+        let xAxisY = this.arranger.H - (this.arranger.options.navigator.enabled ? opt.navigator.height : 0) - opt.xAxis.height;
         this.drawer.drawRect("xaxis-bar", 0, xAxisY, this.arranger.W, opt.xAxis.height, "rgba(0,0,0,1)", 0, null, null)
         this.arranger.xAxis.forEach((li) => {
-            this.drawer.drawLine("xaxis-" + li.val, li.val, this.arranger.MT, li.val, this.arranger.H - this.arranger.MB, opt.xAxis.grid.strokeWidth, opt.xAxis.grid.color);
+            this.drawer.drawLine("xaxis-" + li.val, li.val, this.arranger.options.chart.MT, li.val, this.arranger.H - this.arranger.options.MB, opt.xAxis.grid.strokeWidth, opt.xAxis.grid.color);
             this.drawer.drawText(li.val - 10, Math.round(xAxisY + opt.xAxis.height / 2) - 5, li.text, "rgb(255,255,255)", "left", null);
         })
     }
@@ -307,19 +317,23 @@ export class AppChartComponent extends CheckValid {
         })
 
     }
-
+    getDrawer(){
+        return this.drawer
+    }
     paintIndicators() {
         if (this.Data.indicators) {
-        if (this.Data.indicators.SMAScaled) {
-            let ind: Row = this.Data.indicators.SMAScaled;
-            let opt = this.arranger.options;
-            for (let i = this.arranger.idxMin; i <= this.arranger.idxMax - 1; ++i) {
-                let g: Row = this.Data.getTick(i)
-                let gg: Row = this.Data.getTick(i + 1)
-                this.drawer.drawLine("SMA-" + i, g.flipped.fx, ind[i], gg.flipped.fx, ind[i + 1], opt.candlestick.line.width, "rgb(255,140,0)");
-                console.log("SMA", i, g.flipped.fx, ind[i], gg.flipped.fx, ind[i + 1])
+            if (this.Data.indicators.SMAScaled) {
+                let ind: Row = this.Data.indicators.SMAScaled;
+                let opt = this.arranger.options;
+                for (let i = this.arranger.idxMin; i <= this.arranger.idxMax - 1; ++i) {
+                    let g: Row = this.Data.getTick(i)
+                    let gg: Row = this.Data.getTick(i + 1)
+                    if (ind[i] && ind[i + 1] && i > 4) {
+                        this.getDrawer().drawLine("SMA-" + i, g.flipped.fx, ind[i], gg.flipped.fx, ind[i + 1], opt.stick.line.width, "rgb(255,140,0)");
+                        //console.log("SMA", i, "[", g.flipped.fx, ",", ind[i], "] [", gg.flipped.fx, ",", ind[i + 1], "]")
+                    }
+                }
             }
-        }
         }
     }
 
@@ -345,7 +359,7 @@ export class AppChartComponent extends CheckValid {
         //body
         if (true) {
             //  //this.consoleService.chart("DRAW BODY")
-            let r = this.drawer.drawRect("candle-" + i + "-body", g.flipped.fx, g.flipped.fy - g.flipped.fH, this.arranger.cW, g.flipped.fH,
+            let r = this.drawer.drawRect("candle-" + i + "-body", g.flipped.fx, g.flipped.fy - g.flipped.fH, this.arranger.options.chart.cW, g.flipped.fH,
                 g.raw.c > g.raw.o ? opt.candlestick.body.upColor : opt.candlestick.body.downColor, opt.candlestick.body.strokeWidth,
                 g.raw.c > g.raw.o ? opt.candlestick.body.upStrokeColor : opt.candlestick.body.downStrokeColor, g);
 
@@ -385,6 +399,7 @@ export class AppChartComponent extends CheckValid {
     paintMarker() {
         let opt = this.arranger.options
         let L = this.Data.getLast()
+        if (!L) return
         if (this.arranger.idxMax == this.Data.getSize() - 1)
             this.drawer.drawLine("marker-line", L.flipped.fx, L.flipped.fc, this.arranger.W, L.flipped.fc, opt.xAxis.grid.strokeWidth, "rgba(255,150,0,0.4)");
         this.drawer.drawRect("marker-bg", this.arranger.W - 50, L.flipped.fc - 7, 48, 15, "rgba(255,150,0,1)", 1, "rgb(0,0,0)", null);
@@ -407,7 +422,7 @@ export class AppChartComponent extends CheckValid {
         if (!this.drawer.isValid()) return
         if (!this.data) return
         if (!this.isReady) return
-
+        if (!this.drawer) return
         this.consoleService.chart("    draw --> ", this.arranger.W, this.arranger.H)
         this.timerDraw = new Date().getTime()
         let opt = this.arranger.options
@@ -421,22 +436,19 @@ export class AppChartComponent extends CheckValid {
 
 
         this.paintMarker()
-        this.paintNavigator()
-        this.paintIndicators()
+        if (this.arranger.options.navigator.enabled)
+            this.paintNavigator()
+      //  this.paintIndicators()
         this.paintCandleSticks()
-        //    this.paintPrice()
         this.setEvents()
-
 
         if (this.method == DrawMethods.Canvas) {
             //this.canvas.selection = false;
-
-
-            this.consoleService.chart("STAT draw", new Date().getTime() - this.timerDraw)
+            //this.consoleService.chart("STAT draw", new Date().getTime() - this.timerDraw)
             this.timerDraw = new Date().getTime()
-            this.consoleService.chart("      render")
+            //this.consoleService.chart("      render")
             this.drawer.render();
-            this.consoleService.chart("STAT render", new Date().getTime() - this.timerDraw)
+            //this.consoleService.chart("STAT render", new Date().getTime() - this.timerDraw)
         }
 
     }

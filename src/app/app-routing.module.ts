@@ -28,7 +28,7 @@ import {AppAuthBrokersPage} from "../pages/auth-brokers/component"
 import {AppArbitrageCalculatorPage} from "../pages/arbitrage-calculator/component"
 import {AppSocialPage} from "../pages/social/component"
 import {AppNewsPage} from "../pages/news/component"
-
+import {AppDashboardNowPage} from "../pages/dashboard-now/component"
 import {AppConfigLoadingPage} from "../pages/config-loading/component";
 export const routes: Routes = [
 
@@ -41,6 +41,7 @@ export const routes: Routes = [
   { path: 'account', component: AppAccountPage },
   { path: 'social/twitter', component: AppSocialPage },
   { path: 'news', component: AppNewsPage },
+  { path: 'dashboard/now', component: AppDashboardNowPage },
   { path: 'auth', component: AppAuthPage },
   { path: 'auth/passwordreset/token/:token', component: AppAuthResetpassword },
   { path: 'config/all', component: AppConfigAllPage },

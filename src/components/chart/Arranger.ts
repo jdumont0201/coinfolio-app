@@ -11,11 +11,7 @@ export class Arranger {
     H = 400;
     W = 600;
 
-    //MARGINS
-    MT = 0;
-    MB = 50;
-    ML = 0;
-    MR = 100;
+
     MRNormal = 100;
     DH;
     DW;
@@ -25,8 +21,7 @@ export class Arranger {
 
 
     //BAR WIDTH
-    cW = 6;
-    cWMargin = 4;
+
 
     yAxis = [];
     xAxis = [];
@@ -42,9 +37,11 @@ export class Arranger {
 
     setInitialView() {
         if (this.Data.isEmpty()) return
-        this.idxMin = Math.max(0, this.Data.getSize() - this.Nshow)
+        let N = Math.floor(this.W / (this.options.chart.cW + this.options.chart.cWMargin));
+        console.log("chartN", this.W, N, this.options.chart.cW, this.options.chart.cWMargin)
+        this.idxMin = Math.max(0, this.Data.getSize() - N)
         this.idxMax = this.Data.getSize() - 1
-        this.consoleService.chart("setInitialView", this.idxMin, this.idxMax)
+        this.consoleService.chart("setInitialView", this.idxMin, this.idxMax,this.Data.ohlc)
         //this.consoleService.chart("pair-chart VIEW", this.idxMin, this.idxMax)
     }
 
@@ -53,10 +50,9 @@ export class Arranger {
         if (this.W == w && this.H == h) return
         this.W = w
         this.H = h
-        this.DW = this.W - this.ML - this.MR;
-        this.DH = this.H - this.MT - this.MB;
-        if (this.W < 600) this.Nshow = 40
-        else this.Nshow = 100
+        this.DW = this.W - this.options.chart.ML - this.options.chart.MR;
+        this.DH = this.H - this.options.chart.MT - this.options.chart.MB;
+        
         this.consoleService.chart("  setcanvassize", w, h)
     }
 
@@ -72,54 +68,64 @@ export class Arranger {
     lastPriceLineY
 
 
-    constructor(public method, public consoleService: ConsoleService) {
-
-    }
-
-    Data: Data;
-    options = {
-        yAxis: {
-            grid: {
-                color: "rgba(255,255,255,0.2)",
-                textColor: "rgba(255,255,255,0.5)",
-                strokeWidth: 1,
-                textStyle: ''
-            }
-        },
-        xAxis: {
-            height: 20,
-            grid: {
-                color: "rgba(255,255,255,0.2)",
-                textColor: "rgba(255,255,255,0.5)",
-                strokeWidth: 1,
-                textStyle: ''
-            }
-        },
-        navigator: {
-            height: 30
-        },
-        crosshair: {
-            width: 1,
-            color: "rgb(100,100,100)"
-        },
-        candlestick: {
-
-            body: {
-                width: 20,
-                upColor: "rgb(40,200,40)",
-                downColor: "rgb(162,0,0)",
-                strokeWidth: 1,
-                upStrokeColor: 'rgba(255,255,255,1)',
-                downStrokeColor: 'rgba(255,255,255,1)'
-
+    constructor(public method, public consoleService: ConsoleService, public format: string) {
+        this.options = {
+            chart: {
+                MT: 0,
+                MB: this.format == "mini" ? 20 : 50,
+                ML: 0,
+                MR: 100,
+                cW: this.format == "mini" ? 2 : 6,
+                cWMargin: this.format == "mini" ? 2 : 4
             },
-            line: {
+            yAxis: {
+                grid: {
+                    color: "rgba(255,255,255,0.2)",
+                    textColor: "rgba(255,255,255,0.5)",
+                    strokeWidth: 1,
+                    textStyle: ''
+                }
+            },
+            xAxis: {
+                height: 20,
+                grid: {
+                    color: "rgba(255,255,255,0.2)",
+                    textColor: "rgba(255,255,255,0.5)",
+                    strokeWidth: 1,
+                    textStyle: ''
+                }
+            },
+            navigator: {
+                enabled: this.format == "mini" ? false : true,
+                height: 30
+            },
+            crosshair: {
                 width: 1,
-                upColor: "rgb(255,255,255)",
-                downColor: "rgb(255,255,255)"
+                color: "rgb(100,100,100)"
+            },
+            candlestick: {
+
+                body: {
+                    width: 20,
+                    upColor: "rgb(40,200,40)",
+                    downColor: "rgb(255,0,30)",
+                    strokeWidth: 1,
+                    upStrokeColor: this.format == "mini" ? 'rgb(40,250,40)' : 'rgba(255,255,255,1)',
+                    downStrokeColor: this.format == "mini" ? 'rgb(250,40,70)' : 'rgba(255,255,255,1)',
+
+                },
+                line: {
+                    width: 1,
+                    upColor: this.format == "mini" ? 'rgb(40,200,40)' : 'rgba(255,255,255,1)',
+                    downColor: this.format == "mini" ? 'rgb(200,0,0)' : 'rgba(255,255,255,1)',
+                }
             }
         }
     }
+
+    Data: Data;
+    options
+
     nXAxis = 5;
     drawer: Drawer;
 
@@ -147,6 +153,7 @@ export class Arranger {
     }
 
     setViewport() {
+        if (!this.Data) return
         this.minYView = 1000000;
         this.maxYView = -100;
 
@@ -157,7 +164,7 @@ export class Arranger {
             this.minYView = Math.min(this.minYView, this.Data.getTick(i).raw.l)
             this.maxYView = Math.max(this.maxYView, this.Data.getTick(i).raw.h)
         }
-        //this.consoleService.chart("pair-chart view", this.gdata, this.minXView, this.maxXView, "[", this.minYView, this.maxYView, "]")
+        this.consoleService.chart("setViewport", this.minXView, this.maxXView, "[", this.minYView, this.maxYView, "]")
     }
 
     scaleX(v): number {
@@ -169,7 +176,7 @@ export class Arranger {
     }
 
     flip(y): number {
-        return this.MT + this.DH - y
+        return this.options.chart.MT + this.DH - y
     }
 
     scaleXFull(v): number {
@@ -267,7 +274,7 @@ export class Arranger {
     }
 
     computeXAxis() {
-        let range=this.maxXView-this.maxYView
+        let range = this.maxXView - this.maxYView
         this.xAxis = []
 
         for (let i = 0; i < this.nXAxis; ++i) {
@@ -280,33 +287,35 @@ export class Arranger {
 
     computeLines(g: Row) {
 
-        g.draw.lines = [[g.flipped.fx + this.cW / 2, g.flipped.fl], [g.flipped.fx + this.cW / 2, g.flipped.fh]]
+        g.draw.lines = [[g.flipped.fx + this.options.chart.cW / 2, g.flipped.fl], [g.flipped.fx + this.options.chart.cW / 2, g.flipped.fh]]
         if (this.method == DrawMethods.SVG)
             g.draw.borderlines = [
                 [[g.flipped.fx, g.flipped.fo], [g.flipped.fx, g.flipped.fc]],   //left
-                [[g.flipped.fx, g.flipped.fc], [g.flipped.fx + this.cW, g.flipped.fc]], //top
-                [[g.flipped.fx + this.cW, g.flipped.fc], [g.flipped.fx + this.cW, g.flipped.fo]],  //right
-                [[g.flipped.fx + this.cW, g.flipped.fo], [g.flipped.fx, g.flipped.fo]]]  //bottom
+                [[g.flipped.fx, g.flipped.fc], [g.flipped.fx + this.options.chart.cW, g.flipped.fc]], //top
+                [[g.flipped.fx + this.options.chart.cW, g.flipped.fc], [g.flipped.fx + this.options.chart.cW, g.flipped.fo]],  //right
+                [[g.flipped.fx + this.options.chart.cW, g.flipped.fo], [g.flipped.fx, g.flipped.fo]]]  //bottom
     }
 
-    computeStick(g:Row) {
-        g.flipped.fcx = g.scaled.sx + this.cW / 2;
+    computeStick(g: Row) {
+        g.flipped.fcx = g.scaled.sx + this.options.chart.cW / 2;
         g.flipped.fcy = g.flipped.fy - g.scaled.sH / 2
     }
 
     setBarWidth() {
         if (this.Data.isEmpty()) return
         //    this.cW = Math.round(this.W / Math.min(this.data.length, this.Nshow) * 0.7);
-        this.Nshow = Math.round(this.W / (this.cW + this.cWMargin))
-        this.cW = Math.round(this.cW)
+        this.Nshow = Math.round(this.W / (this.options.chart.cW + this.options.chart.cWMargin))
+        this.options.chart.cW = Math.round(this.options.chart.cW)
         //this.consoleService.chart("pair-chart cw",this.cW,this.W,this.Nshow)
 
     }
 
     timerRecompute
-    isShowingLast():boolean{
-        return this.idxMax==this.Data.getSize()-1
+
+    isShowingLast(): boolean {
+        return this.idxMax == this.Data.getSize() - 1
     }
+
     recompute() {
         this.consoleService.chart("  recompute")
         this.timerRecompute = new Date().getTime()
@@ -320,18 +329,18 @@ export class Arranger {
             this.setSize(this.W,this.H)*/
         for (let i = this.idxMin; i <= this.idxMax; ++i) {
             let d: OHLC = this.Data.get(i)
-            d.arrange()
+            d.arrange(this)
             this.computeLines(d.data)
             this.computeStick(d.data)
         }
         this.computeYAxis()
         this.computeXAxis()
-        this.Data.computeIndicators()
+        this.Data.scaleIndicators()
         this.consoleService.chart("STAT recompute", new Date().getTime() - this.timerRecompute)
     }
 
 
-    getMarginRatio():number {
+    getMarginRatio(): number {
         if (this.idxMax == this.Data.getSize() - 1)
             return 0.95
         else

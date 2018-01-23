@@ -15,7 +15,7 @@ export class Socket {
 status:string;
 lastMessage;
     constructor(public url: string, public id: string, public  f: Function) {
-        const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>())
+        const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>(),"echo-protocol")
         this.messages = messages;
         this.connectionStatus = connectionStatus;
         this.status="defined"
@@ -31,6 +31,7 @@ lastMessage;
             this.lastMessage=new Date().getTime()
             if (this.active) {
               //  console.log(this.id, this.active, "new mes passed")
+                console.log("message",message)
 
                 const m = JSON.parse(message)
                 this.f(m)

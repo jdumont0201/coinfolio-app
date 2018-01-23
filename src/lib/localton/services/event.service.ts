@@ -28,7 +28,7 @@ export class EventService implements OnInit {
     @Output() nonSeenEventsUpdated: EventEmitter<any> = new EventEmitter<string>()
 
     nbNonSeenEvents=0;
-
+    theme="blue"
     isTickerVisible: boolean = true;
     isMenuDisplayed: boolean = true;
     isMenu2Displayed: boolean = false;
@@ -39,6 +39,9 @@ export class EventService implements OnInit {
     isWelcomeVisible: boolean = false;
     isFullscreen: boolean = false;
 
+    setTheme(t){
+        this.theme=t;
+    }
     openMenu(broadcast?:boolean){
         this.isMenuDisplayed = true
         if(this.isMenuPinned || broadcast) {

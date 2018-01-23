@@ -1,39 +1,10 @@
 import {OHLC} from "./OHLC"
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
-import {DrawMethods,RawLoadedData,Row} from "./Types"
+import {DrawMethods, RawLoadedData, Row} from "./Types"
 import {Arranger} from "./Arranger";
-//import * as technicalindicators from "./indicators/All"
-//import * as talib from "talib"
-//import * as tulind from "tulind"
-export class IndicatorBuilder{
+import * as technicalindicators from "./indicators/All"
 
-    SMA(V:number[],options){
-        let res=[];
-        let period=options.period
-        for(let i=0;i<V.length;++i){
-            res.push(this.SMAVal(V,i,period))
-        }
-    }
-    SMAVal(V:number[],i:number,period:number){//todo optimize
-        let s=0
-        for(let k=i-period;k<i;++k){
-            s+=V[k]
-        }
-        return s/period;
-    }
-    build(f){
-        //this.indicators.SMA=technicalindicators.sma({period : 5, values : [1,2,3,4,5,6,7,8,9], reversedInput : true});
-        /*let r=tulind.indicators.sma.indicator([close], [3], function(err, results) {
-            console.log("sma",results)
-            this.indicators.sma=results[0]
-        });
 
-        this.indicators.SMAScaled=[]
-        this.indicators.SMA.forEach((v) => {
-            this.indicators.SMAScaled.push(Math.round(this.arranger.flip(this.arranger.scaleY(v))))
-        })*/
-    }
-}
 export class Data {
     ohlc: OHLC[] = []
     indicators;
@@ -44,24 +15,28 @@ export class Data {
     maxY = 0;
     spanX;
     spanY;
-    indicatorBuilder;
-    hasData():boolean{
-        return this.ohlc.length>0
+
+    hasData(): boolean {
+        return this.ohlc.length > 0
     }
-    isEmpty():boolean{
-        return this.ohlc.length==0
+
+    isEmpty(): boolean {
+        return this.ohlc.length == 0
     }
-    getSize():number{
+
+    getSize(): number {
         return this.ohlc.length
     }
-    constructor(public consoleService: ConsoleService,public arranger:Arranger) {
-        this.indicatorBuilder=new IndicatorBuilder();
+
+    constructor(public consoleService: ConsoleService, public arranger: Arranger) {
     }
-    add(raw:RawLoadedData){
-        this.consoleService.chart("chart new add ohlc",raw)
-        this.ohlc.push(new OHLC(raw,this.arranger))
+
+    add(raw: RawLoadedData) {
+        this.consoleService.chart("chart new add ohlc", raw)
+        this.ohlc.push(new OHLC(raw))
 
     }
+
     reset() {
         this.ohlc = [];
         this.minX = 10000000000000;
@@ -69,32 +44,40 @@ export class Data {
         this.minY = 10000000000000;
         this.maxY = 0;
     }
-    toString():string{
-        let res="";
-        this.ohlc.forEach((o)=>{
-            res+=o.toString()
+
+    toString(): string {
+        let res = "";
+        this.ohlc.forEach((o) => {
+            res += o.toString()
         })
         return res;
     }
 
-    setWorkingData(d:RawLoadedData) {
+    setWorkingData(d: RawLoadedData) {
         //this.consoleService.chart("DATA SETWD", d)
-        this.ohlc.push(new OHLC(d,this.arranger))
+        this.ohlc.push(new OHLC(d))
     }
 
-    getTick(i):Row {
+    getTick(i): Row {
         return this.ohlc[i].data
     }
-    get(i:number){
+
+    get(i: number) {
 
         return this.ohlc[i]
     }
-    getLast():Row{
-        return this.ohlc[this.ohlc.length-1].data
+
+    getLast(): Row {
+        if(this.ohlc && this.ohlc.length>0)
+        return this.ohlc[this.ohlc.length - 1].data
+        else return null
     }
-    read(content:RawLoadedData[]) {
+
+    read(content: RawLoadedData[]) {
         //this.consoleService.chart("DATA READ", content)
-        content.forEach((d:RawLoadedData) => {
+        if(!content) return
+        //console.log("content",content,typeof content)
+        content.forEach((d: RawLoadedData) => {
             this.setWorkingData(d)
         })
         //this.consoleService.chart("DATA READ", this.ohlc)
@@ -110,24 +93,27 @@ export class Data {
         this.ohlc.forEach((d: OHLC) => {
             d.addMetaData()
         })
-
+        this.computeIndicators()
 
     }
-    computeIndicators(){
-        this.indicators={}
-        this.indicators.close=[]
+
+    computeIndicators() {
+        //this.consoleService.chart("SMA indis")
+        this.indicators = {}
+        this.indicators.close = []
         this.ohlc.forEach((d: OHLC) => {
             d.addMetaData()
             this.indicators.close.push(d.data.raw.c)
         })
 
-        this.consoleService.chart("sma close",JSON.stringify(this.indicators.close))
-//        this.indicators.SMA=technicalindicators.sma({period : 5, values : this.indicators.close, reversedInput : true});
 
-/*        this.indicators.SMA=tulind.indicators.sma.indicator([close], [3], function(err, results) {
-            console.log("sma",results)
-            this.indicators.sma=results[0]
-        });*/
+        this.indicators.SMA=technicalindicators.sma({period : 5, values : this.indicators.close, reversedInput : true});
+        for(let i=0;i<5-1;++i) this.indicators.SMA.unshift(0)
+        //console.log(this.ohlc,this.indicators.close,this.indicators.SMA)
+        /*        this.indicators.SMA=tulind.indicators.sma.indicator([close], [3], function(err, results) {
+                    console.log("sma",results)
+                    this.indicators.sma=results[0]
+                });*/
 
         /*talib.execute({
             name: "SMA",
@@ -140,13 +126,20 @@ export class Data {
         });*/
 
 
-            this.indicators.SMAScaled=[]
-        this.indicators.SMA.forEach((v) => {
-            this.indicators.SMAScaled.push(Math.round(this.arranger.flip(this.arranger.scaleY(v))))
-        })
-        this.consoleService.chart("sma close def=",JSON.stringify(this.indicators.close))
-        console.log("sma",this.indicators.SMA,this.indicators.close)
 
+
+
+        //console.log("sma", this.indicators.SMA, this.indicators.close)
+
+    }
+    scaleIndicators(){
+
+        this.indicators.SMAScaled = []
+        if (this.indicators.SMA)
+            this.indicators.SMA.forEach((v) => {
+                this.indicators.SMAScaled.push(Math.round(this.arranger.flip(this.arranger.scaleY(v))))
+            })
+        //this.consoleService.chart("SMA", this.indicators)
     }
 
     //data related

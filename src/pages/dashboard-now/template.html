@@ -1,0 +1,20 @@
+
+
+    <mat-toolbar><h3>Dashboard</h3></mat-toolbar>
+    <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
+    <mat-tab-group (selectedTabChange)="tabChanged($event)">
+
+        <mat-tab label="USDT">
+            <div class="price-grid" >
+                <app-price-history  [pair]="'BTCUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
+                <app-price-history  [pair]="'ETHUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
+                <app-price-history  [pair]="'BNBUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
+                <app-price-history  [pair]="'LTCUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
+                <app-price-history  [pair]="'BCCUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
+                <app-price-history  [pair]="'NEOUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
+
+            </div>
+        </mat-tab>
+
+    </mat-tab-group>
+

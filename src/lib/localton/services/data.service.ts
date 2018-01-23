@@ -7,6 +7,7 @@ import {ProxyService} from "../../globalton/core/services/proxy.service";
 
 @Injectable()
 export class DataService {
+    baseUrl='http://34.242.69.165:3002/';
     constructor(public requestService: RequestService, public restangular: Restangular,public proxyService:ProxyService) {
 
     }
@@ -15,6 +16,8 @@ export class DataService {
 
     post(table: string, obj, f: Function) {
         console.log("[POST]", table, obj);
+
+
         const dt = this.restangular.all(table);
         const r = dt.post(obj).toPromise();
 
@@ -49,7 +52,6 @@ export class DataService {
         if (this.database === "c") {
             let res = {};
             for (let k in where) {
-
                 res[k] = "eq." + where[k]
             }
             if (order) res["order"] = order.key + "." + order.dir;
@@ -57,16 +59,23 @@ export class DataService {
             return res;
         }
     }
-
+    getQueryString(q):string{
+        let a=""
+        for(let k in q)
+            a+=k+"="+q[k]+"&"
+        return a.substr(0,a.length-1);
+    }
     getAll(table: string, f: Function, where?: any, order?: { key: string, dir: string }, limit?) {
         console.log("[GET ALL]", table, where)
-        let dt = this.restangular.all(table);
         let q = this.getQueryParam(where, order, limit);
-        let reqId:number=this.proxyService.addNewDBRequest(table,"GET")
-        dt.customGETLIST("", q).subscribe(obj => {
-            this.proxyService.completeRequestSuccessResult(reqId)
-            f(obj);
-        });
+        let queryString:string=this.getQueryString(q);
+        let url=this.baseUrl+table+"?"+queryString
+
+        this.requestService.get(url,(res)=>{
+            console.log("getall",res)
+            f(res.file)
+        },this)
+
     }
 
     getById(table: string, id, f: Function) {
@@ -76,3 +85,4 @@ export class DataService {
         });
     }
 }
+
