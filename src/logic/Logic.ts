@@ -19,7 +19,7 @@ export class Logic {
     }
 
     BinanceGetLivePrices(f: Function) {
-        this.apiService.noauthget("user/connect/binance/liveprices?userId=" + this.authService.userId, (res) => {
+        this.apiService.noauthget("user/connect/binance/liveprices", (res) => {
             if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
@@ -31,7 +31,7 @@ export class Logic {
             f(null);
             return
         }
-        const url = "user/connect/binance/booktickers?userId=" + this.authService.userId + "&symbol=" + (symbol ? symbol : "all")
+        const url = "user/connect/binance/booktickers?symbol=" + (symbol ? symbol : "all")
         this.apiService.noauthget(url, (res) => {
             if (res && "result" in res && res.result.success)
                 f(res.result.data)
@@ -42,7 +42,7 @@ export class Logic {
 
     BinanceGetMyTrades(symbols: string, f: Function) {
         if (!symbols) f(null)
-        this.apiService.noauthget("user/connect/binance/trades?userId=" + this.authService.userId + "&symbol=" + symbols, (res) => {
+        this.apiService.noauthget("user/connect/binance/trades?symbol=" + symbols, (res) => {
             if (res && "result" in res && res.result.success)
                 f(res.result.data.reverse())
             else f(null)
@@ -51,7 +51,7 @@ export class Logic {
 
     BinanceGet24hChange(pair: string, f: Function) {
         if (!pair) f(null)
-        this.apiService.noauthget("user/connect/binance/25hchange?userId=" + this.authService.userId + "&symbol=" + pair, (res) => {
+        this.apiService.noauthget("user/connect/binance/25hchange?symbol=" + pair, (res) => {
             if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
@@ -59,7 +59,7 @@ export class Logic {
     }
 
     BinanceGetDepth(symbol: string, f: Function) {
-        this.apiService.noauthget("user/connect/binance/depth?symbol=" + symbol + "&userId=" + this.authService.userId, (res) => {
+        this.apiService.noauthget("user/connect/binance/depth?symbol=" + symbol , (res) => {
             if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
@@ -76,7 +76,7 @@ export class Logic {
 
     getFromBroker(broker, task, f: Function, query?: string|any) {
         let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
-        this.apiService.noauthget("user/connect/" + broker + '/' + task + "?userId=" + this.authService.userId+"&"+queryStr, (res) => {
+        this.apiService.noauthget("user/connect/" + broker + '/' + task + "?"+queryStr, (res) => {
             if (res && "result" in res && res.result.success){
                 let A=UniversalLoader.load(broker, task, res.result.data);
 
@@ -104,7 +104,7 @@ export class Logic {
     }
     getFromDB(broker, task, f: Function, query?: string|any) {
         let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
-        this.dataService.getAll("recordprice/" + broker + '/' + task + "?userId=" + this.authService.userId+"&"+queryStr, (res) => {
+        this.dataService.getAll("recordprice/" + broker + '/' + task + "?"+queryStr, (res) => {
             if (res && "result" in res && res.result.success){
                 let A=UniversalLoader.load(broker, task, res.result.data);
 

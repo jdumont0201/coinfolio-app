@@ -97,24 +97,32 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
         console.log("preChart  updatedata", this.period, this.pair)
         this.isLoading = true;
         this.isError = false;
-        this.logic.getFromBroker(this.broker, "ohlc", (res) => {
-            const url = "wss://stream.binance.com:9443/ws/" + this.pair.toLowerCase() + "@kline_"+this.period
-            const id=this.broker+"-"+this.pair+"-live-"+this.period;
-            this.websocketService.create(id,url,(m:any) => {
-                console.log(m)
-                this.lastCandle={ts:m.k.t,o:m.k.o,h:m.k.h,l:m.k.l,c:m.k.c};
-                console.log("candle",this.lastCandle)
-            })
-            if (!res || res.error) {
-                this.isError = true;
-                this.isLoading = false;
-                return
-            }
+        this.logic.getPrice(this.broker, (res) => {
+            const id=this.broker+"-"+this.pair+"-mini-"+this.period;
+            let task="ohlc";
+            const url="ws://34.243.147.139:8080/?task="+task+"&pair="+this.pair.toUpperCase()+"&interval="+this.period
 
-            this.chartData = res;
+                //this.logic.getFromBroker(this.broker, "ohlc", (res) => {
+        //const url = "wss://stream.binance.com:9443/ws/" + this.pair.toLowerCase() + "@kline_" + this.period
+        //const id = this.broker + "-" + this.pair + "-live-" + this.period;
 
+
+        this.websocketService.create(id, url, (m: any) => {
+            console.log(m)
+          //  this.lastCandle = {ts: m.k.t, o: m.k.o, h: m.k.h, l: m.k.l, c: m.k.c};
+            this.lastCandle={ts:m.t,o:m.o,h:m.h,l:m.l,c:m.c};
+            console.log("candle", this.lastCandle)
+        },"socketio")
+        if (!res || res.error) {
+            this.isError = true;
             this.isLoading = false;
-        }, {symbol: this.pair, interval: this.period})
+            return
+        }
+        this.chartData = res;
+        this.isLoading = false;
+        //}, {symbol: this.pair, interval: this.period})
+        }, this.supra, this.infra, this.period, 40)
+
     }
 
 

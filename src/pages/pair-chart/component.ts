@@ -13,6 +13,7 @@ import {TradingService} from "../../lib/localton/services/trading.service";
 import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+import {AuthService} from "../../lib/globalton/core/services/auth.service";
 
 export interface Message {
     author: string,
@@ -26,7 +27,7 @@ export interface Message {
 
 })
 @Injectable()
-export class AppPairChartPage extends CheckValid implements OnDestroy,OnChanges {
+export class AppPairChartPage extends CheckValid implements OnDestroy, OnChanges {
     pairId: string;
     brokerId: string;
     maxVol = 0;
@@ -57,19 +58,13 @@ export class AppPairChartPage extends CheckValid implements OnDestroy,OnChanges 
     isErrored = false;
     errorMessage;
 
-    constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute, public appConfigService: AppConfigService,public consoleService:ConsoleService) {
-       super(consoleService)
-
-        this.doSubscribe("route",route.params,val => this.init())
-
-        ////console.log("+pairpage")
-            //this.init()
-
-
+    constructor(public logic: Logic, public tradingService: TradingService, public requestService: RequestService, public websocketService: WebsocketService, public dataService: DataService, private route: ActivatedRoute, public appConfigService: AppConfigService, public consoleService: ConsoleService,public authService:AuthService) {
+        super(consoleService)
+        this.doSubscribe("route", route.params, val => this.init())
     }
-    init(){
+
+    init() {
         this.finish();
-        //console.log("pairpage init")
         this.decimalSpan = [];
         for (var i = 0; i < 10; ++i) this.decimalSpan.push(i)
         this.route.params.subscribe((params) => {
@@ -77,28 +72,31 @@ export class AppPairChartPage extends CheckValid implements OnDestroy,OnChanges 
             this.pairId = params["pairId"];
             this.broker = params["broker"];
             if (!this.broker) {
-                this.isErrored=true;
-                this.errorMessage = "Invalid broker"+ this.broker
+                this.isErrored = true;
+                this.errorMessage = "Invalid broker" + this.broker
             }
             if (!this.pairId) {
-                this.isErrored=true;
-                this.errorMessage = "Invalid pair"+ this.pairId
+                this.isErrored = true;
+                this.errorMessage = "Invalid pair" + this.pairId
             }
             if (!this.isErrored) {
                 const symbols = Crypto.getSymbolsFromPair(this.pairId, this.appConfigService.getPossibleInfrasPerBroker(this.broker))
                 this.supra = symbols.supra;
                 this.infra = symbols.infra;
                 this.brokerId = params["brokerId"];
+                if(this.authService.isAuthenticated())
                 this.logic.BinanceGetMyTrades(this.pairId, (trades) => {
                     this.trades = trades;
                 })
-             //   this.runLastPriceWS()
+                //   this.runLastPriceWS()
             }
         });
     }
+
     ngOnChanges(changes: SimpleChanges) {
-     //console.log("pairpage change",this.pairId)
+        //console.log("pairpage change",this.pairId)
     }
+
     prevLastPrice;
     lastPrice;
     numberFormat = "1.5-5"
@@ -107,22 +105,12 @@ export class AppPairChartPage extends CheckValid implements OnDestroy,OnChanges 
     ngOnDestroy() {
         this.finish();
     }
-    finish(){
+
+    finish() {
         //console.log("- pairpage")
-        this.websocketService.close(this.broker+"-"+this.pairId)
+        this.websocketService.close(this.broker + "-" + this.pairId)
         this.unsubscribeAllEvents()
     }
 
-/*
-    runLastPriceWS() {
-        const url = "wss://stream.binance.com:9443/ws/" + this.pairId.toLowerCase() + "@aggTrade"
-
-        this.websocketService.create(this.broker+"-"+this.pairId,url,(m:any) => {
-            this.prevLastPrice = this.lastPrice
-            this.lastPrice = parseFloat(m.p)
-            this.numberFormat = Crypto.getNbFormat(this.lastPrice)
-        })
-    }
-*/
 
 }

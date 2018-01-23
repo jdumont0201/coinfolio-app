@@ -47,7 +47,7 @@ export function highchartsModules() {
 import {DndModule} from 'ng2-dnd';
 import{RestangularModule, Restangular} from 'ngx-restangular';
 export function RestangularConfigFactory(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://34.242.69.165:3002');
+    RestangularProvider.setBaseUrl('http://data.coinamics.io');
     //RestangularProvider.setDefaultHeaders({'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtX3VzZXIifQ.V2Jh0ImjSe1TvDuImncT1nG9W0zh6FFkmh7UhWWeJnI'});
     RestangularProvider.addFullRequestInterceptor((element, operation, path, url, headers, params) => {
         console.log("[REQ] ", url, "params", params, "headers", headers);

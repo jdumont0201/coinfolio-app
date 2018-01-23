@@ -2869,3 +2869,6 @@ app-price-history {
     background: linear-gradient(-254deg,#00adff,#0758aa)!important;
     background:linear-gradient(45deg, #000000, #11191d, #2d4754)!important;min-height: 100vh;
 }
+
+app-price-history.mini-link:hover section{border:solid 1px white;
+    cursor: pointer;}

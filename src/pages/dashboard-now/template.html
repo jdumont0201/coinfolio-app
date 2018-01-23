@@ -6,8 +6,8 @@
 
         <mat-tab label="USDT">
             <div class="price-grid" >
-                <app-price-history  [pair]="'BTCUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
-                <app-price-history  [pair]="'ETHUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
+                <app-price-history class="mini-link" [routerLink]="'/chart/BTCUSDT/broker/'+broker" [pair]="'BTCUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
+                <app-price-history class="mini-link"  [routerLink]="'/chart/ETHUSDT/broker/'+broker" [pair]="'ETHUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
                 <app-price-history  [pair]="'BNBUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
                 <app-price-history  [pair]="'LTCUSDT'" [broker]="'binance'" [period]="1"></app-price-history>
                 <app-price-history  [pair]="'BCCUSDT'" [broker]="'binance'" [period]="1"></app-price-history>

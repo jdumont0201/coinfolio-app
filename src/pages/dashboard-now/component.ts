@@ -17,6 +17,7 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 export class AppDashboardNowPage extends PageWithTabs implements OnDestroy {
     pairs = {}
 
+    broker="binance"
     constructor(public requestService: RequestService, public consoleService: ConsoleService, public dataService: DataService, public refreshService: RefreshService, public eventService: EventService) {
         super(refreshService, eventService, consoleService)
         this.eventService.setTheme("black")

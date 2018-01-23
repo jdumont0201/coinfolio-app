@@ -109,20 +109,13 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
                 return
             }
             const id=this.broker+"-"+this.pair+"-mini-"+this.period;
-            //const url = "ws://localhost:8080/";// + "ohlc-"+this.pair.toUpperCase() +"-"+ this.period
-            //this.websocketService.create(id,url,(m:any) => {
             let task="ohlc";
-            const url="ws://34.242.69.165:8080/?task="+task+"&pair="+this.pair.toUpperCase()+"&interval="+this.period
-            const socket = socketio(url);
-            socket.on("m",(m)=>{
-                //console.log("message",m)
+            const url="ws://34.243.147.139:8080/?task="+task+"&pair="+this.pair.toUpperCase()+"&interval="+this.period
+            this.websocketService.create(id, url, (m: any) => {
                 this.lastCandle={ts:m.t,o:m.o,h:m.h,l:m.l,c:m.c};
-                //console.log("candle",this.lastCandle)
-            })
-
+            },"socketio");
 
             this.chartData = res;
-
             this.isLoading = false;
         }, this.supra,this.infra,this.period,40)
     }

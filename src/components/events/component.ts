@@ -34,7 +34,7 @@ export class AppEventsComponent extends AppSubscribeComponent implements OnDestr
     }
     errorsUpdated(err) {
         this.consoleService.eventReceived("errorsChanged --> events")
-        console.log("errors")
+
         this.events.unshift({type: "error", val: err,date:new Date().getTime(),seen:this.eventService.isMenu2Displayed})
         if(!this.eventService.isMenu2Displayed)  {this.eventService.nbNonSeenEvents++;this.updateNb();}
     }
