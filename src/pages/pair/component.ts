@@ -121,7 +121,7 @@ export class AppPairItemPage extends CheckValid implements OnDestroy,OnChanges {
             this.prevLastPrice = this.lastPrice
             this.lastPrice = parseFloat(m.p)
             this.numberFormat = Crypto.getNbFormat(this.lastPrice)
-        })
+        },"normal")
     }
 
 
