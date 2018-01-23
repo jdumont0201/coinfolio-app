@@ -39,7 +39,7 @@ export abstract class ProtectedPage {
         }
     }
 
-    constructor( pageService: PageService,route:ActivatedRoute,router:Router,isprotected:boolean ) {
+    constructor( pageService: PageService,route:ActivatedRoute,router:Router,isprotected:boolean=false ) {
         console.log("--------------------------------------------------");
         if (typeof isprotected !== 'undefined')   this.protected=isprotected;
         //console.log("ISPROTECTED",this.protected);

@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 
 var fs = require('fs');
 
-var privateKey = fs.readFileSync('./coinamics.pem');
-var certificate = fs.readFileSync('./coinamics.crt');
+var privateKey = fs.readFileSync('/coinfolio/app/server/coinamics.pem');
+var certificate = fs.readFileSync('/coinfolio/app/server/coinamics.crt');
 var credentials = {key: privateKey, cert: certificate};
 console.log(credentials)
 // Get our API routes
