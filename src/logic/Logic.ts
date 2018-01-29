@@ -7,10 +7,15 @@ import {RequestService} from "../lib/globalton/core/services/request.service";
 import {UniversalLoader} from "./UniversalLoader";
 import {HTML} from "../lib/globalton/core/utils/utils";
 import {Crypto} from "../lib/localton/utils/utils";
+import {AppConfigService} from "../lib/localton/services/appconfig.service";
 @Injectable()
 export class Logic {
+     appConfigService:AppConfigService;
     constructor(public requestService: RequestService, public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
         this.authService.setLogic(this)
+    }
+    setAppConfigService(app){
+    this.appConfigService=app;
     }
 
 
@@ -86,14 +91,12 @@ export class Logic {
         })
     }
 
-    getPrice(broker,f:Function,supra,infra,interval,limit){
-        let url="recordprice"
+    getPrice(broker,f:Function,pair,interval,limit){
+        let url=this.appConfigService.getDbCode(broker)+"_ohlc_"+interval;
+        console.log("getprice",url);
         if(typeof interval=="string") interval=Crypto.getIntervalSeconds(interval);
         let where={
-            source: broker,
-            interval: interval,
-            symbol: supra,
-            base: infra
+            pair: pair
         }
         console.log("getprice" ,where)
         this.dataService.getAll(url, (res)=>{

@@ -18,6 +18,7 @@ export class AppConfigService {
     constructor(public configService: ConfigService, public consoleService: ConsoleService, public apiService: ApiService, public authService: AuthService, public logic: Logic) {
         consoleService.serv('APPCONFIG')
         this.generateListing();
+        this.logic.setAppConfigService(this);
         this.apiService.setApiUrl("http://user.coinamics.io/api/");
         this.apiService.setServerUrl("http://user.coinamics.io/");
         this.consoleService.serv("+ AppConfigService");
@@ -37,22 +38,26 @@ export class AppConfigService {
     possibleBrokers: string[] = ["binance", "kraken", "hitbtc","bitmex"]
     brokersLinks = {
         "binance": {
+            dbcode:"bin",
             signup: "https://www.binance.com/register.html",
             api: "https://www.binance.com/userCenter/createApi.html",
             infras: ['BTC', 'ETH', 'BNB', 'USDT'],
             ignoredPairs: ['123456']
         },
         "kraken": {
+            dbcode:"kra",
             api: "https://www.kraken.com/u/settings/api",
             signup: "https://www.kraken.com/en-us/signup",
             infras: ['USD', 'EUR','ETH', 'CAD', 'XBT', 'JPY', 'GBP'],
             ignoredPairs: []
         }, "hitbtc": {
+            dbcode:"hit",
             api: "https://hitbtc.com/settings/api-keys",
             signup: "https://hitbtc.com/signupapp",
             infras: ['BTC', 'ETH', 'BNB', 'USD','USDT'],
             ignoredPairs: []
         }, "bitmex": {
+            dbcode:"bmx",
             api: "https://www.bitmex.com/app/apiKeys",
             signup: "https://www.bitmex.com/register",
             infras: ['BTC', 'ETH', 'BNB', 'USD','USDT'],
@@ -194,9 +199,10 @@ export class AppConfigService {
 
     generateListing() {
         this.valuesandglobal.push.apply(this.valuesandglobal, this.values)
-
     }
-
+    getDbCode(broker){
+        return this.brokersLinks[broker].dbcode;
+    }
     getPossibleInfrasPerBroker(b: string): string[] {
         Assert.exists(b)
         if(b)

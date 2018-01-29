@@ -26,7 +26,7 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
     isError = false;
     @Input() pair: string
     @Input() broker: string
-    @Input() period: number
+    @Input() period: string;
     @Input() base: string = "USD"
     @Input() showTitle: boolean = false;
     @Input() trades
@@ -110,14 +110,14 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
             }
             const id=this.broker+"-"+this.pair+"-mini-"+this.period;
             let task="ohlc";
-            const url="ws://34.243.147.139:8080/?task="+task+"&pair="+this.pair.toUpperCase()+"&interval="+this.period
+            const url="ws://34.243.147.139:3014/binance/"+this.pair.toUpperCase()+"/"+this.period;
             this.websocketService.create(id, url, (m: any) => {
-                this.lastCandle={ts:m.t,o:m.o,h:m.h,l:m.l,c:m.c};
+                this.lastCandle={ts:m.k.t,o:m.k.o,h:m.k.h,l:m.k.l,c:m.k.c};
             },"socketio");
 
             this.chartData = res;
             this.isLoading = false;
-        }, this.supra,this.infra,this.period,40)
+        }, this.pair,this.period,40)
     }
     ngOnDestroy(){
         console.log("ondestroy")
@@ -136,7 +136,8 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
         this.updateData();
     }
 
-    setInterval(v: number) {
+    setInterval(v: string) {
+        console.log("setinterval");
         const id=this.broker+"-"+this.pair+"-live-"+this.period
         this.websocketService.close(id)
 

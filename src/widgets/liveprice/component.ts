@@ -100,8 +100,8 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
         this.logic.getPrice(this.broker, (res) => {
             const id=this.broker+"-"+this.pair+"-mini-"+this.period;
             let task="ohlc";
-            const url="ws://34.243.147.139:8080/?task="+task+"&pair="+this.pair.toUpperCase()+"&interval="+this.period
-
+            const url="ws://34.243.147.139:3014/binance/"+this.pair.toUpperCase()+"/"+this.period;
+            console.log("wsurl",url)
                 //this.logic.getFromBroker(this.broker, "ohlc", (res) => {
         //const url = "wss://stream.binance.com:9443/ws/" + this.pair.toLowerCase() + "@kline_" + this.period
         //const id = this.broker + "-" + this.pair + "-live-" + this.period;
@@ -110,7 +110,7 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
         this.websocketService.create(id, url, (m: any) => {
             console.log(m)
           //  this.lastCandle = {ts: m.k.t, o: m.k.o, h: m.k.h, l: m.k.l, c: m.k.c};
-            this.lastCandle={ts:m.t,o:m.o,h:m.h,l:m.l,c:m.c};
+            this.lastCandle={ts:m.k.t,o:m.k.o,h:m.k.h,l:m.k.l,c:m.k.c};
             console.log("candle", this.lastCandle)
         },"socketio")
         if (!res || res.error) {
@@ -121,7 +121,7 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
         this.chartData = res;
         this.isLoading = false;
         //}, {symbol: this.pair, interval: this.period})
-        }, this.supra, this.infra, this.period, 40)
+        },  this.pair, this.period, 40)
 
     }
 

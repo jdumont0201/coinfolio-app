@@ -32,7 +32,7 @@ export class AppDashboardNowPage extends PageWithTabs implements OnDestroy {
                     this.pairs[res[i].infra].push(res[i])
 
 
-        }, {broker: "binance"})
+        }, {broker: "bin"})
     }
 
     getUSDTPairs() {
