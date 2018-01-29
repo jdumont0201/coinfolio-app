@@ -17,15 +17,21 @@ export class OHLC {
 
     constructor(d: any) {
         let dd
-        let ts=d.ts;
-        ts=Date.parse(d.ts)/1000;
+        let ts = d.ts;
+
+        if (typeof ts == "string") {
+            var offset = new Date().getTimezoneOffset();
+            ts = Date.parse(d.ts) / 1000-offset*60;
+        }else{
+
+        }
         if ("open" in d)
             dd = {o: d.open, ts: ts, c: d.close, h: d.high, l: d.low}
         else
             dd = {o: d.o, ts: ts, c: d.c, h: d.h, l: d.l}
-
+         //console.log("adddata or=",d.ts ,"fi=",dd.ts, new Date(dd.ts*1000),dd.c);
         this.data = {raw: dd, scaled: {}, flipped: {}, meta: {}, draw: {}, indicators: {}};
-        console.log("adddata",dd)
+
     }
 
     draw() {
@@ -33,8 +39,6 @@ export class OHLC {
     }
 
     addMetaData() {
-        //this.consoleService.chart("av", JSON.stringify(g))
-        //d.ts = Math.round((d.ts - this.minX) * 2 / 1000) / 2
         this.data.meta = {}
         this.data.meta.maxoc = Math.max(this.data.raw.o, this.data.raw.c)
         this.data.meta.minoc = Math.min(this.data.raw.o, this.data.raw.c)

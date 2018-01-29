@@ -94,6 +94,7 @@ export class Logic {
     getPrice(broker,f:Function,pair,interval,limit){
         let url=this.appConfigService.getDbCode(broker)+"_ohlc_"+interval;
         console.log("getprice",url);
+        let n=new Date().getTime();
         if(typeof interval=="string") interval=Crypto.getIntervalSeconds(interval);
         let where={
             pair: pair
@@ -101,6 +102,7 @@ export class Logic {
         console.log("getprice" ,where)
         this.dataService.getAll(url, (res)=>{
             res=res.reverse()
+            console.log( "CHRONO",new Date().getTime()-n);
             f(res)
         },where, {key: "ts", dir: "desc"},limit)
 

@@ -39,22 +39,17 @@ export class AppChartComponent extends CheckValid {
     @Input() broker: string
     @Input() chartId;
 
-//    @Input() gdata: Row[] = [];
-    //@ViewChild('mycanvas') canvas: ElementRef;
     @ViewChild('chartcontainer') chartcontainer: ElementRef;
     @ViewChild('mycanvasbox') canvasbox: ElementRef;
-
 
     method
 
     paper;
     isReady = false;
 
-
     currentPrice;
     prevPrice;
     lastTs;
-
 
     currentMouseover = null;
     private mouseDown: boolean = false;
@@ -105,15 +100,12 @@ export class AppChartComponent extends CheckValid {
     ngAfterViewInit() {
         this.consoleService.chart("--> ngafterviewinit")
         let C = this.chartcontainer.nativeElement
-
         let ready = this.initSize(() => {
             if (this.isReady) {
                 this.reset();
                 this.initData()
             }
         })
-
-
     }
 
     ngDoCheck() {
@@ -122,34 +114,36 @@ export class AppChartComponent extends CheckValid {
 
     ngOnChanges(changes: SimpleChanges) {
         //this.consoleService.chart("--> onChanges", changes)
-
         if (changes.steam)
-
             this.updateSteam(changes.steam.currentValue)
         else
             this.updateAfterDataChange()
     }
 
-    updateSteam(lastBar: UnparsedRawLoadedData) {
+    updateSteam(lastBar:any) {
         if (!this.Data || this.Data.isEmpty()) return
         //this.consoleService.chart("chart new steal", lastBar, this.Data.getLast())
-        let ne = {
+        let ne = lastBar;/*{
             ts: parseInt(lastBar.ts),
             o: parseFloat(lastBar.o),
             h: parseFloat(lastBar.h),
             c: parseFloat(lastBar.c),
             l: parseFloat(lastBar.l),
-        }
+        }*/
         this.prevPrice = this.currentPrice;
         this.currentPrice = ne.c
         //console.log("chart new", ne.ts == this.Data.getLast().raw.ts)
 
         //console.log("OLDDATA", JSON.stringify(this.Data.ohlc))
         if (ne.ts == this.Data.getLast().raw.ts) {
-            this.Data.getLast().raw.c = ne.c;
+            //console.log("edit last bar",this.Data.getLast().raw.ts,ne.c)
+            this.data[this.data.length-1].c= ne.c;
+            this.Data.setLastClose( ne.c);
+            //this.data. ne.c);
             this.lastTs = ne.ts;
         } else {
-          //  console.log("chart new add", this.Data.getSize(), this.Data.ohlc.length)
+            //console.log("chart new add", this.Data.getSize(), this.Data.ohlc.length)
+
             this.data.push(ne)
             this.Data.add(ne)
             this.lastTs = ne.ts;
@@ -157,7 +151,7 @@ export class AppChartComponent extends CheckValid {
             //console.log("chart new add end", this.Data.getSize(), this.Data.ohlc.length)
         }
         //console.log("NEWDATA", JSON.stringify(this.Data.ohlc))
-        this.updateAfterDataChange()
+        this.updateAfterDataStreamChange()
     }
 
     windowResized(val) {
@@ -195,15 +189,32 @@ export class AppChartComponent extends CheckValid {
 
         }
     }
+    updateStreamData() {
+        if (this.data) {
+            //this.consoleService.chart("initData", this.data, this.arranger.W, this.arranger.H)
+            this.readData()
+            this.Data.addMeta()
+            this.arranger.setBarWidth()
+            this.arranger.setInitialView()
+            this.arranger.recompute()
+            this.draw();
+
+        }
+    }
 
     updateAfterDataChange() {
-
         if (!this.data) return
         //this.consoleService.chart("  updateAfterDataChange", this.data)
         this.reset()
-
         this.drawer.reinit()
         this.initData()
+    }
+    updateAfterDataStreamChange() {
+        if (!this.data) return
+        //this.consoleService.chart("  updateAfterDataChange", this.data)
+        this.reset()
+        this.drawer.reinit()
+        this.updateStreamData()
     }
 
     updateAfterResize() {
@@ -404,7 +415,7 @@ export class AppChartComponent extends CheckValid {
         if (this.arranger.idxMax == this.Data.getSize() - 1)
             this.drawer.drawLine("marker-line", L.flipped.fx, L.flipped.fc, this.arranger.W, L.flipped.fc, opt.xAxis.grid.strokeWidth, "rgba(255,150,0,0.4)");
         this.drawer.drawRect("marker-bg", this.arranger.W - 50, L.flipped.fc - 7, 48, 15, "rgba(255,150,0,1)", 1, "rgb(0,0,0)", null);
-        this.drawer.drawText(this.arranger.W - 40, L.flipped.fc - 5, L.raw.c.toString(), "rgba(0,0,0,1)", "right", null);
+        this.drawer.drawText(this.arranger.W - 45, L.flipped.fc - 5, L.raw.c.toString(), "rgba(0,0,0,1)", "right", null);
     }
 
 

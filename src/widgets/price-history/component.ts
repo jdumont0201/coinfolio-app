@@ -112,8 +112,13 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
             let task="ohlc";
             const url="ws://34.243.147.139:3014/binance/"+this.pair.toUpperCase()+"/"+this.period;
             this.websocketService.create(id, url, (m: any) => {
-                this.lastCandle={ts:m.k.t,o:m.k.o,h:m.k.h,l:m.k.l,c:m.k.c};
-            },"socketio");
+                if(m && m.k) {
+                    this.lastCandle = {ts: m.k.t/1000, o: m.k.o, h: m.k.h, l: m.k.l, c: m.k.c, v: m.k.v};
+                }else{
+                    console.log("errmsg",m,typeof m);
+            }
+            },"simple");
+            this.websocketService.getSocket(id).listen();
 
             this.chartData = res;
             this.isLoading = false;
@@ -122,7 +127,7 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
     ngOnDestroy(){
         console.log("ondestroy")
         const id=this.broker+"-"+this.pair+"-mini-"+this.period;
-        //this.websocketService.getSocket(id).close()
+        this.websocketService.getSocket(id).close()
     }
 
 

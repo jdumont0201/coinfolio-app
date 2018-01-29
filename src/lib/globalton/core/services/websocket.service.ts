@@ -6,6 +6,7 @@ import websocketConnect from 'rxjs-websockets'
 import {ConsoleService} from "./console.service";
 import {EventService} from "../../../localton/services/event.service";
 import * as socketio from "socket.io-client"
+
 export class Socket {
     subscription;
     connectionSubscription;
@@ -16,51 +17,62 @@ export class Socket {
     lastMessage;
 
     socketiosocket
-    constructor(public url: string, public id: string, public  f: Function,public method:string) {
-        if(method=="socketio"){
+    simpleWS;
+    constructor(public url: string, public id: string, public  f: Function, public method: string) {
+        if (method == "socketio") {
 
-        }else{
-
-
-        const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>(), "echo-protocol")
-        this.messages = messages;
-        this.connectionStatus = connectionStatus;
+        }else if (method=="simple"){
+            this.simpleWS = new WebSocket(url);
+            this.simpleWS.onopen = function(evt) { console.log("open",evt);return false; };
+            this.simpleWS.onclose = function(evt) { console.log("close",evt); };
+            this.simpleWS.onmessage = (evt)=> { this.onMessage(evt.data,true) ;return false;};
+            this.simpleWS.onerror = function(evt) {   console.log("err",evt); };
+        } else {
+            const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>(), "echo-protocol")
+            this.messages = messages;
+            this.connectionStatus = connectionStatus;
         }
         this.status = "defined"
     }
 
     listen() {
-        if(this.method=="socketio"){
+        if (this.method == "socketio") {
             this.socketiosocket = socketio(this.url);
-            this.socketiosocket.on("m",(m)=>{
-                this.onMessage(m,false)
+            this.socketiosocket.on("m", (m) => {
+                this.onMessage(m, false)
             })
-        }else{
+        }else if (this.method == "simple"){
+
+        } else {
             this.connectionSubscription = this.connectionStatus.subscribe(numberConnected => {
                 console.log('number of connected websockets:', numberConnected)
             })
             this.subscription = this.messages.subscribe((message: string) => {
-                this.onMessage(message,true)
+                this.onMessage(message, true)
             })
         }
 
         this.enable()
 
     }
-    onMessage(message,parse){
+
+    onMessage(message:string, parse:boolean) {
+        //console.log("mmmsg");
+        if(!message ) return;
         this.lastMessage = new Date().getTime()
         if (this.active) {
             let m
-            if(parse)
-            m = JSON.parse(message)
+            if (parse)
+                m = JSON.parse(message)
             else
-                m=message
+                m = message
             this.f(m)
         } else {
             this.status = "disabled but running"
             this.close()
         }
     }
+
     enable() {
         this.active = true;
         this.status = "activated"
@@ -74,6 +86,11 @@ export class Socket {
     close() {
         this.disable()
         console.log("webS ", this.id, "closing")
+        if(this.method=="simple"){
+            this.simpleWS.onclose = function () {}; // disable onclose handler first
+            this.simpleWS.close()
+        }
+
         if (this.subscription) {
             this.subscription.unsubscribe()
         } else {
@@ -106,12 +123,12 @@ export class WebsocketService {
         return this.sockets[id]
     }
 
-    create(id, url, f,method) {
+    create(id, url, f, method) {
         if (!(id in this.sockets)) {
 
             this.eventService.defineNewSocket(id)
             this.consoleService.websocket("create", id, url)
-            this.sockets            [id] = new Socket(url, id, f,method)
+            this.sockets            [id] = new Socket(url, id, f, method)
             this.sockets            [id].listen()
         } else {
             if (this.sockets[id].active) {

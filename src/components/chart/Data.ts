@@ -72,6 +72,12 @@ export class Data {
         return this.ohlc[this.ohlc.length - 1].data
         else return null
     }
+    setLastClose(c:number){
+
+        this.getLast().raw.c=c;
+
+
+    }
 
     read(content: RawLoadedData[]) {
         //this.consoleService.chart("DATA READ", content)

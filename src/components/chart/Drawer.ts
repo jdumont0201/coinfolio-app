@@ -78,7 +78,10 @@ export class Drawer {
 
 
     getTimeLabel(ts): string {
-        let d = new Date(ts);
+
+        //var offset = new Date().getTimezoneOffset();
+        let d = new Date(ts*1000);
+
         let m = d.getMinutes();
         return d.getHours() + ":" + (m > 9 ? m : ("0" + m))
     }

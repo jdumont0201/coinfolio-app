@@ -280,7 +280,9 @@ export class Arranger {
 
         for (let i = 0; i < this.nXAxis; ++i) {
             let level = this.minXView + (this.maxXView - this.minXView) / this.nXAxis * i;
-            let d = new Date(level)
+
+
+            let d = new Date(level);
             this.xAxis.push({val: Math.round(this.scaleX(level)), text: this.drawer.getTimeLabel(d)})
         }
     }

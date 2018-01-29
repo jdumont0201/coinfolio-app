@@ -112,7 +112,7 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
           //  this.lastCandle = {ts: m.k.t, o: m.k.o, h: m.k.h, l: m.k.l, c: m.k.c};
             this.lastCandle={ts:m.k.t,o:m.k.o,h:m.k.h,l:m.k.l,c:m.k.c};
             console.log("candle", this.lastCandle)
-        },"socketio")
+        },"other")
         if (!res || res.error) {
             this.isError = true;
             this.isLoading = false;
