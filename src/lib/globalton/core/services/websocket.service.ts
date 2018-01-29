@@ -18,15 +18,12 @@ export class Socket {
 
     socketiosocket
     simpleWS;
-    constructor(public url: string, public id: string, public  f: Function, public method: string) {
+
+    constructor(public url: string, public id: string, public  f: Function, public method: string,public consoleService:ConsoleService) {
         if (method == "socketio") {
 
-        }else if (method=="simple"){
-            this.simpleWS = new WebSocket(url);
-            this.simpleWS.onopen = function(evt) { console.log("open",evt);return false; };
-            this.simpleWS.onclose = function(evt) { console.log("close",evt); };
-            this.simpleWS.onmessage = (evt)=> { this.onMessage(evt.data,true) ;return false;};
-            this.simpleWS.onerror = function(evt) {   console.log("err",evt); };
+        } else if (method == "simple") {
+
         } else {
             const {messages, connectionStatus} = websocketConnect(url, new QueueingSubject<string>(), "echo-protocol")
             this.messages = messages;
@@ -36,13 +33,28 @@ export class Socket {
     }
 
     listen() {
+        this.consoleService.websocket("LISTEN");
         if (this.method == "socketio") {
             this.socketiosocket = socketio(this.url);
             this.socketiosocket.on("m", (m) => {
                 this.onMessage(m, false)
             })
-        }else if (this.method == "simple"){
-
+        } else if (this.method == "simple") {
+            this.simpleWS = new WebSocket(this.url);
+            this.simpleWS.onopen = function (evt) {
+                console.log("open", evt);
+                return false;
+            };
+            this.simpleWS.onclose = function (evt) {
+                console.log("close", evt);
+            };
+            this.simpleWS.onmessage = (evt) => {
+                this.onMessage(evt.data, true);
+                return false;
+            };
+            this.simpleWS.onerror = function (evt) {
+                console.log("err", evt);
+            };
         } else {
             this.connectionSubscription = this.connectionStatus.subscribe(numberConnected => {
                 console.log('number of connected websockets:', numberConnected)
@@ -56,9 +68,9 @@ export class Socket {
 
     }
 
-    onMessage(message:string, parse:boolean) {
-        //console.log("mmmsg");
-        if(!message ) return;
+    onMessage(message: string, parse: boolean) {
+        //console.log("mmmsg",message);
+        if (!message) return;
         this.lastMessage = new Date().getTime()
         if (this.active) {
             let m
@@ -66,6 +78,7 @@ export class Socket {
                 m = JSON.parse(message)
             else
                 m = message
+            if("wsConnected" in m) return;
             this.f(m)
         } else {
             this.status = "disabled but running"
@@ -85,24 +98,26 @@ export class Socket {
 
     close() {
         this.disable()
-        console.log("webS ", this.id, "closing")
-        if(this.method=="simple"){
-            this.simpleWS.onclose = function () {}; // disable onclose handler first
+        this.consoleService.websocket(this.id, "closing");
+        if (this.method == "simple") {
+            this.simpleWS.onclose = function () {
+            }; // disable onclose handler first
             this.simpleWS.close()
-        }
-
-        if (this.subscription) {
-            this.subscription.unsubscribe()
         } else {
-            console.log("webS no need to close sub")
-        }
 
-        if (this.connectionSubscription) {
-            this.connectionSubscription.unsubscribe()
-        } else {
-            console.log("webS no need to close connsub")
-        }
 
+            if (this.subscription) {
+                this.subscription.unsubscribe()
+            } else {
+                console.log("webS no need to close sub")
+            }
+
+            if (this.connectionSubscription) {
+                this.connectionSubscription.unsubscribe()
+            } else {
+                console.log("webS no need to close connsub")
+            }
+        }
     }
 }
 
@@ -125,10 +140,9 @@ export class WebsocketService {
 
     create(id, url, f, method) {
         if (!(id in this.sockets)) {
-
             this.eventService.defineNewSocket(id)
             this.consoleService.websocket("create", id, url)
-            this.sockets            [id] = new Socket(url, id, f, method)
+            this.sockets            [id] = new Socket(url, id, f, method,this.consoleService)
             this.sockets            [id].listen()
         } else {
             if (this.sockets[id].active) {
@@ -136,6 +150,8 @@ export class WebsocketService {
             } else {
                 this.sockets[id].close()
                 this.consoleService.websocket("create", id, "but already existing")
+                this.sockets            [id] = new Socket(url, id, f, method,this.consoleService)
+
                 this.sockets[id].listen()
             }
 

@@ -118,7 +118,7 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
                     console.log("errmsg",m,typeof m);
             }
             },"simple");
-            this.websocketService.getSocket(id).listen();
+
 
             this.chartData = res;
             this.isLoading = false;

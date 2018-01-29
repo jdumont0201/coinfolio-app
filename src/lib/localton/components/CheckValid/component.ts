@@ -36,7 +36,7 @@ export abstract class CheckValid implements OnDestroy{
         }else{
             this.consoleService.sub("subscribe",id)
             this.eventSubscriptions[id]=event.subscribe((val)=>{
-                this.consoleService.eventReceived(id + " --> "+(name?name:"")+JSON.stringify(val))
+                this.consoleService.eventReceived(id + " --> "+(name?name:""))
                 f(val)
             })
         }

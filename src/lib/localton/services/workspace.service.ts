@@ -59,10 +59,10 @@ export class WorkspaceService {
                     this.panelsObject = res.object;
                     this.panelsArray = res.array;
                     this.setSpecialPanels()
-                    this.loadWorkspaces(() => {
+                    //this.loadWorkspaces(() => {
                         this.isLoaded = true;
-                        this.eventService.workspaceUpdatedEvent.emit(true);
-                    });
+                      //  this.eventService.workspaceUpdatedEvent.emit(true);
+                    //});
                 });
             })
         } else {
