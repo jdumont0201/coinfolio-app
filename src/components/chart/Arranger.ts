@@ -76,7 +76,7 @@ export class Arranger {
                 MB: this.format == "mini" ? 20 : 50,
                 ML: 0,
                 MR: 100,
-                cW: this.format == "mini" ? 2 : 6,
+                cW: this.format == "mini" ? 4 : 6,
                 cWMargin: this.format == "mini" ? 2 : 4
             },
             yAxis: {
@@ -279,10 +279,10 @@ export class Arranger {
         this.xAxis = []
 
         for (let i = 0; i < this.nXAxis; ++i) {
-            let level = this.minXView + (this.maxXView - this.minXView) / this.nXAxis * i;
-
-
-            let d = new Date(level);
+            let level:number = this.minXView + (this.maxXView - this.minXView) / this.nXAxis * i;
+            var offset = new Date().getTimezoneOffset();
+            let dd=new Date(level);
+            let d :number= dd-offset*60;
             this.xAxis.push({val: Math.round(this.scaleX(level)), text: this.drawer.getTimeLabel(d)})
         }
     }

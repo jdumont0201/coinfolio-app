@@ -16,7 +16,7 @@ import * as Fabric from "fabric"
 import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 
-export enum DrawMethods {SVG, Canvas}
+export enum DrawMethods {SVG, Canvas,PureCanvas}
 
 import {RawLoadedData, Row, UnparsedRawLoadedData} from "./Types"
 import {Data} from "./Data"
@@ -40,6 +40,7 @@ export class AppChartComponent extends CheckValid {
     @Input() chartId;
 
     @ViewChild('chartcontainer') chartcontainer: ElementRef;
+    @ViewChild('purecanvas') purecanvas: ElementRef;
     @ViewChild('mycanvasbox') canvasbox: ElementRef;
 
     method
@@ -69,7 +70,7 @@ export class AppChartComponent extends CheckValid {
         super(consoleService)
         this.consoleService.chart("+")
         this.el = elementRef.nativeElement;
-        this.method = DrawMethods.Canvas
+        this.method = DrawMethods.PureCanvas;
 
     }
 
@@ -98,7 +99,7 @@ export class AppChartComponent extends CheckValid {
     }
 
     ngAfterViewInit() {
-        this.consoleService.chart("--> ngafterviewinit")
+        this.consoleService.chart("--> ngafterviewinit id",this.chartId)
         let C = this.chartcontainer.nativeElement
         let ready = this.initSize(() => {
             if (this.isReady) {
@@ -121,15 +122,10 @@ export class AppChartComponent extends CheckValid {
     }
 
     updateSteam(lastBar:any) {
+        let chr=new Date().getTime();
         if (!this.Data || this.Data.isEmpty()) return
         //this.consoleService.chart("chart new steal", lastBar, this.Data.getLast())
-        let ne = lastBar;/*{
-            ts: parseInt(lastBar.ts),
-            o: parseFloat(lastBar.o),
-            h: parseFloat(lastBar.h),
-            c: parseFloat(lastBar.c),
-            l: parseFloat(lastBar.l),
-        }*/
+        let ne = lastBar;
         this.prevPrice = this.currentPrice;
         this.currentPrice = ne.c
         //console.log("chart new", ne.ts == this.Data.getLast().raw.ts)
@@ -152,6 +148,7 @@ export class AppChartComponent extends CheckValid {
         }
         //console.log("NEWDATA", JSON.stringify(this.Data.ohlc))
         this.updateAfterDataStreamChange()
+        console.log("["+this.pair+"] refreshtime",new Date().getTime()-chr);
     }
 
     windowResized(val) {
@@ -190,10 +187,15 @@ export class AppChartComponent extends CheckValid {
         }
     }
     updateStreamData() {
+        console.log("updatestreamdata")
         if (this.data) {
             //this.consoleService.chart("initData", this.data, this.arranger.W, this.arranger.H)
-            this.readData()
-            this.Data.addMeta()
+            let N = this.data.length;
+            //this.readData()
+            let d=this.Data.ohlc[this.Data.ohlc.length-1];
+            this.Data.computeMinMax(d)
+            d.addMetaData()
+            this.Data.computeIndicators()
             this.arranger.setBarWidth()
             this.arranger.setInitialView()
             this.arranger.recompute()
@@ -212,7 +214,8 @@ export class AppChartComponent extends CheckValid {
     updateAfterDataStreamChange() {
         if (!this.data) return
         //this.consoleService.chart("  updateAfterDataChange", this.data)
-        this.reset()
+        this.arranger.yAxis = []
+        if (this.paper) this.paper.clear()
         this.drawer.reinit()
         this.updateStreamData()
     }
@@ -240,7 +243,7 @@ export class AppChartComponent extends CheckValid {
         this.consoleService.chart("  setcanvassize", w, h)
         if (!w || !h) return false
         this.arranger.setSize(w, h)
-        this.drawer.setDrawer(w, h, this.chartId)
+        this.drawer.setDrawer(w, h, this.chartId,this.purecanvas)
         this.isReady = true
         return true
     }
@@ -390,6 +393,7 @@ export class AppChartComponent extends CheckValid {
     }
 
     setEvents() {
+        if(this.method==DrawMethods.Canvas){
         this.drawer.canvas.selection = false
         this.drawer.canvas.on('mouse:over', (e) => {
             this.consoleService.chart("event mouseover target=", e.target ? e.target.name : "")
@@ -406,6 +410,7 @@ export class AppChartComponent extends CheckValid {
             this.consoleService.chart("event up", e.target)
             this.isMouseDownNavigator = false
         })
+        }
     }
 
     paintMarker() {
@@ -430,15 +435,17 @@ export class AppChartComponent extends CheckValid {
     }
 
     draw() {
-
+        let time=new Date().getTime();
         if (!this.drawer.isValid()) return
         if (!this.data) return
         if (!this.isReady) return
         if (!this.drawer) return
-        //this.consoleService.chart("    draw --> ", this.arranger.W, this.arranger.H)
+        this.consoleService.chart("    draw --> ", this.arranger.W, this.arranger.H)
         this.timerDraw = new Date().getTime()
         let opt = this.arranger.options
 
+        this.consoleService.chart("STAT render begin", new Date().getTime() - time)
+        time=new Date().getTime();
         this.clear()
         //this.drawer.drawRect("topline", 100, 100, this.arranger.W, this.arranger.H, opt.xAxis.grid.strokeWidth, "rgba(0,255,0,1)",null,null);
 
@@ -448,22 +455,29 @@ export class AppChartComponent extends CheckValid {
         this.paintIndicators()
 
         this.paintMarker()
+        this.consoleService.chart("STAT render axis & ind", new Date().getTime() - time)
+        time=new Date().getTime();
 
         if (this.arranger.options.navigator.enabled)
             this.paintNavigator()
+        this.consoleService.chart("STAT render nav", new Date().getTime() - time)
+        time=new Date().getTime();
 
         this.paintCandleSticks()
-        this.setEvents()
+        this.consoleService.chart("STAT render cand", new Date().getTime() - time)
+        time=new Date().getTime();
 
+        this.setEvents()
+        this.consoleService.chart("STAT render comp", new Date().getTime() - time)
+        time=new Date().getTime();
         if (this.method == DrawMethods.Canvas) {
             //this.canvas.selection = false;
             //this.consoleService.chart("STAT draw", new Date().getTime() - this.timerDraw)
             this.timerDraw = new Date().getTime()
             //this.consoleService.chart("      render")
             this.drawer.render();
-            //this.consoleService.chart("STAT render", new Date().getTime() - this.timerDraw)
+            this.consoleService.chart("STAT render draw", new Date().getTime() - time)
         }
-
     }
 
     timerRecompute

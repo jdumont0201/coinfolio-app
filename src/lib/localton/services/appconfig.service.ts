@@ -27,6 +27,7 @@ export class AppConfigService {
         if (this.authService.isAuthenticated())
             this.logic.readSubscription((res) => {
                 console.log("expiration", res)
+                if(!res) return
                 this.authService.paymentExpiration = res.expiration;
                 console.log("active", this.authService.isSubscriptionActive(), this.authService.authenticated, this.authService.paymentExpiration, this.authService.paymentExpiration > new Date().getTime() / 1000)
             })

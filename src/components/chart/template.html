@@ -1,5 +1,5 @@
 <div class="chartcontainer {{format}}" id="chart-{{chartId}}" #chartcontainer>
-    <canvas *ngIf="method==1" id="chart-canvas-{{chartId}}"></canvas>
+    <canvas  id="chart-canvas-{{chartId}}" #purecanvas></canvas>
     <div class="chart-header"><span class="chart-title">{{pair}}</span>
         <span class="chart-broker">@{{broker}}</span>
         <span class="chart-price {{prevPrice>currentPrice?'valneg':'valpos'}}"> {{currentPrice}}</span>

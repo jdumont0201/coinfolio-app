@@ -44,7 +44,8 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
 
     constructor(public consoleService: ConsoleService,public websocketService:WebsocketService, public tradingService: TradingService, public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
         super(refreshService, eventService, consoleService)
-        this.chartId = Strings.getRandom(7)
+        this.chartId = Strings.getRandom(7);
+        this.consoleService.chart("before chart charid",this.chartId);
         window.addEventListener('beforeunload', ()=> {
             console.log("beforeunload")
             const id=this.broker+"-"+this.pair+"-mini-"+this.period;
@@ -112,6 +113,7 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
             let task="ohlc";
             const url="ws://34.243.147.139:3014/binance/"+this.pair.toUpperCase()+"/"+this.period;
             this.websocketService.create(id, url, (m: any) => {
+                console.log("msg",m)
                 if(m && m.k) {
                     this.lastCandle = {ts: m.k.t/1000, o: m.k.o, h: m.k.h, l: m.k.l, c: m.k.c, v: m.k.v};
                 }else{

@@ -1,13 +1,14 @@
 import * as Raphael from "raphael/raphael"
 import * as Fabric from "fabric"
+
 //import * as FontFaceObserver from "FontFaceObserver"
 
-export enum DrawMethods {SVG, Canvas}
+export enum DrawMethods {SVG, Canvas, PureCanvas}
 
 import {RawLoadedData, Row} from "./Types"
 
 export class Drawer {
-    constructor(public method, public consoleService,public format:string) {
+    constructor(public method, public consoleService, public format: string) {
         //this.loadAndUse("London",(res)=>{console.log("chart font res",res)});
 
     }
@@ -15,13 +16,16 @@ export class Drawer {
     canvas;
     paper;
     chartId;
+    context;
 
     clear() {
-    //    this.consoleService.chart("clear")
+        //    this.consoleService.chart("clear")
         if (this.method == DrawMethods.SVG)
             this.paper.clear()
-        else
+        else if (this.method == DrawMethods.Canvas)
             this.canvas.clear();
+        else if (this.method == DrawMethods.PureCanvas)
+            this.context.clearRect(0, 0, this.w, this.h);
     }
 
     render() {
@@ -34,22 +38,27 @@ export class Drawer {
         return true
     }
 
-    reinit(){
-        if(!this.chartId) return
-        if(this.format=="mini")
+    reinit() {
+        if (!this.chartId) return
+        if (this.format == "mini")
             this.canvas = new Fabric.fabric.StaticCanvas('chart-canvas-' + this.chartId);
         else
             this.canvas = new Fabric.fabric.Canvas('chart-canvas-' + this.chartId);
         this.canvas.setDimensions({width: this.w, height: this.h});
     }
+
     w;
     h
-    setDrawer(w: number, h: number, chartId: string, inside?) {
-        this.w=w;this.h=h;
-      //  this.consoleService.chart("setdrawer", w, h)
+
+    setDrawer(w: number, h: number, chartId: string, pureCanvas:any) {
+        let id: string = "chart-canvas" + chartId;
+        this.consoleService.chart("chart setdrawer ", w, h, "chart-canvas", chartId, chartId, "id=", id, "chart-canvas" + chartId,"chart",this.canvas , document.getElementById(id),"viewchild",pureCanvas)
+        this.w = w;
+        this.h = h;
         this.chartId = chartId;
+
         if (this.isPaperSet()) {
-            //this.consoleService.chart("pair-chart existing set ", w, h)
+
             if (this.method == DrawMethods.SVG)
                 this.paper.setSize(w, h)
             else {
@@ -60,18 +69,29 @@ export class Drawer {
             }
         } else {
             if (this.method == DrawMethods.SVG)
-                this.paper = new Raphael(inside, w, h); //option (b)
-            else {
+                this.paper = new Raphael(false, w, h); //option (b)
+            else if (this.method == DrawMethods.Canvas) {
                 if (!this.canvas)
-                    if(this.format=="mini")
-                    this.canvas = new Fabric.fabric.StaticCanvas('chart-canvas-' + this.chartId);
+                    if (this.format == "mini")
+                        this.canvas = new Fabric.fabric.StaticCanvas(id, {renderOnAddRemove: false, stateful: false});
                     else
-                    this.canvas = new Fabric.fabric.Canvas('chart-canvas-' + this.chartId);
-                this.canvas.renderOnAddRemove = false
+                        this.canvas = new Fabric.fabric.Canvas(id, {renderOnAddRemove: false, stateful: false});
+
                 this.canvas.setDimensions({width: w, height: h});
                 //this.canvas.setHeight(h);
                 //his.canvas.setWidth(w);
 
+            } else if (this.method == DrawMethods.PureCanvas) {
+
+                this.canvas = pureCanvas.nativeElement;//document.getElementById(id);
+                if (this.canvas) {
+                    this.context = this.canvas.getContext("2d");
+                    this.canvas.width = this.w;
+                    this.canvas.height = this.h;
+                    this.consoleService.chart("canvas set")
+                } else {
+                    this.consoleService.chart("no canvas yet")
+                }
             }
         }
     }
@@ -80,7 +100,7 @@ export class Drawer {
     getTimeLabel(ts): string {
 
         //var offset = new Date().getTimezoneOffset();
-        let d = new Date(ts*1000);
+        let d = new Date(ts * 1000);
 
         let m = d.getMinutes();
         return d.getHours() + ":" + (m > 9 ? m : ("0" + m))
@@ -130,7 +150,7 @@ export class Drawer {
     }
 
     drawRect(name: string, x, y, w, h, fill, strokeWidth, stroke, g: Row, isTooltip?: boolean) {
-        //    this.consoleService.chart("draw Rect", name, x, y, w, h)
+      //  this.consoleService.chart("draw Rect", name, x, y, w, h)
         if (this.method == DrawMethods.SVG) {
             if (Math.round(x) == x) x += 0.5
             if (Math.round(y) == y) y += 0.5
@@ -145,22 +165,14 @@ export class Drawer {
                     //r.attr({'cursor':'pointer'})
                     x = e.pageX + 50;
                     y = e.pageY;
-                    //this.consoleService.chart(g.raw)
                     this.drawTooltip(g)
-                    /*if (!isTooltip) {
-                        let rr = this.drawRect(g.flipped.fx, 0, this.cW * 1.2, this.H, "rgba(0,0,0,0.5)", null, null, g, true);
-                        rr.mouseover((e) => {
-                            this.drawTooltip(g)
-                        })
-                    }*/
                 });
-
             if (g)
                 r.mouseout((e) => {
                     this.draw()
                 })
             return r;
-        } else {
+        } else if (this.method == DrawMethods.Canvas) {
             var rect = new Fabric.fabric.Rect({
                 left: x,
                 top: y,
@@ -171,6 +183,10 @@ export class Drawer {
                 stroke: stroke
             });
             rect.set('selectable', false);
+            rect.hasControls = false;
+            rect.hasBorders = false;
+            rect.hasRotatingPoint = false;
+
             /*rect.on('mousemove', (e) => {
                 this.consoleService.chart("rectmove", e)
             })*/
@@ -179,17 +195,21 @@ export class Drawer {
             this.canvas.add(rect);
 
             return rect;
+        } else if (this.method == DrawMethods.PureCanvas) {
+            let ctx = this.context;
+            ctx.fillStyle=fill;
+            ctx.fillRect(x+0., y+0., w+1, h+1);
         }
 
     }
 
 
-    drawText(x, y, t: string, color, align: string = "left", font,fontSize?) {
+    drawText(x, y, t: string, color, align: string = "left", font, fontSize?) {
         ////this.consoleService.chart("pair-chart text",x,y,t)
         if (this.method == DrawMethods.SVG) {
             let r = this.paper.text(x, y, t)
             r.attr("fill", color)
-        } else {
+        } else if (this.method == DrawMethods.Canvas) {
             t = t.toString()
             let r = new Fabric.fabric.IText(t, {
                 left: x,
@@ -199,32 +219,22 @@ export class Drawer {
                 textAlign: align
             });
 
-        //    if (font) {r.set("fontFamily", font);            }
-            if(fontSize){r.setFontSize(fontSize)}
+            //    if (font) {r.set("fontFamily", font);            }
+            if (fontSize) {
+                r.setFontSize(fontSize)
+            }
             this.canvas.add(r)
             this.canvas.item(0).selectable = false;
             return r;
+        }else{
+            this.context.font = "10px Arial";
+            this.context.fillStyle = color;
+            this.context.fillText(t,x,y+9);
         }
     }
-    /*
-        loadAndUse(font, f) {
-            var myfont = new FontFaceObserver(font)
-            myfont.load()
-                .then(() => {
-                    // when font is loaded, use it.
-                    console.log("chrat font ok")
-                    //this.canvas.getActiveObject().set("fontFamily", font);
-                    //this.canvas.requestRenderAll();
-                    f(true)
-                }).catch(function (e) {
-                console.log(e)
-                //alert('font loading failed ' + font);
-                f(false)
-            });
-        }
-    */
+
     drawLine(name, x, y, x2, y2, width, color) {
-        ////this.consoleService.chart("pair-chart Line",x,y,x2,y2,"width",width,"color",color)
+    //    this.consoleService.chart("pair-chart Line", x, y, x2, y2, "width", width, "color", color)
         if (this.method == DrawMethods.SVG) {
             if (Math.round(x) == x) x += 0.5
             if (Math.round(y) == y) y += 0.5
@@ -234,7 +244,7 @@ export class Drawer {
             let r = this.paper.path("M" + x + "," + y + " L" + x2 + "," + y2);
             r.attr("stroke-width", width);
             r.attr("stroke", color);
-        } else {
+        } else if (this.method == DrawMethods.Canvas) {
             let line = new Fabric.fabric.Line([x, y, x2, y2], {
 
                 stroke: color,
@@ -245,6 +255,15 @@ export class Drawer {
             this.canvas.add(line);
             this.canvas.item(0).selectable = false;
             return line
+        } else if (this.method == DrawMethods.PureCanvas) {
+            this.context.beginPath();
+            this.context.moveTo(x+0.5, y+0.5);
+            this.context.lineTo(x2+0.5, y2+0.5);
+
+            this.context.strokeStyle = color;
+
+            this.context.lineWidth=width;
+            this.context.stroke();
         }
     }
 

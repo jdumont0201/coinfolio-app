@@ -91,16 +91,13 @@ export class Data {
 
     addMeta() {
         //this.consoleService.chart("DATABOX", this.minX, this.minY, this.maxX, this.maxY)
-
         this.ohlc.forEach((d: OHLC) => {
             this.computeMinMax(d)
-
         })
         this.ohlc.forEach((d: OHLC) => {
             d.addMetaData()
         })
         this.computeIndicators()
-
     }
 
     computeIndicators() {
@@ -111,32 +108,8 @@ export class Data {
             d.addMetaData()
             this.indicators.close.push(d.data.raw.c)
         })
-
-
         this.indicators.SMA=technicalindicators.sma({period : 10, values : this.indicators.close, reversedInput : true});
         for(let i=0;i<5-1;++i) this.indicators.SMA.unshift(0)
-        //console.log(this.ohlc,this.indicators.close,this.indicators.SMA)
-        /*        this.indicators.SMA=tulind.indicators.sma.indicator([close], [3], function(err, results) {
-                    console.log("sma",results)
-                    this.indicators.sma=results[0]
-                });*/
-
-        /*talib.execute({
-            name: "SMA",
-            startIdx: 0,
-            endIdx: this.indicators.close.length - 1,
-            close: this.indicators.close,
-            optInTimePeriod: 9
-        }, function (err, result) {
-            this.indicators.sma=result
-        });*/
-
-
-
-
-
-        //console.log("sma", this.indicators.SMA, this.indicators.close)
-
     }
     scaleIndicators(){
 

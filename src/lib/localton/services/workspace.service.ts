@@ -58,7 +58,7 @@ export class WorkspaceService {
 
                     this.panelsObject = res.object;
                     this.panelsArray = res.array;
-                    this.setSpecialPanels()
+                    //this.setSpecialPanels()
                     //this.loadWorkspaces(() => {
                         this.isLoaded = true;
                       //  this.eventService.workspaceUpdatedEvent.emit(true);
@@ -87,6 +87,7 @@ export class WorkspaceService {
         for (let i = 0; i < this.appConfigService.specialPanels.length; ++i) {
             let p = this.appConfigService.specialPanels[i]
             this.panelsObject[p.id] = p;
+            if(this.panelsArray)
             this.panelsArray.push(p)
         }
     }
