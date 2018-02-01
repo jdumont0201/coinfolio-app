@@ -2,7 +2,9 @@
 <section class="widget price2mini {{isZoomed?'zoomed':''}}" *ngIf="!isErrored">
     <h5 (click)="barClick()">{{supra+" / "+infra}} @{{broker}}
         <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu2">  {{period}}     <mat-icon>expand_more</mat-icon>    </span></div>
-        <div class="right"><span class="last-refreshed">{{loadTime | date:"HH:mm:ss"}}</span>
+        <div class="right"><span class="last-refreshed">
+
+            </span>
             <mat-icon class="button-zoom" (click)="zoom()">{{isZoomed?'zoom_out':'zoom_in'}}</mat-icon>
         </div>
     </h5>

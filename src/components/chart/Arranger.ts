@@ -13,7 +13,7 @@ export class Arranger {
 
 
     MRNormal = 100;
-    DH;
+    DH;  //draw height
     DW;
 
     lastMargin = 30
@@ -39,10 +39,10 @@ export class Arranger {
         if (this.Data.isEmpty()) return
 
         this.Nshow = Math.round(this.W / (this.options.chart.cW + this.options.chart.cWMargin))
-      //  console.log("chartN", this.W, this.Nshow, this.options.chart.cW, this.options.chart.cWMargin)
+        //  console.log("chartN", this.W, this.Nshow, this.options.chart.cW, this.options.chart.cWMargin)
         this.idxMin = Math.max(0, this.Data.getSize() - this.Nshow)
         this.idxMax = this.Data.getSize() - 1
-    //    this.consoleService.chart("setInitialView", this.idxMin, this.idxMax,this.Data.ohlc)
+        //    this.consoleService.chart("setInitialView", this.idxMin, this.idxMax,this.Data.ohlc)
         //this.consoleService.chart("pair-chart VIEW", this.idxMin, this.idxMax)
     }
 
@@ -54,7 +54,7 @@ export class Arranger {
         this.DW = this.W - this.options.chart.ML - this.options.chart.MR;
         this.DH = this.H - this.options.chart.MT - this.options.chart.MB;
 
-        //this.consoleService.chart("  setcanvassize", w, h)
+        this.consoleService.chart("  setcanvassize", w, h,this.DW,this.DH)
     }
 
 
@@ -71,17 +71,25 @@ export class Arranger {
 
     constructor(public method, public consoleService: ConsoleService, public format: string) {
         this.options = {
+            indicators: {
+                onchart:
+                    {
+                        sma: {
+                            period: 10
+                        }
+                    }
+            },
             chart: {
-                MT: 0,
-                MB: this.format == "mini" ? 20 : 50,
+                MT: 30,
+                MB: this.format == "mini" ? 50 : 80,
                 ML: 0,
                 MR: 100,
                 cW: this.format == "mini" ? 4 : 6,
-                cWMargin: this.format == "mini" ? 2 : 4
+                cWMargin: this.format == "mini" ? 4 : 6
             },
             yAxis: {
                 grid: {
-                    color: "rgba(255,255,255,0.2)",
+                    color: "rgba(255,255,255,0.1)",
                     textColor: "rgba(255,255,255,0.5)",
                     strokeWidth: 1,
                     textStyle: ''
@@ -90,7 +98,7 @@ export class Arranger {
             xAxis: {
                 height: 20,
                 grid: {
-                    color: "rgba(255,255,255,0.2)",
+                    color: "rgba(255,255,255,0.1)",
                     textColor: "rgba(255,255,255,0.5)",
                     strokeWidth: 1,
                     textStyle: ''
@@ -111,14 +119,14 @@ export class Arranger {
                     upColor: "rgb(40,200,40)",
                     downColor: "rgb(255,0,30)",
                     strokeWidth: 1,
-                    upStrokeColor: this.format == "mini" ? 'rgb(80,250,100)' : 'rgba(255,255,255,1)',
-                    downStrokeColor: this.format == "mini" ? 'rgb(250,50,100)' : 'rgba(255,255,255,1)',
+                    upStrokeColor: this.format == "mini" ? 'rgb(80,250,100)' : 'rgb(80,250,100)',
+                    downStrokeColor: this.format == "mini" ? 'rgb(250,50,100)' : 'rgb(250,50,100)',
 
                 },
                 line: {
                     width: 1,
-                    upColor: this.format == "mini" ? 'rgb(80,250,100)' : 'rgba(255,255,255,1)',
-                    downColor: this.format == "mini" ? 'rgb(250,50,100)' : 'rgba(255,255,255,1)',
+                    upColor: this.format == "mini" ? 'rgb(80,250,100)' : 'rgb(80,250,100)',
+                    downColor: this.format == "mini" ? 'rgb(250,50,100)' : 'rgb(250,50,100)',
                 }
             }
         }
@@ -244,11 +252,22 @@ export class Arranger {
         if (range > 0.00001) return 0.0000025
         else return 0.000001
     }
+    getXAxisLevel(): number {
+
+        let range = this.maxXView - this.minXView
+
+        if (range < 5000) return 900
+        if (range < 1500) return 1500
+        if (range < 30000) return 9000
+        if (range < 60000) return 18000
+
+        else return 18000
+    }
 
     computeYAxis() {
         let level = this.getYAxisLevel()
         //this.consoleService.chart("pair-chart level gr", level)
-        let levels: number[] = this.findRoundNumbersBetween(this.minYView, this.maxYView, level)
+        let levels: number[] = this.findRoundNumbersBetween(this.minYView*0.9, this.maxYView*1.1, level)
         this.yAxis = []
         for (let i = 0; i < levels.length; ++i) {
             //let level = this.minYView + (this.maxYView - this.minYView) / this.nLines * i;
@@ -270,20 +289,24 @@ export class Arranger {
         for (let i = first; i <= last; i++) {
             A.push(i * level)
         }
-        //this.consoleService.chart("pair-chart level", A)
         return A
     }
 
     computeXAxis() {
-        let range = this.maxXView - this.maxYView
+        let range = this.maxXView - this.minXView
+        let step = this.getXAxisLevel()
         this.xAxis = []
-
-        for (let i = 0; i < this.nXAxis; ++i) {
-            let level:number = this.minXView + (this.maxXView - this.minXView) / this.nXAxis * i;
-            var offset = new Date().getTimezoneOffset();
-            let dd=new Date(level);
-            let d :number= dd-offset*60;
-            this.xAxis.push({val: Math.round(this.scaleX(level)), text: this.drawer.getTimeLabel(d)})
+        let levels: number[] = this.findRoundNumbersBetween(this.minXView-step , this.maxXView+step, step)
+         //console.log("levels",levels,step,range,new Date(this.minXView*1000).toString(),new Date(this.maxXView*1000).toString());
+        for (let i = 0; i < levels.length; ++i) {
+            //let level: number = this.minXView + (this.maxXView - this.minXView) / this.nXAxis * i;
+            let lev=levels[i];
+           // console.log("levels",levels,level,range);
+           var offset = new Date().getTimezoneOffset();
+               //let dd = new Date(lev*1000).getTime()/1000;
+               //console.log("dd",dd,new Date(lev*1000).toString())
+               let d: number = lev;// - offset * 60;
+                this.xAxis.push({val: Math.round(this.scaleX(lev)), text: this.drawer.getTimeLabel(d)})
         }
     }
 
@@ -326,11 +349,7 @@ export class Arranger {
         if (this.Data.isEmpty()) return
         this.setBarWidth()
         this.setViewport();
-        /*if(this.isShowingLast()) {
-            this.MR = this.MRNormal
-        }else{
-            this.MR=0}
-            this.setSize(this.W,this.H)*/
+
         for (let i = this.idxMin; i <= this.idxMax; ++i) {
             let d: OHLC = this.Data.get(i)
             d.arrange(this)

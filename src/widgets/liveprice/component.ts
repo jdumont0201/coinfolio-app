@@ -105,7 +105,8 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
 
 
             this.websocketService.create(id, url, (m: any) => {
-                this.lastCandle = {ts: m.k.t/1000, o: m.k.o, h: m.k.h, l: m.k.l, c: m.k.c, v: m.k.v};
+
+//                this.lastCandle = {ts: parseInt(m.ts), o:parseFloat( m.o), h: parseFloat(m.h), l:parseFloat( m.l), c: parseFloat(m.c), v: parseFloat(m.v)};
             }, "simple")
 
             if (!res || res.error) {

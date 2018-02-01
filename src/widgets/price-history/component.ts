@@ -14,6 +14,7 @@ import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/
 import {ZoomableRefreshable} from "../../lib/localton/components/ZoomableRefreshable/component";
 import {WebsocketService} from "../../lib/globalton/core/services/websocket.service";
 import * as socketio from "socket.io-client"
+
 @Component({
     selector: 'app-price-history',
     templateUrl: 'template.html'
@@ -42,14 +43,16 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
     draw() {
     }
 
-    constructor(public consoleService: ConsoleService,public websocketService:WebsocketService, public tradingService: TradingService, public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
+    constructor(public consoleService: ConsoleService, public websocketService: WebsocketService, public tradingService: TradingService, public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
         super(refreshService, eventService, consoleService)
         this.chartId = Strings.getRandom(7);
-        this.consoleService.chart("before chart charid",this.chartId);
-        window.addEventListener('beforeunload', ()=> {
+        this.consoleService.chart("before chart charid", this.chartId);
+        window.addEventListener('beforeunload', () => {
             console.log("beforeunload")
-            const id=this.broker+"-"+this.pair+"-mini-"+this.period;
-            this.websocketService.getSocket(id).close()
+            const id = this.broker + "-" + this.pair + "-mini-" + this.period;
+            let s=this.websocketService.getSocket(id);
+            if(s)
+            s.close()
         });
     }
 
@@ -101,35 +104,39 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
         console.log("preChart  updatedata", this.period, this.pair)
         this.isLoading = true;
         this.isError = false;
-        this.logic.getPrice(this.broker,  (res) => {
-            console.log("getprice",this.pair,res)
-            this.loadTime=new Date()
+        this.logic.getPrice(this.broker, (res) => {
+            console.log("getprice", this.pair, res)
+            this.loadTime = new Date()
             if (!res || res.error) {
                 this.isError = true;
                 this.isLoading = false;
                 return
             }
-            const id=this.broker+"-"+this.pair+"-mini-"+this.period;
-            let task="ohlc";
-            const url="ws://34.243.147.139:3014/binance/"+this.pair.toUpperCase()+"/"+this.period;
+            const id = this.broker + "-" + this.pair + "-mini-" + this.period;
+            let task = "ohlc";
+            const url = "ws://34.243.147.139:3014/" + this.broker + "/" + this.pair.toUpperCase() + "/" + this.period;
             this.websocketService.create(id, url, (m: any) => {
-                console.log("msg",m)
-                if(m && m.k) {
-                    this.lastCandle = {ts: m.k.t/1000, o: m.k.o, h: m.k.h, l: m.k.l, c: m.k.c, v: m.k.v};
-                }else{
-                    console.log("errmsg",m,typeof m);
-            }
-            },"simple");
+                console.log("msdg", JSON.stringify(m),new Date(parseInt(m.ts)*1000).toISOString())
+                if (m) {
+                    this.lastCandle = {ts: new Date(parseInt(m.ts)*1000).toISOString().split('.')[0], open:parseFloat( m.o), high: parseFloat(m.h), low:parseFloat( m.l), close: parseFloat(m.c), volume: parseFloat(m.v)};
+
+                } else {
+                                      console.log("errmsg",m,typeof m);
+                }
+            }, "simple");
 
 
             this.chartData = res;
             this.isLoading = false;
-        }, this.pair,this.period,40)
+        }, this.pair, this.period, 40)
     }
-    ngOnDestroy(){
+
+    ngOnDestroy() {
         console.log("ondestroy")
-        const id=this.broker+"-"+this.pair+"-mini-"+this.period;
-        this.websocketService.getSocket(id).close()
+        const id = this.broker + "-" + this.pair + "-mini-" + this.period;
+        let s=this.websocketService.getSocket(id);
+        if(s)
+            s.close()
     }
 
 
@@ -145,7 +152,7 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
 
     setInterval(v: string) {
         console.log("setinterval");
-        const id=this.broker+"-"+this.pair+"-live-"+this.period
+        const id = this.broker + "-" + this.pair + "-live-" + this.period
         this.websocketService.close(id)
 
         this.period = v;//Crypto.getIntervalSeconds(v)

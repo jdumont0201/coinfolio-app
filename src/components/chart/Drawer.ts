@@ -229,6 +229,12 @@ export class Drawer {
         }else{
             this.context.font = "10px Arial";
             this.context.fillStyle = color;
+            if(align=="right")
+                this.context.textAlign="right";
+            else if(align=="left")
+                this.context.textAlign="left";
+            else if(align=="center")
+                this.context.textAlign="center";
             this.context.fillText(t,x,y+9);
         }
     }

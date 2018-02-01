@@ -107,9 +107,14 @@ export class Data {
         this.ohlc.forEach((d: OHLC) => {
             d.addMetaData()
             this.indicators.close.push(d.data.raw.c)
+
+
         })
-        this.indicators.SMA=technicalindicators.sma({period : 10, values : this.indicators.close, reversedInput : true});
-        for(let i=0;i<5-1;++i) this.indicators.SMA.unshift(0)
+        let period= this.arranger.options.indicators.onchart.sma.period;
+
+        this.indicators.SMA=technicalindicators.sma({period :period, values : this.indicators.close, reversedInput : true});
+//        console.log("indicators",this.ohlc.length,JSON.stringify(this.indicators.SMA),JSON.stringify(this.indicators.close))
+        for(let i=0;i<period-1;++i) this.indicators.SMA.unshift(-1)
     }
     scaleIndicators(){
 
