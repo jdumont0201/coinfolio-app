@@ -100,13 +100,13 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
         this.logic.getPrice(this.broker, (res) => {
             const id = this.broker + "-" + this.pair + "-mini-" + this.period;
             let task = "ohlc";
-            const url = "ws://34.243.147.139:3014/binance/" + this.pair.toUpperCase() + "/" + this.period;
+            const url = "ws://34.243.147.139:3014/"+ this.broker +"/" + this.pair.toUpperCase() + "/" + this.period;
             console.log("wsurl", url)
 
 
             this.websocketService.create(id, url, (m: any) => {
 
-//                this.lastCandle = {ts: parseInt(m.ts), o:parseFloat( m.o), h: parseFloat(m.h), l:parseFloat( m.l), c: parseFloat(m.c), v: parseFloat(m.v)};
+                this.lastCandle = {ts: new Date(parseInt(m.ts)*1000).toISOString().split('.')[0], open:parseFloat( m.o), high: parseFloat(m.h), low:parseFloat( m.l), close: parseFloat(m.c), volume: parseFloat(m.v)};
             }, "simple")
 
             if (!res || res.error) {
