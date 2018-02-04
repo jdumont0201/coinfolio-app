@@ -66,7 +66,7 @@ export class Broker {
         this.trades = new Trades(this.logic, this.eventService, this.tradingService, this.refreshService, this.key)
     }
     unloadBroker(){
-        let idx=this.tradingService.enabledBrokers.indexOf(this.key)
+        const idx=this.tradingService.enabledBrokers.indexOf(this.key)
         if(idx>-1){
         this.refreshService.getPool(this.key + "-ticker").stop()
         this.refreshService.getPool(this.key + "-portfolio").stop()
@@ -94,7 +94,7 @@ export class Broker {
                         //if(isSuccess3 && isSuccess2 && isSuccess)
                         if(isSuccess2 && isSuccess)
                         this.setLoaded(true)
-                        let res={portfolio: isSuccess?"done":"failed", ticker: isSuccess2?"done":"failed", bidask: isSuccess2?"done":"failed"};
+                        const res={portfolio: isSuccess?"done":"failed", ticker: isSuccess2?"done":"failed", bidask: isSuccess2?"done":"failed"};
                         console.log("loadres",res)
                         f(res)
                     //})

@@ -4,9 +4,6 @@
     </mat-toolbar>
 
 
-    <ng-container >
-
-
         <app-top-right-buttons [placeholder]="'Search listing...'"></app-top-right-buttons>
         <ng-container *ngIf="listing.length>0 || isRefreshing">
             <button id="listing-view" mat-raised-button (click)="setGraphView()">
@@ -58,7 +55,7 @@
                 </ng-container>
                 <ng-container matColumnDef="pair">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
-                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/chart/'+element.pair+'/broker/'+element.broker">{{element.supra}} / {{element.infra}}
+                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/chart/'+element.pair+'/broker/'+element.broker">{{element.pair}}
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="volume">
@@ -72,7 +69,8 @@
                 <ng-container matColumnDef="bid">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Bid</mat-header-cell>
                     <mat-cell *matCellDef="let s"><span class="{{s.oldbid>s.bid?'valneg':'valpos'}}"> {{s.bid}} <mat-icon>{{s.oldbid>s.bid?"arrow_downward":"arrow_upward"}}</mat-icon></span>
-                        <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdbid | number :'1.2-5'}}</span></mat-cell>
+                        <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdbid | number :'1.2-5'}}</span>
+                    </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="ask">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ask</mat-header-cell>
@@ -86,5 +84,4 @@
             </mat-table>
 
         </ng-container>
-    </ng-container>
 </div>
