@@ -22,7 +22,7 @@
                 Register form
             </h5>
             <div class="form">
-                <app-form-register [successCallback]="afterSignup"></app-form-register>
+                <app-form-register [successCallback]="afterSignup.bind(_this)"></app-form-register>
             </div>
         </mat-tab>
         <mat-tab label="Forgotten password">

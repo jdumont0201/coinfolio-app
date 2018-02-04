@@ -72,7 +72,6 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
             this.subscribeToRefresh(b + "-ticker", f,true)
             this.brokerOptions[b]={active:true}
         })
-
     }
 
     ngOnDestroy() {
@@ -99,18 +98,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     }
     filterValue="";
     searchUpdated(filterValue) {
-        /*this.setTab(-1)
-        this.searched = []
-        let s: string = searchedText.trim()
-        let isMultipleWords = s.indexOf(" ")
-        if (isMultipleWords) {
-            let ss: string[] = s.split(" ");
-            for (let j = 0; j < ss.length; ++j) {
-                this.addToSearch(ss[j])
-            }
-        } else
-            this.addToSearch(s);
-*/      console.log("search",filterValue,this,this.dataSource)
+        console.log("search",filterValue,this,this.dataSource)
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
         this.filterValue=filterValue
@@ -132,14 +120,70 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     dataSource;
 
     loadData() {
-        console.log("loaddata",this.tradingService.enabledBrokers)
-        if (this.tradingService.enabledBrokers)
-            this.tradingService.enabledBrokers.forEach((b) => {
-                this.loadDataByBroker(b)
-            })
+        let loadFromPublic=true;
+        if(loadFromPublic){
+            this.loadPublicData();
+        }else{
+            console.log("loaddata",this.tradingService.enabledBrokers)
+            if (this.tradingService.enabledBrokers)
+                this.tradingService.enabledBrokers.forEach((b) => {
+                    this.loadDataByBroker(b)
+                })
+
+        }
     }
 
+    loadPublicData(){
+        this.appConfigService.possibleBrokers.forEach((b) => {
+            let key="public-"+b+"-ticker";
+            this.refreshService.createPool(key);
+            this.refreshService.getPool(key).define(4000,()=>{
+
+                this.loadPublicDataByBroker(b)
+            })
+            this.refreshService.getPool(key).enable();
+            this.loadPublicDataByBroker(b)
+        })
+    }
     indexes={}
+
+    loadPublicDataByBroker(b:string) {
+        console.log("public loadpublicdata",b);
+
+        if(!(b in this.indexes))
+            this.indexes[b]={}
+
+        this.logic.getFromPublic(b,"bidask",(res)=>{
+            for(let i in res){
+                const key=b+"-"+i;
+//                console.log("public after",i,res[i]);
+                const r=res[i];
+                const li:Tick={broker:b,pair:i,volume:r.volume,bid:r.bid,ask:r.ask,p:r.price}
+                if(b in this.indexes && li.pair in this.indexes[b]) { //already added
+                    const i:number=this.indexes[b][li.pair];
+  //                  console.log("already",this.listing[i].oldbid,this.listing[i].bid);
+                    this.listing[i].oldbid=this.listing[i].bid;
+                    this.listing[i].oldask=this.listing[i].ask;
+                    this.listing[i].ask=li.ask;
+                    this.listing[i].bid=li.bid;
+                    this.listing[i].p=li.p;
+                }else{
+                    console.log("create")
+                    this.indexes[b][li.pair]=this.listing.length;
+                    this.listing.push(li);
+                }
+            }
+            this.dataSource = new MatTableDataSource(this.listing);
+        });
+        this.dataSource = new MatTableDataSource(this.listing);
+        this.dataSource.filter = this.filterValue;
+        this.dataSource.sort = this.sort;
+        this.loadTime = new Date()
+        this.refreshTimer = this.refreshEvery;
+        this.isRefreshing = false
+        if (this.listing && this.listing.length > 0) this.isLoading = false
+        console.log("loadpublicdata",this.listing)
+    }
     loadDataByBroker(b) {
         let B = this.tradingService.getBrokerByName(b);
         console.log("loaddata",b,B)

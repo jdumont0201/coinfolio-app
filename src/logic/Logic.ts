@@ -90,6 +90,18 @@ export class Logic {
             else f(null)
         })
     }
+    getFromPublic(broker, task, f: Function, query?: string|any) {
+        const queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
+        this.requestService.get("http://public.coinamics.io/public/" + broker + '/' + task + "?"+queryStr, (res) => {
+            console.log("public log",res.file);
+            if (res.file ){
+                //let A=UniversalLoader.load(broker, task, res.result.data);
+                    const A=res.file;
+                f(A)
+            }
+            else f(null)
+        },this);
+    }
 
     getPrice(broker,f:Function,pair,interval,limit){
         let url=this.appConfigService.getDbCode(broker)+"_ohlc_"+interval;

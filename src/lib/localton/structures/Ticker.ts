@@ -12,7 +12,7 @@ export type Tick = {
     volume?: number,
     change?: number, changepips?: number, changelastprice?: number, changelasttime?: number, changeCloseTime?: number, changeLastTime?: number,
     usdvalue?: number, unitvalue?: number,
-    infra: string, supra: string, broker: string, pair: string, relativeVolume?: number
+    infra?: string, supra?: string, broker: string, pair: string, relativeVolume?: number
 }
 import * as async from 'async';
 import {CryptoPair} from "./Listing";
@@ -162,7 +162,6 @@ export class Ticker {
     }
 
     loadUniversal(f: Function) {
-
         this.beforeLoad()
         this.logic.getFromBroker(this.key, "ticker", (prices: { [s: string]: any }) => {
             this.dataTime = new Date();

@@ -20,10 +20,10 @@ import {Router} from "@angular/router";
 export class AppAuthPage extends PageWithTabs  {
 
     selectedIndex = 0
-
+_this
     constructor(public authService: AuthService,public router:Router, public requestService: RequestService,  public consoleService:ConsoleService  ,public dataService: DataService,  public refreshService: RefreshService ,public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar) {
         super(refreshService,eventService,consoleService)
-
+        this._this=this;
     }
 
     ngOnInit() {
