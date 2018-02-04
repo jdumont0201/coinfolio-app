@@ -1,0 +1,19 @@
+[package]
+name = "app-server"
+version = "0.1.0"
+authors = ["JB Dumont <jbmdumont@gmail.com>"]
+
+[dependencies]
+serde_json = "1.0"
+serde_derive = "*"
+serde = "*"
+json = "*"
+chrono = "0.4"
+iron ="*"
+time="*"
+router="*"
+persistent = "*"
+reqwest="*"
+job_scheduler="*"
+staticfile = "*"
+mount = "*"

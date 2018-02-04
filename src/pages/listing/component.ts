@@ -26,10 +26,10 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy {
     listing: Tick[] = new Array();
     supports = {}
-    brokerOptions={}
+    brokerOptions = {}
     isLoading = true;
 
-    displayedColumnsRef = ['traded', 'inptf', 'pair', 'broker','volume', '24hevol', 'bid', 'ask'];
+    displayedColumnsRef = ['traded', 'inptf', 'pair', 'broker', 'volume', '24hevol', 'bid', 'ask'];
 
     showGraphs = false;
     canShow = [];
@@ -47,30 +47,37 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public refreshService: RefreshService, public requestService: RequestService, public consoleService:ConsoleService  ,public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
-        super(refreshService,eventService,consoleService)
+    constructor(public refreshService: RefreshService, public requestService: RequestService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
+        super(refreshService, eventService, consoleService)
         this.firstloadData();
 
 
     }
-    initPossibleBrokers(){
+
+    initPossibleBrokers() {
 
     }
-    ngOnInit(){
-        this.doSubscribe("searchUpdatedEvent",      this.eventService.searchUpdatedEvent,(val) => {    this.searchUpdated(val)             })
-        this.doSubscribe("EnabledBrokersLoadingFinishedEvent",this.tradingService.EnabledBrokersLoadingFinishedEvent,(val) => {
-            this.brokerLoaded(val)
-            this.tradingService.enabledBrokers.forEach((b)=>{
-                let f = () => {                    this.loadDataByBroker(b);                }
-                this.subscribeToRefresh(b + "-ticker", f,true)
-                this.brokerOptions[b]={active:true}
-            })
 
+    ngOnInit() {
+        this.doSubscribe("searchUpdatedEvent", this.eventService.searchUpdatedEvent, (val) => {
+            this.searchUpdated(val)
         })
-        this.tradingService.enabledBrokers.forEach((b)=>{
-            let f = () => {                this.loadDataByBroker(b);            }
-            this.subscribeToRefresh(b + "-ticker", f,true)
-            this.brokerOptions[b]={active:true}
+        this.doSubscribe("EnabledBrokersLoadingFinishedEvent", this.tradingService.EnabledBrokersLoadingFinishedEvent, (val) => {
+            this.brokerLoaded(val)
+            this.tradingService.enabledBrokers.forEach((b) => {
+                let f = () => {
+                    this.loadDataByBroker(b);
+                }
+                this.subscribeToRefresh(b + "-ticker", f, true)
+                this.brokerOptions[b] = {active: true}
+            })
+        })
+        this.tradingService.enabledBrokers.forEach((b) => {
+            let f = () => {
+                this.loadDataByBroker(b);
+            }
+            this.subscribeToRefresh(b + "-ticker", f, true)
+            this.brokerOptions[b] = {active: true}
         })
 
     }
@@ -80,6 +87,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         this.unsubscribeAllEvents()
 
     }
+
     brokerLoaded(val: { key: string, loaded: boolean }) {
         this.loadData()
     }
@@ -94,10 +102,12 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         this.loadData()
     }
 
-    searchCallback(){
+    searchCallback() {
 
     }
-    filterValue="";
+
+    filterValue = "";
+
     searchUpdated(filterValue) {
         /*this.setTab(-1)
         this.searched = []
@@ -110,10 +120,11 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
             }
         } else
             this.addToSearch(s);
-*/      console.log("search",filterValue,this,this.dataSource)
+*/
+        console.log("search", filterValue, this, this.dataSource)
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-        this.filterValue=filterValue
+        this.filterValue = filterValue
         this.dataSource.filter = filterValue;
     }
 
@@ -132,35 +143,41 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     dataSource;
 
     loadData() {
-        console.log("loaddata",this.tradingService.enabledBrokers)
+        console.log("loaddata", this.tradingService.enabledBrokers)
         if (this.tradingService.enabledBrokers)
             this.tradingService.enabledBrokers.forEach((b) => {
                 this.loadDataByBroker(b)
             })
     }
 
-    indexes={}
+    indexes = {}
+    useConnection = false;
+
     loadDataByBroker(b) {
         let B = this.tradingService.getBrokerByName(b);
-        console.log("loaddata",b,B)
-        if (!B) return
-//        this.listing
-        let L= B.getTicker().getList(this.sortby);//getList(this.sortby, "change");
+        console.log("loaddata", b, B)
+        if (!B) return;
+        if (this.useConnection) {
+            let L = B.getTicker().getList(this.sortby);//getList(this.sortby, "change");
 
-        //update listing
-        if(!(b in this.indexes))
-            this.indexes[b]={}
-        L.forEach((li)=>{
-            if(b in this.indexes && li.pair in this.indexes[b]) { //already added
-                let i=this.indexes[b][li.pair]
-                this.listing[i]=li
-            }else{
-                this.indexes[b][li.pair]=this.listing.length;
-                this.listing.push(li)
-            }
+            //update listing
+            if (!(b in this.indexes))
+                this.indexes[b] = {}
+            L.forEach((li) => {
+                if (b in this.indexes && li.pair in this.indexes[b]) { //already added
+                    let i = this.indexes[b][li.pair]
+                    this.listing[i] = li
+                } else {
+                    this.indexes[b][li.pair] = this.listing.length;
+                    this.listing.push(li)
+                }
 
-        })
+            })
+        } else{
+        //    this.requestService.get("")
+            //this.refreshService.createPool("public-hitbtc-price");
 
+        }
 
         this.maxVolume = B.getTicker().maxVolume;
 
@@ -169,8 +186,8 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
                 l.relativeVolume = l.volume / this.maxVolume[l.infra];
             } else l.relativeVolume = -1
 
-            this.supports[l.infra] = {symbol: l.infra, active: l.infra in this.supports?(this.supports[l.infra].active):true}
-            this.brokerOptions[l.broker] = {active: l.broker in this.brokerOptions?(this.brokerOptions[l.broker].active):true}
+            this.supports[l.infra] = {symbol: l.infra, active: l.infra in this.supports ? (this.supports[l.infra].active) : true}
+            this.brokerOptions[l.broker] = {active: l.broker in this.brokerOptions ? (this.brokerOptions[l.broker].active) : true}
 
         })
 
@@ -182,9 +199,8 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         this.refreshTimer = this.refreshEvery;
         this.isRefreshing = false
         if (this.listing && this.listing.length > 0) this.isLoading = false
-        console.log("loaddata",this.listing)
+        console.log("loaddata", this.listing)
     }
-
 
 
     getObjectKeys(obj): string[] {
@@ -194,8 +210,8 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     filterData() {
 
         this.listing.forEach((l) => {
-            let isBrokerSelected= this.brokerOptions[l.broker].active
-            if (this.supports[l.infra].active )
+            let isBrokerSelected = this.brokerOptions[l.broker].active
+            if (this.supports[l.infra].active)
                 this.filteredData.push(l)
         })
         this.dataSource = new MatTableDataSource(this.filteredData);
@@ -214,8 +230,8 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
 
 
     applyFilter(event) {
-        console.log("target",event)
-        let filterValue=event.target.value;
+        console.log("target", event)
+        let filterValue = event.target.value;
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
         this.dataSource.filter = filterValue;

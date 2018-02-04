@@ -118,8 +118,7 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
             this.websocketService.create(id, url, (m: any) => {
                 //console.log("msdg", JSON.stringify(m),new Date(parseInt(m.ts)*1000).toISOString())
                 if (m) {
-                    this.lastCandle = {ts: new Date(parseInt(m.ts)*1000).toISOString().split('.')[0], open:parseFloat( m.o), high: parseFloat(m.h), low:parseFloat( m.l), close: parseFloat(m.c), volume: parseFloat(m.v)};
-
+                    this.lastCandle = {ts: new Date(parseInt(m.ts)*1000).toISOString().split('.')[0], o:parseFloat( m.o), h: parseFloat(m.h), l:parseFloat( m.l), c: parseFloat(m.c), v: parseFloat(m.v)};
                 } else {
                                       console.log("errmsg",m,typeof m);
                 }

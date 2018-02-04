@@ -22,6 +22,7 @@ import {RawLoadedData, Row, UnparsedRawLoadedData} from "./Types"
 import {Data} from "./Data"
 import {Drawer} from "./Drawer";
 import {Arranger} from "./Arranger";
+import {OHLC} from "./OHLC";
 
 @Component({
     selector: 'app-chart',
@@ -124,15 +125,15 @@ export class AppChartComponent extends CheckValid {
     updateSteam(lastBar: any) {
         let chr = new Date().getTime();
         if (!this.Data || this.Data.isEmpty()) return
-        this.consoleService.chart("chart new steal", lastBar,this.Data.ohlc.length,this.data)
+
         let ne = lastBar;
         this.prevPrice = this.currentPrice;
         this.currentPrice = ne.c
         //console.log("chart new", ne.ts == this.Data.getLast().raw.ts)
-
+        this.consoleService.chart("chart new steal", lastBar,this.Data.ohlc.length,this.data,ne.ts,this.Data.getLast().raw.ts)
         //console.log("OLDDATA", JSON.stringify(this.Data.ohlc))
-        if (ne.ts == this.Data.getLast().raw.ts) {
-            console.log("edit last bar",this.Data.getLast().raw.ts,ne.c)
+        if (OHLC.dateStringToInt(ne.ts) == this.Data.getLast().raw.ts) {
+            console.log("edit last bar",this.Data.getLast().raw.ts,ne)
             this.data[this.data.length - 1].c = ne.c;
             this.Data.setLastClose(ne.c);
             //this.data. ne.c);
