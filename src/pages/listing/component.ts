@@ -47,7 +47,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public refreshService: RefreshService, public requestService: RequestService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService,, public cd: ChangeDetectorRef) {
+    constructor(public refreshService: RefreshService, public requestService: RequestService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService, public cd: ChangeDetectorRef) {
         super(refreshService, eventService, consoleService)
         this.firstloadData();
 
