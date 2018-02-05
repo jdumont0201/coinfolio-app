@@ -34,7 +34,7 @@ export class OHLC {
             dd = {o: d.open, ts: ts, c: d.close, h: d.high, l: d.low}
         else
             dd = {o: d.o, ts: ts, c: d.c, h: d.h, l: d.l}
-         console.log("adddata or=",ts,dd );
+
         this.data = {raw: dd, scaled: {}, flipped: {}, meta: {}, draw: {}, indicators: {}};
 
     }

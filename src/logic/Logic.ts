@@ -333,13 +333,13 @@ export class Logic {
     }
 
     getCapLastWeek(source, days, ts, symbol: string, base, f: Function) {
-        this.dataService.perform("caplastweek", {
+        this.dataService.getAll("cmc_cap", f,{
             pts: ts,
             psymbol: symbol,
             pdays: days,
             pbase: base,
             psource: source
-        }, f)
+        })
 
     }
 

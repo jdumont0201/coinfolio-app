@@ -84,6 +84,11 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     ngOnDestroy() {
         this.unsubscribeAndStopAllRefresh()
         this.unsubscribeAllEvents()
+        this.appConfigService.possibleBrokers.forEach((b) => {
+            let key = "public-" + b + "-ticker";
+            this.refreshService.createPool(key);
+            this.refreshService.getPool(key).stop();
+        });
 
     }
 

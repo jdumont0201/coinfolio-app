@@ -4,14 +4,14 @@
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
     <mat-table #table class="data" [dataSource]="dataSource">
 
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="symbol">
             <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-            <mat-cell *matCellDef="let element" [routerLink]="'/symbol/'+element.symbol">{{element.name}}</mat-cell>
+            <mat-cell *matCellDef="let element" [routerLink]="'/symbol/'+element.symbol">{{element.symbol}}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="market_cap_usd">
+        <ng-container matColumnDef="marketcap">
             <mat-header-cell *matHeaderCellDef> Cap (m{{base}})</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.market_cap_usd /1000000 | number:'1.0-0'}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.marketcap /1000000 | number:'1.0-0'}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

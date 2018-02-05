@@ -3,15 +3,8 @@
     <mat-toolbar><h3>Dashboard</h3></mat-toolbar>
     <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
     <mat-tab-group (selectedTabChange)="tabChanged($event)">
-
         <mat-tab label="Overview">
-            <app-price-history [pair]="'ETHUSDT'" [broker]="'binance'" [period]="'1m'"></app-price-history>
             <app-marketcap-live></app-marketcap-live>
-            <app-widget-perflastweek [symbol]="'BTC'"></app-widget-perflastweek>
-            <app-widget-marketcap [symbol]="'global'"></app-widget-marketcap>
         </mat-tab>
-
     </mat-tab-group>
-
-
 </ng-container>

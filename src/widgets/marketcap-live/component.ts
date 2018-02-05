@@ -22,7 +22,7 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";impor
 export class AppMarketCapLiveWidget extends DataAndChartTemplate {
 
 
-    displayedColumns = [ 'name', 'market_cap_usd'];
+    displayedColumns = [ 'symbol', 'marketcap'];
 
 
     @Input() symbol: string;
@@ -59,20 +59,22 @@ export class AppMarketCapLiveWidget extends DataAndChartTemplate {
     }
 
 
-    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService, public requestService: RequestService) {
+    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService, public requestService: RequestService, public dataService:DataService) {
         super(consoleService,refreshService, logic, appConfigService, eventService)
     }
 
     isLoading = true;
 
     updateData() {
-        let url = "https://api.coinmarketcap.com/v1/ticker/"
-        this.requestService.get(url, (res) => {
-            this.data = res.file;
+
+
+        this.dataService.perform("topmarketcap",{}, (res) => {
+            console.log("resutop",res)
+            this.data = res;
             this.dataSource = new MatTableDataSource(this.data);
             this.isLoading = false
 
-        }, this)
+        })
     }
 
 

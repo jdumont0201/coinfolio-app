@@ -30,7 +30,6 @@ export class DataService {
             });
 
     }
-
     perform(call: string, obj, f: Function) {
         call = "rpc/" + call;
         console.log("[PERFORM]", call, obj);
