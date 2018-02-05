@@ -35,14 +35,14 @@
             </mat-menu>
 
 
-            <mat-table #table class="data" [dataSource]="dataSource" matSort>
-                <ng-container matColumnDef="traded">
+            <mat-table #table class="data" [dataSource]="dataSource" matSort (matSortChange)="changeSort()" matSortActive="pair" matSortDirection="asc" >
+                <ng-container matColumnDef="traded" *ngIf="false">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ever traded ?</mat-header-cell>
                     <mat-cell *matCellDef="let element">
                         <mat-icon>{{element.hasTraded?"check":""}}</mat-icon>
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="inptf">
+                <ng-container matColumnDef="inptf"  *ngIf="false">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> In PTF ?</mat-header-cell>
                     <mat-cell *matCellDef="let element">
                         <mat-icon>{{element.inptf?"check":""}}</mat-icon>
@@ -68,14 +68,14 @@
                 </ng-container>
                 <ng-container matColumnDef="bid">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Bid</mat-header-cell>
-                    <mat-cell *matCellDef="let s"><span class="{{s.oldbid>s.bid?'valneg':'valpos'}}"> {{s.bid}} <mat-icon>{{s.oldbid>s.bid?"arrow_downward":"arrow_upward"}}</mat-icon></span>
+                    <mat-cell *matCellDef="let s"><span class="{{s.oldbid>0?(s.oldbid>s.bid?'valneg':'valpos'):''}}"> {{s.bid}} <mat-icon>{{s.oldbid>0?(s.oldbid>s.bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></span>
                         <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdbid | number :'1.2-5'}}</span>
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="ask">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Ask</mat-header-cell>
                     <mat-cell *matCellDef="let s">
-                        <span class="{{s.oldask>s.ask?'valneg':'valpos'}}"> {{s.ask}} <mat-icon>{{s.oldask>s.ask?"arrow_downward":"arrow_upward"}}</mat-icon> </span>
+                        <span class="{{s.oldask>0?(s.oldask>s.ask?'valneg':'valpos'):''}}"> {{s.ask}} <mat-icon>{{s.oldask>0?(s.oldask>s.ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>
                         <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdask            | number :'1.2-5'}}</span></mat-cell>
                 </ng-container>
 

@@ -1,4 +1,4 @@
-import {Component, Injectable, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Injectable, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {RequestService} from '../../lib/globalton/core/services/request.service';
 import {DataService} from "../../lib/localton/services/data.service";
 
@@ -19,8 +19,8 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 
 @Component({
     selector: 'app-listing',
-    templateUrl: 'template.html'
-
+    templateUrl: 'template.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 @Injectable()
 export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy {
@@ -29,7 +29,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     brokerOptions = {}
     isLoading = true;
 
-    displayedColumnsRef = ['traded', 'inptf', 'pair', 'broker', 'volume', '24hevol', 'bid', 'ask'];
+    displayedColumnsRef = [ 'pair', 'broker', 'bid', 'ask'];
 
     showGraphs = false;
     canShow = [];
@@ -47,7 +47,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
 
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(public refreshService: RefreshService, public requestService: RequestService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
+    constructor(public refreshService: RefreshService, public requestService: RequestService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService,, public cd: ChangeDetectorRef) {
         super(refreshService, eventService, consoleService)
         this.firstloadData();
 
@@ -108,7 +108,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     filterValue = "";
 
     searchUpdated(filterValue) {
-        console.log("search",filterValue,this,this.dataSource)
+        console.log("search", filterValue, this, this.dataSource)
 
         filterValue = filterValue.trim();
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
@@ -131,11 +131,12 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     dataSource;
 
     loadData() {
-        let loadFromPublic=true;
-        if(loadFromPublic){
+        console.log("loaddata");
+        let loadFromPublic = true;
+        if (loadFromPublic) {
             this.loadPublicData();
-        }else{
-            console.log("loaddata",this.tradingService.enabledBrokers)
+        } else {
+            console.log("loaddata", this.tradingService.enabledBrokers)
             if (this.tradingService.enabledBrokers)
                 this.tradingService.enabledBrokers.forEach((b) => {
                     this.loadDataByBroker(b)
@@ -144,48 +145,18 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         }
     }
 
-    loadPublicData(){
+    loadPublicData() {
+        console.log("loadpublic")
         this.appConfigService.possibleBrokers.forEach((b) => {
-            let key="public-"+b+"-ticker";
+            let key = "public-" + b + "-ticker";
             this.refreshService.createPool(key);
-            this.refreshService.getPool(key).define(4000,()=>{
-
+            this.refreshService.getPool(key).define(2000, () => {
                 this.loadPublicDataByBroker(b)
             })
             this.refreshService.getPool(key).enable();
             this.loadPublicDataByBroker(b)
         })
-    }
-    indexes={}
 
-    loadPublicDataByBroker(b:string) {
-        console.log("public loadpublicdata",b);
-
-        if(!(b in this.indexes))
-            this.indexes[b]={}
-
-        this.logic.getFromPublic(b,"bidask",(res)=>{
-            for(let i in res){
-                const key=b+"-"+i;
-//                console.log("public after",i,res[i]);
-                const r=res[i];
-                const li:Tick={broker:b,pair:i,volume:r.volume,bid:r.bid,ask:r.ask,p:r.price}
-                if(b in this.indexes && li.pair in this.indexes[b]) { //already added
-                    const i:number=this.indexes[b][li.pair];
-  //                  console.log("already",this.listing[i].oldbid,this.listing[i].bid);
-                    this.listing[i].oldbid=this.listing[i].bid;
-                    this.listing[i].oldask=this.listing[i].ask;
-                    this.listing[i].ask=li.ask;
-                    this.listing[i].bid=li.bid;
-                    this.listing[i].p=li.p;
-                }else{
-                    console.log("create")
-                    this.indexes[b][li.pair]=this.listing.length;
-                    this.listing.push(li);
-                }
-            }
-            this.dataSource = new MatTableDataSource(this.listing);
-        });
         this.dataSource = new MatTableDataSource(this.listing);
         this.dataSource.filter = this.filterValue;
         this.dataSource.sort = this.sort;
@@ -193,7 +164,44 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         this.refreshTimer = this.refreshEvery;
         this.isRefreshing = false
         if (this.listing && this.listing.length > 0) this.isLoading = false
-        console.log("loadpublicdata",this.listing)
+        console.log("loadpublicdata", this.listing)
+        this.cd.markForCheck();
+    }
+
+    indexes = {}
+
+    loadPublicDataByBroker(b: string) {
+        if (!(b in this.indexes))
+            this.indexes[b] = {}
+
+        this.logic.getFromPublic(b, "bidask", (res) => {
+            for (let i in res) {
+                const key = b + "-" + i;
+                const r = res[i];
+                const linew: Tick = {broker: b, pair: i, volume: r.volume, bid: r.bid, ask: r.ask, p: r.price}
+                if (b in this.indexes && linew.pair in this.indexes[b]) { //already added
+                    const i: number = this.indexes[b][linew.pair];
+                    let L = this.listing[i]
+                    if (L.bid != linew.bid)
+                        L.oldbid = L.bid;
+                    if (L.ask != linew.ask)
+                        L.oldask = L.ask;
+                    L.ask = linew.ask;
+                    L.bid = linew.bid;
+                    L.p = linew.p;
+                } else {
+                    this.indexes[b][linew.pair] = this.listing.length;
+                    this.listing.push(linew);
+                }
+            }
+            this.cd.markForCheck();
+        });
+
+
+    }
+    changeSort(){
+        console.log("changesort")
+        this.cd.markForCheck();
     }
 
     loadDataByBroker(b) {
@@ -201,21 +209,21 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         console.log("loaddata", b, B)
         if (!B) return;
 
-            let L = B.getTicker().getList(this.sortby);//getList(this.sortby, "change");
+        let L = B.getTicker().getList(this.sortby);//getList(this.sortby, "change");
 
-            //update listing
-            if (!(b in this.indexes))
-                this.indexes[b] = {}
-            L.forEach((li) => {
-                if (b in this.indexes && li.pair in this.indexes[b]) { //already added
-                    let i = this.indexes[b][li.pair]
-                    this.listing[i] = li
-                } else {
-                    this.indexes[b][li.pair] = this.listing.length;
-                    this.listing.push(li)
-                }
+        //update listing
+        if (!(b in this.indexes))
+            this.indexes[b] = {}
+        L.forEach((li) => {
+            if (b in this.indexes && li.pair in this.indexes[b]) { //already added
+                let i = this.indexes[b][li.pair]
+                this.listing[i] = li
+            } else {
+                this.indexes[b][li.pair] = this.listing.length;
+                this.listing.push(li)
+            }
 
-            })
+        })
 
         this.maxVolume = B.getTicker().maxVolume;
 
@@ -262,12 +270,9 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     }
 
     setGraphView() {
-
         this.showGraphs = !this.showGraphs
     }
-
-
-    applyFilter(event) {
+   applyFilter(event) {
         console.log("target", event)
         let filterValue = event.target.value;
         filterValue = filterValue.trim(); // Remove whitespace
