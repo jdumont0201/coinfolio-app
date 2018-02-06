@@ -45,7 +45,7 @@ export class TradingService extends CheckValid {
         if (this.authService.isAuthenticated())
             this.init()
         else {
-            this.brokers.createAll(this.appConfigService.possibleBrokers)
+            this.brokers.createAll(this.appConfigService.possibleBrokers,"private")
             this.consoleService.trade("waiting for auth")
             this.eventService.hideLoading()
         }
