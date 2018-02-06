@@ -2877,3 +2877,7 @@ app-price-history.mini-link:hover section{border:solid 1px white;
 mat-cell mat-icon {
     display: inline!important;
 }
+
+.td.big{
+    font-size:20px
+}

@@ -3,121 +3,62 @@
         <h3>Arbitrage</h3>
     </mat-toolbar>
 
-    <ng-container *ngIf="!authService.isAuthenticated() ">
-        <app-please-login [imgId]="'arbitrage-example'"></app-please-login>
-    </ng-container>
-    <ng-container *ngIf="authService.isAuthenticated() ">
 
-        <ng-container *ngIf=" !tradingService?.hasBrokersEnabled()">
-            <app-please-addbroker></app-please-addbroker>
-        </ng-container>
+    <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
+    <ng-container>
 
-        <app-top-right-buttons [placeholder]="'Search arbitrage...'"></app-top-right-buttons>
 
-        <ng-container *ngIf="listing.length>0 || isRefreshing">
-            <button id="listing-view" mat-raised-button (click)="setGraphView()">
-                <mat-icon class="switch">{{showGraphs?"view_list":"insert_chart"}}</mat-icon>
-                {{showGraphs?"Chart view":"Ask / bid view"}}
+
+        <mat-menu #appMenu="matMenu">
+            <button (click)="sortby=i;sort()" mat-menu-item
+                    *ngFor="let i of possibleSorts">{{i}}
             </button>
-            <h5 class="options">Sort by
-                <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu">   {{sortby}}     <mat-icon>expand_more</mat-icon>    </span></div>
-                Price unit
-                <div class="header-select"><span class="header-button" [matMenuTriggerFor]="appMenu2">   {{priceview}}     <mat-icon>expand_more</mat-icon>    </span></div>
-                Base symbols
-                <div class="header-select  header-button-{{supports[sup].active?'selected':'unselected'}}" *ngFor="let sup of getObjectKeys(supports);let index=index"
-                     (click)="supports[sup].active=!supports[sup].active;filterData()"><span class="header-button">   {{sup}}     </span></div>
-                Brokers
-                <div class="header-select  header-button-{{brokerOptions[sup].active?'selected':'unselected'}}" *ngFor="let sup of getObjectKeys(brokerOptions);let index=index"
-                     (click)="brokerOptions[sup].active=!brokerOptions[sup].active;filterData()"><span class="header-button">   {{sup}}     </span></div>
+        </mat-menu>
+        <mat-menu #appMenu2="matMenu">
+            <button (click)="priceview=i;sort()" mat-menu-item
+                    *ngFor="let i of possiblePriceviews">{{i}}
+            </button>
+        </mat-menu>
 
-            </h5>
+        <div class="table">
+            <div class="tr">
+                <div class="td">Broker</div>
+                <div class="td"></div>
+                <div class="td">Bid</div>
+                <div class="td">Ask</div>
 
-            <mat-menu #appMenu="matMenu">
-                <button (click)="sortby=i;sort()" mat-menu-item
-                        *ngFor="let i of possibleSorts">{{i}}
-                </button>
-            </mat-menu>
-            <mat-menu #appMenu2="matMenu">
-                <button (click)="priceview=i;sort()" mat-menu-item
-                        *ngFor="let i of possiblePriceviews">{{i}}
-                </button>
-            </mat-menu>
-
-
-            <mat-table #table class="data" [dataSource]="dataSource" matSort>
-
-
-                <ng-container matColumnDef="pair">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <span *ngIf="element.isFirst">{{element.first.supra}} / {{element.first.infra}}</span>
-                    </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="broker">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Broker</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <span *ngIf="element.isFirst"><span class="broker-icon notext broker-{{element.first.broker}}"></span>{{element.first.broker}}</span>
-                        <span *ngIf="!element.isFirst"><span class="broker-icon notext broker-{{element.second.broker}}"></span>{{element.second.broker}}</span>
-                    </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="bid">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Bid</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <span *ngIf="element.isFirst">{{element.first.bid}}</span>
-                        <span *ngIf="!element.isFirst">{{element.second.bid}}</span>
-                    </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="ask">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Ask</mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <span *ngIf="element.isFirst">{{element.first.ask}}</span>
-                        <span *ngIf="!element.isFirst">{{element.second.ask}}</span>
-                    </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>
-            </mat-table>
-
-
-            <div class="table lighten">
-                <div class="tr keepcolor">
-                    <div> In PFT</div>
-                    <div>Pair</div>
-                    <div>24h Change</div>
-                    <div>Bid</div>
-                    <div>Ask</div>
-                    <div> Bids Volume/Asks Volume</div>
-                </div>
-
-                <ng-container *ngFor="let s of searched">
-
-                    <div class="tr" routerLink="/pair/{{s.pair}}">
-                        <div class="td marker-in-ptf {{s.inptf?'':'marker-hidden'}}">
-                            <mat-icon>lens</mat-icon>
-                        </div>
-                        <div class="td"><span class="supra">{{s.supra}}</span><span class="infra"> / {{s.infra}}</span></div>
-                        <div class="td"><span class="{{s.change?(s.change>0?'valpos':'valneg'):''}}">{{s.change}}</span></div>
-                        <div class="td "><span class="{{s.oldbid>s.bid?'valneg':'valpos'}}"> {{s.bid}} <mat-icon>{{s.oldbid>s.bid?"arrow_downward":"arrow_upward"}}</mat-icon></span>
-                            ${{s.usdbid | number :'1.2-5'}}
-                        </div>
-                        <div class="td "><span class="{{s.oldask>s.ask?'valneg':'valpos'}}"> {{s.ask}} <mat-icon>{{s.oldask>s.ask?"arrow_downward":"arrow_upward"}}</mat-icon> </span>${{s.usdask
-                            | number :'1.2-5'}}
-                        </div>
-                        <div class="td ">
-                            <div class="bidaskbar">
-                                <div class="bidaskbar-bid">
-                                    <div class="bidaskbar-bid-in" [style.width]="s.bids/(s.bids+s.asks)*100+'%'">{{s.bids}}</div>
-                                </div>
-                                <div class="bidaskbar-ask">
-                                    <div class="bidaskbar-ask-in" [style.width]="s.asks/(s.bids+s.asks)*100+'%'">{{s.asks}}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </ng-container>
             </div>
-        </ng-container>
+
+            <ng-container *ngFor="let li of sortedListing">
+                <div class="tr" >
+                    <div class="td big">
+                        {{li.pair}}
+                    </div>
+                    <ng-container *ngIf="li.spread>0">
+                    <div class="td big {{li.spread>2?'valpos':''}}">
+                        Spread:{{li.spread  |number:'1.3-3'}}%
+                    </div>
+                    <div class="td big">
+                        Buy at :{{li.list.cheapestask}} @{{li.list.cheapestaskname}}
+                    </div>
+                    <div class="td big">
+                        Sell at {{li.list.mostexpensivebid}} @{{li.list.mostexpensivebidname    }}
+                    </div>
+                    </ng-container>
+                </div>
+                <ng-container *ngFor="let broker of getKeys(li.list.brokers)" >
+
+                    <div class="tr">
+                        <div class="td"><span class="broker-{{li.list.brokers[broker].broker}}"><span class="broker-icon notext broker-{{li.list.brokers[broker].broker}}"></span>{{li.list.brokers[broker].broker}}</span></div>
+                        <div class="td"></div>
+                        <div class="td"><span class="{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].bid | price}} <mat-icon>{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></span>
+                        </div>
+                        <div class="td"><span class="{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].ask |price}} <mat-icon>{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>
+                        </div>
+
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
     </ng-container>
 </div>
