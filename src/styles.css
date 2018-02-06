@@ -1309,7 +1309,7 @@ span.separator-marker {
 
 .mat-drawer-content {
     background: #fafafa !important;
-
+overflow:hidden!important;
     min-height: 100vh !important;
 }
 
@@ -2429,6 +2429,8 @@ app-portfolio-recap div ,#welcome-portolio-demo div{
 mat-table.data mat-row {
     min-height: initial;
     padding: 0;
+
+    height: 22px;
 }
 
 .col-2 {
@@ -2872,3 +2874,6 @@ app-price-history {
 
 app-price-history.mini-link:hover section{border:solid 1px white;
     cursor: pointer;}
+mat-cell mat-icon {
+    display: inline!important;
+}

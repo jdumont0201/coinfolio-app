@@ -36,7 +36,7 @@ export class AppConfigService {
 
     isCustomDashboardEnabled = false;
 
-    possibleBrokers: string[] = ["binance", "kraken", "hitbtc","bitmex"]
+    possibleBrokers: string[] = ["binance",  "hitbtc"]
     brokersLinks = {
         "binance": {
             dbcode:"bin",

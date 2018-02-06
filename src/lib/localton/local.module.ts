@@ -13,6 +13,7 @@ import {FixedNbPipe} from "./pipes/fixednb";
 import {RefreshService} from "./services/refresh.service";
 import {Services} from "./services/services";
 import {ProxyService} from "../globalton/core/services/proxy.service";
+import {PublicDataService} from "./services/publicdata.service";
 
 @NgModule({
     imports: [
@@ -25,7 +26,7 @@ import {ProxyService} from "../globalton/core/services/proxy.service";
     ],
     exports: [FixedNbPipe],
     entryComponents: [],
-    providers: [DataService,RefreshService, Services,TradingService, AppConfigService, ImportService, EventService, WorkspaceService,DecimalPipe]
+    providers: [DataService,RefreshService, Services,TradingService, AppConfigService, ImportService, EventService,PublicDataService, WorkspaceService,DecimalPipe]
 })
 export class LocalModule {
 

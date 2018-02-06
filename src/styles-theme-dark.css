@@ -34,7 +34,7 @@ body {background:black}
 .theme-dark .data,.theme-dark  mat-table.data ,.theme-dark .source{
 
     background: linear-gradient(#1a5e8c, #106cc8);
-    background: rgba(0,0,0,0.4);
+    background: rgb(33, 33, 33);
 }
 .theme-dark .trade-buy{color:green;}
 .theme-dark .trade-sell{color:red}

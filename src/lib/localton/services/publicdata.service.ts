@@ -14,7 +14,7 @@ import {CurrencyService} from "../../globalton/core/services/currency.service";
 import {CheckValid} from "../components/CheckValid/component";
 
 @Injectable()
-export class TradingService extends CheckValid {
+export class PublicDataService extends CheckValid {
     brokers: BrokerCollection;
     globalBroker: Broker;
     brokersConnected = false;
@@ -37,50 +37,6 @@ export class TradingService extends CheckValid {
     constructor(public authService: AuthService,public currencyService:CurrencyService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public refreshService: RefreshService, public logic: Logic) {
         super(consoleService)
         consoleService.trade("+", this.authService, this.authService.loginChanged)
-        this.consoleService.trade(" + tradingservice", this.authService, this.authService.loginChanged)
-        this.doSubscribe("loginChanged",this.authService.loginChanged,value => this.loginUpdated(value));
-        this.refreshService.setTradingService(this);
-        this.brokers = new BrokerCollection(logic, currencyService,eventService, this, this.refreshService, this.consoleService,this.appConfigService);
-        this.globalBroker = new Broker(logic, currencyService,"global", eventService, this.refreshService, this, this.consoleService,this.appConfigService,"private")
-        if (this.authService.isAuthenticated())
-            this.init()
-        else {
-            this.brokers.createAll(this.appConfigService.possibleBrokers)
-            this.consoleService.trade("waiting for auth")
-            this.eventService.hideLoading()
-        }
-        //this.refreshService.createPool("ticker")
-    }
-    getLoadStatus(b){
-        return this.brokers.loadStatus[b]
-    }
-    getInfraSupra(pair: string,broker:string) {
-        if (pair in this.InfraSupra) return this.InfraSupra[pair]
-        else {
-            this.InfraSupra[pair] = Crypto.getSymbolsFromPair(pair,this.appConfigService.getPossibleInfrasPerBroker(broker))
-        }
-    }
-
-    getInfra(pair: string,broker): string {
-        let p = this.getInfraSupra(pair,broker);
-        return p ? p.infra : null
-    }
-
-    getSupra(pair: string,broker:string): string {
-        let p = this.getInfraSupra(pair,broker);
-        return p ? p.supra : null
-    }
-
-    isBrokerLoaded(key: string) {
-        return this.getBrokerByName(key).isLoaded
-    }
-
-    loginUpdated(val) {
-        this.consoleService.trade(" loginupdated")
-        if (this.authService.isAuthenticated())
-            this.init();
-        else
-            this.unloadAllBrokers()
     }
 
     getListing() {
@@ -107,25 +63,6 @@ export class TradingService extends CheckValid {
 
     enabledBrokers: string[]=[]
 
-    hasBrokersEnabled(){
-        return this.enabledBrokers.length>0
-    }
-    fetchBrokerEnabledArray(f: Function) {
-        let r = [];
-        this.logic.getMe((user) => {
-            //console.log("user", user);
-            this.appConfigService.possibleBrokers.forEach((k) => {
-                let prop = "Connection" + Strings.Capitalize(k)
-                console.log("check", prop,user)
-                if (user[prop]==="true" || (user[prop] && user[prop]!="false")) {
-                    r.push(k)
-                }
-            })
-            //console.log("enabledBrokers",r,user);
-            this.enabledBrokers = r;
-            f(r)
-        })
-    }
 
     unloadAllBrokers(){
         this.enabledBrokers.forEach((b)=>{
@@ -135,16 +72,11 @@ export class TradingService extends CheckValid {
     init() {
         this.eventService.showLoading()
         this.consoleService.trade(" init")
-        this.fetchBrokerEnabledArray((list) => {
-            //console.log("LADING", list)
-            if(list.length===0) this.loadingFinished()
-            this.brokers.init("private",this.appConfigService.possibleBrokers, (broker: Broker) => {
-                this.globalBroker.combineWith(broker.getPortfolio())
-                this.globalBroker.isLoaded = true
-                this.brokersConnected = true;
-                //this.eventService.brokerLoadedEvent.emit({key: "global", loaded: true})
-            }, list)
-        })
+
+            this.brokers.init("public",this.appConfigService.possibleBrokers, (broker: Broker) => {
+
+            })
+
     }
 
     getListTickerRefresh() {

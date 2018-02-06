@@ -29,7 +29,7 @@ export class RequestService {
     }
 
     getWithHeaders(url: string, headers: HttpHeaders, f: Function): void {
-        console.log("RequestService get", url, headers);
+        //console.log("RequestService get", url, headers);
         this.consoleService.get("RequestService Getting", url);
         let reqId: number = this.proxyService.addNewExternalRequest(url, "GET")
         this.http.get(url, {headers: headers})
@@ -38,7 +38,7 @@ export class RequestService {
                 data => this.success(f, data, reqId),
                 err => this.error(f, err, "Error downloading " + url, reqId, url),
                 // err => this.error(err),
-                () => console.log('Done getting.', url)
+                () => {}//console.log('Done getting.', url)
             );
     }
 

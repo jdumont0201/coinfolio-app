@@ -38,7 +38,7 @@ export class Broker {
             })
             return res;
         } else {*/
-            return this.getPortfolio().getTotalUSDValue()
+        return this.getPortfolio().getTotalUSDValue()
         //}
     }
 
@@ -58,48 +58,57 @@ export class Broker {
     getTicker() {
         return this.ticker;
     }
-    constructor(public logic: Logic,public currencyService:CurrencyService, public key: string, public eventService: EventService, public refreshService: RefreshService, public tradingService: TradingService, public consoleService: ConsoleService,public appConfigService:AppConfigService) {
+
+    constructor(public logic: Logic, public currencyService: CurrencyService, public key: string, public eventService: EventService, public refreshService: RefreshService, public tradingService: TradingService, public consoleService: ConsoleService, public appConfigService: AppConfigService,public type :string) {
         //console.log("NEW BROKER ", key)
         this.portfolio = new Portfolio(this.logic, this.tradingService, this.refreshService, this.key)
-        this.ticker = new Ticker(this.logic, this.currencyService,this.tradingService, this.refreshService, this.key, this.consoleService,this.appConfigService)
-        this.listing = new Listing(this.logic, this.eventService, this.tradingService, this.refreshService, this.key, this.consoleService,this.appConfigService)
+        this.ticker = new Ticker(this.logic, this.currencyService, this.tradingService, this.refreshService, this.key, this.consoleService, this.appConfigService)
+        this.listing = new Listing(this.logic, this.eventService, this.tradingService, this.refreshService, this.key, this.consoleService, this.appConfigService)
         this.trades = new Trades(this.logic, this.eventService, this.tradingService, this.refreshService, this.key)
     }
-    unloadBroker(){
-        const idx=this.tradingService.enabledBrokers.indexOf(this.key)
-        if(idx>-1){
-        this.refreshService.getPool(this.key + "-ticker").stop()
-        this.refreshService.getPool(this.key + "-portfolio").stop()
-        this.refreshService.getPool(this.key + "-bidask").stop()
 
-            this.tradingService.enabledBrokers.splice(idx,1)
-        this.consoleService.eventSent("brokerUnloadedAfterConfigEvent <-- tradingService")
-        this.tradingService.brokerUnloadedAfterConfigEvent.emit(this.key)
-        }else{
-            console.log("error unload broker but was not loaded",this.key)
+    unloadBroker() {
+        const idx = this.tradingService.enabledBrokers.indexOf(this.key)
+        if (idx > -1) {
+            this.refreshService.getPool(this.key + "-ticker").stop()
+            this.refreshService.getPool(this.key + "-portfolio").stop()
+            this.refreshService.getPool(this.key + "-bidask").stop()
+
+            this.tradingService.enabledBrokers.splice(idx, 1)
+            this.consoleService.eventSent("brokerUnloadedAfterConfigEvent <-- tradingService")
+            this.tradingService.brokerUnloadedAfterConfigEvent.emit(this.key)
+        } else {
+            console.log("error unload broker but was not loaded", this.key)
         }
     }
-    loadBroker(f: (Broker) => any) {
-        //console.log("LOAD BROKER", this.key)
-        this.refreshService.createPool(this.key + "-ticker")
-        this.refreshService.createPool(this.key + "-portfolio")
-        this.refreshService.createPool(this.key + "-bidask")
 
-        this.portfolio.loadPortfolio((isSuccess) => {
-            this.ticker.loadTicker((isSuccess2) => {
-                this.portfolio.setUSDValues(this.ticker);
+    loadBroker(f: (Broker) => any) {
+        if(this.type=="private") {
+            //console.log("LOAD BROKER", this.key)
+            this.refreshService.createPool(this.key + "-ticker")
+            this.refreshService.createPool(this.key + "-portfolio")
+            this.refreshService.createPool(this.key + "-bidask")
+
+            this.portfolio.loadPortfolio((isSuccess) => {
+                this.ticker.loadTicker((isSuccess2) => {
+                    this.portfolio.setUSDValues(this.ticker);
 
                     //this.listing.loadListing((isSuccess3) => {
-                        //    this.backgroundLoad()
-                        //if(isSuccess3 && isSuccess2 && isSuccess)
-                        if(isSuccess2 && isSuccess)
+                    //    this.backgroundLoad()
+                    //if(isSuccess3 && isSuccess2 && isSuccess)
+                    if (isSuccess2 && isSuccess)
                         this.setLoaded(true)
-                        const res={portfolio: isSuccess?"done":"failed", ticker: isSuccess2?"done":"failed", bidask: isSuccess2?"done":"failed"};
-                        console.log("loadres",res)
-                        f(res)
+                    const res = {portfolio: isSuccess ? "done" : "failed", ticker: isSuccess2 ? "done" : "failed", bidask: isSuccess2 ? "done" : "failed"};
+                    console.log("loadres", res)
+                    f(res)
                     //})
+                })
             })
-        })
+        }else{
+            this.refreshService.createPool("public-"+this.key + "-ticker")
+            this.refreshService.createPool("public-"+this.key + "-change")
+
+        }
     }
 
     backgroundLoad(f?) {
@@ -139,7 +148,7 @@ export class BrokerCollection {
     connectedBrokersKeys: string[] = [];
     isLoaded = false;
 
-        getBrokers(): { [name: string]: Broker } {
+    getBrokers(): { [name: string]: Broker } {
         return this.brokers
     }
 
@@ -155,21 +164,26 @@ export class BrokerCollection {
         return res;
     }
 
-    constructor(public logic: Logic,public currencyService:CurrencyService, public eventService: EventService, public tradingService: TradingService, public refreshService: RefreshService, public consoleService: ConsoleService,public appConfigService:AppConfigService) {
+    constructor(public logic: Logic, public currencyService: CurrencyService, public eventService: EventService, public tradingService: TradingService, public refreshService: RefreshService, public consoleService: ConsoleService, public appConfigService: AppConfigService) {
 
     }
 
-    createAll(keys) {
+    createAll(keys,type:string) {
         keys.forEach((key: string) => {
-            this.create(key)
+            this.create(key,type)
 
         })
     }
 
-    init(keys: string[], f: Function, selectiveInit?: string[]) {
-        this.createAll(keys)
-        if (selectiveInit) this.loadBrokers(selectiveInit, f)
-        else this.loadAllBrokers(f);
+    init(type: string, keys: string[], f: Function, selectiveInit?: string[]) {
+        this.createAll(keys,type)
+
+        if (type == "private") {
+            if (selectiveInit) this.loadBrokers(selectiveInit, f)
+            else this.loadAllBrokers(f);
+        } else {
+
+        }
     }
 
     getByName(name): Broker {
@@ -185,9 +199,9 @@ export class BrokerCollection {
     }
 
 
-    create(name: string) {
+    create(name: string,type:string) {
         //console.log("CREATING BROK", name)
-        let P = new Broker(this.logic,this.currencyService, name, this.eventService, this.refreshService, this.tradingService, this.consoleService,this.appConfigService);
+        let P = new Broker(this.logic, this.currencyService, name, this.eventService, this.refreshService, this.tradingService, this.consoleService, this.appConfigService,type);
         this.brokers[name] = P;
     }
 
@@ -202,20 +216,22 @@ export class BrokerCollection {
             if (this.loadStatus[k].portfolio == "todo" || this.loadStatus[k].ticker == "todo" || this.loadStatus[k].bidask == "todo")
                 r = false;
             if (this.loadStatus[k].portfolio == "done" || this.loadStatus[k].ticker == "done" || this.loadStatus[k].bidask == "done")
-                this.loadStatus[k].operational=true
+                this.loadStatus[k].operational = true
         }
         this.hasAttemptedLoginAllBrokers = r;
         //console.log("broker loadfinished",broker,this.hasAttemptedLoginAllBrokers,this.loadStatus)
         return this.hasAttemptedLoginAllBrokers
     }
-    isBrokerOperational(b){
+
+    isBrokerOperational(b) {
         return this.loadStatus[b].operational;
     }
+
     loadAllBrokers(f: Function) {
         //console.log("TRADE : ALL LOAD BROKER COL", this.brokers)
 
         for (let k in this.brokers) {
-            this.loadStatus[k] = {portfolio: "todo", ticker: "todo","bidask":"todo",operational:false}
+            this.loadStatus[k] = {portfolio: "todo", ticker: "todo", "bidask": "todo", operational: false}
             this.brokers[k].loadBroker((res) => {
                 if (res) {
                     this.isLoaded = true
@@ -229,7 +245,7 @@ export class BrokerCollection {
     loadBrokers(keys: string[], f: Function) {
         //console.log("TRADE : LOAD BROKER COL", keys)
         keys.forEach((k) => {
-            this.loadStatus[k] = {portfolio: "todo", ticker: "todo","bidask":"todo"}
+            this.loadStatus[k] = {portfolio: "todo", ticker: "todo", "bidask": "todo"}
             this.brokers[k].loadBroker((res) => {
                 if (res) {
                     this.isLoaded = true

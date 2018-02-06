@@ -8,6 +8,7 @@ import {MessageService} from "../lib/globalton/core/services/message.service";
 import {MatSnackBar} from "@angular/material";
 import {TradingService} from "../lib/localton/services/trading.service";
 import {ConsoleService} from "../lib/globalton/core/services/console.service";
+import {PublicDataService} from "../lib/localton/services/publicdata.service";
 
 @Component({
     selector: 'app-root',
@@ -29,7 +30,7 @@ export class AppComponent {
     @ViewChild("rightsidenav") rightsidenav;
 
     constructor(public requestService: RequestService,public consoleService:ConsoleService, public eventService: EventService, public messageService: MessageService,
-                public logic: Logic, private route: ActivatedRoute, public snackBar: MatSnackBar, public tradingService: TradingService) {
+                public logic: Logic, private route: ActivatedRoute, public snackBar: MatSnackBar, public tradingService: TradingService,public publicDataTrading:PublicDataService) {
         this.eventService.panelCreatorEvent.subscribe((val) => this.panelCreatorUpdated(val));
         this.eventService.loginEvent.subscribe((val) => this.loginUpdated(val));
         this.eventService.subscribeEvent.subscribe((val) => this.subscribeUpdated(val))

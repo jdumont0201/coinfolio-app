@@ -93,10 +93,27 @@ export class Logic {
     getFromPublic(broker, task, f: Function, query?: string|any) {
         const queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
         this.requestService.get("http://public.coinamics.io/public/" + broker + '/' + task + "?"+queryStr, (res) => {
-
             if (res.file ){
                 //let A=UniversalLoader.load(broker, task, res.result.data);
-                    const A=res.file;
+                const A=res.file;
+                f(A)
+            }
+            else f(null)
+        },this);
+    }
+    getPublicChange(broker,  f: Function) {
+        let code=this.appConfigService.getDbCode(broker)
+        let now=new Date().toISOString().split('.')[0];
+        let yes=new Date();
+        yes.setHours(yes.getHours() - 1);
+        let yesterday=yes.toISOString().split('.')[0];
+        yes.setMinutes(yes.getMinutes()+1)
+        let yesterday2=yes.toISOString().split('.')[0];
+
+        this.requestService.get("http://data.coinamics.io/"+code+"_ohlc_1m?ts=lt.'"+yesterday2+"'&ts=gte.'"+yesterday+"'", (res) => {
+            if (res.file ){
+                //let A=UniversalLoader.load(broker, task, res.result.data);
+                const A=res.file;
                 f(A)
             }
             else f(null)

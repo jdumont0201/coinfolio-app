@@ -7,6 +7,8 @@ export type Tick = {
     p: number,
     ask?: number,
     bid?: number,
+    spread?:number,
+    spreadpct?:number,
     oldask?: number,
     oldbid?: number,
     volume?: number,
