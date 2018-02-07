@@ -4,44 +4,44 @@
     </mat-toolbar>
     <div class="slash bgwhite">
         <div class="padded">
-        <h2>General settings</h2></div>
-    <a class="config-link" [routerLink]="'/config/profile'">
-        <div class="left">
-            <mat-icon>face</mat-icon>
-        </div>
-        <div class="right">
-            <div class="title">Profile</div>
-            <div class="sub">Edit your personal settings</div>
-        </div>
-    </a>
+            <h2>General settings</h2></div>
+        <a class="config-link" [routerLink]="'/config/profile'">
+            <div class="left">
+                <mat-icon>face</mat-icon>
+            </div>
+            <div class="right">
+                <div class="title">Profile</div>
+                <div class="sub">Edit your personal settings</div>
+            </div>
+        </a>
         <a class="config-link" [routerLink]="'/config/brokers'">
             <div class="left">
                 <mat-icon>swap_horiz</mat-icon>
             </div>
             <div class="right">
-                <div class="title">Brokers </div>
+                <div class="title">Brokers</div>
                 <div class="sub">Set API keys from your favorite brokers.</div>
             </div>
         </a>
 
-    <a class="config-link" [routerLink]="'/config/favorites'">
-        <div class="left">
-            <mat-icon>star</mat-icon>
-        </div>
-        <div class="right">
-            <div class="title">Favorites</div>
-            <div class="sub">Highlight your favorite pairs</div>
-        </div>
-    </a>
-    <a class="config-link" [routerLink]="'/config/interface'">
-        <div class="left">
-            <mat-icon>tab</mat-icon>
-        </div>
-        <div class="right">
-            <div class="title">Interface</div>
-            <div class="sub">Change your display settings</div>
-        </div>
-    </a>
+        <a class="config-link" [routerLink]="'/config/favorites'">
+            <div class="left">
+                <mat-icon>star</mat-icon>
+            </div>
+            <div class="right">
+                <div class="title">Favorites</div>
+                <div class="sub">Highlight your favorite pairs</div>
+            </div>
+        </a>
+        <a class="config-link" [routerLink]="'/config/interface'">
+            <div class="left">
+                <mat-icon>tab</mat-icon>
+            </div>
+            <div class="right">
+                <div class="title">Interface</div>
+                <div class="sub">Change your display settings</div>
+            </div>
+        </a>
         <a class="config-link" [routerLink]="'/config/subscription'">
             <div class="left">
                 <mat-icon>payment</mat-icon>
@@ -53,26 +53,34 @@
         </a>
         <div class="padded">
             <h2>Data & refresh</h2></div>
-    <a class="config-link" [routerLink]="'/config/workers'">
-        <div class="left">
-            <mat-icon>swap_horiz</mat-icon>
-        </div>
-        <div class="right">
-            <div class="title">Data refresh</div>
-            <div class="sub">Review and pace the background workers refreshing data.</div>
-        </div>
-    </a>
-    <a class="config-link" [routerLink]="'/config/loading'">
-        <div class="left">
-            <mat-icon>swap_horiz</mat-icon>
-        </div>
-        <div class="right">
-            <div class="title">Loading status</div>
-            <div class="sub">Check loading status from your brokers.</div>
-        </div>
-    </a>
-
-</div>
+        <a class="config-link" [routerLink]="'/config/workers'">
+            <div class="left">
+                <mat-icon>swap_horiz</mat-icon>
+            </div>
+            <div class="right">
+                <div class="title">Data refresh</div>
+                <div class="sub">Review and pace the background workers refreshing data.</div>
+            </div>
+        </a>
+        <a class="config-link" [routerLink]="'/config/loading'">
+            <div class="left">
+                <mat-icon>swap_horiz</mat-icon>
+            </div>
+            <div class="right">
+                <div class="title">Loading status</div>
+                <div class="sub">Check loading status from your brokers.</div>
+            </div>
+        </a>
+        <a class="config-link" [routerLink]="'/config/api'">
+            <div class="left">
+                <mat-icon>swap_horiz</mat-icon>
+            </div>
+            <div class="right">
+                <div class="title">API</div>
+                <div class="sub">Description of entrypoints.</div>
+            </div>
+        </a>
+    </div>
 </div>
 <div *ngIf="!authService?.isAuthenticated()" class="">
 

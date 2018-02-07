@@ -41,7 +41,7 @@ export class AppConfigService {
 
     generateInfraSupra() {
         let res = {};
-        let allc={}
+        let allc = {}
         for (let broker in this.infrasuprainv) {
             for (let pair in this.infrasuprainv[broker]) {
                 let v = this.infrasuprainv[broker][pair];
@@ -52,12 +52,12 @@ export class AppConfigService {
                     res[v.infra][v.supra] = {}
                 }
                 res[v.infra][v.supra][broker] = pair;
-                allc[v.supra]=1;
-                allc[v.infra]=1;
+                allc[v.supra] = 1;
+                allc[v.infra] = 1;
 
             }
         }
-        this.allcryptos=Object.keys(allc).sort();
+        this.allcryptos = Object.keys(allc).sort();
         console.log("infrasupra", res);
         this.infrasupra = res;
     }

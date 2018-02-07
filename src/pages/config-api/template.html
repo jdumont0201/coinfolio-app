@@ -1,0 +1,56 @@
+<mat-toolbar>
+
+    <h3><a [routerLink]="'/config/all'" class="hoverlink"> Configure</a> > API </h3>
+</mat-toolbar>
+<div class="padded slash bgwhite">
+    <h1>Pairs</h1>
+    <h2>Crypto list</h2>
+    <a href="http://user.coinamics.io/api/pair/assets" target="_blank">http://user.coinamics.io/api/pair/assets</a>
+    <blockquote>
+        {{ '{' }}
+        result:{{ '{' }}
+        "1ST",
+        "ACT",
+        "ADA",
+        "ADB",...{{ '}' }}{{ '}' }}
+    </blockquote>
+    <h2>Pair List</h2>
+    <a href="http://user.coinamics.io/api/pair/by/broker" target="_blank">http://user.coinamics.io/api/pair/by/broker</a>
+
+        <blockquote>{{ '{' }}
+            result: {{ '{' }}
+            kucoin: {{ '{' }}
+            ACTBCH: {{ '{' }}
+            infra: "BCH",
+            supra: "ACT"
+            {{ '}' }},
+            ACTBTC: {{ '{' }}
+            infra: "BTC",
+            supra: "ACT"
+            {{ '}' }},...{{ '}' }}
+        </blockquote>
+
+    <h1>Market Data</h1>
+    <h2>Live Bid/Ask/Price</h2>
+    <a href="http://public.coinamics.io/public/binance/bidask" target="_blank">http://public.coinamics.io/public/[BROKER]/bidask</a>
+    <blockquote>{{ '{' }} BNTBTC: {{ '{' }}
+        bid: "0.00060720",
+        ask: "0.00060992",
+        last: "0.00060993"
+        {{ '}' }} ,...{{ '}' }} </blockquote>
+    <h2>Historical OHLC data</h2>
+    <a href="http://data.coinamics.io/bin_ohlc_1m?pair=eq.ETHUSDT&order=ts.desc&limit=40" target="_blank">http://data.coinamics.io/bin_ohlc_1m?pair=eq.[PAIR]&order=ts.desc&limit=40</a>
+    <blockquote>[{{ '{' }}
+        ts: "2018-02-07T22:37:00",
+        pair: "ETHUSDT",
+        open: 799,
+        high: 799.66,
+        close: 798.9,
+        low: 798.2,
+        volume: 48.43443,
+        id: 2468351
+        {{ '}' }} ,...]</blockquote>
+ <h2>Historical tick data</h2>
+    <a href="http://data.coinamics.io/bin_tick?pair=eq.ETHUSDT&order=ts.desc&limit=40" target="_blank">http://data.coinamics.io/bin_tick?pair=eq.[PAIR]&order=ts.desc&limit=40</a>
+    <blockquote>[{{ '{' }} "ts":"2018-01-29T11:53:00","pair":"ETHUSDT","close":1171.16,"volume":7.66149{{ '}' }} ,...]</blockquote>
+</div>

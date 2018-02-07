@@ -2884,3 +2884,18 @@ mat-cell mat-icon {
 }
 .arbitrage-grid{    background: #222;}
 .arbitrage-grid .table,.theme-dark  .arbitrage-grid .table{    background: #222;}
+.theme-dark .bgwhite a,.theme-dark .bgwhite *{
+    color: #444444 ;}
+.bgwhite {color:#444}
+blockquote {
+    background: #eee;
+    padding: 10px;
+    font-family: "Courier New" !important;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+h1 {
+    font-size: 22px!important;
+    font-family: London!important;
+    line-height: 30px!important;
+}

@@ -30,6 +30,7 @@ import {AppSocialPage} from "../pages/social/component"
 import {AppNewsPage} from "../pages/news/component"
 import {AppDashboardNowPage} from "../pages/dashboard-now/component"
 import {AppConfigLoadingPage} from "../pages/config-loading/component";
+import {AppConfigAPIPage} from "../pages/config-api/component";
 export const routes: Routes = [
 
   { path: '', component: AppDashboardPage },
@@ -48,6 +49,7 @@ export const routes: Routes = [
   { path: 'calendar', component: AppCalendarPage },
   { path: 'config/brokers', component: AppConfigBrokersPage},
   { path: 'config/loading', component: AppConfigLoadingPage},
+  { path: 'config/api', component: AppConfigAPIPage},
   { path: 'config/favorites', component: AppConfigFavoritesPage},
   { path: 'config/subscription', component: AppConfigSubscriptionPage},
   { path: 'config/imports', component: AppConfigImportsPage},
