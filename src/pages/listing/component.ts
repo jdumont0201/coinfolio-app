@@ -29,7 +29,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
     brokerOptions = {}
     isLoading = true;
 
-    displayedColumnsRef = ['pair', 'broker', 'change', 'bid', 'ask', 'spread', 'spreadpct'];
+    displayedColumnsRef = ['pair', 'broker', 'change', 'bid', 'ask',  'spreadpct'];
 
     showGraphs = false;
     canShow = [];

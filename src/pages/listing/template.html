@@ -44,7 +44,7 @@
                 </ng-container>
                 <ng-container matColumnDef="pair">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
-                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/chart/'+element.pair+'/broker/'+element.broker">{{element.pair}}
+                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/chart/'+element.pair+'/broker/'+element.broker">{{appConfigService.getPairCommonName(element.broker,element.pair)}}
                     </mat-cell>
                 </ng-container>
 
@@ -64,13 +64,10 @@
                         <span class="{{s.oldask>0?(s.oldask>s.ask?'valneg':'valpos'):''}}"> {{s.ask |price}} <mat-icon>{{s.oldask>0?(s.oldask>s.ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>
                         <span *ngIf="priceview=='crypto_and_fiat' || priceview=='fiat'">${{s.usdask            | number :'1.2-5'}}</span></mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="spread">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Spread</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.spread | number:'1.2-8'}}</mat-cell>
-                </ng-container>
+
                 <ng-container matColumnDef="spreadpct">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Spread (%)</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.spreadpct | number:'1.3-3'}}%</mat-cell>
+                    <mat-cell *matCellDef="let element" >{{element.spreadpct | number:'1.3-3'}}%</mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>

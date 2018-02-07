@@ -37,7 +37,7 @@ export class AppConfigService {
 
     isCustomDashboardEnabled = false;
 
-    possibleBrokers: string[] = ["binance", "hitbtc", "kucoin","kraken"]
+    possibleBrokers: string[] = ["binance", "hitbtc", "kucoin", "kraken"]
 
     generateInfraSupra() {
         let res = {};
@@ -53,7 +53,7 @@ export class AppConfigService {
                 res[v.infra][v.supra][broker] = pair;
             }
         }
-        console.log("res", res);
+        console.log("infrasupra", res);
         this.infrasupra = res;
     }
 
@@ -319,8 +319,9 @@ export class AppConfigService {
                 {infra: "BTC", supra: "LTC"},
             LTCETH:
                 {infra: "ETH", supra: "LTC"},
-            LTCNEO:
-                {infra: "NEO", supra: "LTC"},
+            LTCNEO:                {infra: "NEO", supra: "LTC"},
+            LOCIETH:                {infra: "ETH", supra: "LOCI"},
+            LOCIBTC:                {infra: "BTC", supra: "LOCI"},
             LTCUSDT:
                 {infra: "USD", supra: "LTC"},
             MODBTC:
@@ -529,125 +530,948 @@ export class AppConfigService {
                 {infra: "NEO", supra: "ZPT"},
         },
         hitbtc: {
-
-            ETHUSD: {infra: "USD", supra: "ETH"},
-            LTCUSD: {infra: "USD", supra: "LTC"},
-
-            ADXBTC: {infra: "BTC", supra: "ADX"},
-            ARNBTC: {infra: "BTC", supra: "ARN"},
-            ARNETH: {infra: "ETH", supra: "ARN"},
-
-            BCHUSD: {infra: "USD", supra: "BCH"},
-            BCHETH: {infra: "ETH", supra: "BCH"},
-            BCHBTC: {infra: "BTC", supra: "BCH"},
-            BNTBTC: {infra: "BTC", supra: "BNT"},
-            BTCUSD: {infra: "USD", supra: "BTC"},
-            BTGETH: {infra: "ETH", supra: "BTG"},
-
-            CDTBTC: {infra: "BTC", supra: "CDT"},
-            CHATETH: {infra: "ETH", supra: "CHAT"},
-            CNDBTC: {infra: "BTC", supra: "CND"},
-            CNDETH: {infra: "ETH", supra: "CND"},
-            CTRETH: {infra: "ETH", supra: "CTR"},
-            CTRBTC: {infra: "BTC", supra: "CTR"},
-
-
-            DASHETH: {infra: "ETH", supra: "DASH"},
-            DASHBTC: {infra: "BTC", supra: "DASH"},
-            DGDBTC: {infra: "BTC", supra: "DGD"},
-            DNTBTC: {infra: "BTC", supra: "DNT"},
-            DLTBTC: {infra: "BTC", supra: "DLT"},
-
-            EDOBTC: {infra: "BTC", supra: "EDO"},
-            EDOETH: {infra: "ETH", supra: "EDO"},
-            ENGETH: {infra: "ETH", supra: "ENG"},
-            ENJBTC: {infra: "BTC", supra: "ENJ"},
-            EOSBTC: {infra: "BTC", supra: "EOS"},
-            EOSETH: {infra: "ETH", supra: "EOS"},
-            ETCBTC: {infra: "BTC", supra: "ETC"},
-            ETCETH: {infra: "ETH", supra: "ETC"},
-            ETHBTC: {infra: "BTC", supra: "ETH"},
-            ETHUSDT: {infra: "USD", supra: "ETH"},
-            EVXBTC: {infra: "BTC", supra: "EVX"},
-            EVXETH: {infra: "ETH", supra: "EVX"},
-            FUELETH: {infra: "ETH", supra: "FUEL"},
-            FUELBTC: {infra: "BTC", supra: "FUEL"},
-            FUNETH: {infra: "ETH", supra: "FUN"},
-            FUNBTC: {infra: "BTC", supra: "FUN"},
-
-            GVTETH: {infra: "ETH", supra: "GVT"},
-
-            HSRBTC: {infra: "BTC", supra: "HSR"},
-
-            ICNBTC: {infra: "BTC", supra: "ICN"},
-            ICXBTC: {infra: "BTC", supra: "ICX"},
-            ICXETH: {infra: "ETH", supra: "ICX"},
-            KMDETH: {infra: "ETH", supra: "KMD"},
-            KMDBTC: {infra: "BTC", supra: "KMD"},
-            LENDETH: {infra: "ETH", supra: "LEND"},
-            LENDBTC: {infra: "BTC", supra: "LEND"},
-            LRCETH: {infra: "ETH", supra: "LRC"},
-            LRCBTC: {infra: "BTC", supra: "LRC"},
-            LTCUSDT: {infra: "USD", supra: "LTC"},
-            LTCBTC: {infra: "BTC", supra: "LTC"},
-            LTCETH: {infra: "ETH", supra: "LTC"},
-            LUNBTC: {infra: "BTC", supra: "LUN"},
-
-            MANAETH: {infra: "ETH", supra: "MANA"},
-            MANABTC: {infra: "BTC", supra: "MANA"},
-            MTHBTC: {infra: "BTC", supra: "MTH"},
-
-            NEBLETH: {infra: "ETH", supra: "NEBL"},
-            NEOUSDT: {infra: "USD", supra: "NEO"},
-            NEOBTC: {infra: "BTC", supra: "NEO"},
-            NEOETH: {infra: "ETH", supra: "NEO"},
-
-            OAXBTC: {infra: "BTC", supra: "OAX"},
-            OAXETH: {infra: "ETH", supra: "OAX"},
-            OMGETH: {infra: "ETH", supra: "OMG"},
-
-            POEBTC: {infra: "BTC", supra: "POE"},
-            POEETH: {infra: "ETH", supra: "POE"},
-            PPTETH: {infra: "ETH", supra: "PPT"},
-
-            QTUMBTC: {infra: "BTC", supra: "QTUM"},
-
-            RLCBTC: {infra: "BTC", supra: "RLC"},
-
-            SNGLSBTC: {infra: "BTC", supra: "SNGLS"},
-            SNMETH: {infra: "ETH", supra: "SNM"},
-            SNTBTC: {infra: "BTC", supra: "SNT"},
-            SNTETH: {infra: "ETH", supra: "SNT"},
-            STEEMBTC: {infra: "BTC", supra: "STEEM"},
-            STRATBTC: {infra: "BTC", supra: "STRAT"},
-            STRATETH: {infra: "ETH", supra: "STRAT"},
-            SUBBTC: {infra: "BTC", supra: "SUB"},
-            SUBETH: {infra: "ETH", supra: "SUB"},
-
-            TNTBTC: {infra: "BTC", supra: "TNT"},
-            TNTETH: {infra: "ETH", supra: "TNT"},
-            TRXETH: {infra: "ETH", supra: "TRX"},
-            TRXBTC: {infra: "BTC", supra: "TRX"},
-
-            VENBTC: {infra: "BTC", supra: "VEN"},
-            VENETH: {infra: "ETH", supra: "VEN"},
-            VIBBTC: {infra: "BTC", supra: "VIB"},
-            VIBEBTC: {infra: "BTC", supra: "VIBE"},
-            VIBETH: {infra: "ETH", supra: "VIB"},
-
-            WAVESBTC: {infra: "BTC", supra: "WAVES"},
-            WINGSBTC: {infra: "BTC", supra: "WINGS"},
-            WTCBTC: {infra: "BTC", supra: "WTC"},
-
-            XMRBTC: {infra: "BTC", supra: "XMR"},
-            XMRETH: {infra: "ETH", supra: "XMR"},
-            XRPBTC: {infra: "BTC", supra: "XRP"},
-            XRPETH: {infra: "ETH", supra: "XRP"},
-            XVGETH: {infra: "ETH", supra: "XVG"},
-            XVGBTC: {infra: "BTC", supra: "XVG"},
-            ZECBTC: {infra: "BTC", supra: "ZEC"},
-            ZRXBTC: {infra: "BTC", supra: "ZRX"},
-            ZRXETH: {infra: "ETH", supra: "ZRX"}
+            "1STBTC":
+                {infra: "BTC", supra: "1ST"},
+            "1STETH":
+                {infra: "ETH", supra: "1ST"},
+            ADXBTC:
+                {infra: "BTC", supra: "ADX"},
+            ADXETH:
+                {infra: "ETH", supra: "ADX"},
+            ADXUSD:
+                {infra: "USD", supra: "ADX"},
+            AEBTC:
+                {infra: "BTC", supra: "AE"},
+            AEONBTC:
+                {infra: "BTC", supra: "AEON"},
+            AIRBTC:
+                {infra: "BTC", supra: "AIR"},
+            AIRETH:
+                {infra: "ETH", supra: "AIR"},
+            AIRUSD:
+                {infra: "USD", supra: "AIR"},
+            AMMBTC:
+                {infra: "BTC", supra: "AMM"},
+            AMMETH:
+                {infra: "ETH", supra: "AMM"},
+            AMMUSD:
+                {infra: "USD", supra: "AMM"},
+            AMPBTC:
+                {infra: "BTC", supra: "AMP"},
+            ANTBTC:
+                {infra: "BTC", supra: "ANT"},
+            ARDRBTC:
+                {infra: "BTC", supra: "ARDR"},
+            ARNBTC:
+                {infra: "BTC", supra: "ARN"},
+            ARNETH:
+                {infra: "ETH", supra: "ARN"},
+            ARTBTC:
+                {infra: "BTC", supra: "ART"},
+            ATBBTC:
+                {infra: "BTC", supra: "ATB"},
+            ATBETH:
+                {infra: "ETH", supra: "ATB"},
+            ATBUSD:
+                {infra: "USD", supra: "ATB"},
+            ATLBTC:
+                {infra: "BTC", supra: "ATL"},
+            ATMBTC:
+                {infra: "BTC", supra: "ATM"},
+            ATMETH:
+                {infra: "ETH", supra: "ATM"},
+            ATMUSD:
+                {infra: "USD", supra: "ATM"},
+            ATSBTC:
+                {infra: "BTC", supra: "ATS"},
+            ATSETH:
+                {infra: "ETH", supra: "ATS"},
+            AVHBTC:
+                {infra: "BTC", supra: "AVH"},
+            AVTETH:
+                {infra: "ETH", supra: "AVT"},
+            B2XBTC:
+                {infra: "BTC", supra: "B2X"},
+            B2XETH:
+                {infra: "ETH", supra: "B2X"},
+            B2XUSD:
+                {infra: "USD", supra: "B2X"},
+            BASETH:
+                {infra: "ETH", supra: "BAS"},
+            BCHBTC:
+                {infra: "BTC", supra: "BCH"},
+            BCHETH:
+                {infra: "ETH", supra: "BCH"},
+            BCHUSD:
+                {infra: "USD", supra: "BCH"},
+            BCNBTC:
+                {infra: "BTC", supra: "BCN"},
+            BCNETH:
+                {infra: "ETH", supra: "BCN"},
+            BCNUSD:
+                {infra: "USD", supra: "BCN"},
+            BETETH:
+                {infra: "ETH", supra: "BET"},
+            BKBBTC:
+                {infra: "BTC", supra: "BKB"},
+            BMCBTC:
+                {infra: "BTC", supra: "BMC"},
+            BMCETH:
+                {infra: "ETH", supra: "BMC"},
+            BMCUSD:
+                {infra: "USD", supra: "BMC"},
+            BMTBTC:
+                {infra: "BTC", supra: "BMT"},
+            BMTETH:
+                {infra: "ETH", supra: "BMT"},
+            BNTBTC:
+                {infra: "BTC", supra: "BNT"},
+            BNTETH:
+                {infra: "ETH", supra: "BNT"},
+            BNTUSD:
+                {infra: "USD", supra: "BNT"},
+            BOSBTC:
+                {infra: "BTC", supra: "BOS"},
+            BQXBTC:
+                {infra: "BTC", supra: "BQX"},
+            BQXETH:
+                {infra: "ETH", supra: "BQX"},
+            BQXUSD:
+                {infra: "USD", supra: "BQX"},
+            BTCABTC:
+                {infra: "BTC", supra: "BTCA"},
+            BTCAETH:
+                {infra: "ETH", supra: "BTCA"},
+            BTCAUSD:
+                {infra: "USD", supra: "BTCA"},
+            BTCUSD:
+                {infra: "USD", supra: "BTC"},
+            BTGBTC:
+                {infra: "BTC", supra: "BTG"},
+            BTGETH:
+                {infra: "ETH", supra: "BTG"},
+            BTGUSD:
+                {infra: "USD", supra: "BTG"},
+            BTMBTC:
+                {infra: "BTC", supra: "BTM"},
+            BTMETH:
+                {infra: "ETH", supra: "BTM"},
+            BTMUSD:
+                {infra: "USD", supra: "BTM"},
+            BTXBTC:
+                {infra: "BTC", supra: "BTX"},
+            BTXUSDT:
+                {infra: "USD", supra: "BTX"},
+            BUSBTC:
+                {infra: "BTC", supra: "BUS"},
+            C20BTC:
+                {infra: "BTC", supra: "C20"},
+            C20ETH:
+                {infra: "ETH", supra: "C20"},
+            CASBTC:
+                {infra: "BTC", supra: "CAS"},
+            CASETH:
+                {infra: "ETH", supra: "CAS"},
+            CASUSD:
+                {infra: "USD", supra: "CAS"},
+            CATBTC:
+                {infra: "BTC", supra: "CAT"},
+            CATETH:
+                {infra: "ETH", supra: "CAT"},
+            CATUSD:
+                {infra: "USD", supra: "CAT"},
+            CCTETH:
+                {infra: "ETH", supra: "CCT"},
+            CDTBTC:
+                {infra: "BTC", supra: "CDT"},
+            CDTETH:
+                {infra: "ETH", supra: "CDT"},
+            CDTUSD:
+                {infra: "USD", supra: "CDT"},
+            CDXETH:
+                {infra: "ETH", supra: "CDX"},
+            CFIBTC:
+                {infra: "BTC", supra: "CFI"},
+            CFIETH:
+                {infra: "ETH", supra: "CFI"},
+            CHATBTC:
+                {infra: "BTC", supra: "CHAT"},
+            CHATETH:
+                {infra: "ETH", supra: "CHAT"},
+            CHATUSD:
+                {infra: "USD", supra: "CHAT"},
+            CHSBBTC:
+                {infra: "BTC", supra: "CHSB"},
+            CHSBETH:
+                {infra: "ETH", supra: "CHSB"},
+            CLBTC:
+                {infra: "BTC", supra: "CL"},
+            CLDBTC:
+                {infra: "BTC", supra: "CLD"},
+            CLDETH:
+                {infra: "ETH", supra: "CLD"},
+            CLDUSD:
+                {infra: "USD", supra: "CLD"},
+            CLETH:
+                {infra: "ETH", supra: "CL"},
+            CLUSD:
+                {infra: "USD", supra: "CL"},
+            CNDBTC:
+                {infra: "BTC", supra: "CND"},
+            CNDETH:
+                {infra: "ETH", supra: "CND"},
+            CNDUSD:
+                {infra: "USD", supra: "CND"},
+            CNXBTC:
+                {infra: "BTC", supra: "CNX"},
+            COSSBTC:
+                {infra: "BTC", supra: "COSS"},
+            COSSETH:
+                {infra: "ETH", supra: "COSS"},
+            COVBTC:
+                {infra: "BTC", supra: "COV"},
+            COVETH:
+                {infra: "ETH", supra: "COV"},
+            CPAYETH:
+                {infra: "ETH", supra: "CPAY"},
+            CSNOBTC:
+                {infra: "BTC", supra: "CSNO"},
+            CTRBTC:
+                {infra: "BTC", supra: "CTR"},
+            CTRETH:
+                {infra: "ETH", supra: "CTR"},
+            CTRUSD:
+                {infra: "USD", supra: "CTR"},
+            CTXBTC:
+                {infra: "BTC", supra: "CTX"},
+            CTXETH:
+                {infra: "ETH", supra: "CTX"},
+            CVCUSD:
+                {infra: "USD", supra: "CVC"},
+            DASHBTC:
+                {infra: "BTC", supra: "DASH"},
+            DASHETH:
+                {infra: "ETH", supra: "DASH"},
+            DASHUSD:
+                {infra: "USD", supra: "DASH"},
+            DATABTC:
+                {infra: "BTC", supra: "DATA"},
+            DATAETH:
+                {infra: "ETH", supra: "DATA"},
+            DATAUSD:
+                {infra: "USD", supra: "DATA"},
+            DBIXBTC:
+                {infra: "BTC", supra: "DBIX"},
+            DCNETH:
+                {infra: "ETH", supra: "DCN"},
+            DCNUSD:
+                {infra: "USD", supra: "DCN"},
+            DCTBTC:
+                {infra: "BTC", supra: "DCT"},
+            DDFETH:
+                {infra: "ETH", supra: "DDF"},
+            DENTETH:
+                {infra: "ETH", supra: "DENT"},
+            DGBBTC:
+                {infra: "BTC", supra: "DGB"},
+            DGBETH:
+                {infra: "ETH", supra: "DGB"},
+            DGBUSD:
+                {infra: "USD", supra: "DGB"},
+            DGDBTC:
+                {infra: "BTC", supra: "DGD"},
+            DICEBTC:
+                {infra: "BTC", supra: "DICE"},
+            DICEETH:
+                {infra: "ETH", supra: "DICE"},
+            DIMBTC:
+                {infra: "BTC", supra: "DIM"},
+            DIMETH:
+                {infra: "ETH", supra: "DIM"},
+            DIMUSD:
+                {infra: "USD", supra: "DIM"},
+            DLTBTC:
+                {infra: "BTC", supra: "DLT"},
+            DNTBTC:
+                {infra: "BTC", supra: "DNT"},
+            DOGEBTC:
+                {infra: "BTC", supra: "DOGE"},
+            DOGEETH:
+                {infra: "ETH", supra: "DOGE"},
+            DOGEUSD:
+                {infra: "USD", supra: "DOGE"},
+            DOVBTC:
+                {infra: "BTC", supra: "DOV"},
+            DOVETH:
+                {infra: "ETH", supra: "DOV"},
+            DRPUBTC:
+                {infra: "BTC", supra: "DRPU"},
+            DRPUETH:
+                {infra: "ETH", supra: "DRPU"},
+            DRTETH:
+                {infra: "ETH", supra: "DRT"},
+            DRTUSDT:
+                {infra: "USD", supra: "DRT"},
+            DSHBTC:
+                {infra: "BTC", supra: "DSH"},
+            EBETETH:
+                {infra: "ETH", supra: "EBET"},
+            EBTCNEWBTC:
+                {infra: "BTC", supra: "EBTC"},
+            EBTCNEWETH:
+                {infra: "ETH", supra: "EBTC"},
+            EBTCNEWUSD:
+                {infra: "USD", supra: "EBTC"},
+            EBTCOLDBTC:
+                {infra: "BTC", supra: "EBTCOLD"},
+            EBTCOLDETH:
+                {infra: "ETH", supra: "EBTCOLD"},
+            EBTCOLDUSD:
+                {infra: "USD", supra: "EBTCOLD"},
+            ECHBTC:
+                {infra: "BTC", supra: "ECH"},
+            EDGBTC:
+                {infra: "BTC", supra: "EDG"},
+            EDOBTC:
+                {infra: "BTC", supra: "EDO"},
+            EDOETH:
+                {infra: "ETH", supra: "EDO"},
+            EDOUSD:
+                {infra: "USD", supra: "EDO"},
+            EETBTC:
+                {infra: "BTC", supra: "EET"},
+            EETETH:
+                {infra: "ETH", supra: "EET"},
+            EETUSD:
+                {infra: "USD", supra: "EET"},
+            EKOBTC:
+                {infra: "BTC", supra: "EKO"},
+            EKOETH:
+                {infra: "ETH", supra: "EKO"},
+            ELEBTC:
+                {infra: "BTC", supra: "ELE"},
+            ELMBTC:
+                {infra: "BTC", supra: "ELM"},
+            EMCBTC:
+                {infra: "BTC", supra: "EMC"},
+            EMCETH:
+                {infra: "ETH", supra: "EMC"},
+            EMCUSDT:
+                {infra: "USD", supra: "EMC"},
+            EMGOBTC:
+                {infra: "BTC", supra: "EMGO"},
+            EMGOUSD:
+                {infra: "USD", supra: "EMGO"},
+            ENGETH:
+                {infra: "ETH", supra: "ENG"},
+            ENJBTC:
+                {infra: "BTC", supra: "ENJ"},
+            ENJETH:
+                {infra: "ETH", supra: "ENJ"},
+            ENJUSD:
+                {infra: "USD", supra: "ENJ"},
+            EOSBTC:
+                {infra: "BTC", supra: "EOS"},
+            EOSETH:
+                {infra: "ETH", supra: "EOS"},
+            EOSUSD:
+                {infra: "USD", supra: "EOS"},
+            EROBTC:
+                {infra: "BTC", supra: "ERO"},
+            ETBSBTC:
+                {infra: "BTC", supra: "ETBS"},
+            ETCBTC:
+                {infra: "BTC", supra: "ETC"},
+            ETCETH:
+                {infra: "ETH", supra: "ETC"},
+            ETCUSD:
+                {infra: "USD", supra: "ETC"},
+            ETHBTC:
+                {infra: "BTC", supra: "ETH"},
+            ETHUSD:
+                {infra: "USD", supra: "ETH"},
+            ETPBTC:
+                {infra: "BTC", supra: "ETP"},
+            ETPETH:
+                {infra: "ETH", supra: "ETP"},
+            ETPUSD:
+                {infra: "USD", supra: "ETP"},
+            EVXBTC:
+                {infra: "BTC", supra: "EVX"},
+            EVXETH:
+                {infra: "ETH", supra: "EVX"},
+            EVXUSD:
+                {infra: "USD", supra: "EVX"},
+            EXNBTC:
+                {infra: "BTC", supra: "EXN"},
+            FCNBTC:
+                {infra: "BTC", supra: "FCN"},
+            FRDBTC:
+                {infra: "BTC", supra: "FRD"},
+            FUELBTC:
+                {infra: "BTC", supra: "FUEL"},
+            FUELETH:
+                {infra: "ETH", supra: "FUEL"},
+            FUELUSD:
+                {infra: "USD", supra: "FUEL"},
+            FUNBTC:
+                {infra: "BTC", supra: "FUN"},
+            FUNETH:
+                {infra: "ETH", supra: "FUN"},
+            FUNUSD:
+                {infra: "USD", supra: "FUN"},
+            FYNETH:
+                {infra: "ETH", supra: "FYN"},
+            FYPBTC:
+                {infra: "BTC", supra: "FYP"},
+            GAMEBTC:
+                {infra: "BTC", supra: "GAME"},
+            GNOBTC:
+                {infra: "BTC", supra: "GNO"},
+            GNOETH:
+                {infra: "ETH", supra: "GNO"},
+            GRMDBTC:
+                {infra: "BTC", supra: "GRMD"},
+            GUPBTC:
+                {infra: "BTC", supra: "GUP"},
+            GVTETH:
+                {infra: "ETH", supra: "GVT"},
+            HACBTC:
+                {infra: "BTC", supra: "HAC"},
+            HDGETH:
+                {infra: "ETH", supra: "HDG"},
+            HGTETH:
+                {infra: "ETH", supra: "HGT"},
+            HPCBTC:
+                {infra: "BTC", supra: "HPC"},
+            HSRBTC:
+                {infra: "BTC", supra: "HSR"},
+            HVNBTC:
+                {infra: "BTC", supra: "HVN"},
+            HVNETH:
+                {infra: "ETH", supra: "HVN"},
+            ICNBTC:
+                {infra: "BTC", supra: "ICN"},
+            ICOBTC:
+                {infra: "BTC", supra: "ICO"},
+            ICOSBTC:
+                {infra: "BTC", supra: "ICOS"},
+            ICOSETH:
+                {infra: "ETH", supra: "ICOS"},
+            ICOSUSD:
+                {infra: "USD", supra: "ICOS"},
+            ICXBTC:
+                {infra: "BTC", supra: "ICX"},
+            ICXETH:
+                {infra: "ETH", supra: "ICX"},
+            ICXUSD:
+                {infra: "USD", supra: "ICX"},
+            IDHBTC:
+                {infra: "BTC", supra: "IDH"},
+            IDHETH:
+                {infra: "ETH", supra: "IDH"},
+            IGNISETH:
+                {infra: "ETH", supra: "IGNIS"},
+            INDETH:
+                {infra: "ETH", supra: "IND"},
+            INDIBTC:
+                {infra: "BTC", supra: "INDI"},
+            IPLBTC:
+                {infra: "BTC", supra: "IPL"},
+            ITSBTC:
+                {infra: "BTC", supra: "ITS"},
+            IXTBTC:
+                {infra: "BTC", supra: "IXT"},
+            IXTETH:
+                {infra: "ETH", supra: "IXT"},
+            KBRBTC:
+                {infra: "BTC", supra: "KBR"},
+            KICKBTC:
+                {infra: "BTC", supra: "KICK"},
+            KMDBTC:
+                {infra: "BTC", supra: "KMD"},
+            KMDETH:
+                {infra: "ETH", supra: "KMD"},
+            KMDUSD:
+                {infra: "USD", supra: "KMD"},
+            LAETH:
+                {infra: "ETH", supra: "LA"},
+            LATBTC:
+                {infra: "BTC", supra: "LAT"},
+            LENDBTC:
+                {infra: "BTC", supra: "LEND"},
+            LENDETH:
+                {infra: "ETH", supra: "LEND"},
+            LIFEBTC:
+                {infra: "BTC", supra: "LIFE"},
+            LOCBTC:
+                {infra: "BTC", supra: "LOC"},
+            LOCETH:
+                {infra: "ETH", supra: "LOC"},
+            LOCUSD:
+                {infra: "USD", supra: "LOC"},
+            LRCBTC:
+                {infra: "BTC", supra: "LRC"},
+            LRCETH:
+                {infra: "ETH", supra: "LRC"},
+            LSKBTC:
+                {infra: "BTC", supra: "LSK"},
+            LSKETH:
+                {infra: "ETH", supra: "LSK"},
+            LSKUSD:
+                {infra: "USD", supra: "LSK"},
+            LTCBTC:
+                {infra: "BTC", supra: "LTC"},
+            LTCETH:
+                {infra: "ETH", supra: "LTC"},
+            LTCUSD:
+                {infra: "USD", supra: "LTC"},
+            LUNBTC:
+                {infra: "BTC", supra: "LUN"},
+            MAIDBTC:
+                {infra: "BTC", supra: "MAID"},
+            MAIDETH:
+                {infra: "ETH", supra: "MAID"},
+            MAIDUSD:
+                {infra: "USD", supra: "MAID"},
+            MANABTC:
+                {infra: "BTC", supra: "MANA"},
+            MANAETH:
+                {infra: "ETH", supra: "MANA"},
+            MANAUSD:
+                {infra: "USD", supra: "MANA"},
+            MCAPBTC:
+                {infra: "BTC", supra: "MCAP"},
+            MCOBTC:
+                {infra: "BTC", supra: "MCO"},
+            MCOETH:
+                {infra: "ETH", supra: "MCO"},
+            MCOUSD:
+                {infra: "USD", supra: "MCO"},
+            MIPSBTC:
+                {infra: "BTC", supra: "MIPS"},
+            MNEBTC:
+                {infra: "BTC", supra: "MNE"},
+            MSPETH:
+                {infra: "ETH", supra: "MSP"},
+            MTHBTC:
+                {infra: "BTC", supra: "MTH"},
+            MTHETH:
+                {infra: "ETH", supra: "MTH"},
+            MYBETH:
+                {infra: "ETH", supra: "MYB"},
+            NDCETH:
+                {infra: "ETH", supra: "NDC"},
+            NEBLBTC:
+                {infra: "BTC", supra: "NEBL"},
+            NEBLETH:
+                {infra: "ETH", supra: "NEBL"},
+            NEOBTC:
+                {infra: "BTC", supra: "NEO"},
+            NEOETH:
+                {infra: "ETH", supra: "NEO"},
+            NEOUSD:
+                {infra: "USD", supra: "NEO"},
+            NETETH:
+                {infra: "ETH", supra: "NET"},
+            NGCBTC:
+                {infra: "BTC", supra: "NGC"},
+            NGCETH:
+                {infra: "ETH", supra: "NGC"},
+            NGCUSD:
+                {infra: "USD", supra: "NGC"},
+            NTOBTC:
+                {infra: "BTC", supra: "NTO"},
+            NXCBTC:
+                {infra: "BTC", supra: "NXC"},
+            NXTBTC:
+                {infra: "BTC", supra: "NXT"},
+            NXTETH:
+                {infra: "ETH", supra: "NXT"},
+            NXTUSD:
+                {infra: "USD", supra: "NXT"},
+            OAXBTC:
+                {infra: "BTC", supra: "OAX"},
+            OAXETH:
+                {infra: "ETH", supra: "OAX"},
+            OAXUSD:
+                {infra: "USD", supra: "OAX"},
+            ODNBTC:
+                {infra: "BTC", supra: "ODN"},
+            OMGBTC:
+                {infra: "BTC", supra: "OMG"},
+            OMGETH:
+                {infra: "ETH", supra: "OMG"},
+            OMGUSD:
+                {infra: "USD", supra: "OMG"},
+            OPTBTC:
+                {infra: "BTC", supra: "OPT"},
+            ORMEBTC:
+                {infra: "BTC", supra: "ORME"},
+            OTNBTC:
+                {infra: "BTC", supra: "OTN"},
+            OTXBTC:
+                {infra: "BTC", supra: "OTX"},
+            PAYBTC:
+                {infra: "BTC", supra: "PAY"},
+            PAYETH:
+                {infra: "ETH", supra: "PAY"},
+            PINGBTC:
+                {infra: "BTC", supra: "PING"},
+            PIXBTC:
+                {infra: "BTC", supra: "PIX"},
+            PIXETH:
+                {infra: "ETH", supra: "PIX"},
+            PLBTBTC:
+                {infra: "BTC", supra: "PLBT"},
+            PLRBTC:
+                {infra: "BTC", supra: "PLR"},
+            PLRETH:
+                {infra: "ETH", supra: "PLR"},
+            PLRUSD:
+                {infra: "USD", supra: "PLR"},
+            PLUBTC:
+                {infra: "BTC", supra: "PLU"},
+            PLUETH:
+                {infra: "ETH", supra: "PLU"},
+            POEBTC:
+                {infra: "BTC", supra: "POE"},
+            POEETH:
+                {infra: "ETH", supra: "POE"},
+            POLLBTC:
+                {infra: "BTC", supra: "POLL"},
+            PPCBTC:
+                {infra: "BTC", supra: "PPC"},
+            PPCUSD:
+                {infra: "USD", supra: "PPC"},
+            PPTBTC:
+                {infra: "BTC", supra: "PPT"},
+            PPTETH:
+                {infra: "ETH", supra: "PPT"},
+            PREBTC:
+                {infra: "BTC", supra: "PRE"},
+            PRGBTC:
+                {infra: "BTC", supra: "PRG"},
+            PRGETH:
+                {infra: "ETH", supra: "PRG"},
+            PRGUSD:
+                {infra: "USD", supra: "PRG"},
+            PROETH:
+                {infra: "ETH", supra: "PRO"},
+            PTOYBTC:
+                {infra: "BTC", supra: "PTOY"},
+            PTOYETH:
+                {infra: "ETH", supra: "PTOY"},
+            QAUBTC:
+                {infra: "BTC", supra: "QAU"},
+            QAUETH:
+                {infra: "ETH", supra: "QAU"},
+            QCNBTC:
+                {infra: "BTC", supra: "QCN"},
+            QTUMBTC:
+                {infra: "BTC", supra: "QTUM"},
+            QTUMETH:
+                {infra: "ETH", supra: "QTUM"},
+            QTUMUSD:
+                {infra: "USD", supra: "QTUM"},
+            QVTETH:
+                {infra: "ETH", supra: "QVT"},
+            REPBTC:
+                {infra: "BTC", supra: "REP"},
+            REPETH:
+                {infra: "ETH", supra: "REP"},
+            REPUSDT:
+                {infra: "USD", supra: "REP"},
+            RKCETH:
+                {infra: "ETH", supra: "RKC"},
+            RLCBTC:
+                {infra: "BTC", supra: "RLC"},
+            RVTBTC:
+                {infra: "BTC", supra: "RVT"},
+            SANETH:
+                {infra: "ETH", supra: "SAN"},
+            SBDBTC:
+                {infra: "BTC", supra: "SBD"},
+            SBTCBTC:
+                {infra: "BTC", supra: "SBTC"},
+            SBTCETH:
+                {infra: "ETH", supra: "SBTC"},
+            SBTCUSDT:
+                {infra: "USD", supra: "SBTC"},
+            SCBTC:
+                {infra: "BTC", supra: "SC"},
+            SCLBTC:
+                {infra: "BTC", supra: "SCL"},
+            SISABTC:
+                {infra: "BTC", supra: "SISA"},
+            SISAETH:
+                {infra: "ETH", supra: "SISA"},
+            SKINBTC:
+                {infra: "BTC", supra: "SKIN"},
+            SMARTBTC:
+                {infra: "BTC", supra: "SMART"},
+            SMARTETH:
+                {infra: "ETH", supra: "SMART"},
+            SMARTUSD:
+                {infra: "USD", supra: "SMART"},
+            SMSBTC:
+                {infra: "BTC", supra: "SMS"},
+            SMSETH:
+                {infra: "ETH", supra: "SMS"},
+            SMSUSD:
+                {infra: "USD", supra: "SMS"},
+            SMTBTC:
+                {infra: "BTC", supra: "SMT"},
+            SMTETH:
+                {infra: "ETH", supra: "SMT"},
+            SMTUSD:
+                {infra: "USD", supra: "SMT"},
+            SNCBTC:
+                {infra: "BTC", supra: "SNC"},
+            SNCETH:
+                {infra: "ETH", supra: "SNC"},
+            SNCUSD:
+                {infra: "USD", supra: "SNC"},
+            SNGLSBTC:
+                {infra: "BTC", supra: "SNGLS"},
+            SNMETH:
+                {infra: "ETH", supra: "SNM"},
+            SNTBTC:
+                {infra: "BTC", supra: "SNT"},
+            SNTETH:
+                {infra: "ETH", supra: "SNT"},
+            SNTUSD:
+                {infra: "USD", supra: "SNT"},
+            SPFETH:
+                {infra: "ETH", supra: "SPF"},
+            STARETH:
+                {infra: "ETH", supra: "STAR"},
+            STEEMBTC:
+                {infra: "BTC", supra: "STEEM"},
+            STORMBTC:
+                {infra: "BTC", supra: "STORM"},
+            STRATBTC:
+                {infra: "BTC", supra: "STRAT"},
+            STRATETH:
+                {infra: "ETH", supra: "STRAT"},
+            STRATUSD:
+                {infra: "USD", supra: "STRAT"},
+            STUBTC:
+                {infra: "BTC", supra: "STU"},
+            STUETH:
+                {infra: "ETH", supra: "STU"},
+            STUUSD:
+                {infra: "USD", supra: "STU"},
+            STXBTC:
+                {infra: "BTC", supra: "STX"},
+            STXETH:
+                {infra: "ETH", supra: "STX"},
+            STXUSD:
+                {infra: "USD", supra: "STX"},
+            SUBBTC:
+                {infra: "BTC", supra: "SUB"},
+            SUBETH:
+                {infra: "ETH", supra: "SUB"},
+            SUBUSD:
+                {infra: "USD", supra: "SUB"},
+            SURBTC:
+                {infra: "BTC", supra: "SUR"},
+            SURETH:
+                {infra: "ETH", supra: "SUR"},
+            SURUSD:
+                {infra: "USD", supra: "SUR"},
+            SWFTCBTC:
+                {infra: "BTC", supra: "SWFTC"},
+            SWFTCETH:
+                {infra: "ETH", supra: "SWFTC"},
+            SWFTCUSD:
+                {infra: "USD", supra: "SWFTC"},
+            SWTBTC:
+                {infra: "BTC", supra: "SWT"},
+            SWTETH:
+                {infra: "ETH", supra: "SWT"},
+            TAASBTC:
+                {infra: "BTC", supra: "TAAS"},
+            TAASETH:
+                {infra: "ETH", supra: "TAAS"},
+            TBTBTC:
+                {infra: "BTC", supra: "TBT"},
+            TGTBTC:
+                {infra: "BTC", supra: "TGT"},
+            TIMEBTC:
+                {infra: "BTC", supra: "TIME"},
+            TIMEETH:
+                {infra: "ETH", supra: "TIME"},
+            TIOBTC:
+                {infra: "BTC", supra: "TIO"},
+            TIOETH:
+                {infra: "ETH", supra: "TIO"},
+            TIOUSD:
+                {infra: "USD", supra: "TIO"},
+            TIXETH:
+                {infra: "ETH", supra: "TIX"},
+            TKNBTC:
+                {infra: "BTC", supra: "TKN"},
+            TKRETH:
+                {infra: "ETH", supra: "TKR"},
+            TNTBTC:
+                {infra: "BTC", supra: "TNT"},
+            TNTETH:
+                {infra: "ETH", supra: "TNT"},
+            TNTUSD:
+                {infra: "USD", supra: "TNT"},
+            TRACETH:
+                {infra: "ETH", supra: "TRAC"},
+            TRSTBTC:
+                {infra: "BTC", supra: "TRST"},
+            TRXBTC:
+                {infra: "BTC", supra: "TRX"},
+            TRXETH:
+                {infra: "ETH", supra: "TRX"},
+            TRXUSD:
+                {infra: "USD", supra: "TRX"},
+            UETETH:
+                {infra: "ETH", supra: "UET"},
+            UGTBTC:
+                {infra: "BTC", supra: "UGT"},
+            UGTETH:
+                {infra: "ETH", supra: "UGT"},
+            UGTUSD:
+                {infra: "USD", supra: "UGT"},
+            ULTCBTC:
+                {infra: "BTC", supra: "ULTC"},
+            UTKBTC:
+                {infra: "BTC", supra: "UTK"},
+            UTKETH:
+                {infra: "ETH", supra: "UTK"},
+            UTKUSD:
+                {infra: "USD", supra: "UTK"},
+            UTTBTC:
+                {infra: "BTC", supra: "UTT"},
+            UTTETH:
+                {infra: "ETH", supra: "UTT"},
+            UTTUSD:
+                {infra: "USD", supra: "UTT"},
+            VENBTC:
+                {infra: "BTC", supra: "VEN"},
+            VENETH:
+                {infra: "ETH", supra: "VEN"},
+            VENUSD:
+                {infra: "USD", supra: "VEN"},
+            VERIBTC:
+                {infra: "BTC", supra: "VERI"},
+            VERIETH:
+                {infra: "ETH", supra: "VERI"},
+            VERIUSD:
+                {infra: "USD", supra: "VERI"},
+            VIBBTC:
+                {infra: "BTC", supra: "VIB"},
+            VIBEBTC:
+                {infra: "BTC", supra: "VIBE"},
+            VIBETH:
+                {infra: "ETH", supra: "VIB"},
+            VIBUSD:
+                {infra: "USD", supra: "VIB"},
+            VOISEBTC:
+                {infra: "BTC", supra: "VOISE"},
+            W3CBTC:
+                {infra: "BTC", supra: "W3C"},
+            W3CETH:
+                {infra: "ETH", supra: "W3C"},
+            WAVESBTC:
+                {infra: "BTC", supra: "WAVES"},
+            WAXBTC:
+                {infra: "BTC", supra: "WAX"},
+            WAXETH:
+                {infra: "ETH", supra: "WAX"},
+            WAXUSD:
+                {infra: "USD", supra: "WAX"},
+            WINGSBTC:
+                {infra: "BTC", supra: "WINGS"},
+            WMGOBTC:
+                {infra: "BTC", supra: "WMGO"},
+            WMGOUSD:
+                {infra: "USD", supra: "WMGO"},
+            WRCBTC:
+                {infra: "BTC", supra: "WRC"},
+            WRCETH:
+                {infra: "ETH", supra: "WRC"},
+            WRCUSD:
+                {infra: "USD", supra: "WRC"},
+            WTCBTC:
+                {infra: "BTC", supra: "WTC"},
+            XAURBTC:
+                {infra: "BTC", supra: "XAUR"},
+            XAURETH:
+                {infra: "ETH", supra: "XAUR"},
+            XDNBTC:
+                {infra: "BTC", supra: "XDN"},
+            XDNCOBTC:
+                {infra: "BTC", supra: "XDNCO"},
+            XDNETH:
+                {infra: "ETH", supra: "XDN"},
+            XDNUSD:
+                {infra: "USD", supra: "XDN"},
+            XEMBTC:
+                {infra: "BTC", supra: "XEM"},
+            XEMETH:
+                {infra: "ETH", supra: "XEM"},
+            XEMUSD:
+                {infra: "USD", supra: "XEM"},
+            XMRBTC:
+                {infra: "BTC", supra: "XMR"},
+            XMRETH:
+                {infra: "ETH", supra: "XMR"},
+            XMRUSD:
+                {infra: "USD", supra: "XMR"},
+            XRPBTC:
+                {infra: "BTC", supra: "XRP"},
+            XRPETH:
+                {infra: "ETH", supra: "XRP"},
+            XRPUSDT:
+                {infra: "USD", supra: "XRP"},
+            XTZBTC:
+                {infra: "BTC", supra: "XTZ"},
+            XTZETH:
+                {infra: "ETH", supra: "XTZ"},
+            XTZUSD:
+                {infra: "USD", supra: "XTZ"},
+            XUCBTC:
+                {infra: "BTC", supra: "XUC"},
+            XUCETH:
+                {infra: "ETH", supra: "XUC"},
+            XUCUSD:
+                {infra: "USD", supra: "XUC"},
+            XVGBTC:
+                {infra: "BTC", supra: "XVG"},
+            XVGETH:
+                {infra: "ETH", supra: "XVG"},
+            XVGUSD:
+                {infra: "USD", supra: "XVG"},
+            YOYOWBTC:
+                {infra: "BTC", supra: "YOYOW"},
+            ZAPBTC:
+                {infra: "BTC", supra: "ZAP"},
+            ZECBTC:
+                {infra: "BTC", supra: "ZEC"},
+            ZECETH:
+                {infra: "ETH", supra: "ZEC"},
+            ZECUSD:
+                {infra: "USD", supra: "ZEC"},
+            ZRCBTC:
+                {infra: "BTC", supra: "ZRC"},
+            ZRXBTC:
+                {infra: "BTC", supra: "ZRX"},
+            ZRXETH:
+                {infra: "ETH", supra: "ZRX"},
+            ZRXUSD:
+                {infra: "USD", supra: "ZRX"},
+            ZSCBTC:
+                {infra: "BTC", supra: "ZSC"},
+            ZSCETH:
+                {infra: "ETH", supra: "ZSC"},
+            ZSCUSD:
+                {infra: "USD", supra: "ZSC"},
         },
         binance: {
 
@@ -660,6 +1484,9 @@ export class AppConfigService {
                 {infra: "BNB", supra: "ADX"},
             ADXBTC:
                 {infra: "BTC", supra: "ADX"},
+            AEBTC:  {infra: "BTC", supra: "AE"},
+            AEBNB:  {infra: "BNB", supra: "AE"},
+            AEETH:  {infra: "ETH", supra: "AE"},
             ADXETH:
                 {infra: "ETH", supra: "ADX"},
             AIONBNB:
@@ -1175,6 +2002,35 @@ export class AppConfigService {
             ZRXETH:
                 {infra: "ETH", supra: "ZRX"},
         },
+        kraken: {
+            XREPXXBT: {infra: "BTC", supra: "XRP"},
+            XICNXXBT: {infra: "BTC", supra: "ICN"},
+            XXDGXXBT: {infra: "BTC", supra: "DOGE"},
+            XZECXXBT: {infra: "BTC", supra: "ZEC"},
+            XETCXXBT: {infra: "BTC", supra: "ETC"},
+            USDTZUSD: {infra: "USD", supra: "USD"},
+            XXRPZUSD: {infra: "USD", supra: "XRP"},
+            GNOXBT: {infra: "BTC", supra: "GNO"},
+            EOSXBT: {infra: "BTC", supra: "EOS"},
+            XXRPXXBT: {infra: "BTC", supra: "XRP"},
+            XZECZUSD: {infra: "USD", supra: "ZEC"},
+            XETHZUSD: {infra: "USD", supra: "ETH"},
+            XXBTZCAD: {infra: "CAD", supra: "BTC"},
+            XMLNXXBT: {infra: "BTC", supra: "MLN"},
+            DASHUSD: {infra: "USD", supra: "DASH"},
+            XXMRXXBT: {infra: "BTC", supra: "XMR"},
+            BCHXBT: {infra: "BTC", supra: "BCH"},
+            XETCZUSD: {infra: "USD", supra: "ETC"},
+            XETHXXBT: {infra: "BTC", supra: "ETH"},
+            XXLMXXBT: {infra: "BTC", supra: "XLM"},
+            XXMRZUSD: {infra: "USD", supra: "XMR"},
+            XLTCXXBT: {infra: "BTC", supra: "LTC"},
+            XXBTZUSD: {infra: "USD", supra: "BTC"},
+            BCHUSD: {infra: "USD", supra: "BCH"},
+            XLTCZUSD: {infra: "USD", supra: "LTC"},
+            DASHXBT: {infra: "USD", supra: "DASH"}
+        }
+
     }
 
 
@@ -1209,8 +2065,8 @@ export class AppConfigService {
             infras: ['USD', 'EUR', 'ETH', 'CAD', 'XBT', 'JPY', 'GBP'],
             ignoredPairs: []
         }, "hitbtc": {
-            trade_screen:"https://hitbtc.com/exchange/",
-            trade_screen_sep:"-to-",
+            trade_screen: "https://hitbtc.com/exchange/",
+            trade_screen_sep: "-to-",
             dbcode: "hit",
             api: "https://hitbtc.com/settings/api-keys",
             signup: "https://hitbtc.com/signupapp",
@@ -1422,11 +2278,18 @@ export class AppConfigService {
     }
 
     getTradeScreen(broker: string, pair: string): string {
-        console.log("open",broker,pair);
+        console.log("open", broker, pair);
         let p = this.infrasuprainv[broker][pair];
         let infra = p.infra;
         let supra = p.supra;
-        let l=this.brokersLinks[broker].trade_screen + supra + this.brokersLinks[broker].trade_screen_sep + infra;
+        let l = this.brokersLinks[broker].trade_screen + supra + this.brokersLinks[broker].trade_screen_sep + infra;
         return l
+    }
+
+    getPairCommonName(broker: string, paircode) {
+        if (!(broker in this.infrasuprainv)) return "**" + paircode
+        if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
+        let str = this.infrasuprainv[broker][paircode];
+        return str.supra + "/" + str.infra;
     }
 }

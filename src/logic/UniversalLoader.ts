@@ -6,6 +6,7 @@ export class UniversalLoader {
             let A = {}
             if (broker == "binance") {
                 for (let symbol in data) {
+
                     A[symbol] = {
                         available: parseFloat(data[symbol].available),
                         onorder: parseFloat(data[symbol].onOrder),

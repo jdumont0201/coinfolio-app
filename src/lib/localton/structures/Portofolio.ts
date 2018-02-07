@@ -117,12 +117,16 @@ export class Portfolio {
         let objData = {}
         console.log("  -> alloc PORTFOLIO GETALLOC", this.key, this.content)
         for (let k in this.content) {
+
             let asset = this.content[k];
+            console.log("alloch",k,asset)
             let L = this.publicDataService.getListingByName(asset.broker);
             let v;
             let y;
             if (asset.q > 0) {
+
                 let ba = L.getUSDValue(asset.symbol);
+                console.log("alloch",this.key,k ,asset,ba)
                 if (ba) {
                     v = Math.round(100 * ba.last) / 100;
                     y = Math.round(100 * v * asset.q) / 100
