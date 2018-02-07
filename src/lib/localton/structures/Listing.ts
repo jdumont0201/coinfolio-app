@@ -65,7 +65,7 @@ export class Listing {
         return this.content
     }
     loadListing(f: Function) {
-       console.log("TRADE : LOAD LISTING", this.key)
+       console.log("TRADE : LOAD LISTING", this.broker)
        f()
     }
 
