@@ -43,7 +43,8 @@ export class AppConfigService {
         BTC: {
             USD: {
                 binance: "BTCUSDT",
-                hitbtc: "BTCUSD"
+                hitbtc: "BTCUSD",
+                kucoin:"BTCUSD"
             }
         },
 
@@ -194,7 +195,8 @@ export class AppConfigService {
         ETH: {
             USD: {
                 binance: "ETHUSDT",
-                hitbtc: "ETHUSD"
+                hitbtc: "ETHUSD",
+                kucoin: "ETHUSD"
             }, BTC: {
                 binance: "ETHBTC",
                 hitbtc: "ETHBTC"
@@ -473,6 +475,11 @@ export class AppConfigService {
 
     };
     infrasuprainv = {
+        kucoin: {
+
+            "BTCUSD": {infra: "USD", supra: "BTC"},
+            "ETHUSD": {infra: "USD", supra: "ETH"},
+        },
         hitbtc: {
 
             ETHUSD: {infra: "USD", supra: "ETH"},
