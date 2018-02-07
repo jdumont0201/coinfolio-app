@@ -1,5 +1,4 @@
 <div id="top-right-buttons" class="{{showSearch?'shown':''}}">
-
     <input *ngIf="showSearch" id="search" (keyup)="doSearchCallback($event.target.value)"  placeholder="{{placeholder}}" type="text" >
     <button id="search-button" mat-icon-button (click)="showSearch=!showSearch"><mat-icon >{{showSearch?'clear':'search'}}</mat-icon></button>
 

@@ -183,7 +183,6 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         this.dataSource = new MatTableDataSource(this.filteredData);
     }
 
-
     canShowItem(index, s): boolean {
         return true
     }

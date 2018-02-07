@@ -15,7 +15,10 @@
     }
 
     .shown #search {
-        display: block
+        visibility:hidden
+    }
+    .shown #search-button {
+        visibility:hidden
     }
 
     .shown {
