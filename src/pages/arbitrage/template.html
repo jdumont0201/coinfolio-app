@@ -5,33 +5,28 @@
 
 
     <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
-    <ng-container>
-
-
-        <mat-menu #appMenu="matMenu">
-            <button (click)="sortby=i;sort()" mat-menu-item
-                    *ngFor="let i of possibleSorts">{{i}}
-            </button>
-        </mat-menu>
-        <mat-menu #appMenu2="matMenu">
-            <button (click)="priceview=i;sort()" mat-menu-item
-                    *ngFor="let i of possiblePriceviews">{{i}}
-            </button>
-        </mat-menu>
+    <div class="arbitrage-grid">
 
 
         <ng-container *ngFor="let li of sortedListing">
 
-            <mat-expansion-panel [expanded]="true">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        {{li.pair}} - Spread:{{li.spread |number:'1.3-3'}}%
-                    </mat-panel-title>
-                    <mat-panel-description>
-                        Buy at :{{li.list.cheapestask}} @{{li.list.cheapestaskname}} - Sell at {{li.list.mostexpensivebid}} @{{li.list.mostexpensivebidname }}
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
+            <ng-container *ngIf="li.spread>0">
+                <div class="arbitrage-header padded">
+                    <div class="td big">
+                        {{li.pair}}
+                    </div>
+                    <br>
+                    <ng-container *ngIf="li.spread>0">
+                        <div class="td ">
+                            <span class="valpos">Spread:{{li.spread |number:'1.1-1'}}%</span>
+                            <br>
+                            Buy at :{{li.list.cheapestask}} <span class="broker-icon notext broker-{{li.list.cheapestaskname}}"></span>@{{li.list.cheapestaskname}}<br>
 
+                            Sell at {{li.list.mostexpensivebid}} <span class="broker-icon notext broker-{{li.list.mostexpensivebidname}}"></span>@{{li.list.mostexpensivebidname }}
+                        </div>
+                        <button mat-raised-button (click)="check()">Check</button>
+                    </ng-container>
+                </div>
                 <div class="table">
                     <div class="tr">
                         <div class="td">Broker</div>
@@ -40,25 +35,24 @@
                         <div class="td">Ask</div>
 
                     </div>
-                    <div class="tr" *ngFor="let broker of getKeys(li.list.brokers)">
-                        <div class="td"><span class="broker-{{li.list.brokers[broker].broker}}"><span class="broker-icon notext broker-{{li.list.brokers[broker].broker}}"></span>{{li.list.brokers[broker].broker}}</span>
-                        </div>
-                        <div class="td"></div>
-                        <div class="td"><span class="{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].bid | price}} <mat-icon>{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></span>
-                        </div>
-                        <div class="td"><span class="{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].ask |price}} <mat-icon>{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>
-                        </div>
-                    </div>
 
+                    <ng-container *ngFor="let broker of getKeys(li.list.brokers)">
 
+                        <div class="tr">
+                            <div class="td"><span class="broker-{{li.list.brokers[broker].broker}}"><span
+                                    class="broker-icon notext broker-{{li.list.brokers[broker].broker}}"></span>{{li.list.brokers[broker].broker}}</span></div>
+                            <div class="td"></div>
+                            <div class="td"><span class="{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].bid | price}} <mat-icon>{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></span>
+                            </div>
+                            <div class="td"><span class="{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].ask |price}} <mat-icon>{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>
+                            </div>
+
+                        </div>
+                    </ng-container>
                 </div>
-                Budget :USD{{budget}}<br>
-
-                Buy commission:{{getBuyCommission(li.list.cheapestaskname,li.list.cheapestask)*budget}}
-            </mat-expansion-panel>
-
+            </ng-container>
 
         </ng-container>
 
-</ng-container>
+    </div>
 </div>

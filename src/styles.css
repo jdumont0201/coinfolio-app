@@ -2882,3 +2882,5 @@ mat-cell mat-icon {
 .td.big{
     font-size:20px
 }
+.arbitrage-grid{    background: #222;}
+.arbitrage-grid .table,.theme-dark  .arbitrage-grid .table{    background: #222;}

@@ -21,7 +21,8 @@ import {PublicDataService} from "../../lib/localton/services/publicdata.service"
 @Component({
     selector: 'app-page-arbitrage',
     templateUrl: 'template.html'
-
+,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
 export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy {
@@ -176,7 +177,9 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     searchCallback() {
 
     }
+    check(){
 
+    }
 
     searchUpdated(filterValue) {
 
