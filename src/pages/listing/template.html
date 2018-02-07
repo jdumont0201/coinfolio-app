@@ -5,7 +5,7 @@
 
 
         <app-top-right-buttons [placeholder]="'Search listing...'"></app-top-right-buttons>
-        <ng-container *ngIf="listing.length>0 || isRefreshing">
+        <ng-container *ngIf="listing.length>0">
 
             <button id="listing-view" mat-raised-button (click)="setGraphView()">
                 <mat-icon class="switch">{{showGraphs?"view_list":"insert_chart"}}</mat-icon>
@@ -35,7 +35,7 @@
                 </button>
             </mat-menu>
 
-            <mat-table #table class="data" [dataSource]="dataSource" matSort (matSortChange)="changeSort()" matSortActive="change" matSortDirection="asc" matSortDisableClear>
+            <mat-table #table class="data" [dataSource]="dataSource" matSort (matSortChange)="changeSort()" matSortActive="pair" matSortDirection="asc" matSortDisableClear>
 
                 <ng-container matColumnDef="broker">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Broker</mat-header-cell>

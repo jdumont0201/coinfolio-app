@@ -34,9 +34,9 @@ export class AppLoadingComponent extends AppSubscribeComponent{
       if (this.authService.isAuthenticated()) res += 5
       this.tradingService.enabledBrokers.forEach((b) => {
         let share=90/this.tradingService.enabledBrokers.length
-        if(this.tradingService.brokers.loadStatus[b].portfolio=="done") res+=share/3
-        if(this.tradingService.brokers.loadStatus[b].ticker=="done") res+=share/3
-        if(this.tradingService.brokers.loadStatus[b].bidask=="done") res+=share/3
+        if(this.tradingService.brokers.loadStatus[b].portfolio=="done") res+=share
+        //if(this.tradingService.brokers.loadStatus[b].ticker=="done") res+=share/3
+        //if(this.tradingService.brokers.loadStatus[b].bidask=="done") res+=share/3
       })
       this.progress=res;
       return res;

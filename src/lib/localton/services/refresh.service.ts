@@ -20,7 +20,7 @@ export class Pool {
     lastTriggered: Date;
     outcome: number = -1;
     status: string;
-
+    after:{[hook:string]:Function}={};
     isReady() {
         return this.delay && this.f
     }
@@ -46,9 +46,16 @@ export class Pool {
             this.consoleService.refresh("POOL RUN    ", this.name)
             if (!this.refreshService.isRunning || !this.active) this.stop()
             else {
+                this.consoleService.refresh("POOL START    ", this.name)
                 this.outcome = -1;
                 this.status = "EXECUTING"
                 this.f(() => {
+                    this.consoleService.refresh("POOL DONE    ", this.name,this.after)
+                    for(let k in this.after){
+                        console.log("run hook",k)
+                        let ff=this.after[k];
+                        ff();
+                    }
                     this.status = "WAITING"
                     this.outcome = 1;
                     this.lastTriggered = new Date()
@@ -74,7 +81,12 @@ export class Pool {
         this.eventService.poolDefinedEvent.emit({name: this.name, delay: this.delay})
     }
 
-
+    addHook(key,f){
+        this.after[key]=f;
+    }
+    deleteHook(key){
+        delete this.after[key];
+    }
     stop() {
         this.consoleService.refresh("POOL STOP   "+ this.name )
         this.status = "STOPPED";
