@@ -1,6 +1,7 @@
 
 export class UniversalLoader {
     static load(broker: string, task: string, data: any) :Object{
+        console.log("formaxi",broker,task,data)
         if (task == "balance") {
             let A = {}
             if (broker == "binance") {
@@ -21,14 +22,24 @@ export class UniversalLoader {
                     }
                 }
             }
-            else if (broker == "hitbtc") {
+            else if (broker == "kucoin") {
                 data.forEach((d)=>{
-                    A[d.currency] = {
-                        available: parseFloat(d.available),
-                        onorder: parseFloat(d.reserved),
-                        total: parseFloat(d.reserved)+parseFloat(d.available)
+                    A[d.coinType] = {
+                        available: parseFloat(d.balance),
+                        onorder: parseFloat(d.freezeBalance),
+                        total: parseFloat(d.balance)+parseFloat(d.freezeBalance)
                     }
                 })
+            }else if (broker == "hitbtc") {
+                console.log("formax",data)
+                for(let k in data){
+                    let d=data[k];
+                    A[k] = {
+                        available: d.available,
+                        onorder: d.reserved,
+                        total: d.reserved+d.available
+                    }
+                }
             } else if (broker == "bitmex") {
                A['BTC']=data.amount
             }

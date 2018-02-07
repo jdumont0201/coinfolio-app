@@ -21,7 +21,7 @@ import {PublicDataService} from "../../lib/localton/services/publicdata.service"
 @Component({
     selector: 'app-page-arbitrage',
     templateUrl: 'template.html'
-,
+    ,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
@@ -51,11 +51,10 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     lastListing = {};
     indexes = {}
     filterValue = "";
-    budget=1000;
+    budget = 1000;
 
     constructor(public refreshService: RefreshService, public publicDataService: PublicDataService, public requestService: RequestService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService, public cd: ChangeDetectorRef) {
         super(refreshService, eventService, consoleService)
-
 
 
     }
@@ -77,9 +76,11 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         })
 
     }
-    getBuyCommission(b,pair){
+
+    getBuyCommission(b, pair) {
         return this.appConfigService.getFeesPerBroker(b).trading.pc
     }
+
     updateListing(b: string) {
 
         if (!(b in this.indexes))
@@ -173,11 +174,11 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     }
 
 
-
     searchCallback() {
 
     }
-    check(){
+
+    check() {
 
     }
 
@@ -198,8 +199,6 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
             }
         }
     }
-
-
 
 
     show(r) {
@@ -289,6 +288,11 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
 
     getObjectKeys(obj): string[] {
         return Object.keys(obj)
+    }
+
+    open(pair,broker) {
+        console.log("op",pair)
+        window.open(this.appConfigService.getTradeScreen(broker, pair), "_blank")
     }
 
     filterData() {

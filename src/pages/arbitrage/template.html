@@ -25,6 +25,8 @@
                             Sell at {{li.list.mostexpensivebid}} <span class="broker-icon notext broker-{{li.list.mostexpensivebidname}}"></span>@{{li.list.mostexpensivebidname }}
                         </div>
                         <button mat-raised-button (click)="check()">Check</button>
+                        <button mat-raised-button (click)="open(li.pair,li.list.cheapestaskname)">{{li.list.cheapestaskname}}</button>
+                        <button mat-raised-button (click)="open(li.pair,li.list.mostexpensivebidname)">{{li.list.mostexpensivebidname}}</button>
                     </ng-container>
                 </div>
                 <div class="table">

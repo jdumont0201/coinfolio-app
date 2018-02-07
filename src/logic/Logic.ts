@@ -81,7 +81,8 @@ export class Logic {
 
     getFromBroker(broker, task, f: Function, query?: string|any) {
         let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
-        this.apiService.noauthget("user/connect/" + broker + '/' + task + "?"+queryStr, (res) => {
+        this.apiService.authget("connect/" + broker + '/' + task + "?"+queryStr, (res) => {
+            console.log("brokerk",broker,task,res)
             if (res && "result" in res && res.result.success){
                 let A=UniversalLoader.load(broker, task, res.result.data);
 
@@ -226,7 +227,7 @@ export class Logic {
 
     saveUser(obj, f: Function) {
         if (obj.id)
-            this.apiService.authpatch("user/" + this.authService.userId, obj, f)
+            this.apiService.authpatch("user/me", obj, f)
         else
             this.apiService.noauthpost("user", obj, f)
     }
@@ -272,7 +273,9 @@ export class Logic {
             f(null);
             return
         }
-        this.apiService.noauthget("user/" + this.authService.userId, f)
+        this.apiService.authget("user/me", (res)=>{
+            f(res.result.me)
+        })
     }
 
     getChartData(source, interval: string, symbol: string, base: string, f: Function) {

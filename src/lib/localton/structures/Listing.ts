@@ -45,15 +45,23 @@ export class Listing {
         this.refreshService.createPool(poolkey);
         this.refreshService.getPool(poolkey).define(5000, (f) => {
             this.logic.getFromPublic(broker, "bidask", (res) => {
-                for(let i in res){
-                    this.add(i,res[i]);
-                }
+                this.addAll(res)
                 f();
             });
         })
 
+
+        this.logic.getFromPublic(broker, "bidask", (res) => {
+            this.addAll(res)
+
+        });
     }
 
+    addAll(res){
+        for(let i in res){
+            this.add(i,res[i]);
+        }
+    }
     has(pair): boolean {
         return pair in this.content
     }
@@ -77,16 +85,39 @@ export class Listing {
         })
         return null
     }
-    getUSDValue(infra: string, listing: any[]): { ask: number, bid: number } {
-        const pair = infra + "USDT"
-        if (pair in listing)
-            return {ask: parseFloat(listing[pair].ask), bid: parseFloat(listing[pair].bid)}
-        else if (infra === "USDT") return {ask: 1, bid: 1}
-        else{}
-            //console.log("err", "unknown pair in listing", pair, listing)
+
+    getUSDValue(supra: string): { ask: number, bid: number,last:number } {
+        //try direct usdt conversion
+        let pair = supra + "USDT"
+        if (pair in this.content)
+            return {ask: this.content[pair].ask, bid: this.content[pair].bid,last:this.content[pair].last}
+        pair= pair = supra + "USD"
+        if (pair in this.content)
+            return {ask: this.content[pair].ask, bid: this.content[pair].bid,last:this.content[pair].last}
+        //try usdt
+        else if (supra === "USDT") return {ask: 1, bid: 1,last:1}
+        else if (supra === "USD") return {ask: 1, bid: 1,last:1}
+
+        //try direct usdt conversion
+        let infra="BTC"
+        if (supra+infra in this.content){
+            let supraBTC= this.getBidask(supra+infra)
+            if("BTCUSD" in this.content){
+                let BTCUSD= this.getBidask("BTCUSD")
+                return {ask:supraBTC.ask*BTCUSD.bid,bid:supraBTC.bid*BTCUSD.ask,last:supraBTC.last*BTCUSD.last}
+            }else{
+                let BTCUSD= this.getBidask("BTCUSDT")
+                return {ask:supraBTC.ask*BTCUSD.bid,bid:supraBTC.bid*BTCUSD.ask,last:supraBTC.last*BTCUSD.last}
+            }
+        }  else{
+            console.log("getusdval not found")
+        }
+        //console.log("err", "unknown pair in listing", pair, listing)
     }
-
-
+    getBidask(pair){
+        if(pair in this.content)
+        return {ask: this.content[pair].ask, bid: this.content[pair].bid,last:this.content[pair].last}
+    }
 
     add(pair,row:any) {
 
@@ -94,8 +125,8 @@ export class Listing {
             this.content[pair].oldask = this.content[pair].ask;
             this.content[pair].oldbid = this.content[pair].bid;
             this.content[pair].ask = row.ask;
-
             this.content[pair].bid = row.bid;
+            this.content[pair].last = row.last;
             this.content[pair].spread = row.ask-row.bid;
             this.content[pair].spreadpct = row.ask?((row.ask-row.bid)/row.ask)*100:null;
             //this.content[pair].asks = row.asks;
@@ -115,6 +146,7 @@ export class Listing {
                 bid: row.bid,
                 //hasTraded: hasTraded,
                 ask: row.ask,
+                last:row.last,
                 spread : row.ask-row.bid,
             spreadpct : row.ask?((row.ask-row.bid)/row.ask)*100:null
       //          bids: bids,

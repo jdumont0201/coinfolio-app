@@ -10,6 +10,7 @@ import {RefreshService} from "../services/refresh.service";
 import {ConsoleService} from "../../globalton/core/services/console.service";
 import {CurrencyService} from "../../globalton/core/services/currency.service";
 import {AppConfigService} from "../services/appconfig.service";
+import {PublicDataService} from "../services/publicdata.service";
 
 export type Asset = { symbol: string, q: number, v?: number }
 
@@ -25,21 +26,7 @@ export class Broker {
 
 
     getTotalUSDValue(): number {
-        //console.log("getTotalUSDValue init", this.key, "val")
-        /*if (this.key == "global") {
-            let res = 0;
-
-            let brokers = this.tradingService.getConnectedBrokersArray();
-            console.log("getTotalUSDValue ", this.key, "br", brokers)
-            brokers.forEach((b) => {
-                const v = this.tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue();
-                res += v
-                console.log("getTotalUSDValue ", this.key, "add", b, "val=", v, "co=", this.tradingService.getBrokerByName(b).getPortfolio().content)
-            })
-            return res;
-        } else {*/
         return this.getPortfolio().getTotalUSDValue()
-        //}
     }
 
     getPortfolio(): Portfolio {
@@ -59,9 +46,18 @@ export class Broker {
         return this.ticker;
     }
 
-    constructor(public logic: Logic, public currencyService: CurrencyService, public key: string, public eventService: EventService, public refreshService: RefreshService, public tradingService: TradingService, public consoleService: ConsoleService, public appConfigService: AppConfigService,public type :string) {
+    constructor(public logic: Logic,
+                public currencyService: CurrencyService,
+                public key: string,
+                public publicDataService:PublicDataService,
+                public eventService: EventService,
+                public refreshService: RefreshService,
+                public tradingService: TradingService,
+                public consoleService: ConsoleService,
+                public appConfigService: AppConfigService,
+                public type :string) {
         //console.log("NEW BROKER ", key)
-        this.portfolio = new Portfolio(this.logic, this.tradingService, this.refreshService, this.key)
+        this.portfolio = new Portfolio(this.logic, this.tradingService,this.publicDataService, this.refreshService, this.key)
         //this.ticker = new Ticker(this.logic, this.currencyService, this.tradingService, this.refreshService, this.key, this.consoleService, this.appConfigService)
    //     this.listing = new Listing(this.logic, this.eventService, this.tradingService, this.refreshService, this.key, this.consoleService, this.appConfigService)
         this.trades = new Trades(this.logic, this.eventService, this.tradingService, this.refreshService, this.key)
@@ -165,7 +161,7 @@ export class BrokerCollection {
         return res;
     }
 
-    constructor(public logic: Logic, public currencyService: CurrencyService, public eventService: EventService, public tradingService: TradingService, public refreshService: RefreshService, public consoleService: ConsoleService, public appConfigService: AppConfigService) {
+    constructor(public logic: Logic, public currencyService: CurrencyService,public publicDataService:PublicDataService, public eventService: EventService, public tradingService: TradingService, public refreshService: RefreshService, public consoleService: ConsoleService, public appConfigService: AppConfigService) {
 
     }
 
@@ -202,7 +198,7 @@ export class BrokerCollection {
 
     create(name: string,type:string) {
         //console.log("CREATING BROK", name)
-        let P = new Broker(this.logic, this.currencyService, name, this.eventService, this.refreshService, this.tradingService, this.consoleService, this.appConfigService,type);
+        let P = new Broker(this.logic, this.currencyService, name, this.publicDataService,this.eventService, this.refreshService, this.tradingService, this.consoleService, this.appConfigService,type);
         this.brokers[name] = P;
     }
 

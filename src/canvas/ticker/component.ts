@@ -61,7 +61,7 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
                 this.cd.markForCheck()
             };
             this.subscribeToRefresh(b + "-portfolio", f)
-            this.subscribeToRefresh(b + "-ticker", f)
+    //        this.subscribeToRefresh(b + "-ticker", f)
 
         })
     }
@@ -69,7 +69,7 @@ export class AppTicker extends Refreshing implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.tradingService.enabledBrokers.forEach((b) => {
             this.unsubscribeToRefresh(b + "-portfolio")
-            this.unsubscribeToRefresh(b + "-ticker")
+      //      this.unsubscribeToRefresh(b + "-ticker")
 
         })
         this.unsubscribeAllEvents()

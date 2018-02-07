@@ -89,7 +89,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         if (this.tradingService.enabledBrokers)
             this.tradingService.enabledBrokers.forEach((b) => {
                 this.subscribeToRefresh(b + "-portfolio", updateForAllBrokers)
-                this.subscribeToRefresh(b + "-ticker", updateForAllBrokers)
+            //    this.subscribeToRefresh(b + "-ticker", updateForAllBrokers)
             });
         else
             console.log("!!brokers not ready alloca")
@@ -101,7 +101,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
         if (this.tradingService.enabledBrokers)
             this.tradingService.enabledBrokers.forEach((b) => {
                 this.unsubscribeToRefresh(b + "-portfolio")
-                this.unsubscribeToRefresh(b + "-ticker")
+              //  this.unsubscribeToRefresh(b + "-ticker")
             });
 
         this.unsubscribeAllEvents()
@@ -170,7 +170,8 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
 
     update(key, isInitial) {
         this.prepareUpdate(key)
-        if (this.tradingService.getLoadStatus(key).portfolio == "done") {
+        let S=this.tradingService.getLoadStatus(key);
+        if (S && S.portfolio == "done") {
             let P = this.tradingService.getBrokerByName(key).getPortfolio();
             this.processData(key, P)
         } else {
@@ -180,7 +181,7 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
 
     //update data by merging new data into existing datasource
     mergeData(key, alloc) {
-        console.log("alloc mergeData", JSON.stringify(this.dataSource[key].data))
+        //console.log("alloc mergeData", JSON.stringify(this.dataSource[key].data))
 
         this.dataSource[key].data.forEach((r, idx) => {
             let found = false;
@@ -194,21 +195,21 @@ export class AppAllocationPage extends DataAndChartTemplate implements OnInit, O
                 }
             }
             if (!found) {//symbol has been removed
-                console.log("r", r)
+          //      console.log("r", r)
                 this.dataSource[key].data.splice(idx, 1)
             }
         });
         for (let k in alloc.chartData) { //check new symbols
 
         }
-        console.log("mergeData2", JSON.stringify(this.dataSource[key].data))
+        //console.log("mergeData2", JSON.stringify(this.dataSource[key].data))
         for (let k in alloc.objData) { //check new symbols
             let o = alloc.objData[k];
             let idx = Structures.getIndexByProperty(this.dataSource[key].data, "symbol", k);
             if (idx == -1)
                 this.dataSource[key].data.push({symbol: o.symbol, price: o.price, value: o.value, available: o.available})
         }
-        console.log("mergeData3 ", JSON.stringify(this.dataSource[key].data))
+        //console.log("mergeData3 ", JSON.stringify(this.dataSource[key].data))
     }
 
     processData(key, P) {

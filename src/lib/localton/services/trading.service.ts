@@ -12,6 +12,7 @@ import {RefreshService} from "./refresh.service";
 import {Strings} from "../../../lib/globalton/core/utils/utils"
 import {CurrencyService} from "../../globalton/core/services/currency.service";
 import {CheckValid} from "../components/CheckValid/component";
+import {PublicDataService} from "./publicdata.service";
 
 @Injectable()
 export class TradingService extends CheckValid {
@@ -34,14 +35,14 @@ export class TradingService extends CheckValid {
     isLoadingDone=false;
 
 
-    constructor(public authService: AuthService,public currencyService:CurrencyService, public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public refreshService: RefreshService, public logic: Logic) {
+    constructor(public authService: AuthService,public currencyService:CurrencyService, public publicDataService:PublicDataService,public appConfigService: AppConfigService, public consoleService: ConsoleService, public eventService: EventService, public refreshService: RefreshService, public logic: Logic) {
         super(consoleService)
         consoleService.trade("+", this.authService, this.authService.loginChanged)
         this.consoleService.trade(" + tradingservice", this.authService, this.authService.loginChanged)
         this.doSubscribe("loginChanged",this.authService.loginChanged,value => this.loginUpdated(value));
         this.refreshService.setTradingService(this);
-        this.brokers = new BrokerCollection(logic, currencyService,eventService, this, this.refreshService, this.consoleService,this.appConfigService);
-        this.globalBroker = new Broker(logic, currencyService,"global", eventService, this.refreshService, this, this.consoleService,this.appConfigService,"private")
+        this.brokers = new BrokerCollection(logic, currencyService,publicDataService,eventService, this, this.refreshService, this.consoleService,this.appConfigService);
+        this.globalBroker = new Broker(logic, currencyService,"global",publicDataService, eventService, this.refreshService, this, this.consoleService,this.appConfigService,"private")
         if (this.authService.isAuthenticated())
             this.init()
         else {
@@ -232,7 +233,7 @@ export class TradingService extends CheckValid {
 
     checkIfPairExists(pair): string {
         let B=this.getBrokerByName("binance");
-        if(B)
+        if(B && B.getTicker())
         return B.getTicker().hasPair(pair)?"yes":"no"
         else
             return null;

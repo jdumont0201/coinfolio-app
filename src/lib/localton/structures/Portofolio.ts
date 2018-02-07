@@ -3,6 +3,7 @@ import {Ticker} from "./Ticker";
 import {Crypto} from "../utils/utils"
 import {TradingService} from "../services/trading.service";
 import {RefreshService} from "../services/refresh.service";
+import {PublicDataService} from "../services/publicdata.service";
 
 export type Asset = { symbol: string, q: number, usdvalue?: number, unitvalue?: number, broker: string }
 
@@ -14,19 +15,28 @@ export class Portfolio {
     dataTime: Date;
     totalUSDValue: number;
 
-    constructor(public logic: Logic, public tradingService: TradingService, public refreshService: RefreshService, key: string) {
+    constructor(public logic: Logic, public tradingService: TradingService, public publicDataService: PublicDataService, public refreshService: RefreshService, key: string) {
         console.log("NEW BROKER PTF", key)
         this.key = key;
         this.content = {}
     }
 
     getTotalUSDValue(): number {
+        let L = this.publicDataService.getListingByName(this.key);
+        console.log("gettotalusd", this.key, Object.keys(L.content).length, this.content)
         if (!this.connected) return -1
         let res = 0;
 
         for (let k in this.content) {
-            if(this.content[k].q>0)
-            res += this.content[k].usdvalue
+            if (this.content[k].q > 0) {
+                console.log("gettotalusdv", k,this.content[k].q , L.getUSDValue(k))
+
+                //if (k in L.content) {
+                let V=L.getUSDValue(k);
+                if(V)
+                    res += V.last * this.content[k].q
+                //}
+            }
             //        console.log("  ", k, "=", this.content[k].usdvalue)
         }
         //console.log(this.key + " getTotalUSDValue",res,this.content)
@@ -51,17 +61,8 @@ export class Portfolio {
 
     loadPortfolio(f: Function) {
         //console.log("  PTF LOAD", this.key)
-        if (this.key == "binance") {
-            this.loadUniversal( f)
-        } else if (this.key === "kraken") {
-            this.loadUniversal(f)
-        } else if (this.key === "hitbtc") {
-            this.loadUniversal( f)
-        } else if (this.key === "bitmex") {
-            this.loadUniversal( f)
-        } else {
-            f(false)
-        }
+        this.loadUniversal(f)
+
     }
 
     combineWith(P: Portfolio) {
@@ -114,33 +115,25 @@ export class Portfolio {
         let resData = [];
         let gridData = [];
         let objData = {}
-        //    this.setUSDValues(this.tradingService.getBrokerByName(this.key).getTicker());
         console.log("  -> alloc PORTFOLIO GETALLOC", this.key, this.content)
         for (let k in this.content) {
             let asset = this.content[k];
-            let T = this.tradingService.getBrokerByName(asset.broker).getTicker();
+            let L = this.publicDataService.getListingByName(asset.broker);
             let v;
             let y;
             if (asset.q > 0) {
-                    if(!T.connected){
-                        let r = {name: asset.symbol, y: y, change: T.getSymbolChange(asset.symbol)};
-                        resData.push(r);
-                        let rr = {symbol: asset.symbol, available: asset.q, price: v, value: y, broker: asset.broker}
-                        gridData.push(rr)
-                        objData[asset.symbol] = rr;
-
-                    }else if (asset.usdvalue > threshold){
-
-
-
-                        v = Math.round(100 * T.getUSDValue(asset.symbol)) / 100;
-                        y = Math.round(100 * v * asset.q) / 100
-                        let r = {name: asset.symbol, y: y, change: T.getSymbolChange(asset.symbol)};
-                        resData.push(r);
-                        let rr = {symbol: asset.symbol, available: asset.q, price: v, value: y, broker: asset.broker}
-                        gridData.push(rr)
-                        objData[asset.symbol] = rr;
-                    }
+                let ba = L.getUSDValue(asset.symbol);
+                if (ba) {
+                    v = Math.round(100 * ba.last) / 100;
+                    y = Math.round(100 * v * asset.q) / 100
+                    let ch = null;
+                    if (asset.symbol in L.content) ch = L.content[asset.symbol].change;
+                    let r = {name: asset.symbol, y: y, change: ch};
+                    resData.push(r);
+                    let rr = {symbol: asset.symbol, available: asset.q, price: v, value: y, broker: asset.broker}
+                    gridData.push(rr)
+                    objData[asset.symbol] = rr;
+                }
             }
 
         }
@@ -160,8 +153,8 @@ export class Portfolio {
 
     }
 
-    loadUniversal( f: Function) {
-        //console.log("TRADE PTF LOAD BINANCE")
+    loadUniversal(f: Function) {
+        console.log("TRADE PTF LOAD BINANCE")
         this.logic.getFromBroker(this.key, "balance", (alloc) => {
             this.dataTime = new Date();
             //console.log("TRADE PTF LOAD ", this.key, " RES", alloc)
