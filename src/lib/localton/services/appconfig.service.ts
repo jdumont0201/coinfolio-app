@@ -36,7 +36,7 @@ export class AppConfigService {
 
     isCustomDashboardEnabled = false;
 
-    possibleBrokers: string[] = ["binance",  "hitbtc"]
+    possibleBrokers: string[] = ["binance",  "hitbtc","kucoin"]
 
 
     infrasupra = {
@@ -771,6 +771,27 @@ export class AppConfigService {
             signup: "https://www.bitmex.com/register",
             infras: ['BTC', 'ETH', 'BNB', 'USD','USDT'],
             ignoredPairs: []
+        },"kucoin": {
+            dbcode:"kuc",
+            api: "",
+            signup: "https://www.kucoin.com/#/signup",
+            infras: ['BTC', 'ETH', 'BNB', 'USD','USDT'],
+            ignoredPairs: [],
+            fees:{
+                withdraw:{
+                    BTC:0.001,
+                    ETH:0.00958,
+                    BCH:0.0018,
+                    XRP:0.509,
+                    BTG:0.0005
+                },
+                trading:{
+                    pc:0.001
+
+                },
+                deposit:0
+
+            }
         }
     }
     ohlcColors = {
