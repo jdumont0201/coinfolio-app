@@ -27,7 +27,7 @@
         left: 60px;
         width: 100%;
     }
-
+    .hide-mobile{display:none}
     #top-right-buttons-in {
         display: none
     }

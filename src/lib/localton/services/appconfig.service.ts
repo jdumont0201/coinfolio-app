@@ -41,6 +41,7 @@ export class AppConfigService {
 
     generateInfraSupra() {
         let res = {};
+        let allc={}
         for (let broker in this.infrasuprainv) {
             for (let pair in this.infrasuprainv[broker]) {
                 let v = this.infrasuprainv[broker][pair];
@@ -51,12 +52,17 @@ export class AppConfigService {
                     res[v.infra][v.supra] = {}
                 }
                 res[v.infra][v.supra][broker] = pair;
+                allc[v.supra]=1;
+                allc[v.infra]=1;
+
             }
         }
+        this.allcryptos=Object.keys(allc).sort();
         console.log("infrasupra", res);
         this.infrasupra = res;
     }
 
+    allcryptos = [];
     infrasupra = {}
     infrasuprainv = {
         kucoin: {
@@ -319,9 +325,9 @@ export class AppConfigService {
                 {infra: "BTC", supra: "LTC"},
             LTCETH:
                 {infra: "ETH", supra: "LTC"},
-            LTCNEO:                {infra: "NEO", supra: "LTC"},
-            LOCIETH:                {infra: "ETH", supra: "LOCI"},
-            LOCIBTC:                {infra: "BTC", supra: "LOCI"},
+            LTCNEO: {infra: "NEO", supra: "LTC"},
+            LOCIETH: {infra: "ETH", supra: "LOCI"},
+            LOCIBTC: {infra: "BTC", supra: "LOCI"},
             LTCUSDT:
                 {infra: "USD", supra: "LTC"},
             MODBTC:
@@ -1484,9 +1490,9 @@ export class AppConfigService {
                 {infra: "BNB", supra: "ADX"},
             ADXBTC:
                 {infra: "BTC", supra: "ADX"},
-            AEBTC:  {infra: "BTC", supra: "AE"},
-            AEBNB:  {infra: "BNB", supra: "AE"},
-            AEETH:  {infra: "ETH", supra: "AE"},
+            AEBTC: {infra: "BTC", supra: "AE"},
+            AEBNB: {infra: "BNB", supra: "AE"},
+            AEETH: {infra: "ETH", supra: "AE"},
             ADXETH:
                 {infra: "ETH", supra: "ADX"},
             AIONBNB:

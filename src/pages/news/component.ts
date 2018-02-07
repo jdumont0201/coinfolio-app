@@ -21,13 +21,15 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 })
 @Injectable()
 export class AppNewsPage extends PageWithTabs implements OnDestroy {
-    possibleSymbols=['cryptocurrency','BTC','ETH','BNB'];
+    possibleSymbols=[]
     possibleSources=['Google News']
     searchedText="";
     symbol="BTC";
+
     constructor(public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService, public consoleService:ConsoleService) {
         super(refreshService,eventService,consoleService)
-
+        this.possibleSymbols=this.appConfigService.allcryptos;
+        this.possibleSymbols.unshift("cryptocurrency")
     }
     ngOnDestroy(){
 

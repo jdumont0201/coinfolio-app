@@ -151,8 +151,8 @@ export class Listing {
             this.content[pair].ask = row.ask;
             this.content[pair].bid = row.bid;
             this.content[pair].last = row.last;
-            this.content[pair].spread = row.ask - row.bid;
-            this.content[pair].spreadpct = row.ask ? ((row.ask - row.bid) / row.ask) * 100 : null;
+            this.content[pair].spread =( row.bid>0 && row.ask>0) ?(row.ask - row.bid):null;
+            this.content[pair].spreadpct = ( row.bid>0 && row.ask>0)? ((row.ask - row.bid) / row.ask) * 100 : null;
             //this.content[pair].asks = row.asks;
             //this.content[pair].bids = row.bids;
             //this.content[pair].hasTraded = row.hasTraded;
