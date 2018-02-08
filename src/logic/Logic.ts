@@ -8,19 +8,23 @@ import {UniversalLoader} from "./UniversalLoader";
 import {HTML} from "../lib/globalton/core/utils/utils";
 import {Crypto} from "../lib/localton/utils/utils";
 import {AppConfigService} from "../lib/localton/services/appconfig.service";
+
 @Injectable()
 export class Logic {
-     appConfigService:AppConfigService;
+    appConfigService: AppConfigService;
+
+
     constructor(public requestService: RequestService, public dataService: DataService, public apiService: ApiService, public authService: AuthService) {
         this.authService.setLogic(this)
     }
-    setAppConfigService(app){
-    this.appConfigService=app;
+
+    setAppConfigService(app) {
+        this.appConfigService = app;
     }
 
 
     BinanceGetAllocation(f: Function) {
-        this.getFromBroker("binance","balance",f)
+        this.getFromBroker("binance", "balance", f)
     }
 
     BinanceGetLivePrices(f: Function) {
@@ -64,7 +68,7 @@ export class Logic {
     }
 
     BinanceGetDepth(symbol: string, f: Function) {
-        this.apiService.noauthget("user/connect/binance/depth?symbol=" + symbol , (res) => {
+        this.apiService.noauthget("user/connect/binance/depth?symbol=" + symbol, (res) => {
             if (res && "result" in res && res.result.success)
                 f(res.result.data)
             else f(null)
@@ -72,76 +76,92 @@ export class Logic {
     }
 
     BinanceGetOHLC(symbol: string, interval: string, f: Function) {
-        this.getFromBroker("binance","ohlc",f,"symbol=" + symbol + "interval=" + interval )
+        this.getFromBroker("binance", "ohlc", f, "symbol=" + symbol + "interval=" + interval)
     }
 
     KrakenGetAllocation(f: Function) {
-        this.getFromBroker("kraken","balance",f)
+        this.getFromBroker("kraken", "balance", f)
     }
 
-    getFromBroker(broker, task, f: Function, query?: string|any) {
-        let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
-        this.apiService.authget("connect/" + broker + '/' + task + "?"+queryStr, (res) => {
+    getFromBroker(broker, task, f: Function, query?: string | any) {
+        let queryStr = query ? (typeof query == "string" ? query : (HTML.objToQueryString(query))) : "";
+        this.apiService.authget("connect/" + broker + '/' + task + "?" + queryStr, (res) => {
             //console.log("brokerk",broker,task,res)
-            if (res && "result" in res && res.result.success){
-                let A=UniversalLoader.load(broker, task, res.result.data);
+            if (res && "result" in res && res.result.success) {
+                let A = UniversalLoader.load(broker, task, res.result.data);
 
                 f(A)
             }
             else f(null)
         })
     }
-    getFromPublic(broker, task, f: Function, query?: string|any) {
-        const queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
-        this.requestService.get("https://public.coinamics.io/public/" + broker + '/' + task + "?"+queryStr, (res) => {
-            if (res.file ){
+
+    getFromPublic(broker, task, f: Function, query?: string | any) {
+        const queryStr = query ? (typeof query == "string" ? query : (HTML.objToQueryString(query))) : "";
+        this.requestService.get("https://public.coinamics.io/public/" + broker + '/' + task + "?" + queryStr, (res) => {
+            if (res.file) {
                 //let A=UniversalLoader.load(broker, task, res.result.data);
-                const A=res.file;
+                const A = res.file;
                 f(A)
             }
             else f(null)
-        },this);
+        }, this);
     }
-    getPublicChange(broker,  f: Function) {
-        let code=this.appConfigService.getDbCode(broker)
-        let now=new Date().toISOString().split('.')[0];
-        let yes=new Date();
+
+    getDepthFromPublic(broker, symbol: string, f: Function) {
+        let task = "depth"
+        let url = "https://public.coinamics.io/public/" + broker + '/' + task + "/" + symbol + "?" + symbol;
+        this.requestService.get(url, (res) => {
+            if (res.file) {
+                //let A=UniversalLoader.load(broker, task, res.result.data);
+                const A = res.file;
+                f(A)
+            }
+            else f(null)
+        }, this);
+    }
+
+    getPublicChange(broker, f: Function) {
+        let code = this.appConfigService.getDbCode(broker)
+        let now = new Date().toISOString().split('.')[0];
+        let yes = new Date();
         yes.setHours(yes.getHours() - 1);
-        let yesterday=yes.toISOString().split('.')[0];
-        yes.setMinutes(yes.getMinutes()+1)
-        let yesterday2=yes.toISOString().split('.')[0];
+        let yesterday = yes.toISOString().split('.')[0];
+        yes.setMinutes(yes.getMinutes() + 1)
+        let yesterday2 = yes.toISOString().split('.')[0];
 
-        this.requestService.get("https://data.coinamics.io/"+code+"_ohlc_1m?ts=lt.'"+yesterday2+"'&ts=gte.'"+yesterday+"'", (res) => {
-            if (res.file ){
+        this.requestService.get("https://data.coinamics.io/" + code + "_ohlc_1m?ts=lt.'" + yesterday2 + "'&ts=gte.'" + yesterday + "'", (res) => {
+            if (res.file) {
                 //let A=UniversalLoader.load(broker, task, res.result.data);
-                const A=res.file;
+                const A = res.file;
                 f(A)
             }
             else f(null)
-        },this);
+        }, this);
     }
 
-    getPrice(broker,f:Function,pair,interval,limit){
-        let url=this.appConfigService.getDbCode(broker)+"_ohlc_"+interval;
-        console.log("getprice",url);
-        let n=new Date().getTime();
-        if(typeof interval=="string") interval=Crypto.getIntervalSeconds(interval);
-        let where={
+    getPrice(broker, f: Function, pair, interval, limit) {
+        let url = this.appConfigService.getDbCode(broker) + "_ohlc_" + interval;
+        console.log("getprice", url);
+        let n = new Date().getTime();
+        if (typeof interval == "string") interval = Crypto.getIntervalSeconds(interval);
+        let where = {
             pair: pair
         }
-        console.log("getprice" ,where)
-        this.dataService.getAll(url, (res)=>{
-            res=res.reverse()
-            console.log( "CHRONO",new Date().getTime()-n);
+        console.log("getprice", where)
+        this.dataService.getAll(url, (res) => {
+            res = res.reverse()
+            console.log("CHRONO", new Date().getTime() - n);
             f(res)
-        },where, {key: "ts", dir: "desc"},limit)
+        }, where, {key: "ts", dir: "desc"}, limit)
 
     }
-    getFromDB(broker, task, f: Function, query?: string|any) {
-        let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
-        this.dataService.getAll("recordprice/" + broker + '/' + task + "?"+queryStr, (res) => {
-            if (res && "result" in res && res.result.success){
-                let A=UniversalLoader.load(broker, task, res.result.data);
+
+    getFromDB(broker, task, f: Function, query?: string | any) {
+        let queryStr = query ? (typeof query == "string" ? query : (HTML.objToQueryString(query))) : "";
+        this.dataService.getAll("recordprice/" + broker + '/' + task + "?" + queryStr, (res) => {
+            if (res && "result" in res && res.result.success) {
+                let A = UniversalLoader.load(broker, task, res.result.data);
 
                 f(A)
             }
@@ -151,15 +171,16 @@ export class Logic {
 
 
     KrakenGetLivePrices(f: Function) {
-        this.getFromBroker("kraken","prices",f)
+        this.getFromBroker("kraken", "prices", f)
 
     }
 
     HitbtcGetAllocation(f: Function) {
-        this.getFromBroker("hitbtc","balance",f)
+        this.getFromBroker("hitbtc", "balance", f)
     }
+
     BitmexGetAllocation(f: Function) {
-        this.getFromBroker("bitmex","balance",f)
+        this.getFromBroker("bitmex", "balance", f)
     }
 
 
@@ -273,7 +294,7 @@ export class Logic {
             f(null);
             return
         }
-        this.apiService.authget("user/me", (res)=>{
+        this.apiService.authget("user/me", (res) => {
             f(res.result.me)
         })
     }
@@ -353,7 +374,7 @@ export class Logic {
     }
 
     getCapLastWeek(source, days, ts, symbol: string, base, f: Function) {
-        this.dataService.getAll("cmc_cap", f,{
+        this.dataService.getAll("cmc_cap", f, {
             pts: ts,
             psymbol: symbol,
             pdays: days,

@@ -2,15 +2,10 @@
     <mat-toolbar>
         <h3>Arbitrage</h3>
     </mat-toolbar>
-
-
     <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
     <div class="arbitrage-grid">
-
-
         <ng-container *ngFor="let li of sortedListing">
-
-            <ng-container *ngIf="li.spread>0">
+            <ng-container *ngIf="li.spread>0 && getKeys(li.list.brokers).length>1">
                 <div class="arbitrage-header padded">
                     <div class="td big">
                         {{li.pair}}
@@ -20,11 +15,11 @@
                         <div class="td ">
                             <span class="valpos">Spread:{{li.spread |number:'1.1-1'}}%</span>
                             <br>
-                            Buy at :{{li.list.cheapestask}} <span class="broker-icon notext broker-{{li.list.cheapestaskname}}"></span>@{{li.list.cheapestaskname}}<br>
 
+                            Buy at :{{li.list.cheapestask}} <span class="broker-icon notext broker-{{li.list.cheapestaskname}}"></span>@{{li.list.cheapestaskname}}<br>
                             Sell at {{li.list.mostexpensivebid}} <span class="broker-icon notext broker-{{li.list.mostexpensivebidname}}"></span>@{{li.list.mostexpensivebidname }}
                         </div>
-                        <button mat-raised-button (click)="check()">Check</button>
+
                         <button mat-raised-button (click)="open(li.pair,li.list.cheapestaskname)">{{li.list.cheapestaskname}}</button>
                         <button mat-raised-button (click)="open(li.pair,li.list.mostexpensivebidname)">{{li.list.mostexpensivebidname}}</button>
                     </ng-container>
@@ -35,11 +30,8 @@
                         <div class="td"></div>
                         <div class="td">Bid</div>
                         <div class="td">Ask</div>
-
                     </div>
-
                     <ng-container *ngFor="let broker of getKeys(li.list.brokers)">
-
                         <div class="tr">
                             <div class="td"><span class="broker-{{li.list.brokers[broker].broker}}"><span
                                     class="broker-icon notext broker-{{li.list.brokers[broker].broker}}"></span>{{li.list.brokers[broker].broker}}</span></div>
@@ -48,13 +40,10 @@
                             </div>
                             <div class="td"><span class="{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].ask |price}} <mat-icon>{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>
                             </div>
-
                         </div>
                     </ng-container>
                 </div>
             </ng-container>
-
         </ng-container>
-
     </div>
 </div>

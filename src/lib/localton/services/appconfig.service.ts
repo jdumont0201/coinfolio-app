@@ -7048,7 +7048,7 @@ export class AppConfigService {
             XXBTZUSD: {infra: "USD", supra: "BTC"},
             BCHUSD: {infra: "USD", supra: "BCH"},
             XLTCZUSD: {infra: "USD", supra: "LTC"},
-            DASHXBT: {infra: "USD", supra: "DASH"}
+            DASHXBT: {infra: "XBT", supra: "DASH"}
         }
 
     }
@@ -7079,6 +7079,8 @@ export class AppConfigService {
             }
         },
         "kraken": {
+            trade_screen:"https://trade.kraken.com/kraken/",
+            trade_screen_sep:"",
             dbcode: "kra",
             api: "https://www.kraken.com/u/settings/api",
             signup: "https://www.kraken.com/en-us/signup",
@@ -7134,7 +7136,28 @@ export class AppConfigService {
 
                 },
                 deposit: 0
+            }
+        }, "cryptonia": {
+            trade_screen: "https://www.cryptopia.co.nz/Exchange/?market=",
+            trade_screen_sep: "_",
+            dbcode: "cry",
+            api: "",
+            signup: "https://www.cryptopia.co.nz/Register",
+            infras: ['BTC', 'ETH','NZDT','DOGE', 'USD', 'USDT'],
+            ignoredPairs: [],
+            fees: {
+                withdraw: {
+                    BTC: 0.001,
+                    ETH: 0.00958,
+                    BCH: 0.0018,
+                    XRP: 0.509,
+                    BTG: 0.0005
+                },
+                trading: {
+                    pc: 0.001
 
+                },
+                deposit: 0
             }
         }
     }
@@ -7298,8 +7321,11 @@ export class AppConfigService {
     }
 
     getTradeScreen(broker: string, pair: string): string {
+
         console.log("open", broker, pair);
+
         let p = this.infrasuprainv[broker][pair];
+        if(!p){console.error("err pair",pair,"not found in infrasuprainv");return}
         let infra = p.infra;
         let supra = p.supra;
         let l = this.brokersLinks[broker].trade_screen + supra + this.brokersLinks[broker].trade_screen_sep + infra;
@@ -7311,5 +7337,11 @@ export class AppConfigService {
         if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
         let str = this.infrasuprainv[broker][paircode];
         return str.supra + "/" + str.infra;
+    }
+    getPairRawName(broker: string, paircode) {
+        if (!(broker in this.infrasuprainv)) return "**" + paircode
+        if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
+        let str = this.infrasuprainv[broker][paircode];
+        return this.infrasuprainv;
     }
 }

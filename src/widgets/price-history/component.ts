@@ -114,7 +114,7 @@ export class AppPriceHistoryWidget extends ZoomableRefreshable implements OnInit
             }
             const id = this.broker + "-" + this.pair + "-mini-" + this.period;
             let task = "ohlc";
-            const url = "ws://34.243.147.139:3014/" + this.broker + "/" + this.pair.toUpperCase() + "/" + this.period;
+            const url = "wss://34.243.147.139:3014/" + this.broker + "/" + this.pair.toUpperCase() + "/" + this.period;
             this.websocketService.create(id, url, (m: any) => {
                 //console.log("msdg", JSON.stringify(m),new Date(parseInt(m.ts)*1000).toISOString())
                 if (m) {

@@ -18,15 +18,18 @@ import {Tick} from "../../lib/localton/structures/Ticker";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 import {PublicDataService} from "../../lib/localton/services/publicdata.service";
 
+
+type List = { cheapestask: number, cheapestaskname: string, mostexpensivebidname: string, askdepth: any, biddepth: any, spread: number, mostexpensivebid: number, brokers: any };
+type SortedListItem={pair:string, spread: number, askdepth:any[],biddepth:any[],  list: List}
+
 @Component({
     selector: 'app-page-arbitrage',
-    templateUrl: 'template.html'
-    ,
+    templateUrl: 'template.html'    ,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
 export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy {
-    listing = new Array();
+    listing: { [pair: string]: List } = {};
     supports = {}
     brokerOptions = {}
     isLoading = true;
@@ -81,74 +84,89 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         return this.appConfigService.getFeesPerBroker(b).trading.pc
     }
 
-    updateListing(b: string) {
+    getUniversalName(b: string, pair: string) {
+        let is = this.appConfigService.infrasuprainv[b][pair];
+        let infra = is.infra;
+        let supra = is.supra;
+        const key = supra + infra;
+        return key;
+    }
 
+    addDepth(broker,name,raw){
+        this.logic.getDepthFromPublic(broker,name,(depth)=>{
+            this.listing[name].askdepth[broker]=depth.ask
+        });
+
+    }
+    updateListing(b: string) {
         if (!(b in this.indexes))
             this.indexes[b] = {}
         let L = this.publicDataService.getListingByName(b)
         let res = L.getContent();
         console.log("CONTENT", b, res)
         for (let pair in res) {
+
             if (!(pair in this.appConfigService.infrasuprainv[b])) {
-
+                console.log("err unknown pair", b, pair)
             } else {
-                let is = this.appConfigService.infrasuprainv[b][pair];
-                let infra = is.infra;
-                let supra = is.supra;
-                const key = supra + infra;
+                const key = this.getUniversalName(b, pair);
+                if (pair == "DASHUSD") console.log("--------------------------------------------------------------- linew ", b, pair, JSON.stringify(this.listing[key]))
                 const r = res[pair];
-                const linew: Tick = {broker: b, pair: pair, volume: r.volume, bid: r.bid, ask: r.ask, p: r.last}
-                if (b in this.indexes && linew.pair in this.indexes[b]) { //already added
-                    const j: number = this.indexes[b][linew.pair];
-                    let LL = this.listing[key]
-                    let L = LL.brokers[b];
-                    if (linew.ask < L.cheapestask) {
-                        L.cheapestaskname = b;
-                    }
-                    if (linew.bid > L.mostexpensivebid) {
-                        L.mostexpensivebidname = b;
-                    }
-                    L.cheapestask = Math.min(L.cheapestask, linew.ask)
-                    L.mostexpensivebid = Math.max(L.mostexpensivebid, linew.bid);
-                    L.spread = L.mostexpensivebid - L.cheapestask;
-                    if (L.bid != linew.bid)
-                        L.oldbid = L.bid;
-                    if (L.ask != linew.ask)
-                        L.oldask = L.ask;
-                    L.ask = linew.ask;
-                    L.bid = linew.bid;
-                    if (L.ask > 0 && L.bid > 0) {
-                        L.spread = L.ask - L.bid;
-                        L.spreadpct = 100 * L.spread / L.ask;
-                    } else {
-                        L.spread = null;
-                        L.spreadpct = null;
-                    }
-                    L.p = linew.p;
+                let linew: Tick = {broker: b, pair: key, volume: r.volume, bid: r.bid, ask: r.ask, p: r.last}
+                if (linew.ask > 0 && linew.bid > 0) {
+                    linew.spread = linew.ask - linew.bid;
                 } else {
-                    this.indexes[b][linew.pair] = this.listing.length;
-                    if (linew.ask > 0 && linew.bid > 0) {
-                        linew.spread = linew.ask - linew.bid;
-                    } else {
-                        linew.spread = null;
-                        linew.spreadpct = null;
+                    linew.spread = null;
+                    linew.spreadpct = null;
+                }
+                if (pair == "DASHUSD") console.log("linew new", b, key, JSON.stringify(linew))
+                if (key in this.listing && b in this.listing[key].brokers) {//b in this.indexes && linew.pair in this.indexes[b]) { //already added
+                    if (pair == "DASHUSD") console.log("  linew upd existing", b, JSON.stringify(this.listing[key].brokers))
+                    //const j: number = this.indexes[b][linew.pair];
+                    let LL = this.listing[key]
+                    let Lbroker = LL.brokers[b];
+                    if (linew.ask < Lbroker.cheapestask) {
+                        Lbroker.cheapestaskname = b;
                     }
-                    linew.changelastprice = Math.random()
-                    if (!(key in this.listing)) {
-
-                        this.listing[key] = {cheapestask: linew.ask, cheapestaskname: b, mostexpensivebidname: b, spread: -1, mostexpensivebid: linew.bid, brokers: {}};
-                        this.listing[key].brokers[b] = linew;
+                    if (linew.bid > Lbroker.mostexpensivebid) {
+                        Lbroker.mostexpensivebidname = b;
+                    }
+                    if (pair == "DASHUSD") console.log("    linew upd", b, key, JSON.stringify(LL), linew.ask)
+                    LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
+                    LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
+                    LL.spread = LL.mostexpensivebid - LL.cheapestask;
+                    if (Lbroker.bid != linew.bid)
+                        Lbroker.oldbid = Lbroker.bid;
+                    if (Lbroker.ask != linew.ask)
+                        Lbroker.oldask = Lbroker.ask;
+                    Lbroker.ask = linew.ask;
+                    Lbroker.bid = linew.bid;
+                    if (Lbroker.ask > 0 && Lbroker.bid > 0) {
+                        Lbroker.spread = Lbroker.ask - Lbroker.bid;
+                        Lbroker.spreadpct = 100 * Lbroker.spread / Lbroker.ask;
                     } else {
-                        let L = this.listing[key];
-                        if (linew.ask < L.cheapestask) {
-                            L.cheapestaskname = b;
+                        Lbroker.spread = null;
+                        Lbroker.spreadpct = null;
+                    }
+                    Lbroker.p = linew.p;
+                } else {
+                    if (pair == "DASHUSD") console.log("  linew add broker", b, JSON.stringify(linew))
+                    if (!(key in this.listing)) {
+                        this.listing[key] = {cheapestask: linew.ask, cheapestaskname: b, askdepth:{},biddepth:{},mostexpensivebidname: b, spread: -1, mostexpensivebid: linew.bid, brokers: {}};
+                        this.listing[key].brokers[b] = linew;
+                        if (pair == "DASHUSD") console.log("    linew create ", b, key, linew.ask, JSON.stringify(this.listing[key]))
+                    } else {
+                        let LL = this.listing[key];
+                        if (linew.ask < LL.cheapestask) {
+                            LL.cheapestaskname = b;
                         }
-                        if (linew.bid > L.mostexpensivebid) {
-                            L.mostexpensivebidname = b;
+                        if (linew.bid > LL.mostexpensivebid) {
+                            LL.mostexpensivebidname = b;
                         }
-                        L.cheapestask = Math.min(L.cheapestask, linew.ask)
-                        L.mostexpensivebid = Math.max(L.mostexpensivebid, linew.bid);
-                        L.spread = L.mostexpensivebid - L.cheapestask;
+                        if (pair == "DASHUSD") console.log("  linew", b, key, LL.cheapestask, linew.ask, Math.min(LL.cheapestask, linew.ask))
+                        LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
+                        LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
+                        LL.spread = LL.mostexpensivebid - LL.cheapestask;
 
                         this.listing[key].brokers[b] = linew;
                     }
@@ -178,8 +196,12 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
 
     }
 
-    check() {
+    check(sortedListItem) {
+        //let broker=sortedlistitem.cheapestaskname;
+        //let pair=this.appConfigService.getPairCommonName()
+        /*this.logic.getDepthFromPublic(broker,()=>{
 
+        },)*/
     }
 
     searchUpdated(filterValue) {
@@ -189,7 +211,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         this.filterValue = filterValue
     }
 
-    addToSearch(word: string) {
+    /*addToSearch(word: string) {
         //console.log("add", word)
         for (let i = 0; i < this.listing.length; ++i) {
             let a: string = this.listing[i].pair.toLowerCase();
@@ -198,7 +220,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
                 this.searched.push(this.listing[i])
             }
         }
-    }
+    }*/
 
 
     show(r) {
@@ -239,9 +261,9 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     sortedListing = [];
 
     sortListing() {
-        let r = [];
+        let r :SortedListItem[]= [];
         for (let k in this.listing) {
-            r.push({pair: k, spread: this.listing[k].spread / this.listing[k].cheapestask * 100, list: this.listing[k]})
+            r.push({pair: k, spread: this.listing[k].spread / this.listing[k].cheapestask * 100, askdepth:[],biddepth:[],  list: this.listing[k]})
         }
         this.sortedListing = r.sort(function (a, b) {
             let as = a.spread;
@@ -253,7 +275,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     }
 
 
-    loadDataByBroker(b) {
+    /*loadDataByBroker(b) {
         let B = this.tradingService.getBrokerByName(b);
         console.log("loaddata", b, B)
         if (!B) return;
@@ -284,24 +306,24 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         this.isRefreshing = false
         if (this.listing && this.listing.length > 0) this.isLoading = false
         console.log("loaddata", this.listing)
-    }
+    }*/
 
     getObjectKeys(obj): string[] {
         return Object.keys(obj)
     }
 
-    open(pair,broker) {
-        console.log("op",pair)
+    open(pair, broker) {
+        console.log("op", pair)
         window.open(this.appConfigService.getTradeScreen(broker, pair), "_blank")
     }
 
     filterData() {
-
-        this.listing.forEach((l) => {
-            let isBrokerSelected = this.brokerOptions[l.broker].active
-            if (this.supports[l.infra].active)
-                this.filteredData.push(l)
-        })
+        /*
+                this.listing.forEach((l) => {
+                    let isBrokerSelected = this.brokerOptions[l.broker].active
+                    if (this.supports[l.infra].active)
+                        this.filteredData.push(l)
+                })*/
     }
 
 

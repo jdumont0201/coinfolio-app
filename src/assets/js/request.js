@@ -12,3 +12,11 @@ self.addEventListener('activate', function(event){
 self.addEventListener('message', function(event){
     console.log("SW Received Message: " + event.data);
 });
+
+
+onmessage = function(e) {
+    console.log('sw Message received from main script');
+    var workerResult = 'sw Result: ' + e;
+    console.log('sw Posting message back to main script');
+    postMessage(workerResult);
+}

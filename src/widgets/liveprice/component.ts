@@ -100,7 +100,7 @@ export class AppLivePriceWidget extends ZoomableRefreshable implements OnInit, O
         this.logic.getPrice(this.broker, (res) => {
             const id = this.broker + "-" + this.pair + "-mini-" + this.period;
             let task = "ohlc";
-            const url = "ws://34.243.147.139:3014/"+ this.broker +"/" + this.pair.toUpperCase() + "/" + this.period;
+            const url = "wss://34.243.147.139:3014/"+ this.broker +"/" + this.pair.toUpperCase() + "/" + this.period;
             console.log("wsurl", url)
 
 

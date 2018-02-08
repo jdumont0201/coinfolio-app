@@ -6,7 +6,8 @@ import {ProxyService} from "./proxy.service";
 
 @Injectable()
 export class RequestService {
-
+    W;
+    serviceWorkerEnabled = false;
 
     constructor(private http: HttpClient,
                 private consoleService: ConsoleService,
@@ -15,14 +16,27 @@ export class RequestService {
         consoleService.serv("+ RequestService");
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('assets/js/request.js').then(function(reg) {
-                // registration worked
-                console.log('Registration succeeded. Scope is ' + reg.scope);
-            }).catch(function(error) {
-                // registration failed
-                console.log('Registration failed with ' + error);
-            });
-        };
+            this.serviceWorkerEnabled = true;
+           // console.log("sw try init")
+            this.W = new Worker("assets/js/requestservice.js")
+           // console.log("sw try init", this.W)
+
+            this.W.onmessage = (e) => {
+             //   console.log('sw Message received from worker', e);
+                let reqId = e.data.reqId;
+                if (e.data.success) {
+               //     console.log('  sw result ', e.data.result);
+                    let f = this.pool[reqId];
+                    this.success(f, e.data.result, e.data.reqId)
+                } else {
+                    console.log("  sw failed")
+                }
+            };
+
+
+
+        }
+        ;
 
     }
 
@@ -38,19 +52,27 @@ export class RequestService {
         f({error: false, file: data});
     }
 
+    pool: { [reqId: number]: Function } = {}
+
     getWithHeaders(url: string, headers: HttpHeaders, f: Function): void {
         //console.log("RequestService get", url, headers);
         this.consoleService.get("RequestService Getting", url);
         //navigator.serviceWorker.controller.postMessage("Client 1 says '"+url+"'");
-        let reqId: number = this.proxyService.addNewExternalRequest(url, "GET")
-        this.http.get(url, {headers: headers})
 
-            .subscribe(
-                data => this.success(f, data, reqId),
-                err => this.error(f, err, "Error downloading " + url, reqId, url),
-                // err => this.error(err),
-                () => {}//console.log('Done getting.', url)
-            );
+        let reqId: number = this.proxyService.addNewExternalRequest(url, "GET")
+        this.pool[reqId] = f;
+        if (this.serviceWorkerEnabled)
+            this.W.postMessage({url: url, headers: headers, reqId: reqId});
+        else {
+            this.http.get(url, {headers: headers})
+                .subscribe(
+                    data => this.success(f, data, reqId),
+                    err => this.error(f, err, "Error downloading " + url, reqId, url),
+                    // err => this.error(err),
+                    () => {
+                    }//console.log('Done getting.', url)
+                );
+        }
     }
 
     post(url: string, obj, headers: HttpHeaders, f: Function) {

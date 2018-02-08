@@ -20,6 +20,11 @@ import {ProxyService} from "./proxy.service";
 
 @Injectable()
 export class ApiService {
+
+    W;
+    serviceWorkerEnabled = false;
+    pool: { [reqId: number]: Function } = {}
+
     @Output() errorsChanged: EventEmitter<any> = new EventEmitter();
 
     baseurl: string;
@@ -44,7 +49,25 @@ export class ApiService {
         this.baseurl = this.configService.apiURL;
         this.configService.perSiteConfigured.subscribe((val) => this.perSiteConfigured(val))
 
+        if ('serviceWorker' in navigator) {
+            this.serviceWorkerEnabled = true;
+            console.log("sw try init")
+            this.W = new Worker("assets/js/apiservice.js")
+            console.log("sw try init", this.W)
 
+            this.W.onmessage = (e) => {
+                console.log('sw Message received from worker', e);
+                let reqId = e.data.reqId;
+                if (e.data.success) {
+                    console.log('  sw result ', e.data.result);
+                    let f = this.pool[reqId];
+                    this.processData(e.data.url, e.data.result, f,e.data.reqId)
+                } else {
+                    console.log("  sw failed")
+                }
+            };
+
+        }        ;
     }
 
     perSiteConfigured(val) {
@@ -297,6 +320,7 @@ export class ApiService {
     waitLine: any[] = [];
 
     private get(url: string, headers: HttpHeaders, f: Function) {
+        console.log("ws get ",url,headers)
         if (!this.isUp) {
             this.waitLine.push({type: "get", url: url, headers: headers, func: f})
             return;
@@ -305,16 +329,21 @@ export class ApiService {
         this.consoleService.get("ApiService Get", url, headers);
         this.messageService.showLoading();
         let reqId: number = this.proxyService.addNewInternalRequest(url, "GET")
-        this.http.get(url, {headers: headers})
+        this.pool[reqId] = f;
+        if (this.serviceWorkerEnabled)
+            this.W.postMessage({url: url, headers: headers, reqId: reqId});
+        else {
+            this.http.get(url, {headers: headers})
 
-            .timeout(this.timeout)
-            .retry(this.retry)
-            .subscribe(
-                data => this.processData(url, data, f, reqId),
-                err => this.processError("API_GET", url, err, f, reqId),
-                // err => this.error(err),
-                () => {
-                }
-            );
+                .timeout(this.timeout)
+                .retry(this.retry)
+                .subscribe(
+                    data => this.processData(url, data, f, reqId),
+                    err => this.processError("API_GET", url, err, f, reqId),
+                    // err => this.error(err),
+                    () => {
+                    }
+                );
+        }
     }
 }
