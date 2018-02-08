@@ -2509,6 +2509,7 @@ mat-table.data mat-row {
     background-position: 1px 0px;
     margin-right: 6px;}
 .broker-kraken{background-position:-16px 0!important}
+.broker-cryptonia{background-position:-81px 0!important}
 .broker-bitmex{background-position:-49px 0!important}
 .broker-kucoin{background-position:-64px 0!important}
 .broker-hitbtc{background-position:-32px 0!important}

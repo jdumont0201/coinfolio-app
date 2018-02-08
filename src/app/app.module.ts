@@ -5,8 +5,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ErrorHandler} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from "@angular/router"
-
-
+import { ServiceWorkerModule } from '@angular/service-worker'
+import { environment } from '../environments/environment';
 /*MATERIAL*/
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule, MatCheckboxModule} from '@angular/material';
@@ -68,6 +68,7 @@ import {LocalModule} from "../lib/localton/local.module";
 
 /******************************************* APP *********************************************/
 import {AppComponent} from './app.component';
+
 /*PAGES*/
 import {AppDashboardPage} from "../pages/dashboard/component";
 import {AppConfigAllPage} from "../pages/config-all/component";
@@ -191,6 +192,9 @@ import {AppConfigAPIPage} from "../pages/config-api/component";
     ],
     imports: [
         BrowserModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', {
+            enabled: true//environment.production
+        }),
         BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
         RouterModule.forRoot(routes),
         HttpClientModule,NgvasModule,
