@@ -253,7 +253,7 @@ screenInformation:any;
 
     } else {
       if (location.host.indexOf("localhost")>-1)
-        this.apiURL = "http://user.coinamics.io/";
+        this.apiURL = "https://user.coinamics.io/";
       else
         this.apiURL = "http://api." + this.prefix + this.domain + apiSuffix
     }

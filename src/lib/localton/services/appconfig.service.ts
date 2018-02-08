@@ -20,8 +20,8 @@ export class AppConfigService {
         this.generateInfraSupra()
         this.generateListing();
         this.logic.setAppConfigService(this);
-        this.apiService.setApiUrl("http://user.coinamics.io/api/");
-        this.apiService.setServerUrl("http://user.coinamics.io/");
+        this.apiService.setApiUrl("https://user.coinamics.io/api/");
+        this.apiService.setServerUrl("https://user.coinamics.io/");
         this.consoleService.serv("+ AppConfigService");
         this.configService.app = "comeoncoins"
         this.configService.perSiteConfigured.emit({"type": "general"})
