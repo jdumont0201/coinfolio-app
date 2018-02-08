@@ -1,66 +1,66 @@
 <mat-card class="mini-card">
-  <mat-card-header>
-    <mat-card-title>Market Cap Evol</mat-card-title>
-  <mat-card-subtitle *ngIf="period=='last24h'">Last 24h - All cryptos</mat-card-subtitle>
-    <mat-card-subtitle *ngIf="period=='last7d'">Last 7d - All cryptos</mat-card-subtitle>
-    <mat-card-subtitle *ngIf="period=='last30d'">Last 30d - All cryptos</mat-card-subtitle>
-  </mat-card-header>
-  <div class="options" *ngIf="showOptions">
-    <div class="row">
-      <button class="symbol" mat-button (click)="setPeriod('last24h')"> Last 24h </button>
-      <button class="symbol" mat-button (click)="setPeriod('last7d')"> Last 7j </button>
-      <button class="symbol" mat-button (click)="setPeriod('last30d')"> Last 30j </button>
+    <mat-card-header>
+        <mat-card-title>Market Cap Evol</mat-card-title>
+        <mat-card-subtitle *ngIf="period=='last24h'">Last 24h - All cryptos</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="period=='last7d'">Last 7d - All cryptos</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="period=='last30d'">Last 30d - All cryptos</mat-card-subtitle>
+    </mat-card-header>
+    <div class="options" *ngIf="showOptions">
+        <div class="row">
+            <button class="symbol" mat-button (click)="setPeriod('last24h')"> Last 24h</button>
+            <button class="symbol" mat-button (click)="setPeriod('last7d')"> Last 7j</button>
+            <button class="symbol" mat-button (click)="setPeriod('last30d')"> Last 30j</button>
+        </div>
     </div>
-  </div>
-  <mat-card-content >
+    <mat-card-content>
 
 
-    <div *ngFor="let r of data" class="mini">
-      <span class="title"> {{appConfigService.lastNames[period]}}</span>
-      <span class="large" [ngClass]="r.cap_to > r.cap_from?'valpos':'valneg'">{{r.cap_to - r.cap_from>0?"+":""}}{{(r.cap_to - r.cap_from)/r.cap_from*100 | number:"1.1-1"}}%</span>
-      <span class="detail"  [ngClass]="r.cap_to > r.cap_from?'valpos':'valneg'">{{r.cap_to - r.cap_from>0?"+":""}}{{(r.cap_to - r.cap_from)/1000000}} m{{base}}</span>
+        <div *ngFor="let r of data" class="mini">
+            <span class="title"> {{appConfigService.lastNames[period]}}</span>
+            <span class="large" [ngClass]="r.cap_to > r.cap_from?'valpos':'valneg'">{{r.cap_to - r.cap_from>0?"+":""}}{{(r.cap_to - r.cap_from)/r.cap_from*100 | number:"1.1-1"}}%</span>
+            <span class="detail" [ngClass]="r.cap_to > r.cap_from?'valpos':'valneg'">{{r.cap_to - r.cap_from>0?"+":""}}{{(r.cap_to - r.cap_from)/1000000}} m{{base}}</span>
+        </div>
+
+        <div *ngIf="!data || data.length==0">No data available</div>
+    </mat-card-content>
+
+
+    <button class="dots" mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-button class="showdata" (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
+    </mat-menu>
+    <div class="data">
+        <span *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
+        <mat-table #table class="data" [dataSource]="dataSourceRef" *ngIf="showDataTable">
+            <ng-container matColumnDef="symbol">
+                <mat-header-cell *matHeaderCellDef> Symbol</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.symbol}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="ts_from">
+                <mat-header-cell *matHeaderCellDef> Start Date</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.ts_from*1000 | date:"medium"}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="cap_from">
+                <mat-header-cell *matHeaderCellDef> Start Price ({{base}})</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.cap_from | number}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="ts_to">
+                <mat-header-cell *matHeaderCellDef> End Date</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.ts_to*1000 | date:"medium"}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="cap_to">
+                <mat-header-cell *matHeaderCellDef> End Price ({{base}})</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.cap_to | number}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="perf">
+                <mat-header-cell *matHeaderCellDef> Perf</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{(element.cap_to - element.cap_from)/element.cap_from*100 | number}}%</mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>
+        </mat-table>
     </div>
-
-<div *ngIf="!data || data.length==0">No data available</div>
-</mat-card-content>
-
-
-  <button class="dots" mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>more_vert</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-button class="showdata"  (click)="showDataTable=!showDataTable">{{showDataTable?'Hide':'Show'}} data</button>
-   </mat-menu>
-<div class="data">
-  <span  *ngIf="showDataTable" class="source">Source: {{appConfigService.sources[source]}}</span>
-  <mat-table #table class="data"  [dataSource]="dataSourceRef" *ngIf="showDataTable">
-    <ng-container matColumnDef="symbol" >
-      <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-      <mat-cell *matCellDef="let element" >{{element.symbol}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="ts_from" >
-      <mat-header-cell *matHeaderCellDef> Start Date </mat-header-cell>
-      <mat-cell *matCellDef="let element" >{{element.ts_from*1000 | date:"medium"}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="cap_from" >
-      <mat-header-cell *matHeaderCellDef> Start Price ({{base}}) </mat-header-cell>
-      <mat-cell *matCellDef="let element" >{{element.cap_from | number}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="ts_to" >
-      <mat-header-cell *matHeaderCellDef> End Date </mat-header-cell>
-      <mat-cell *matCellDef="let element" >{{element.ts_to*1000 | date:"medium"}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="cap_to" >
-      <mat-header-cell *matHeaderCellDef> End Price ({{base}}) </mat-header-cell>
-      <mat-cell *matCellDef="let element" >{{element.cap_to | number}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="perf" >
-      <mat-header-cell *matHeaderCellDef> Perf  </mat-header-cell>
-      <mat-cell *matCellDef="let element" >{{(element.cap_to - element.cap_from)/element.cap_from*100 | number}}% </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>
-  </mat-table>
-</div>
 </mat-card>
 

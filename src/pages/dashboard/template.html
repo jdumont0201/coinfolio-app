@@ -4,6 +4,7 @@
     <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
     <mat-tab-group (selectedTabChange)="tabChanged($event)">
         <mat-tab label="Overview">
+            <app-marketcap-evol2 [symbol]="'BTC'" [period]="'last24h'"></app-marketcap-evol2>
             <app-marketcap-live></app-marketcap-live>
         </mat-tab>
     </mat-tab-group>

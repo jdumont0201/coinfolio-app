@@ -11,165 +11,179 @@ import {Logic} from "../../logic/Logic";
 
 import {DataAndChartTemplate} from "../../lib/localton/components/DataWithChart/component";
 import {EventService} from "../../lib/localton/services/event.service";
-import {RefreshService} from "../../lib/localton/services/refresh.service";import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+
 @Component({
-  selector: 'app-marketcap-evol-mini',
-  templateUrl:'template.html'
+    selector: 'app-marketcap-evol-mini',
+    templateUrl: 'template.html'
 
 })
 @Injectable()
-export class AppMarketCapEvolMiniComponent extends DataAndChartTemplate  {
-  displayedColumns = ['symbol', 'diff'];
-  dataSource = new MatTableDataSource([]);
+export class AppMarketCapEvolMiniComponent extends DataAndChartTemplate {
+    displayedColumns = ['symbol', 'diff'];
+    dataSource = new MatTableDataSource([]);
 
-  displayedColumnsRef = ['symbol', 'ts_from','cap_from','ts_to','cap_to'];
-  dataSourceRef = new MatTableDataSource([]);
+    displayedColumnsRef = ['symbol', 'ts_from', 'cap_from', 'ts_to', 'cap_to'];
+    dataSourceRef = new MatTableDataSource([]);
 
-  ts:number=1451692800
-  base: string = "USD"
-  source: string = "cmc"
+    ts: number = 1451692800
+    base: string = "USD"
+    source: string = "cmc"
 
-  length = 100;
-  pageSize = 10;
-  pageSizeOptions = [10, 25, 100];
+    length = 100;
+    pageSize = 10;
+    pageSizeOptions = [10, 25, 100];
 
-  data = [];
-  displayedData = [];
-  isLoaded = false
-  pageIndex = 0;
-  isFuture=false;
-  from:number;
-  to:number;
+    data = [];
+    displayedData = [];
+    isLoaded = false
+    pageIndex = 0;
+    isFuture = false;
+    from: number;
+    to: number;
 
-  date = new FormControl(new Date(this.ts*1000));
-  serializedDate = new FormControl((new Date()).toISOString());
+    date = new FormControl(new Date(this.ts * 1000));
+    serializedDate = new FormControl((new Date()).toISOString());
 
- @Input() period;
- @Input() showOptions;
+    @Input() period;
+    @Input() showOptions;
 
-  options = {
-    chart: {type: 'column'},
-    credits: {enabled: false},
-    tooltip: {
-      valueSuffix: '%'
-    },
-    title:{text:""},
-    plotOptions: {
-      column: {
-        colorByPoint: true
-      },
-      series: {
-        animation: false
-      }
-    },
-    yAxis:{stackLabels: {
-      enabled: true, style: {
-        fontWeight: 'bold',
-        color:  'gray'
-      }
-    }}
-  }
-
-
-
-    constructor(public consoleService:ConsoleService,public logic: Logic, public appConfigService: AppConfigService, public eventService:EventService,public refreshService:RefreshService) {
-        super(consoleService,refreshService,logic,appConfigService,eventService,"plain")
-  }
-  ngOnInit(){
-    this.initDate()
-    this.updateData();
-  }
-  initDate(){
-    this.setDates();
-
-    const d = new Date();
-    d.setHours(0,0,0,0);
-
-    this.ts=d.getTime()/1000;
-    this.updateDate(this.ts)
-    console.log("init",this.ts);
-  }
-  setPeriod(p){
-    this.period=p;
-    this.setDates();
-    this.updateData()
-  }
-  setDates(){
-    const d=Math.floor(new Date().getTime()/1000);
-
-    if(this.period==="last24h"){
-      this.from=d-86400;
-      this.to=d
-    }else if(this.period==="last7d"){
-      this.from=d-86400*7;
-      this.to=d;
-    }else if(this.period==="last30d"){
-      this.from=d-86400*30;
-      this.to=d;
+    options = {
+        chart: {type: 'column'},
+        credits: {enabled: false},
+        tooltip: {
+            valueSuffix: '%'
+        },
+        title: {text: ""},
+        plotOptions: {
+            column: {
+                colorByPoint: true
+            },
+            series: {
+                animation: false
+            }
+        },
+        yAxis: {
+            stackLabels: {
+                enabled: true, style: {
+                    fontWeight: 'bold',
+                    color: 'gray'
+                }
+            }
+        }
     }
-    console.log("setDates",d,new Date(d*1000),new Date(this.from*1000),new Date(this.to*1000));
-  }
-  showData(res?) {
-    if (res)
-      this.data = res;
-    if(this.data){
-    this.displayedData = this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
-    this.dataSource = new MatTableDataSource(this.displayedData);
-    this.length = this.data.length;
-    this.isLoaded = true;
+
+
+    constructor(public consoleService: ConsoleService, public logic: Logic, public appConfigService: AppConfigService, public eventService: EventService, public refreshService: RefreshService) {
+        super(consoleService, refreshService, logic, appConfigService, eventService, "plain")
     }
-  }
-  updatePagination(event) {
-    this.pageIndex = event.pageIndex;
-    this.showData();
-  }
 
-  updateData() {
-    this.logic.getMarketCapEvol(this.source,this.base,this.from,this.to, (res) => {
-      //console.log("data",res);
-      this.data = res;
-      this.dataSourceRef = new MatTableDataSource(this.data);
-      this.showData()
+    ngOnInit() {
+        this.initDate()
+        this.updateData();
+    }
 
-      /* CHART*/
-      let X = [], Y=[],C=[];
-      for (let i = 0; i < res.length; ++i) {
-        X.push(res[i].symbol);
-        Y.push(Math.round(100*(res[i].cap_to-res[i].cap_from)/res[i].cap_from*100)/100);
-        C.push(res[i].perf>0?"#559e4f":"#bb0f0f")
-      }
-      console.log("perf",this.data,"X=",X,"Y=",Y);
+    initDate() {
+        this.setDates();
 
-      this.updateOptions(
-        {
-          colors:C,
-          xAxis:{
-                categories:X},
+        const d = new Date();
+        d.setHours(0, 0, 0, 0);
 
-              series:[{
-        name: "Performance",
-        data: Y
-      }]});
-      this.chart = new Chart(this.options);
-    })
-  }
+        this.ts = d.getTime() / 1000;
+        this.updateDate(this.ts)
+        console.log("init", this.ts);
+    }
 
-  yesterday(){
-    this.updateDate(this.ts-86400)
-  }
-  tomorrow(){
-    this.updateDate(this.ts+86400)
-  }
-  updateDate(ts){
-    if(new Date().getTime()/1000-ts<0)
-      this.isFuture=true
-    else
-      this.isFuture=false
-    this.ts=ts;
-        this.date= new FormControl(new Date(this.ts*1000));
+    setPeriod(p) {
+        this.period = p;
+        this.setDates();
         this.updateData()
-  }
-  dateChanged(event: MatDatepickerInputEvent<Date>) {
-    this.updateDate(new Date(event.value).getTime()/1000)
-  }
+    }
+
+    setDates() {
+        const d = Math.floor(new Date().getTime() / 1000);
+
+        if (this.period === "last24h") {
+            this.from = d - 86400;
+            this.to = d
+        } else if (this.period === "last7d") {
+            this.from = d - 86400 * 7;
+            this.to = d;
+        } else if (this.period === "last30d") {
+            this.from = d - 86400 * 30;
+            this.to = d;
+        }
+        console.log("setDates", d, new Date(d * 1000), new Date(this.from * 1000), new Date(this.to * 1000));
+    }
+
+    showData(res?) {
+        if (res)
+            this.data = res;
+        if (this.data) {
+            this.displayedData = this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
+            this.dataSource = new MatTableDataSource(this.displayedData);
+            this.length = this.data.length;
+            this.isLoaded = true;
+        }
+    }
+
+    updatePagination(event) {
+        this.pageIndex = event.pageIndex;
+        this.showData();
+    }
+
+    updateData() {
+        this.logic.getMarketCapEvol(this.source, this.base, this.from, this.to, (res) => {
+            //console.log("data",res);
+            this.data = res;
+            this.dataSourceRef = new MatTableDataSource(this.data);
+            this.showData()
+
+            /* CHART*/
+            let X = [], Y = [], C = [];
+            for (let i = 0; i < res.length; ++i) {
+                X.push(res[i].symbol);
+                Y.push(Math.round(100 * (res[i].cap_to - res[i].cap_from) / res[i].cap_from * 100) / 100);
+                C.push(res[i].perf > 0 ? "#559e4f" : "#bb0f0f")
+            }
+            console.log("perf", this.data, "X=", X, "Y=", Y);
+
+            this.updateOptions(
+                {
+                    colors: C,
+                    xAxis: {
+                        categories: X
+                    },
+
+                    series: [{
+                        name: "Performance",
+                        data: Y
+                    }]
+                });
+            this.chart = new Chart(this.options);
+        })
+    }
+
+    yesterday() {
+        this.updateDate(this.ts - 86400)
+    }
+
+    tomorrow() {
+        this.updateDate(this.ts + 86400)
+    }
+
+    updateDate(ts) {
+        if (new Date().getTime() / 1000 - ts < 0)
+            this.isFuture = true
+        else
+            this.isFuture = false
+        this.ts = ts;
+        this.date = new FormControl(new Date(this.ts * 1000));
+        this.updateData()
+    }
+
+    dateChanged(event: MatDatepickerInputEvent<Date>) {
+        this.updateDate(new Date(event.value).getTime() / 1000)
+    }
 }

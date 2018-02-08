@@ -3,6 +3,15 @@
     <mat-toolbar>
         <h3>Twitter </h3>
     </mat-toolbar>
+
     <app-top-right-buttons  [placeholder]="'Search twitter...'"></app-top-right-buttons>
-    <app-twitter [mode]="'general'" [symbol]="supra" [possibleSymbols]="possibleSymbols"></app-twitter>
+    <mat-tab-group>
+        <mat-tab label="Pairs">
+            <app-twitter [mode]="'general'" [symbol]="supra" [possibleSymbols]="possibleSymbols"></app-twitter>
+        </mat-tab>
+        <mat-tab label="Exchanges">
+            <app-twitter [mode]="'general'" [symbol]="defExchange" [possibleSymbols]="possibleExchanges"></app-twitter>
+        </mat-tab>
+    </mat-tab-group>
+
 </div>

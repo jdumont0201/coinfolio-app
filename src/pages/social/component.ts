@@ -22,6 +22,8 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 @Injectable()
 export class AppSocialPage extends PageWithTabs implements OnDestroy {
     possibleSymbols =[] ;
+    possibleExchanges=[]
+    defExchange;
     searchedText = "";
     supra = "BTC";
     infra = "USDT";
@@ -29,6 +31,8 @@ export class AppSocialPage extends PageWithTabs implements OnDestroy {
 
     constructor(public requestService: RequestService,public refreshService:RefreshService,public consoleService:ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService) {
         super(refreshService,eventService,consoleService)
+        this.possibleExchanges=appConfigService.possibleBrokers
+        this.defExchange=this.possibleExchanges[0]
         if(this.pairId){
             let p=Crypto.getSymbolsFromPair(this.pairId, this.getAllPossibleInfras())
             if(p){

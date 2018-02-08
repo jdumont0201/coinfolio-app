@@ -66,15 +66,14 @@ export class DataService {
     }
     getAll(table: string, f: Function, where?: any, order?: { key: string, dir: string }, limit?) {
         console.log("[GET ALL]", table, where)
-        let q = this.getQueryParam(where, order, limit);
-        let queryString:string=this.getQueryString(q);
+        let queryString:string;
+        if(typeof where=="string") queryString=where;
+        else {
+            let q = this.getQueryParam(where, order, limit);
+            queryString=this.getQueryString(q);
+        }
         let url=this.baseUrl+table+"?"+queryString
-
-        this.requestService.get(url,(res)=>{
-            console.log("getall",res)
-            f(res.file)
-        },this)
-
+        this.requestService.get(url,(res)=>{ f(res.file) },this)
     }
 
     getById(table: string, id, f: Function) {

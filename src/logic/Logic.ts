@@ -311,6 +311,17 @@ export class Logic {
     getMarketCapEvol(source: string, base: string, from: number, to: number, f: Function) {
         this.dataService.perform("marketcapevol", {psource: source, pfrom: from, pto: to, pbase: base}, f)
     }
+    getMarketCapEvol2(source: string, base: string,symbol:string, from: number, to: number, f: Function) {
+        let fromd=new Date(from*1000);
+        let fromstr=fromd.toISOString().split('.')[0];
+        let tod=new Date(to*1000);
+        let tostr=tod.toISOString().split('.')[0];
+        console.log("ttt",{symbol:symbol,fro:fromstr,too:tostr})
+        this.dataService.perform("marketcapevol", {symbol:symbol,fro:fromstr,too:tostr},(r)=>{
+            console.log("ttt u",r)
+            f(r)
+        })
+    }
 
     getDominance(source: string, base: string, from: number, f: Function) {
         this.dataService.perform("dominance", {psource: source, pts: from, pbase: base}, f)

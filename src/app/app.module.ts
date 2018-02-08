@@ -139,6 +139,7 @@ import {AppFormResetPassword} from "../forms/resetpassword/component";
 /*COMPONENTS*/
 import {AppCryptoIconComponent} from "../components/cryptoicon/component"
 import {AppMarketCapEvolComponent} from "../widgets/marketcap-evol/component"
+import {AppMarketCapEvol2Component} from "../widgets/marketcap-evol2/component"
 import {AppAuthLoginComponent} from "../components/auth-login/component"
 import {AppBrokerAllPanelsComponent} from "../components/broker-allpanels/component"
 import {AppBrokerConnectionsComponent} from "../components/broker-connections/component"
@@ -188,7 +189,7 @@ import {AppConfigAPIPage} from "../pages/config-api/component";
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,
          AppDashboardPage, AppAccountPage, AppConfigAllPage, AppSymbolItemPage, AppSymbolAllPage, AppGenericPage,AppBrokerConnectionsComponent,AppConfigWorkersPage,AppWorkersComponent,
         AppPanelCreatorComponent,AppAuthLoginComponent, AppSubscriberFeatureComponent, AppSubscribeComponent, AppRegisterComponent, AppBitcoinDominanceMiniWidget,
-        AppCryptoIconComponent, AppMarketCapEvolComponent, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
+        AppCryptoIconComponent, AppMarketCapEvolComponent,AppMarketCapEvol2Component, AppMarketCapEvolMiniComponent, AppTopPerformanceComponent, AppTopPerformanceDailyComponent, AppHeadlinesComponent, AppTwitterComponent, AppEvolutionTableComponent, AppSortedPerformanceComponent, AppMarketCapTableComponent, AppPerfLastWeekComponent, AppCapLastWeekComponent, AppTrendingLastWeekComponent, AppVolumeComponent, AppPriceComponent, AppMarketCapComponent, AppPriceDivMarketComponent
     ],
     imports: [
         BrowserModule,
