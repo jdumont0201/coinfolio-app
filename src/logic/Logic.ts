@@ -93,7 +93,7 @@ export class Logic {
     }
     getFromPublic(broker, task, f: Function, query?: string|any) {
         const queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
-        this.requestService.get("http://public.coinamics.io/public/" + broker + '/' + task + "?"+queryStr, (res) => {
+        this.requestService.get("https://public.coinamics.io/public/" + broker + '/' + task + "?"+queryStr, (res) => {
             if (res.file ){
                 //let A=UniversalLoader.load(broker, task, res.result.data);
                 const A=res.file;
