@@ -41,7 +41,7 @@ export class RequestService {
     getWithHeaders(url: string, headers: HttpHeaders, f: Function): void {
         //console.log("RequestService get", url, headers);
         this.consoleService.get("RequestService Getting", url);
-        navigator.serviceWorker.controller.postMessage("Client 1 says '"+url+"'");
+        //navigator.serviceWorker.controller.postMessage("Client 1 says '"+url+"'");
         let reqId: number = this.proxyService.addNewExternalRequest(url, "GET")
         this.http.get(url, {headers: headers})
 

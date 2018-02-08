@@ -192,9 +192,9 @@ import {AppConfigAPIPage} from "../pages/config-api/component";
     ],
     imports: [
         BrowserModule,
-        ServiceWorkerModule.register('/ngsw-worker.js', {
+       /* ServiceWorkerModule.register('/ngsw-worker.js', {
             enabled: true//environment.production
-        }),
+        }),*/
         BrowserAnimationsModule, FormsModule, ReactiveFormsModule,
         RouterModule.forRoot(routes),
         HttpClientModule,NgvasModule,
