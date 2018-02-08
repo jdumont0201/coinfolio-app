@@ -111,7 +111,7 @@ export class Logic {
         yes.setMinutes(yes.getMinutes()+1)
         let yesterday2=yes.toISOString().split('.')[0];
 
-        this.requestService.get("http://data.coinamics.io/"+code+"_ohlc_1m?ts=lt.'"+yesterday2+"'&ts=gte.'"+yesterday+"'", (res) => {
+        this.requestService.get("https://data.coinamics.io/"+code+"_ohlc_1m?ts=lt.'"+yesterday2+"'&ts=gte.'"+yesterday+"'", (res) => {
             if (res.file ){
                 //let A=UniversalLoader.load(broker, task, res.result.data);
                 const A=res.file;

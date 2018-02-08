@@ -7,7 +7,7 @@ import {ProxyService} from "../../globalton/core/services/proxy.service";
 
 @Injectable()
 export class DataService {
-    baseUrl='http://data.coinamics.io/';
+    baseUrl='https://data.coinamics.io/';
     constructor(public requestService: RequestService, public restangular: Restangular,public proxyService:ProxyService) {
 
     }
