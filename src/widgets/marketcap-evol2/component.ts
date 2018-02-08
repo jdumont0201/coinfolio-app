@@ -21,8 +21,8 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 })
 @Injectable()
 export class AppMarketCapEvol2Component extends DataAndChartTemplate {
-    @Input() symbol:string;
-    @Input() period:string;
+    @Input() symbol: string;
+    @Input() period: string;
     displayedColumns = ['symbol', 'diff'];
     dataSource = new MatTableDataSource([]);
 
@@ -47,7 +47,6 @@ export class AppMarketCapEvol2Component extends DataAndChartTemplate {
 
     date = new FormControl(new Date(this.ts * 1000));
     serializedDate = new FormControl((new Date()).toISOString());
-
 
 
     options = {
@@ -86,7 +85,8 @@ export class AppMarketCapEvol2Component extends DataAndChartTemplate {
         super(consoleService, refreshService, logic, appConfigService, eventService, "plain")
 
     }
-    ngOnInit(){
+
+    ngOnInit() {
         this.initDate()
         this.updateData();
     }
@@ -111,13 +111,13 @@ export class AppMarketCapEvol2Component extends DataAndChartTemplate {
     setDates() {
         if (this.period === "last24h") {
             this.from = Math.floor(new Date().getTime() / 1000) - 86400;
-            this.to = Math.floor(new Date().getTime() / 1000);
+            this.to = Math.floor(new Date().getTime() / 1000 - 60*10);
         } else if (this.period === "last7d") {
             this.from = Math.floor(new Date().getTime() / 1000) - 86400 * 7;
-            this.to = Math.floor(new Date().getTime() / 1000);
+            this.to = Math.floor(new Date().getTime() / 1000 - 60*10);
         } else if (this.period === "last1h") {
-            this.from = Math.floor(new Date().getTime() / 1000) - 3600 ;
-            this.to = Math.floor(new Date().getTime() / 1000);
+            this.from = Math.floor(new Date().getTime() / 1000) - 3600;
+            this.to = Math.floor(new Date().getTime() / 1000 - 60*10);
         } else if (this.period === "last30d") {
             this.from = Math.floor(new Date().getTime() / 1000) - 86400 * 30;
             this.to = Math.floor(new Date().getTime() / 1000);
@@ -140,20 +140,30 @@ export class AppMarketCapEvol2Component extends DataAndChartTemplate {
         this.showData();
     }
 
-    first:number;
-    firsttime:string;
-    second:number;
-    secondtime:string;
-    diff:number;
-    updateData() {
+    first: number;
+    firsttime: string;
+    second: number;
+    secondtime: string;
+    diff: number;
+    diffpc: number;
 
-        this.logic.getMarketCapEvol2(this.source, this.base, this.symbol,this.from, this.to, (res) => {
-            console.log("ttt2",res)
-            this.first=res[0].marketcap
-            this.firsttime=res[0].ts
-            this.second=res[1].marketcap
-            this.secondtime=res[1].ts
-                this.diff=this.first-this.second;
+    updateData() {
+        this.logic.getLastCap(this.symbol,(res)=>{
+            console.log("ttt2", res,res[0].change_pc_24h)
+            res=res[0];
+            this.diffpc=res.change_pc_24h;
+            this.diff=res.change_pc_24h*res.marketcap;
+
+        //this.logic.getMarketCapEvol2(this.source, this.base, this.symbol, this.from, this.to, (res) => {
+            /*
+            console.log("ttt2", res)
+            if (res && res.length >= 2) {
+                this.first = res[0].marketcap
+                this.firsttime = res[0].ts
+                this.second = res[1].marketcap
+                this.secondtime = res[1].ts
+                this.diff = this.second - this.first;
+            }*/
 
         })
     }

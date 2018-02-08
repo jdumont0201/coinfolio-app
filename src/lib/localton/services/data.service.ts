@@ -33,9 +33,14 @@ export class DataService {
     perform(call: string, obj, f: Function) {
         call = "rpc/" + call;
         console.log("[PERFORM]", call, obj);
-        const dt = this.restangular.all(call);
+        let reqId:number=this.proxyService.addNewDBRequest(call,"POST");
+        this.requestService.post("https://data.coinamics.io/"+call,obj,null,(res)=>{
+            this.proxyService.completeRequestSuccessResult(reqId)
+            f(res.file)
+        })
+        /*const dt = this.restangular.all(call);
         const r = dt.post(obj).toPromise();
-        let reqId:number=this.proxyService.addNewDBRequest(call,"POST")
+
         r.then( (res) =>{
             this.proxyService.completeRequestSuccessResult(reqId)
             f(res)
@@ -44,7 +49,7 @@ export class DataService {
             console.log("There was an error performing");
             f(null)
         });
-        ;
+        ;*/
     }
 
     getQueryParam(where, order?: { key: string, dir: string }, limit?): any {

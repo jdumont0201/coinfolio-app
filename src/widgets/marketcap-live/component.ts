@@ -22,7 +22,7 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";impor
 export class AppMarketCapLiveWidget extends DataAndChartTemplate {
 
 
-    displayedColumns = [ 'symbol', 'marketcap'];
+    displayedColumns = [ 'symbol', 'marketcap','change_pc_24h'];
 
 
     @Input() symbol: string;
@@ -66,9 +66,7 @@ export class AppMarketCapLiveWidget extends DataAndChartTemplate {
     isLoading = true;
 
     updateData() {
-
-
-        this.dataService.perform("topmarketcap",{}, (res) => {
+        this.dataService.perform("topmarketcap2",{}, (res) => {
             console.log("resutop",res)
             this.data = res;
             this.dataSource = new MatTableDataSource(this.data);

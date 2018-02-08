@@ -2,8 +2,8 @@
   <h5>Market Cap - {{symbol}}  </h5>
   <div class="mini">
     <span class="title"> {{period}}</span>
-    <span class="large" [ngClass]="diff?'valpos':'valneg'">{{diff>0?"+":""}}{{(diff)/second*100 | number:"1.1-1"}}%</span>
-    <span class="detail" [ngClass]="diff?'valpos':'valneg'">{{diff>0?"+":""}}{{diff/1000000}} m{{base}}</span>
+    <span class="large" [ngClass]="diff?'valpos':'valneg'">{{diff>0?"+":""}}{{diffpc | number:"1.1-1"}}%</span>
+    <span class="detail" [ngClass]="diff?'valpos':'valneg'">{{diff>0?"+":""}}{{diff/1000000 | number :"1.0-0"}} m{{base}}</span>
   </div>
 
 

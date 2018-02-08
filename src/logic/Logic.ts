@@ -317,7 +317,7 @@ export class Logic {
         let tod=new Date(to*1000);
         let tostr=tod.toISOString().split('.')[0];
         console.log("ttt",{symbol:symbol,fro:fromstr,too:tostr})
-        this.dataService.perform("marketcapevol", {symbol:symbol,fro:fromstr,too:tostr},(r)=>{
+        this.dataService.perform("marketcapevol", {psymbol:symbol,fro:fromstr,too:tostr},(r)=>{
             console.log("ttt u",r)
             f(r)
         })
@@ -346,7 +346,9 @@ export class Logic {
     getImports(f: Function) {
         this.dataService.getAll("import", f, {}, {key: "ts", dir: "desc"}, 1000)
     }
-
+getLastCap(symbol:string,f){
+    this.dataService.getAll("cmc_cap", f,  "symbol=eq."+symbol+"&order=ts.desc&limit=1");
+}
     getVolumeWeekData(source: string, symbol: string, base: string, f: Function) {
         this.dataService.perform("volumeweekccc", {psource: source, psymbol: symbol, pbase: base}, f)
     }

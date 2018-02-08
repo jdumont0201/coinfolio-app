@@ -74,7 +74,6 @@ export class RequestService {
                 );
         }
     }
-
     post(url: string, obj, headers: HttpHeaders, f: Function) {
         let reqId: number = this.proxyService.addNewExternalRequest(url, "POST")
         this.http.post(url, obj, {headers: headers})

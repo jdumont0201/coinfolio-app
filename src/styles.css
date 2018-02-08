@@ -571,6 +571,8 @@ button:hover .crypto-iconed {
 .mini .large {
     font-size: 30px;
     display: block;
+
+    line-height: 31px;
 }
 
 .mini .detail {
