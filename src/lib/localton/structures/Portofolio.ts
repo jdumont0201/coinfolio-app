@@ -23,13 +23,13 @@ export class Portfolio {
 
     getTotalUSDValue(): number {
         let L = this.publicDataService.getListingByName(this.key);
-        console.log("gettotalusd", this.key, Object.keys(L.content).length, this.content)
+        //console.log("gettotalusd", this.key, Object.keys(L.content).length, this.content)
         if (!this.connected) return -1
         let res = 0;
 
         for (let k in this.content) {
             if (this.content[k].q > 0) {
-                console.log("gettotalusdv", k,this.content[k].q , L.getUSDValue(k))
+          //      console.log("gettotalusdv", k,this.content[k].q , L.getUSDValue(k))
 
                 //if (k in L.content) {
                 let V=L.getUSDValue(k);
@@ -119,15 +119,15 @@ export class Portfolio {
         for (let k in this.content) {
 
             let asset = this.content[k];
-            console.log("alloch",k,asset)
+            //console.log("alloch",k,asset)
             let L = this.publicDataService.getListingByName(asset.broker);
             let v;
             let y;
             if (asset.q > 0) {
 
                 let ba = L.getUSDValue(asset.symbol);
-                console.log("alloch",this.key,k ,asset,ba)
-                if (ba) {
+              //  console.log("alloch",this.key,k ,asset,ba)
+                 if (ba) {
                     v = Math.round(100 * ba.last) / 100;
                     y = Math.round(100 * v * asset.q) / 100
                     let ch = null;

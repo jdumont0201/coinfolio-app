@@ -20,11 +20,11 @@ var Broker = (function () {
     }
     Broker.prototype.getTotalUSDValue = function () {
         var _this = this;
-        console.log("getTotalUSDValue init", this.key, "val");
+        //console.log("getTotalUSDValue init", this.key, "val");
         if (this.key == "global") {
             var res_1 = 0;
             var brokers = this.tradingService.getConnectedBrokersArray();
-            console.log("getTotalUSDValue ", this.key, "br", brokers);
+          //  console.log("getTotalUSDValue ", this.key, "br", brokers);
             brokers.forEach(function (b) {
                 var v = _this.tradingService.getBrokerByName(b).getPortfolio().getTotalUSDValue();
                 res_1 += v;
@@ -74,7 +74,7 @@ var Broker = (function () {
         });
     };
     Broker.prototype.setLoaded = function (val) {
-        console.log("SETLOADED");
+//        console.log("SETLOADED");
         if (val) {
             this.isLoaded = true;
             this.consoleService.eventSent("brokerLoadedEvent <-- Broker", { key: this.key, loaded: true });

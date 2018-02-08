@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 var fs = require('fs');
 
-var privateKey = fs.readFileSync('/coinfolio/app/server/coinamics.pem');
+var privateKey = fs.readFileSync('/coinfolio/app/server/coinamics.key');
 var certificate = fs.readFileSync('/coinfolio/app/server/coinamics.crt');
 var credentials = {key: privateKey, cert: certificate};
 console.log(credentials)

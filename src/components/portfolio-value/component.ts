@@ -31,7 +31,7 @@ export class AppPortfolioValueComponent extends Refreshing implements OnInit, On
 
         this.update("init");
         let f = () => {
-            console.log("ptfvalu",this.broker,this.publicDataService.getListingByName(this.broker).content)
+            //console.log("ptfvalu",this.broker,this.publicDataService.getListingByName(this.broker).content)
 
             this.update("update");
 

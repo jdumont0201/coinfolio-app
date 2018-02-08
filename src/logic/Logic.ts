@@ -82,7 +82,7 @@ export class Logic {
     getFromBroker(broker, task, f: Function, query?: string|any) {
         let queryStr=query?(typeof query=="string"?query:(HTML.objToQueryString(query))):"";
         this.apiService.authget("connect/" + broker + '/' + task + "?"+queryStr, (res) => {
-            console.log("brokerk",broker,task,res)
+            //console.log("brokerk",broker,task,res)
             if (res && "result" in res && res.result.success){
                 let A=UniversalLoader.load(broker, task, res.result.data);
 

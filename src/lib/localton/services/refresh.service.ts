@@ -216,7 +216,7 @@ export class RefreshService {
     portfolioCreated(val: { broker: string, success: boolean }) {
         this.consoleService.eventReceived("portfolioUpdated --> refreshService", val)
         let k = val.broker + "-portfolio";
-        this.getPool(k).define(5000, (f: Function) => {
+        this.getPool(k).define(10000, (f: Function) => {
             let B = this.tradingService.getBrokerByName(val.broker)
             B.getPortfolio().refresh(() => {
                 f()

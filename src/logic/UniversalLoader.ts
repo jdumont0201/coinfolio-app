@@ -1,7 +1,7 @@
 
 export class UniversalLoader {
     static load(broker: string, task: string, data: any) :Object{
-        console.log("formaxi",broker,task,data)
+        //console.log("formaxi",broker,task,data)
         if (task == "balance") {
             let A = {}
             if (broker == "binance") {
@@ -32,7 +32,7 @@ export class UniversalLoader {
                     }
                 })
             }else if (broker == "hitbtc") {
-                console.log("formax",data)
+          //      console.log("formax",data)
                 for(let k in data){
                     let d=data[k];
                     A[k] = {

@@ -58,7 +58,7 @@ export class AppConfigService {
             }
         }
         this.allcryptos = Object.keys(allc).sort();
-        console.log("infrasupra", res);
+        //console.log("infrasupra", res);
         this.infrasupra = res;
     }
 
@@ -329,7 +329,7 @@ export class AppConfigService {
             {infra: "LTC", supra: "ARK"},
         ARKUSDT
             :
-            {infra: "USDT", supra: "ARK"},
+            {infra: "USD", supra: "ARK"},
         ATHBTC
             :
             {infra: "BTC", supra: "ATH"},
@@ -425,7 +425,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "BCH"},
         BCHUSDT
             :
-            {infra: "USDT", supra: "BCH"},
+            {infra: "USD", supra: "BCH"},
         BCPTBTC
             :
             {infra: "BTC", supra: "BCPT"},
@@ -659,7 +659,7 @@ export class AppConfigService {
             {infra: "LTC", supra: "BSD"},
         BSDUSDT
             :
-            {infra: "USDT", supra: "BSD"},
+            {infra: "USD", supra: "BSD"},
         BSTYBTC
             :
             {infra: "BTC", supra: "BSTY"},
@@ -710,7 +710,7 @@ export class AppConfigService {
             {infra: "LTC", supra: "BTCS"},
         BTCUSDT
             :
-            {infra: "USDT", supra: "BTC"},
+            {infra: "USD", supra: "BTC"},
         BTDXBTC
             :
             {infra: "BTC", supra: "BTDX"},
@@ -752,7 +752,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "BTX"},
         BTXUSDT
             :
-            {infra: "USDT", supra: "BTX"},
+            {infra: "USD", supra: "BTX"},
         BUCKSBTC
             :
             {infra: "BTC", supra: "BUCKS"},
@@ -923,7 +923,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "CEFS"},
         CEFSUSDT
             :
-            {infra: "USDT", supra: "CEFS"},
+            {infra: "USD", supra: "CEFS"},
         CFCBTC
             :
             {infra: "BTC", supra: "CFC"},
@@ -1247,7 +1247,7 @@ export class AppConfigService {
             {infra: "LTC", supra: "DASH"},
         DASHUSDT
             :
-            {infra: "USDT", supra: "DASH"},
+            {infra: "USD", supra: "DASH"},
         DASLTC
             :
             {infra: "LTC", supra: "DAS"},
@@ -1298,7 +1298,7 @@ export class AppConfigService {
             {infra: "LTC", supra: "DCR"},
         DCRUSDT
             :
-            {infra: "USDT", supra: "DCR"},
+            {infra: "USD", supra: "DCR"},
         DCYBTC
             :
             {infra: "BTC", supra: "DCY"},
@@ -1418,7 +1418,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "DOGE"},
         DOGEUSDT
             :
-            {infra: "USDT", supra: "DOGE"},
+            {infra: "USD", supra: "DOGE"},
         DONBTC
             :
             {infra: "BTC", supra: "DON"},
@@ -1451,7 +1451,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "DOT"},
         DOTUSDT
             :
-            {infra: "USDT", supra: "DOT"},
+            {infra: "USD", supra: "DOT"},
         DPBTC
             :
             {infra: "BTC", supra: "DP"},
@@ -1697,7 +1697,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "ETC"},
         ETCUSDT
             :
-            {infra: "USDT", supra: "ETC"},
+            {infra: "USD", supra: "ETC"},
         ETHBTC
             :
             {infra: "BTC", supra: "ETH"},
@@ -1721,7 +1721,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "ETH"},
         ETHUSDT
             :
-            {infra: "USDT", supra: "ETH"},
+            {infra: "USD", supra: "ETH"},
         ETNBTC
             :
             {infra: "BTC", supra: "ETN"},
@@ -1736,7 +1736,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "ETN"},
         ETNUSDT
             :
-            {infra: "USDT", supra: "ETN"},
+            {infra: "USD", supra: "ETN"},
         ETTBTC
             :
             {infra: "BTC", supra: "ETT"},
@@ -2291,7 +2291,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "HUSH"},
         HUSHUSDT
             :
-            {infra: "USDT", supra: "HUSH"},
+            {infra: "USD", supra: "HUSH"},
         HXXBTC
             :
             {infra: "BTC", supra: "HXX"},
@@ -2753,7 +2753,7 @@ export class AppConfigService {
             {infra: "LTC", supra: "LTCU"},
         LTCUSDT
             :
-            {infra: "USDT", supra: "LTC"},
+            {infra: "USD", supra: "LTC"},
         LUXBTC
             :
             {infra: "BTC", supra: "LUX"},
@@ -2768,7 +2768,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "LUX"},
         LUXUSDT
             :
-            {infra: "USDT", supra: "LUX"},
+            {infra: "USD", supra: "LUX"},
         LYCBTC
             :
             {infra: "BTC", supra: "LYC"},
@@ -3086,7 +3086,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "NAV"},
         NAVUSDT
             :
-            {infra: "USDT", supra: "NAV"},
+            {infra: "USD", supra: "NAV"},
         NDAOBTC
             :
             {infra: "BTC", supra: "NDAO"},
@@ -3233,7 +3233,7 @@ export class AppConfigService {
             {infra: "LTC", supra: "NYAN"},
         NZDTUSDT
             :
-            {infra: "USDT", supra: "NZDT"},
+            {infra: "USD", supra: "NZDT"},
         ODNBTC
             :
             {infra: "BTC", supra: "ODN"},
@@ -3329,7 +3329,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "ORME"},
         ORMEUSDT
             :
-            {infra: "USDT", supra: "ORME"},
+            {infra: "USD", supra: "ORME"},
         OSCBTC
             :
             {infra: "BTC", supra: "OSC"},
@@ -4031,7 +4031,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "SKY"},
         SKYUSDT
             :
-            {infra: "USDT", supra: "SKY"},
+            {infra: "USD", supra: "SKY"},
         SLGBTC
             :
             {infra: "BTC", supra: "SLG"},
@@ -4508,7 +4508,7 @@ export class AppConfigService {
             {infra: "LTC", supra: "UNO"},
         UNOUSDT
             :
-            {infra: "USDT", supra: "UNO"},
+            {infra: "USD", supra: "UNO"},
         URBTC
             :
             {infra: "BTC", supra: "UR"},
@@ -4874,7 +4874,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "XMR"},
         XMRUSDT
             :
-            {infra: "USDT", supra: "XMR"},
+            {infra: "USD", supra: "XMR"},
         XMYBTC
             :
             {infra: "BTC", supra: "XMY"},
@@ -4970,7 +4970,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "XVG"},
         XVGUSDT
             :
-            {infra: "USDT", supra: "XVG"},
+            {infra: "USD", supra: "XVG"},
         XZCBTC
             :
             {infra: "BTC", supra: "XZC"},
@@ -5021,7 +5021,7 @@ export class AppConfigService {
             {infra: "NZDT", supra: "ZEC"},
         ZECUSDT
             :
-            {infra: "USDT", supra: "ZEC"},
+            {infra: "USD", supra: "ZEC"},
         ZEITBTC
             :
             {infra: "BTC", supra: "ZEIT"},

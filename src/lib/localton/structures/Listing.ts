@@ -45,7 +45,7 @@ export class Listing {
         this.fee = new Fee(this.broker, this.appConfigService);
         let poolkey = "public-" + broker + "-listing";
         this.refreshService.createPool(poolkey);
-        this.refreshService.getPool(poolkey).define(5000, (f) => {
+        this.refreshService.getPool(poolkey).define(10000, (f) => {
             this.logic.getFromPublic(broker, "bidask", (res) => {
                 this.addAll(res)
                 f();
@@ -94,7 +94,7 @@ export class Listing {
     }
 
     getRawName(infra: string, supra: string) {
-        console.log("infrasupra", infra, supra, this.broker)
+        //console.log("infrasupra", infra, supra, this.broker)
         if (!(infra in this.appConfigService.infrasupra)) return null
         if (!(supra in this.appConfigService.infrasupra[infra])) return null
         if (!(this.broker in this.appConfigService.infrasupra[infra][supra])) return null

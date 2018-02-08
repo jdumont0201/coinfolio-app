@@ -117,7 +117,7 @@ export class Broker {
     }
 
     setLoaded(val) {
-        console.log("SETLOADED")
+        //console.log("SETLOADED")
         if (val) {
             this.isLoaded = true;
             this.consoleService.eventSent("brokerLoadedEvent <-- Broker", {key: this.key, loaded: true})

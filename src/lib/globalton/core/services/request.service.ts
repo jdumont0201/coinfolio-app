@@ -14,6 +14,16 @@ export class RequestService {
                 private messageService: MessageService) {
         consoleService.serv("+ RequestService");
 
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('assets/js/request.js').then(function(reg) {
+                // registration worked
+                console.log('Registration succeeded. Scope is ' + reg.scope);
+            }).catch(function(error) {
+                // registration failed
+                console.log('Registration failed with ' + error);
+            });
+        };
+
     }
 
     error(f, err: any, desc: string, reqId: number, url: string): void {
@@ -31,6 +41,7 @@ export class RequestService {
     getWithHeaders(url: string, headers: HttpHeaders, f: Function): void {
         //console.log("RequestService get", url, headers);
         this.consoleService.get("RequestService Getting", url);
+        navigator.serviceWorker.controller.postMessage("Client 1 says '"+url+"'");
         let reqId: number = this.proxyService.addNewExternalRequest(url, "GET")
         this.http.get(url, {headers: headers})
 
