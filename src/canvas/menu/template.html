@@ -20,7 +20,7 @@
         </div>
     </ng-container>
     <div mat-list-item class="mat-list-item  menu-separator">Dashboards</div>
-    <a (click)="goToLink('/')" matLine mat-list-item>Today</a>
+    <a (click)="goToLink('/dashboard/today')" matLine mat-list-item>Today</a>
     <a (click)="goToLink('/dashboard/now')" matLine mat-list-item>Live Now
 
     </a>
@@ -62,7 +62,7 @@
 
     <div mat-list-item class="mat-list-item  menu-separator">Settings</div>
     <a (click)="goToLink('/config/all')" matLine mat-list-item>Configure
-        
+        <mat-icon>lock</mat-icon>
     </a>
 
 

@@ -1,5 +1,3 @@
-<app-welcome></app-welcome>
-<ng-container *ngIf="!eventService.isWelcomeVisible">
     <mat-toolbar><h3>Today</h3></mat-toolbar>
     <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
     <mat-tab-group (selectedTabChange)="tabChanged($event)">
@@ -8,4 +6,3 @@
             <app-marketcap-live></app-marketcap-live>
         </mat-tab>
     </mat-tab-group>
-</ng-container>

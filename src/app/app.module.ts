@@ -100,6 +100,7 @@ import {AppConfigSubscriptionPage} from "../pages/config-subscription/component"
 import {AppConfigImportsPage} from "../pages/config-imports/component";
 import {AppConfigInterfacePage} from "../pages/config-interface/component";
 import {AppAuthBrokersPage} from "../pages/auth-brokers/component"
+import {AppWelcomePage} from "../pages/welcome/component"
 /*CANVAS*/
 import {AppMenuList} from "../canvas/menu/component";
 import {AppTicker} from "../canvas/ticker/component";
@@ -184,7 +185,7 @@ import {AppConfigAPIPage} from "../pages/config-api/component";
 @NgModule({
     declarations: [
         AppComponent,AppFormRenewPassword,AppConfigAPIPage,AppBrokerAllPanelsComponent,AppPairChartPage,AppSignupBrokersComponent,AppAuthBrokersPage,AppEventsComponent,WelcomeDialog,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,
-        AppChartComponent,AppPriceHistoryWidget,AppDashboardNowPage,AppTwitterTimelineComponent,
+        AppChartComponent,AppPriceHistoryWidget,AppDashboardNowPage,AppTwitterTimelineComponent,AppWelcomePage,
         AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,

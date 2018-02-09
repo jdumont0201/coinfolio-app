@@ -28,15 +28,16 @@ import {AppAuthBrokersPage} from "../pages/auth-brokers/component"
 import {AppArbitrageCalculatorPage} from "../pages/arbitrage-calculator/component"
 import {AppSocialPage} from "../pages/social/component"
 import {AppNewsPage} from "../pages/news/component"
+import {AppWelcomePage} from "../pages/welcome/component"
 import {AppDashboardNowPage} from "../pages/dashboard-now/component"
 import {AppConfigLoadingPage} from "../pages/config-loading/component";
 import {AppConfigAPIPage} from "../pages/config-api/component";
 export const routes: Routes = [
 
-  { path: '', component: AppDashboardPage },
+  { path: '', component: AppWelcomePage },
   { path: 'board/:id', component: AppGenericPage },
   { path: 'listing', component: AppSymbolAllPage },
-  { path: 'dashboard', component: AppDashboardPage },
+  { path: 'dashboard/today', component: AppDashboardPage },
   { path: 'arbitrage/calculator', component: AppArbitrageCalculatorPage },
   { path: 'arbitrage', component: AppArbitragePage },
   { path: 'account', component: AppAccountPage },
