@@ -5687,6 +5687,8 @@ export class AppConfigService {
             signup: "https://www.bitfinex.com",
             infras: ['BTC', 'ETH', 'BNB', 'USD', 'USDT'],
             ignoredPairs: []
+            trade_screen: "https://www.bitfinex.com/t/",
+            trade_screen_sep: ":",
         }, "kucoin": {
             twitter_main: "kucoincom",
             trade_screen: "https://www.kucoin.com/#/trade.pro/",

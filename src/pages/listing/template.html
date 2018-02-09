@@ -34,10 +34,7 @@
                     <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/chart/'+element.pair+'/broker/'+element.broker"><span class="supra">{{element.supra}}</span> / <span class="infra">{{element.infra}}</span>
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="change">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>1h Evol (%)</mat-header-cell>
-                    <mat-cell *matCellDef="let element" >{{element.changelastprice  | number:'1.2-2'}}</mat-cell>
-                </ng-container>
+
                 <ng-container matColumnDef="bid">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Bid</mat-header-cell>
                     <mat-cell *matCellDef="let s"><span class="{{s.oldbid>0?(s.oldbid>s.bid?'valneg':'valpos'):''}}"> {{s.bid | price}} <mat-icon>{{s.oldbid>0?(s.oldbid>s.bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></span>
@@ -53,7 +50,7 @@
 
                 <ng-container matColumnDef="spreadpct">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Spread (%)</mat-header-cell>
-                    <mat-cell *matCellDef="let element"><span *ngIf="element.spreadpct">{{element.spreadpct | number:'1.3-3'}}%</span></mat-cell>
+                    <mat-cell *matCellDef="let element"><span *ngIf="element.spreadpct">{{element.spreadpct | number:'1.1-1'}}%</span></mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumnsRef"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsRef;"></mat-row>
