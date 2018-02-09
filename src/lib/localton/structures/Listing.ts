@@ -54,6 +54,7 @@ export class Listing {
                 this.addAll(res)
                 this.isLoaded=true;
                 this.status="done";
+                this.eventService.listingUpdatedEvent.emit(this.broker)
                 console.log("listing loaded",this.isLoaded,this.broker)
                 f();
             });

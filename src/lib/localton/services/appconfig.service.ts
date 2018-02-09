@@ -43,8 +43,14 @@ export class AppConfigService {
         let res = {};
         let allc = {}
         for (let broker in this.infrasuprainv) {
+            this.rawToUniversal[broker]={}
+            this.universalToRaw[broker]={}
+
             for (let pair in this.infrasuprainv[broker]) {
+
                 let v = this.infrasuprainv[broker][pair];
+                this.rawToUniversal[broker][pair]=v.supra+v.infra;
+                this.universalToRaw[broker][v.supra+v.infra]=pair;
                 if (!(v.infra in res)) {
                     res[v.infra] = {}
                 }
@@ -64,6 +70,9 @@ export class AppConfigService {
 
     allcryptos = [];
     infrasupra = {}
+
+    rawToUniversal={}
+    universalToRaw={}
     infrasuprainv = {
         bitfinex: {
             tBTCUSD: {infra: "USD", supra: "BTC"},
@@ -5917,7 +5926,8 @@ export class AppConfigService {
         if (!(broker in this.infrasuprainv)) return "**" + paircode
         if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
         let str = this.infrasuprainv[broker][paircode];
-        return this.infrasuprainv;
+
+        return this.infrasupra[str.infra][str.supra][broker];
     }
 
     getTwitterMain(broker) {

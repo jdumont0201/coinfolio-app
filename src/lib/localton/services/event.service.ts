@@ -24,6 +24,7 @@ export class EventService implements OnInit {
     @Output() socketDefinedEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() UIEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() rightMenuUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
+    @Output() listingUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() searchUpdatedEvent: EventEmitter<any> = new EventEmitter<string>()
     @Output() nonSeenEventsUpdated: EventEmitter<any> = new EventEmitter<string>()
 

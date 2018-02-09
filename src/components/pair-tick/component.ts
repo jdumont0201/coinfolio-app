@@ -8,11 +8,12 @@ import {Tick} from "../../lib/localton/structures/Ticker";
 import {AuthService} from "../../lib/globalton/core/services/auth.service";
 import {PublicDataService} from "../../lib/localton/services/publicdata.service";
 import {CryptoPair} from "../../lib/localton/structures/Listing";
+import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 
 @Component({
     selector: 'app-pair-tick',
     templateUrl: 'template.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+//    changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
 export class AppPairTickComponent extends Refreshing implements OnInit, OnDestroy {
@@ -25,18 +26,43 @@ export class AppPairTickComponent extends Refreshing implements OnInit, OnDestro
     lastTime;
     closeTime;
     p;
+    oldp;
 
-    constructor(public tradingService: TradingService, public publicDataService: PublicDataService, public authService: AuthService, public refreshService: RefreshService, private cd: ChangeDetectorRef, public consoleService: ConsoleService, public eventService: EventService) {
+    constructor(public tradingService: TradingService, public publicDataService: PublicDataService, public authService: AuthService, public appConfigService: AppConfigService, public refreshService: RefreshService, private cd: ChangeDetectorRef, public consoleService: ConsoleService, public eventService: EventService) {
         super(refreshService, eventService, consoleService)
         //this.tradingService.PriceUpdatedEvent.subscribe((param) => this.priceUpdated(param))
 
 
     }
 
+    updatePricePublic() {
+        let L = this.publicDataService.getListingByName(this.broker)
+        let rawname = this.appConfigService.universalToRaw[this.broker][this.pair]
+        console.log("AppPairTickComponent", L, this.pair, rawname, L.content[this.pair], L.content[rawname])
+        let c: CryptoPair = L.content[rawname]
+        if (c) {
+            this.oldp=this.p;
+            this.p = this.publicDataService.getListingByName(this.broker).content[rawname].last
+        }
+
+    }
+
     ngOnInit() {
         console.log("AppPairTickComponent init", this.broker, this.pair);
         this.cd.markForCheck();
-        if (!this.usePublicData) {
+
+        this.eventService.listingUpdatedEvent.subscribe((val) => {
+            if (val == this.broker) {
+                console.log("apppair update", this.broker)
+                this.updatePricePublic()
+                this.cd.markForCheck()
+            }
+        })
+
+        if (this.usePublicData) {
+            this.updatePricePublic()
+
+        } else {
             let pool = this.broker + "-" + "change-" + this.pair;
             this.refreshService.createPool(pool);
             this.refreshService.getPool(pool).define(4000, (f) => {
@@ -98,18 +124,18 @@ export class AppPairTickComponent extends Refreshing implements OnInit, OnDestro
         }
     }
 
-    usePublicData=true;
+    usePublicData = true;
 
     ngOnDestroy() {
-        if(!this.usePublicData){
-        let pool = this.broker + "-" + "change-" + this.pair;
+        if (!this.usePublicData) {
+            let pool = this.broker + "-" + "change-" + this.pair;
 
-        this.unsubscribeToRefresh(pool)
-        let isFav = this.authService.isInFavorites(this.broker, this.pair);
-        console.log("destroy pair-tick", pool, isFav)
-        if (!isFav) {//stop pools created by page, but do not stop ticker favorite pool
-            this.refreshService.getPool(pool).stop()
-        }
+            this.unsubscribeToRefresh(pool)
+            let isFav = this.authService.isInFavorites(this.broker, this.pair);
+            console.log("destroy pair-tick", pool, isFav)
+            if (!isFav) {//stop pools created by page, but do not stop ticker favorite pool
+                this.refreshService.getPool(pool).stop()
+            }
         }
     }
 
