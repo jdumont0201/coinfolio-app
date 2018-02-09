@@ -19,17 +19,17 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 import {PublicDataService} from "../../lib/localton/services/publicdata.service";
 
 
-type List = { cheapestask: number, cheapestaskname: string, mostexpensivebidname: string,infra:string,supra:string, askdepth: any, biddepth: any, spread: number, mostexpensivebid: number, brokers: any };
-type SortedListItem={pair:string, spread: number, askdepth:any[],biddepth:any[],  list: List,infra:string,supra:string}
+type List = { cheapestask: number, cheapestaskname: string, mostexpensivebidname: string, infra: string, supra: string, askdepth: any, biddepth: any, spread: number, mostexpensivebid: number, brokers: any ,preask:any,postbid:any};
+type SortedListItem = { pair: string, spread: number, askdepth: any[], biddepth: any[], list: List, infra: string, supra: string }
 
 @Component({
     selector: 'app-page-arbitrage',
-    templateUrl: 'template.html'    ,
+    templateUrl: 'template.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
 export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy {
-    listing: { [pair: string]: List } = {};
+    grid: { [pair: string]: List } = {};
     supports = {}
     brokerOptions = {}
     isLoading = true;
@@ -51,7 +51,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     filteredData;
 
 
-    lastListing = {};
+    lastgrid = {};
     indexes = {}
     filterValue = "";
     budget = 1000;
@@ -63,6 +63,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     initPossibleBrokers() {
 
     }
+
     ngOnInit() {
         this.doSubscribe("searchUpdatedEvent", this.eventService.searchUpdatedEvent, (val) => {
             this.searchUpdated(val)
@@ -71,64 +72,89 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
             let key = "public-" + b + "-listing";
             this.refreshService.getPool(key).enable()
             this.refreshService.getPool(key).addHook("listing-table", () => {
-                this.updateListing(b)
+                this.updateGrid(b)
             })
         })
 
     }
 
-    getBuyCommission(b, pair) {
+    getTradingCommission(b, pair) {
         return this.appConfigService.getFeesPerBroker(b).trading.pc
     }
+    getDepositCommission(b, pair) {
+        return this.appConfigService.getFeesPerBroker(b).deposit
+    }
+    getWithdrawCommission(b, pair) {
+        if( pair in this.appConfigService.getFeesPerBroker(b).withdraw) {
+            return this.appConfigService.getFeesPerBroker(b).withdraw[pair]
+        }else{
+            return 0
+        }
 
-    getUniversalName(b: string, pair: string) {
-        let is = this.appConfigService.infrasuprainv[b][pair];
-        let infra = is.infra;
-        let supra = is.supra;
-        const key = supra + infra;
-        return key;
     }
 
-    addDepth(broker,name,raw){
-        this.logic.getDepthFromPublic(broker,name,(depth)=>{
-            this.listing[name].askdepth[broker]=depth.ask
+
+
+    addDepth(broker, name, raw) {
+        this.logic.getDepthFromPublic(broker, name, (depth) => {
+            this.grid[name].askdepth[broker] = depth.ask
         });
 
     }
-    updateKey(b:string,pair:string,res:any){
+
+    updateKey(b: string, pair: string, res: any) {
         if (!(pair in this.appConfigService.infrasuprainv[b])) {
             console.log("err unknown pair", b, pair)
         } else {
-            const key = this.getUniversalName(b, pair);
-            if (key == "BCHUSD") console.log("--------------------------------------------------------------- linew ", b, pair, JSON.stringify(this.listing[key]))
+            const key = this.appConfigService.getPairRawName(b, pair);
             const r = res[pair];
-            let linew: Tick = {broker: b, pair: key, volume: r.volume, bid: r.bid, ask: r.ask, p: r.last,infra:r.infra,supra:r.supra}
+            console.log("b",b,"USD",this.appConfigService.infrasupra,r.infra)
+
+            let prepair;
+            let prer;
+            let prepairask=1
+            let prepairbid=1
+            if(r.infra!=="USD"){
+                if("USD" in this.appConfigService.infrasupra && r.infra in this.appConfigService.infrasupra["USD"])
+                prepair=this.appConfigService.infrasupra["USD"][r.infra][b];
+                if(prepair){
+                    prer=res[prepair];
+                    prepairask=prer.ask;
+                    prepairbid=prer.bid;
+                }
+            }
+            let linew= {broker: b, pair: key, volume: r.volume, bid: r.bid, ask: r.ask, p: r.last, infra: r.infra, supra: r.supra,preask:prepairask,postbid:prepairbid,spread:null,spreadpct:null}
             if (linew.ask > 0 && linew.bid > 0) {
                 linew.spread = linew.ask - linew.bid;
             } else {
                 linew.spread = null;
                 linew.spreadpct = null;
             }
-            if (key == "BCHUSD") console.log("linew new", b, key, JSON.stringify(linew))
-            if (key in this.listing && b in this.listing[key].brokers) {//b in this.indexes && linew.pair in this.indexes[b]) { //already added
-                this.updateExisting(b,key,linew)
+            if (key in this.grid && b in this.grid[key].brokers) {// if broker already added to compare grid
+                this.updatePairExistingKeyExistingBroker(b, key, linew)
             } else {
-                this.updatePairCreate(b,key,linew)
+                if (!(key in this.grid)) {
+                    this.updatePairNewKeyNewBroker(b, key, linew)
+                } else {
+                    this.updatePairExistingKeyNewBroker(b, key, linew)
+
+                }
             }
         }
     }
-    updateExisting(b:string,key:string,linew:any ){
-        if (key == "BCHUSD") console.log("  linew upd existing", b, JSON.stringify(this.listing[key].brokers))
-        //const j: number = this.indexes[b][linew.pair];
-        let LL = this.listing[key]
+
+    updatePairExistingKeyExistingBroker(b: string, key: string, linew: any) {
+        let LL = this.grid[key]
         let Lbroker = LL.brokers[b];
         if (linew.ask < Lbroker.cheapestask) {
             Lbroker.cheapestaskname = b;
+            Lbroker.preask=linew.preask;
         }
         if (linew.bid > Lbroker.mostexpensivebid) {
             Lbroker.mostexpensivebidname = b;
+            Lbroker.postbid=linew.postbid;
         }
-        if (key == "BCHUSD") console.log("    linew upd", b, key, JSON.stringify(LL), linew.ask)
+
         LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
         LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
         LL.spread = LL.mostexpensivebid - LL.cheapestask;
@@ -147,52 +173,54 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         }
         Lbroker.p = linew.p;
     }
-    updatePairCreate(b:string,key:string,linew:any){
-        if (key == "BCHUSD") console.log("  linew add broker", b, JSON.stringify(linew))
-        if (!(key in this.listing)) {
-            this.listing[key] = {
-                cheapestask: linew.ask,
-                cheapestaskname: b,
-                askdepth: {},
-                biddepth: {},
-                mostexpensivebidname: b,
-                spread: -1,
-                mostexpensivebid: linew.bid,
-                brokers: {},
-                infra:linew.infra,
-                supra:linew.supra
 
-
-            };
-            this.listing[key].brokers[b] = linew;
-            if (key == "BCHUSD") console.log("    linew create ", b, key, linew.ask, JSON.stringify(this.listing[key]))
-        } else {
-            let LL = this.listing[key];
-            if (linew.ask < LL.cheapestask) {
-                LL.cheapestaskname = b;
-            }
-            if (linew.bid > LL.mostexpensivebid) {
-                LL.mostexpensivebidname = b;
-            }
-            if (key == "BCHUSD") console.log("  linew", b, key, LL.cheapestask, linew.ask, Math.min(LL.cheapestask, linew.ask))
-            LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
-            LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
-            LL.spread = LL.mostexpensivebid - LL.cheapestask;
-
-            this.listing[key].brokers[b] = linew;
+    updatePairExistingKeyNewBroker(b: string, key: string, linew: any) {
+        let LL = this.grid[key];
+        if (linew.ask < LL.cheapestask) {
+            LL.cheapestaskname = b;
+            LL.preask=linew.preask;
         }
+        if (linew.bid > LL.mostexpensivebid) {
+            LL.mostexpensivebidname = b;
+            LL.postbid=linew.postbid;
+        }
+        LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
+        LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
+        LL.spread = LL.mostexpensivebid - LL.cheapestask;
+
+        this.grid[key].brokers[b] = linew;
     }
-    updateListing(b: string) {
+
+    updatePairNewKeyNewBroker(b: string, key: string, linew: any) {
+        this.grid[key] = {
+            cheapestask: linew.ask,
+            cheapestaskname: b,
+            preask:linew.preask,
+            postbid:linew.postbid,
+            askdepth: {},
+            biddepth: {},
+            mostexpensivebidname: b,
+            spread: -1,
+            mostexpensivebid: linew.bid,
+            brokers: {},
+            infra: linew.infra,
+            supra: linew.supra
+
+
+        };
+        this.grid[key].brokers[b] = linew;
+    }
+
+    updateGrid(b: string) {
         if (!(b in this.indexes))
             this.indexes[b] = {}
         let L = this.publicDataService.getListingByName(b)
         let res = L.getContent();
         console.log("CONTENT", b, res)
         for (let pair in res) {
-            this.updateKey(b,pair,res)
+            this.updateKey(b, pair, res)
         }
-        this.sortListing();
-
+        this.sortGrid();
         this.cd.markForCheck();
 
     }
@@ -201,7 +229,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         this.unsubscribeAndStopAllRefresh()
         this.unsubscribeAllEvents()
         this.appConfigService.possibleBrokers.forEach((b) => {
-            let key = "public-" + b + "-listing";
+            let key = "public-" + b + "-grid";
             this.refreshService.getPool(key).stop();
         });
 
@@ -227,74 +255,34 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         this.filterValue = filterValue
     }
 
-    /*addToSearch(word: string) {
-        //console.log("add", word)
-        for (let i = 0; i < this.listing.length; ++i) {
-            let a: string = this.listing[i].pair.toLowerCase();
-            let b: string = word.toLowerCase();
-            if (a.indexOf(b) > -1) {
-                this.searched.push(this.listing[i])
-            }
-        }
-    }*/
-
 
     show(r) {
         console.log("rshow", r)
     }
 
-    loadPublicChangeByBroker(b: string, f: Function) {
-        if (!(b in this.indexes))
-            this.indexes[b] = {}
-        this.logic.getPublicChange(b, (res) => {
-            for (let i in res) {
-                if (!(i in this.appConfigService.infrasuprainv[b])) {
 
-                } else {
-                    let is = this.appConfigService.infrasuprainv[b][i];
-                    let infra = is.infra;
-                    let supra = is.supra;
-                    const key = supra + infra;
-                    const r = res[i];
-                    if (b in this.indexes && r.pair in this.indexes[b]) { //already added
-                        const j: number = this.indexes[b][r.pair];
+    sortedGrid = [];
+    displayed = {}
 
-                        if (b in this.listing[key]) {
-                            let L = this.listing[key][b];
-                            L.changelastprice = 100 * L.p / r.close - 100;
-                        }
-
-                    } else {
-
-                    }
-                }
-            }
-            this.cd.markForCheck();
-            f();
-        });
-    }
-
-    sortedListing = [];
-    displayed={}
-    sortListing() {
-        let r :SortedListItem[]= [];
-        for (let k in this.listing) {
-            let l=this.listing[k]
-            if( l.spread>0)
-                r.push({infra:l.infra,supra:l.supra, pair: k,spread: l.spread / l.cheapestask * 100, askdepth:[],biddepth:[],  list: l})
+    sortGrid() {
+        let r: SortedListItem[] = [];
+        for (let k in this.grid) {
+            let l = this.grid[k]
+            if (l.spread > 0)
+                r.push({infra: l.infra, supra: l.supra, pair: k, spread: l.spread / l.cheapestask * 100, askdepth: [], biddepth: [], list: l})
         }
-        this.sortedListing = r.sort(function (a, b) {
+        this.sortedGrid = r.sort(function (a, b) {
             let as = a.spread;
             let bs = b.spread;
             return bs - as;
         })
 
-        console.log("thisso", this.sortedListing)
+        console.log("thisso", this.sortedGrid)
     }
 
-    toggleDisplay(pair){
-        if(pair in this.displayed) delete this.displayed[pair]
-        else this.displayed[pair]=true
+    toggleDisplay(pair) {
+        if (pair in this.displayed) delete this.displayed[pair]
+        else this.displayed[pair] = true
     }
 
 

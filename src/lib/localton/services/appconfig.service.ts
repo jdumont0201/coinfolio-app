@@ -5686,7 +5686,7 @@ export class AppConfigService {
             api: "https://www.bitfinex.com",
             signup: "https://www.bitfinex.com",
             infras: ['BTC', 'ETH', 'BNB', 'USD', 'USDT'],
-            ignoredPairs: []
+            ignoredPairs: [],
             trade_screen: "https://www.bitfinex.com/t/",
             trade_screen_sep: ":",
         }, "kucoin": {
@@ -5925,11 +5925,7 @@ export class AppConfigService {
     }
 
     getPairRawName(broker: string, paircode) {
-        if (!(broker in this.infrasuprainv)) return "**" + paircode
-        if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
-        let str = this.infrasuprainv[broker][paircode];
-
-        return this.infrasupra[str.infra][str.supra][broker];
+        return this.universalToRaw[broker][paircode];
     }
 
     getTwitterMain(broker) {
