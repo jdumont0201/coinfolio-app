@@ -88,6 +88,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
         for (let pair in res) {
             const key = b + "-" + pair;
             const r = res[pair];
+
             if (b in this.indexes && pair in this.indexes[b]) { //already added
 
                 const j: number = this.indexes[b][pair];
@@ -98,6 +99,7 @@ export class AppSymbolAllPage extends PageWithTabs implements OnInit, OnDestroy 
                 this.listing.push(r);
             }
         }
+        console.log(this.listing)
         this.dataSource = new MatTableDataSource(this.listing)
         this.dataSource.filter = this.filterValue;
         this.dataSource.sort = this.sort;

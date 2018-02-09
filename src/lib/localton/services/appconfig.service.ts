@@ -37,7 +37,7 @@ export class AppConfigService {
 
     isCustomDashboardEnabled = false;
 
-    possibleBrokers: string[] = ["binance", "hitbtc", "kucoin", "kraken","cryptopia"]
+    possibleBrokers: string[] = ["binance", "hitbtc", "kucoin", "kraken", "cryptopia", "bitfinex"]
 
     generateInfraSupra() {
         let res = {};
@@ -65,5020 +65,3562 @@ export class AppConfigService {
     allcryptos = [];
     infrasupra = {}
     infrasuprainv = {
+        bitfinex: {
+            tBTCUSD: {infra: "USD", supra: "BTC"},
+            tAIDBTC:                {infra: "BTC", supra: "AID"},
+            tAIDETH:
+                {infra: "ETH", supra: "AID"},
+            tAIDUSD:
+                {infra: "USD", supra: "AID"},
+            tAVTBTC:
+                {infra: "BTC", supra: "AVT"},
+            tAVTETH:
+                {infra: "ETH", supra: "AVT"},
+            tAVTUSD:
+                {infra: "USD", supra: "AVT"},
+            tBATBTC:
+                {infra: "BTC", supra: "BAT"},
+            tBATETH:
+                {infra: "ETH", supra: "BAT"},
+            tBATUSD:
+                {infra: "USD", supra: "BAT"},
+            tBCHBTC:
+                {infra: "BTC", supra: "BCH"},
+            tBCHETH:
+                {infra: "ETH", supra: "BCH"},
+            tBCHUSD:
+                {infra: "USD", supra: "BCH"},
+            tBTCEUR:
+                {infra: "EUR", supra: "BTC"},
+            tBTGBTC:
+                {infra: "BTC", supra: "BTG"},
+            tBTGUSD:
+                {infra: "USD", supra: "BTG"},
+            tDATBTC:
+                {infra: "BTC", supra: "DAT"},
+            tDATETH:
+                {infra: "ETH", supra: "DAT"},
+            tDATUSD:
+                {infra: "USD", supra: "DAT"},
+            tDSHBTC:
+                {infra: "BTC", supra: "DSH"},
+            tDSHUSD:
+                {infra: "USD", supra: "DSH"},
+            tEDOBTC:
+                {infra: "BTC", supra: "EDO"},
+            tEDOETH:
+                {infra: "ETH", supra: "EDO"},
+            tEDOUSD:
+                {infra: "USD", supra: "EDO"},
+            tELFBTC:
+                {infra: "BTC", supra: "ELF"},
+            tELFETH:
+                {infra: "ETH", supra: "ELF"},
+            tELFUSD:
+                {infra: "USD", supra: "ELF"},
+            tEOSBTC:
+                {infra: "BTC", supra: "EOS"},
+            tEOSETH:
+                {infra: "ETH", supra: "EOS"},
+            tEOSUSD:
+                {infra: "USD", supra: "EOS"},
+            tETCBTC:
+                {infra: "BTC", supra: "ETC"},
+            tETCUSD:
+                {infra: "USD", supra: "ETC"},
+            tETHBTC:
+                {infra: "BTC", supra: "ETH"},
+            tETHUSD:
+                {infra: "USD", supra: "ETH"},
+            tETPBTC:
+                {infra: "BTC", supra: "ETP"},
+            tETPETH:
+                {infra: "ETH", supra: "ETP"},
+            tETPUSD:
+                {infra: "USD", supra: "ETP"},
+            tFUNBTC:
+                {infra: "BTC", supra: "FUN"},
+            tFUNETH:
+                {infra: "ETH", supra: "FUN"},
+            tFUNUSD:
+                {infra: "USD", supra: "FUN"},
+            tGNTBTC:
+                {infra: "BTC", supra: "GNT"},
+            tGNTETH:
+                {infra: "ETH", supra: "GNT"},
+            tGNTUSD:
+                {infra: "USD", supra: "GNT"},
+            tIOTBTC:
+                {infra: "BTC", supra: "IOT"},
+            tIOTETH:
+                {infra: "ETH", supra: "IOT"},
+            tIOTEUR:
+                {infra: "EUR", supra: "IOT"},
+            tIOTUSD:
+                {infra: "USD", supra: "IOT"},
+            tLTCBTC:
+                {infra: "BTC", supra: "LTC"},
+            tLTCUSD:
+                {infra: "USD", supra: "LTC"},
+            tMNABTC:
+                {infra: "BTC", supra: "MNA"},
+            tMNAETH:
+                {infra: "ETH", supra: "MNA"},
+            tMNAUSD:
+                {infra: "USD", supra: "MNA"},
+            tNEOBTC:
+                {infra: "BTC", supra: "NEO"},
+            tNEOETH:
+                {infra: "ETH", supra: "NEO"},
+            tNEOUSD:
+                {infra: "USD", supra: "NEO"},
+            tOMGBTC:
+                {infra: "BTC", supra: "OMG"},
+            tOMGETH:
+                {infra: "ETH", supra: "OMG"},
+            tOMGUSD:
+                {infra: "USD", supra: "OMG"},
+            tQSHBTC:
+                {infra: "BTC", supra: "QSH"},
+            tQSHETH:
+                {infra: "ETH", supra: "QSH"},
+            tQSHUSD:
+                {infra: "USD", supra: "QSH"},
+            tQTMBTC:
+                {infra: "BTC", supra: "QTM"},
+            tQTMETH:
+                {infra: "ETH", supra: "QTM"},
+            tQTMUSD:
+                {infra: "USD", supra: "QTM"},
+            tRCNBTC:
+                {infra: "BTC", supra: "RCN"},
+            tRCNETH:
+                {infra: "ETH", supra: "RCN"},
+            tRCNUSD:
+                {infra: "USD", supra: "RCN"},
+            tREPBTC:
+                {infra: "BTC", supra: "REP"},
+            tREPETH:
+                {infra: "ETH", supra: "REP"},
+            tREPUSD:
+                {infra: "USD", supra: "REP"},
+            tRLCBTC:
+                {infra: "BTC", supra: "RLC"},
+            tRLCETH:
+                {infra: "ETH", supra: "RLC"},
+            tRLCUSD:
+                {infra: "USD", supra: "RLC"},
+            tRRTBTC:
+                {infra: "BTC", supra: "RRT"},
+            tRRTUSD:
+                {infra: "USD", supra: "RRT"},
+            tSANBTC:
+                {infra: "BTC", supra: "SAN"},
+            tSANETH:
+                {infra: "ETH", supra: "SAN"},
+            tSANUSD:
+                {infra: "USD", supra: "SAN"},
+            tSNGBTC:
+                {infra: "BTC", supra: "SNG"},
+            tSNGETH:
+                {infra: "ETH", supra: "SNG"},
+            tSNGUSD:
+                {infra: "USD", supra: "SNG"},
+            tSNTBTC:
+                {infra: "BTC", supra: "SNT"},
+            tSNTETH:
+                {infra: "ETH", supra: "SNT"},
+            tSNTUSD:
+                {infra: "USD", supra: "SNT"},
+            tSPKBTC:
+                {infra: "BTC", supra: "SPK"},
+            tSPKETH:
+                {infra: "ETH", supra: "SPK"},
+            tSPKUSD:
+                {infra: "USD", supra: "SPK"},
+            tTNBBTC:
+                {infra: "BTC", supra: "TNB"},
+            tTNBETH:
+                {infra: "ETH", supra: "TNB"},
+            tTNBUSD:
+                {infra: "USD", supra: "TNB"},
+            tTRXBTC:
+                {infra: "BTC", supra: "TRX"},
+            tTRXETH:
+                {infra: "ETH", supra: "TRX"},
+            tTRXUSD:
+                {infra: "USD", supra: "TRX"},
+            tXMRBTC:
+                {infra: "BTC", supra: "XMR"},
+            tXMRUSD:
+                {infra: "USD", supra: "XMR"},
+            tXRPBTC:
+                {infra: "BTC", supra: "XRP"},
+            tXRPUSD:
+                {infra: "USD", supra: "XRP"},
+            tYYWBTC:
+                {infra: "BTC", supra: "YYW"},
+            tYYWETH:
+                {infra: "ETH", supra: "YYW"},
+            tYYWUSD:
+                {infra: "USD", supra: "YYW"},
+            tZECBTC:
+                {infra: "BTC", supra: "ZEC"},
+            tZECUSD:
+                {infra: "USD", supra: "ZEC"},
+            tZRXBTC:
+                {infra: "BTC", supra: "ZRX"},
+            tZRXETH:
+                {infra: "ETH", supra: "ZRX"},
+            tZRXUSD:
+                {infra: "USD", supra: "ZRX"},
 
-    cryptopia: {
-        "8BITBTC":   {   infra:  "BTC",  supra: "8BIT"},
-        "8BITDOGE":{  infra: "DOGE", supra:  "8BIT"},
-        "8BITLTC"  :{  infra    :    "LTC",      supra:"8BIT"},
-        "21MBTC"    :    {infra: "BTC", supra: "21M"},
-        "21MDOGE"    :    {infra: "DOGE", supra: "21M"},
-        "21MLTC"
-            :
-            {infra: "LTC", supra: "21M"},
-        "42BTC"
-            :
-            {infra: "BTC", supra: "42"},
-        "42DOGE"
-            :
-            {infra: "DOGE", supra: "42"},
-        "42LTC"
-            :
-            {infra: "LTC", supra: "42"},
-        "300BTC"
-            :
-            {infra: "BTC", supra: "300"},
-        "300DOGE"
-            :
-            {infra: "DOGE", supra: "300"},
-        "300LTC"
-            :
-            {infra: "LTC", supra: "300"},
-        "611BTC"
-            :
-            {infra: "BTC", supra: "611"},
-        "611DOGE"
-            :
-            {infra: "DOGE", supra: "611"},
-        "611LTC"
-            :
-            {infra: "LTC", supra: "611"},
-        "808BTC"
-            :
-            {infra: "BTC", supra: "808"},
-        "808DOGE"
-            :
-            {infra: "DOGE", supra: "808"},
-        "808LTC"
-            :
-            {infra: "LTC", supra: "808"},
-        "888BTC"
-            :
-            {infra: "BTC", supra: "888"},
-        "888DOGE"
-            :
-            {infra: "DOGE", supra: "888"},
-        "888LTC"
-            :
-            {infra: "LTC", supra: "888"},
-        "1337BTC"
-            :
-            {infra: "BTC", supra: "1337"},
-        "1337DOGE"
-            :
-            {infra: "DOGE", supra: "1337"},
-        "1337LTC"
-            :
-            {infra: "LTC", supra: "1337"},
-        "$$$BTC"
-            :
-            {infra: "BTC", supra: "$$$"},
-        "$$$DOGE"
-            :
-            {infra: "DOGE", supra: "$$$"},
-        "$$$LTC"
-            :
-            {infra: "LTC", supra: "$$$"},
-        ABCBTC
-            :
-            {infra: "BTC", supra: "ABC"},
-        ABCDOGE
-            :
-            {infra: "DOGE", supra: "ABC"},
-        ABCLTC
-            :
-            {infra: "LTC", supra: "ABC"},
-        ABYBTC
-            :
-            {infra: "BTC", supra: "ABY"},
-        ABYDOGE
-            :
-            {infra: "DOGE", supra: "ABY"},
-        ABYLTC
-            :
-            {infra: "LTC", supra: "ABY"},
-        ACBTC
-            :
-            {infra: "BTC", supra: "AC"},
-        ACCBTC
-            :
-            {infra: "BTC", supra: "ACC"},
-        ACCDOGE
-            :
-            {infra: "DOGE", supra: "ACC"},
-        ACCLTC
-            :
-            {infra: "LTC", supra: "ACC"},
-        ACDOGE
-            :
-            {infra: "DOGE", supra: "AC"},
-        ACLTC
-            :
-            {infra: "LTC", supra: "AC"},
-        ACOINBTC
-            :
-            {infra: "BTC", supra: "ACOIN"},
-        ACOINDOGE
-            :
-            {infra: "DOGE", supra: "ACOIN"},
-        ACOINLTC
-            :
-            {infra: "LTC", supra: "ACOIN"},
-        ADCBTC
-            :
-            {infra: "BTC", supra: "ADC"},
-        ADCDOGE
-            :
-            {infra: "DOGE", supra: "ADC"},
-        ADCLTC
-            :
-            {infra: "LTC", supra: "ADC"},
-        ADSTBTC
-            :
-            {infra: "BTC", supra: "ADST"},
-        ADSTDOGE
-            :
-            {infra: "DOGE", supra: "ADST"},
-        ADSTLTC
-            :
-            {infra: "LTC", supra: "ADST"},
-        AGABTC
-            :
-            {infra: "BTC", supra: "AGA"},
-        AGADOGE
-            :
-            {infra: "DOGE", supra: "AGA"},
-        AGALTC
-            :
-            {infra: "LTC", supra: "AGA"},
-        ALEXBTC
-            :
-            {infra: "BTC", supra: "ALEX"},
-        ALEXDOGE
-            :
-            {infra: "DOGE", supra: "ALEX"},
-        ALEXLTC
-            :
-            {infra: "LTC", supra: "ALEX"},
-        ALISBTC
-            :
-            {infra: "BTC", supra: "ALIS"},
-        ALISDOGE
-            :
-            {infra: "DOGE", supra: "ALIS"},
-        ALISLTC
-            :
-            {infra: "LTC", supra: "ALIS"},
-        ALLBTC
-            :
-            {infra: "BTC", supra: "ALL"},
-        ALLDOGE
-            :
-            {infra: "DOGE", supra: "ALL"},
-        ALLLTC
-            :
-            {infra: "LTC", supra: "ALL"},
-        ALTBTC
-            :
-            {infra: "BTC", supra: "ALT"},
-        ALTDOGE
-            :
-            {infra: "DOGE", supra: "ALT"},
-        ALTLTC
-            :
-            {infra: "LTC", supra: "ALT"},
-        AMPBTC
-            :
-            {infra: "BTC", supra: "AMP"},
-        AMPDOGE
-            :
-            {infra: "DOGE", supra: "AMP"},
-        AMPLTC
-            :
-            {infra: "LTC", supra: "AMP"},
-        ANIBTC
-            :
-            {infra: "BTC", supra: "ANI"},
-        ANIDOGE
-            :
-            {infra: "DOGE", supra: "ANI"},
-        ANILTC
-            :
-            {infra: "LTC", supra: "ANI"},
-        APXBTC
-            :
-            {infra: "BTC", supra: "APX"},
-        APXDOGE
-            :
-            {infra: "DOGE", supra: "APX"},
-        APXLTC
-            :
-            {infra: "LTC", supra: "APX"},
-        ARCBTC
-            :
-            {infra: "BTC", supra: "ARC"},
-        ARCDOGE
-            :
-            {infra: "DOGE", supra: "ARC"},
-        ARCLTC
-            :
-            {infra: "LTC", supra: "ARC"},
-        ARCOBTC
-            :
-            {infra: "BTC", supra: "ARCO"},
-        ARCODOGE
-            :
-            {infra: "DOGE", supra: "ARCO"},
-        ARCOLTC
-            :
-            {infra: "LTC", supra: "ARCO"},
-        ARGBTC
-            :
-            {infra: "BTC", supra: "ARG"},
-        ARGDOGE
-            :
-            {infra: "DOGE", supra: "ARG"},
-        ARGLTC
-            :
-            {infra: "LTC", supra: "ARG"},
-        ARGUSBTC
-            :
-            {infra: "BTC", supra: "ARGUS"},
-        ARGUSDOGE
-            :
-            {infra: "DOGE", supra: "ARGUS"},
-        ARGUSLTC
-            :
-            {infra: "LTC", supra: "ARGUS"},
-        ARIBTC
-            :
-            {infra: "BTC", supra: "ARI"},
-        ARIDOGE
-            :
-            {infra: "DOGE", supra: "ARI"},
-        ARILTC
-            :
-            {infra: "LTC", supra: "ARI"},
-        ARKBTC
-            :
-            {infra: "BTC", supra: "ARK"},
-        ARKDOGE
-            :
-            {infra: "DOGE", supra: "ARK"},
-        ARKLTC
-            :
-            {infra: "LTC", supra: "ARK"},
-        ARKUSDT
-            :
-            {infra: "USD", supra: "ARK"},
-        ATHBTC
-            :
-            {infra: "BTC", supra: "ATH"},
-        ATHDOGE
-            :
-            {infra: "DOGE", supra: "ATH"},
-        ATHLTC
-            :
-            {infra: "LTC", supra: "ATH"},
-        ATMSBTC
-            :
-            {infra: "BTC", supra: "ATMS"},
-        ATMSDOGE
-            :
-            {infra: "DOGE", supra: "ATMS"},
-        ATMSLTC
-            :
-            {infra: "LTC", supra: "ATMS"},
-        ATOMBTC
-            :
-            {infra: "BTC", supra: "ATOM"},
-        ATOMDOGE
-            :
-            {infra: "DOGE", supra: "ATOM"},
-        ATOMLTC
-            :
-            {infra: "LTC", supra: "ATOM"},
-        AUBTC
-            :
-            {infra: "BTC", supra: "AU"},
-        AUDOGE
-            :
-            {infra: "DOGE", supra: "AU"},
-        AULTC
-            :
-            {infra: "LTC", supra: "AU"},
-        AURBTC
-            :
-            {infra: "BTC", supra: "AUR"},
-        AURDOGE
-            :
-            {infra: "DOGE", supra: "AUR"},
-        AURLTC
-            :
-            {infra: "LTC", supra: "AUR"},
-        AURSBTC
-            :
-            {infra: "BTC", supra: "AURS"},
-        AURSDOGE
-            :
-            {infra: "DOGE", supra: "AURS"},
-        AURSLTC
-            :
-            {infra: "LTC", supra: "AURS"},
-        BATBTC
-            :
-            {infra: "BTC", supra: "BAT"},
-        BATDOGE
-            :
-            {infra: "DOGE", supra: "BAT"},
-        BATLTC
-            :
-            {infra: "LTC", supra: "BAT"},
-        BAYBTC
-            :
-            {infra: "BTC", supra: "BAY"},
-        BAYDOGE
-            :
-            {infra: "DOGE", supra: "BAY"},
-        BAYLTC
-            :
-            {infra: "LTC", supra: "BAY"},
-        BCFBTC
-            :
-            {infra: "BTC", supra: "BCF"},
-        BCFDOGE
-            :
-            {infra: "DOGE", supra: "BCF"},
-        BCFLTC
-            :
-            {infra: "LTC", supra: "BCF"},
-        BCHBTC
-            :
-            {infra: "BTC", supra: "BCH"},
-        BCHDOGE
-            :
-            {infra: "DOGE", supra: "BCH"},
-        BCHLTC
-            :
-            {infra: "LTC", supra: "BCH"},
-        BCHNZDT
-            :
-            {infra: "NZDT", supra: "BCH"},
-        BCHUSDT
-            :
-            {infra: "USD", supra: "BCH"},
-        BCPTBTC
-            :
-            {infra: "BTC", supra: "BCPT"},
-        BCPTDOGE
-            :
-            {infra: "DOGE", supra: "BCPT"},
-        BCPTLTC
-            :
-            {infra: "LTC", supra: "BCPT"},
-        BDLBTC
-            :
-            {infra: "BTC", supra: "BDL"},
-        BDLDOGE
-            :
-            {infra: "DOGE", supra: "BDL"},
-        BDLLTC
-            :
-            {infra: "LTC", supra: "BDL"},
-        BEEZBTC
-            :
-            {infra: "BTC", supra: "BEEZ"},
-        BEEZDOGE
-            :
-            {infra: "DOGE", supra: "BEEZ"},
-        BEEZLTC
-            :
-            {infra: "LTC", supra: "BEEZ"},
-        BENJIBTC
-            :
-            {infra: "BTC", supra: "BENJI"},
-        BENJIDOGE
-            :
-            {infra: "DOGE", supra: "BENJI"},
-        BENJILTC
-            :
-            {infra: "LTC", supra: "BENJI"},
-        BERNBTC
-            :
-            {infra: "BTC", supra: "BERN"},
-        BERNDOGE
-            :
-            {infra: "DOGE", supra: "BERN"},
-        BERNLTC
-            :
-            {infra: "LTC", supra: "BERN"},
-        BESTBTC
-            :
-            {infra: "BTC", supra: "BEST"},
-        BESTDOGE
-            :
-            {infra: "DOGE", supra: "BEST"},
-        BESTLTC
-            :
-            {infra: "LTC", supra: "BEST"},
-        BGRBTC
-            :
-            {infra: "BTC", supra: "BGR"},
-        BGRDOGE
-            :
-            {infra: "DOGE", supra: "BGR"},
-        BGRLTC
-            :
-            {infra: "LTC", supra: "BGR"},
-        BIPBTC
-            :
-            {infra: "BTC", supra: "BIP"},
-        BIPDOGE
-            :
-            {infra: "DOGE", supra: "BIP"},
-        BIPLTC
-            :
-            {infra: "LTC", supra: "BIP"},
-        BIRDBTC
-            :
-            {infra: "BTC", supra: "BIRD"},
-        BIRDDOGE
-            :
-            {infra: "DOGE", supra: "BIRD"},
-        BIRDLTC
-            :
-            {infra: "LTC", supra: "BIRD"},
-        BISBTC
-            :
-            {infra: "BTC", supra: "BIS"},
-        BISDOGE
-            :
-            {infra: "DOGE", supra: "BIS"},
-        BISLTC
-            :
-            {infra: "LTC", supra: "BIS"},
-        BITBBTC
-            :
-            {infra: "BTC", supra: "BITB"},
-        BITBDOGE
-            :
-            {infra: "DOGE", supra: "BITB"},
-        BITBLTC
-            :
-            {infra: "LTC", supra: "BITB"},
-        BITSBTC
-            :
-            {infra: "BTC", supra: "BITS"},
-        BITSDOGE
-            :
-            {infra: "DOGE", supra: "BITS"},
-        BITSLTC
-            :
-            {infra: "LTC", supra: "BITS"},
-        BKCATBTC
-            :
-            {infra: "BTC", supra: "BKCAT"},
-        BKCATDOGE
-            :
-            {infra: "DOGE", supra: "BKCAT"},
-        BKCATLTC
-            :
-            {infra: "LTC", supra: "BKCAT"},
-        BLCBTC
-            :
-            {infra: "BTC", supra: "BLC"},
-        BLCDOGE
-            :
-            {infra: "DOGE", supra: "BLC"},
-        BLCLTC
-            :
-            {infra: "LTC", supra: "BLC"},
-        BLKBTC
-            :
-            {infra: "BTC", supra: "BLK"},
-        BLKDOGE
-            :
-            {infra: "DOGE", supra: "BLK"},
-        BLKLTC
-            :
-            {infra: "LTC", supra: "BLK"},
-        BLZBTC
-            :
-            {infra: "BTC", supra: "BLZ"},
-        BLZDOGE
-            :
-            {infra: "DOGE", supra: "BLZ"},
-        BLZLTC
-            :
-            {infra: "LTC", supra: "BLZ"},
-        BNCBTC
-            :
-            {infra: "BTC", supra: "BNC"},
-        BNCDOGE
-            :
-            {infra: "DOGE", supra: "BNC"},
-        BNCLTC
-            :
-            {infra: "LTC", supra: "BNC"},
-        BNXBTC
-            :
-            {infra: "BTC", supra: "BNX"},
-        BNXDOGE
-            :
-            {infra: "DOGE", supra: "BNX"},
-        BNXLTC
-            :
-            {infra: "LTC", supra: "BNX"},
-        BOLIBTC
-            :
-            {infra: "BTC", supra: "BOLI"},
-        BOLIDOGE
-            :
-            {infra: "DOGE", supra: "BOLI"},
-        BOLILTC
-            :
-            {infra: "LTC", supra: "BOLI"},
-        BONBTC
-            :
-            {infra: "BTC", supra: "BON"},
-        BONDOGE
-            :
-            {infra: "DOGE", supra: "BON"},
-        BONLTC
-            :
-            {infra: "LTC", supra: "BON"},
-        BOPBTC
-            :
-            {infra: "BTC", supra: "BOP"},
-        BOPDOGE
-            :
-            {infra: "DOGE", supra: "BOP"},
-        BOPLTC
-            :
-            {infra: "LTC", supra: "BOP"},
-        BOSONDOGE
-            :
-            {infra: "DOGE", supra: "BOSON"},
-        BOSONLTC
-            :
-            {infra: "LTC", supra: "BOSON"},
-        BPLBTC
-            :
-            {infra: "BTC", supra: "BPL"},
-        BPLDOGE
-            :
-            {infra: "DOGE", supra: "BPL"},
-        BPLLTC
-            :
-            {infra: "LTC", supra: "BPL"},
-        BRGBTC
-            :
-            {infra: "BTC", supra: "BRG"},
-        BRGDOGE
-            :
-            {infra: "DOGE", supra: "BRG"},
-        BRGLTC
-            :
-            {infra: "LTC", supra: "BRG"},
-        BROBTC
-            :
-            {infra: "BTC", supra: "BRO"},
-        BRODOGE
-            :
-            {infra: "DOGE", supra: "BRO"},
-        BROLTC
-            :
-            {infra: "LTC", supra: "BRO"},
-        BSDBTC
-            :
-            {infra: "BTC", supra: "BSD"},
-        BSDDOGE
-            :
-            {infra: "DOGE", supra: "BSD"},
-        BSDLTC
-            :
-            {infra: "LTC", supra: "BSD"},
-        BSDUSDT
-            :
-            {infra: "USD", supra: "BSD"},
-        BSTYBTC
-            :
-            {infra: "BTC", supra: "BSTY"},
-        BSTYDOGE
-            :
-            {infra: "DOGE", supra: "BSTY"},
-        BSTYLTC
-            :
-            {infra: "LTC", supra: "BSTY"},
-        BTABTC
-            :
-            {infra: "BTC", supra: "BTA"},
-        BTADOGE
-            :
-            {infra: "DOGE", supra: "BTA"},
-        BTALTC
-            :
-            {infra: "LTC", supra: "BTA"},
-        BTBBTC
-            :
-            {infra: "BTC", supra: "BTB"},
-        BTBDOGE
-            :
-            {infra: "DOGE", supra: "BTB"},
-        BTBLTC
-            :
-            {infra: "LTC", supra: "BTB"},
-        BTCDBTC
-            :
-            {infra: "BTC", supra: "BTCD"},
-        BTCDDOGE
-            :
-            {infra: "DOGE", supra: "BTCD"},
-        BTCDLTC
-            :
-            {infra: "LTC", supra: "BTCD"},
-        BTCNZDT
-            :
-            {infra: "NZDT", supra: "BTC"},
-        BTCSBTC
-            :
-            {infra: "BTC", supra: "BTCS"},
-        BTCSDOGE
-            :
-            {infra: "DOGE", supra: "BTCS"},
-        BTCSLTC
-            :
-            {infra: "LTC", supra: "BTCS"},
-        BTCUSDT
-            :
-            {infra: "USD", supra: "BTC"},
-        BTDXBTC
-            :
-            {infra: "BTC", supra: "BTDX"},
-        BTDXDOGE
-            :
-            {infra: "DOGE", supra: "BTDX"},
-        BTDXLTC
-            :
-            {infra: "LTC", supra: "BTDX"},
-        BTGBTC
-            :
-            {infra: "BTC", supra: "BTG"},
-        BTGDOGE
-            :
-            {infra: "DOGE", supra: "BTG"},
-        BTGLTC
-            :
-            {infra: "LTC", supra: "BTG"},
-        BTMBTC
-            :
-            {infra: "BTC", supra: "BTM"},
-        BTMDOGE
-            :
-            {infra: "DOGE", supra: "BTM"},
-        BTMLTC
-            :
-            {infra: "LTC", supra: "BTM"},
-        BTXBTC
-            :
-            {infra: "BTC", supra: "BTX"},
-        BTXDOGE
-            :
-            {infra: "DOGE", supra: "BTX"},
-        BTXLTC
-            :
-            {infra: "LTC", supra: "BTX"},
-        BTXNZDT
-            :
-            {infra: "NZDT", supra: "BTX"},
-        BTXUSDT
-            :
-            {infra: "USD", supra: "BTX"},
-        BUCKSBTC
-            :
-            {infra: "BTC", supra: "BUCKS"},
-        BUCKSDOGE
-            :
-            {infra: "DOGE", supra: "BUCKS"},
-        BUCKSLTC
-            :
-            {infra: "LTC", supra: "BUCKS"},
-        BUMBABTC
-            :
-            {infra: "BTC", supra: "BUMBA"},
-        BUMBADOGE
-            :
-            {infra: "DOGE", supra: "BUMBA"},
-        BUMBALTC
-            :
-            {infra: "LTC", supra: "BUMBA"},
-        BUNBTC
-            :
-            {infra: "BTC", supra: "BUN"},
-        BUNDOGE
-            :
-            {infra: "DOGE", supra: "BUN"},
-        BUNLTC
-            :
-            {infra: "LTC", supra: "BUN"},
-        BVBBTC
-            :
-            {infra: "BTC", supra: "BVB"},
-        BVBDOGE
-            :
-            {infra: "DOGE", supra: "BVB"},
-        BVBLTC
-            :
-            {infra: "LTC", supra: "BVB"},
-        BWKBTC
-            :
-            {infra: "BTC", supra: "BWK"},
-        BWKDOGE
-            :
-            {infra: "DOGE", supra: "BWK"},
-        BWKLTC
-            :
-            {infra: "LTC", supra: "BWK"},
-        BXCBTC
-            :
-            {infra: "BTC", supra: "BXC"},
-        BXCDOGE
-            :
-            {infra: "DOGE", supra: "BXC"},
-        BXCLTC
-            :
-            {infra: "LTC", supra: "BXC"},
-        C2BTC
-            :
-            {infra: "BTC", supra: "C2"},
-        C2DOGE
-            :
-            {infra: "DOGE", supra: "C2"},
-        C2LTC
-            :
-            {infra: "LTC", supra: "C2"},
-        CACHBTC
-            :
-            {infra: "BTC", supra: "CACH"},
-        CACHDOGE
-            :
-            {infra: "DOGE", supra: "CACH"},
-        CACHLTC
-            :
-            {infra: "LTC", supra: "CACH"},
-        CANBTC
-            :
-            {infra: "BTC", supra: "CAN"},
-        CANNBTC
-            :
-            {infra: "BTC", supra: "CANN"},
-        CANNDOGE
-            :
-            {infra: "DOGE", supra: "CANN"},
-        CANNLTC
-            :
-            {infra: "LTC", supra: "CANN"},
-        CAPPBTC
-            :
-            {infra: "BTC", supra: "CAPP"},
-        CAPPDOGE
-            :
-            {infra: "DOGE", supra: "CAPP"},
-        CAPPLTC
-            :
-            {infra: "LTC", supra: "CAPP"},
-        CARBTC
-            :
-            {infra: "BTC", supra: "CAR"},
-        CARDOGE
-            :
-            {infra: "DOGE", supra: "CAR"},
-        CARLTC
-            :
-            {infra: "LTC", supra: "CAR"},
-        CATBTC
-            :
-            {infra: "BTC", supra: "CAT"},
-        CATDOGE
-            :
-            {infra: "DOGE", supra: "CAT"},
-        CATLTC
-            :
-            {infra: "LTC", supra: "CAT"},
-        CBXBTC
-            :
-            {infra: "BTC", supra: "CBX"},
-        CBXDOGE
-            :
-            {infra: "DOGE", supra: "CBX"},
-        CBXLTC
-            :
-            {infra: "LTC", supra: "CBX"},
-        CCBBTC
-            :
-            {infra: "BTC", supra: "CCB"},
-        CCBDOGE
-            :
-            {infra: "DOGE", supra: "CCB"},
-        CCBLTC
-            :
-            {infra: "LTC", supra: "CCB"},
-        CCBTC
-            :
-            {infra: "BTC", supra: "CC"},
-        CCDOGE
-            :
-            {infra: "DOGE", supra: "CC"},
-        CCLTC
-            :
-            {infra: "LTC", supra: "CC"},
-        CCNBTC
-            :
-            {infra: "BTC", supra: "CCN"},
-        CCNDOGE
-            :
-            {infra: "DOGE", supra: "CCN"},
-        CCNLTC
-            :
-            {infra: "LTC", supra: "CCN"},
-        CDNBTC
-            :
-            {infra: "BTC", supra: "CDN"},
-        CDNDOGE
-            :
-            {infra: "DOGE", supra: "CDN"},
-        CDNLTC
-            :
-            {infra: "LTC", supra: "CDN"},
-        CEFSBTC
-            :
-            {infra: "BTC", supra: "CEFS"},
-        CEFSDOGE
-            :
-            {infra: "DOGE", supra: "CEFS"},
-        CEFSLTC
-            :
-            {infra: "LTC", supra: "CEFS"},
-        CEFSNZDT
-            :
-            {infra: "NZDT", supra: "CEFS"},
-        CEFSUSDT
-            :
-            {infra: "USD", supra: "CEFS"},
-        CFCBTC
-            :
-            {infra: "BTC", supra: "CFC"},
-        CFCDOGE
-            :
-            {infra: "DOGE", supra: "CFC"},
-        CFCLTC
-            :
-            {infra: "LTC", supra: "CFC"},
-        CFTBTC
-            :
-            {infra: "BTC", supra: "CFT"},
-        CFTDOGE
-            :
-            {infra: "DOGE", supra: "CFT"},
-        CFTLTC
-            :
-            {infra: "LTC", supra: "CFT"},
-        CHANBTC
-            :
-            {infra: "BTC", supra: "CHAN"},
-        CHANDOGE
-            :
-            {infra: "DOGE", supra: "CHAN"},
-        CHANLTC
-            :
-            {infra: "LTC", supra: "CHAN"},
-        CHCBTC
-            :
-            {infra: "BTC", supra: "CHC"},
-        CHCDOGE
-            :
-            {infra: "DOGE", supra: "CHC"},
-        CHCLTC
-            :
-            {infra: "LTC", supra: "CHC"},
-        CHESSBTC
-            :
-            {infra: "BTC", supra: "CHESS"},
-        CHESSDOGE
-            :
-            {infra: "DOGE", supra: "CHESS"},
-        CHESSLTC
-            :
-            {infra: "LTC", supra: "CHESS"},
-        CHIEFDOGE
-            :
-            {infra: "DOGE", supra: "CHIEF"},
-        CHIEFLTC
-            :
-            {infra: "LTC", supra: "CHIEF"},
-        CJBTC
-            :
-            {infra: "BTC", supra: "CJ"},
-        CJDOGE
-            :
-            {infra: "DOGE", supra: "CJ"},
-        CJLTC
-            :
-            {infra: "LTC", supra: "CJ"},
-        CLAMBTC
-            :
-            {infra: "BTC", supra: "CLAM"},
-        CLAMDOGE
-            :
-            {infra: "DOGE", supra: "CLAM"},
-        CLAMLTC
-            :
-            {infra: "LTC", supra: "CLAM"},
-        CLBTC
-            :
-            {infra: "BTC", supra: "CL"},
-        CLOAKBTC
-            :
-            {infra: "BTC", supra: "CLOAK"},
-        CLOAKDOGE
-            :
-            {infra: "DOGE", supra: "CLOAK"},
-        CLOAKLTC
-            :
-            {infra: "LTC", supra: "CLOAK"},
-        CMPBTC
-            :
-            {infra: "BTC", supra: "CMP"},
-        CMPCOBTC
-            :
-            {infra: "BTC", supra: "CMPCO"},
-        CMPCODOGE
-            :
-            {infra: "DOGE", supra: "CMPCO"},
-        CMPCOLTC
-            :
-            {infra: "LTC", supra: "CMPCO"},
-        CMPDOGE
-            :
-            {infra: "DOGE", supra: "CMP"},
-        CMPLTC
-            :
-            {infra: "LTC", supra: "CMP"},
-        CMTBTC
-            :
-            {infra: "BTC", supra: "CMT"},
-        CMTDOGE
-            :
-            {infra: "DOGE", supra: "CMT"},
-        CMTLTC
-            :
-            {infra: "LTC", supra: "CMT"},
-        CNNCBTC
-            :
-            {infra: "BTC", supra: "CNNC"},
-        CNNCDOGE
-            :
-            {infra: "DOGE", supra: "CNNC"},
-        CNNCLTC
-            :
-            {infra: "LTC", supra: "CNNC"},
-        CNOBTC
-            :
-            {infra: "BTC", supra: "CNO"},
-        CNODOGE
-            :
-            {infra: "DOGE", supra: "CNO"},
-        CNOLTC
-            :
-            {infra: "LTC", supra: "CNO"},
-        COALBTC
-            :
-            {infra: "BTC", supra: "COAL"},
-        COALDOGE
-            :
-            {infra: "DOGE", supra: "COAL"},
-        COALLTC
-            :
-            {infra: "LTC", supra: "COAL"},
-        COMPBTC
-            :
-            {infra: "BTC", supra: "COMP"},
-        COMPDOGE
-            :
-            {infra: "DOGE", supra: "COMP"},
-        COMPLTC
-            :
-            {infra: "LTC", supra: "COMP"},
-        CONBTC
-            :
-            {infra: "BTC", supra: "CON"},
-        CONDOGE
-            :
-            {infra: "DOGE", supra: "CON"},
-        CONLTC
-            :
-            {infra: "LTC", supra: "CON"},
-        COPPERBTC
-            :
-            {infra: "BTC", supra: "COPPER"},
-        COPPERDOGE
-            :
-            {infra: "DOGE", supra: "COPPER"},
-        COPPERLTC
-            :
-            {infra: "LTC", supra: "COPPER"},
-        CORBTC
-            :
-            {infra: "BTC", supra: "COR"},
-        CORDOGE
-            :
-            {infra: "DOGE", supra: "COR"},
-        CORGBTC
-            :
-            {infra: "BTC", supra: "CORG"},
-        CORGDOGE
-            :
-            {infra: "DOGE", supra: "CORG"},
-        CORGLTC
-            :
-            {infra: "LTC", supra: "CORG"},
-        CORLTC
-            :
-            {infra: "LTC", supra: "COR"},
-        CPNBTC
-            :
-            {infra: "BTC", supra: "CPN"},
-        CPNDOGE
-            :
-            {infra: "DOGE", supra: "CPN"},
-        CPNLTC
-            :
-            {infra: "LTC", supra: "CPN"},
-        CQSTBTC
-            :
-            {infra: "BTC", supra: "CQST"},
-        CQSTDOGE
-            :
-            {infra: "DOGE", supra: "CQST"},
-        CQSTLTC
-            :
-            {infra: "LTC", supra: "CQST"},
-        CRAVEBTC
-            :
-            {infra: "BTC", supra: "CRAVE"},
-        CRAVEDOGE
-            :
-            {infra: "DOGE", supra: "CRAVE"},
-        CRAVELTC
-            :
-            {infra: "LTC", supra: "CRAVE"},
-        CRCBTC
-            :
-            {infra: "BTC", supra: "CRC"},
-        CRCDOGE
-            :
-            {infra: "DOGE", supra: "CRC"},
-        CRCLTC
-            :
-            {infra: "LTC", supra: "CRC"},
-        CREABTC
-            :
-            {infra: "BTC", supra: "CREA"},
-        CREADOGE
-            :
-            {infra: "DOGE", supra: "CREA"},
-        CREALTC
-            :
-            {infra: "LTC", supra: "CREA"},
-        CRMBTC
-            :
-            {infra: "BTC", supra: "CRM"},
-        CRMDOGE
-            :
-            {infra: "DOGE", supra: "CRM"},
-        CRMLTC
-            :
-            {infra: "LTC", supra: "CRM"},
-        CRURBTC
-            :
-            {infra: "BTC", supra: "CRUR"},
-        CRURDOGE
-            :
-            {infra: "DOGE", supra: "CRUR"},
-        CRURLTC
-            :
-            {infra: "LTC", supra: "CRUR"},
-        CRXBTC
-            :
-            {infra: "BTC", supra: "CRX"},
-        CRXDOGE
-            :
-            {infra: "DOGE", supra: "CRX"},
-        CRXLTC
-            :
-            {infra: "LTC", supra: "CRX"},
-        CRYPTBTC
-            :
-            {infra: "BTC", supra: "CRYPT"},
-        CRYPTDOGE
-            :
-            {infra: "DOGE", supra: "CRYPT"},
-        CRYPTLTC
-            :
-            {infra: "LTC", supra: "CRYPT"},
-        CTIC3BTC
-            :
-            {infra: "BTC", supra: "CTIC3"},
-        CTIC3DOGE
-            :
-            {infra: "DOGE", supra: "CTIC3"},
-        CTIC3LTC
-            :
-            {infra: "LTC", supra: "CTIC3"},
-        CTRBTC
-            :
-            {infra: "BTC", supra: "CTR"},
-        CTRDOGE
-            :
-            {infra: "DOGE", supra: "CTR"},
-        CTRLTC
-            :
-            {infra: "LTC", supra: "CTR"},
-        CXTBTC
-            :
-            {infra: "BTC", supra: "CXT"},
-        CXTDOGE
-            :
-            {infra: "DOGE", supra: "CXT"},
-        CXTLTC
-            :
-            {infra: "LTC", supra: "CXT"},
-        DALCBTC
-            :
-            {infra: "BTC", supra: "DALC"},
-        DALCDOGE
-            :
-            {infra: "DOGE", supra: "DALC"},
-        DALCLTC
-            :
-            {infra: "LTC", supra: "DALC"},
-        DARKBTC
-            :
-            {infra: "BTC", supra: "DARK"},
-        DARKDOGE
-            :
-            {infra: "DOGE", supra: "DARK"},
-        DARKLTC
-            :
-            {infra: "LTC", supra: "DARK"},
-        DASBTC
-            :
-            {infra: "BTC", supra: "DAS"},
-        DASDOGE
-            :
-            {infra: "DOGE", supra: "DAS"},
-        DASHBTC
-            :
-            {infra: "BTC", supra: "DASH"},
-        DASHDOGE
-            :
-            {infra: "DOGE", supra: "DASH"},
-        DASHLTC
-            :
-            {infra: "LTC", supra: "DASH"},
-        DASHUSDT
-            :
-            {infra: "USD", supra: "DASH"},
-        DASLTC
-            :
-            {infra: "LTC", supra: "DAS"},
-        DAXXBTC
-            :
-            {infra: "BTC", supra: "DAXX"},
-        DAXXDOGE
-            :
-            {infra: "DOGE", supra: "DAXX"},
-        DAXXLTC
-            :
-            {infra: "LTC", supra: "DAXX"},
-        DBETBTC
-            :
-            {infra: "BTC", supra: "DBET"},
-        DBETDOGE
-            :
-            {infra: "DOGE", supra: "DBET"},
-        DBETLTC
-            :
-            {infra: "LTC", supra: "DBET"},
-        DBIXBTC
-            :
-            {infra: "BTC", supra: "DBIX"},
-        DBIXDOGE
-            :
-            {infra: "DOGE", supra: "DBIX"},
-        DBIXLTC
-            :
-            {infra: "LTC", supra: "DBIX"},
-        DCNBTC
-            :
-            {infra: "BTC", supra: "DCN"},
-        DCNDOGE
-            :
-            {infra: "DOGE", supra: "DCN"},
-        DCNLTC
-            :
-            {infra: "LTC", supra: "DCN"},
-        DCRBTC
-            :
-            {infra: "BTC", supra: "DCR"},
-        DCRDOGE
-            :
-            {infra: "DOGE", supra: "DCR"},
-        DCRLTC
-            :
-            {infra: "LTC", supra: "DCR"},
-        DCRUSDT
-            :
-            {infra: "USD", supra: "DCR"},
-        DCYBTC
-            :
-            {infra: "BTC", supra: "DCY"},
-        DCYDOGE
-            :
-            {infra: "DOGE", supra: "DCY"},
-        DCYLTC
-            :
-            {infra: "LTC", supra: "DCY"},
-        DDFBTC
-            :
-            {infra: "BTC", supra: "DDF"},
-        DDFDOGE
-            :
-            {infra: "DOGE", supra: "DDF"},
-        DDFLTC
-            :
-            {infra: "LTC", supra: "DDF"},
-        DEMBTC
-            :
-            {infra: "BTC", supra: "DEM"},
-        DEMDOGE
-            :
-            {infra: "DOGE", supra: "DEM"},
-        DEMLTC
-            :
-            {infra: "LTC", supra: "DEM"},
-        DEUSBTC
-            :
-            {infra: "BTC", supra: "DEUS"},
-        DEUSDOGE
-            :
-            {infra: "DOGE", supra: "DEUS"},
-        DEUSLTC
-            :
-            {infra: "LTC", supra: "DEUS"},
-        DFSBTC
-            :
-            {infra: "BTC", supra: "DFS"},
-        DFSDOGE
-            :
-            {infra: "DOGE", supra: "DFS"},
-        DFSLTC
-            :
-            {infra: "LTC", supra: "DFS"},
-        DGBBTC
-            :
-            {infra: "BTC", supra: "DGB"},
-        DGBDOGE
-            :
-            {infra: "DOGE", supra: "DGB"},
-        DGBLTC
-            :
-            {infra: "LTC", supra: "DGB"},
-        DGCBTC
-            :
-            {infra: "BTC", supra: "DGC"},
-        DGCDOGE
-            :
-            {infra: "DOGE", supra: "DGC"},
-        DGCLTC
-            :
-            {infra: "LTC", supra: "DGC"},
-        DGPTBTC
-            :
-            {infra: "BTC", supra: "DGPT"},
-        DGPTDOGE
-            :
-            {infra: "DOGE", supra: "DGPT"},
-        DGPTLTC
-            :
-            {infra: "LTC", supra: "DGPT"},
-        DIMEBTC
-            :
-            {infra: "BTC", supra: "DIME"},
-        DIMEDOGE
-            :
-            {infra: "DOGE", supra: "DIME"},
-        DIMELTC
-            :
-            {infra: "LTC", supra: "DIME"},
-        DIVXBTC
-            :
-            {infra: "BTC", supra: "DIVX"},
-        DIVXDOGE
-            :
-            {infra: "DOGE", supra: "DIVX"},
-        DIVXLTC
-            :
-            {infra: "LTC", supra: "DIVX"},
-        DNABTC
-            :
-            {infra: "BTC", supra: "DNA"},
-        DNADOGE
-            :
-            {infra: "DOGE", supra: "DNA"},
-        DNALTC
-            :
-            {infra: "LTC", supra: "DNA"},
-        DNRBTC
-            :
-            {infra: "BTC", supra: "DNR"},
-        DNRDOGE
-            :
-            {infra: "DOGE", supra: "DNR"},
-        DNRLTC
-            :
-            {infra: "LTC", supra: "DNR"},
-        DOGEBTC
-            :
-            {infra: "BTC", supra: "DOGE"},
-        DOGELTC
-            :
-            {infra: "LTC", supra: "DOGE"},
-        DOGENZDT
-            :
-            {infra: "NZDT", supra: "DOGE"},
-        DOGEUSDT
-            :
-            {infra: "USD", supra: "DOGE"},
-        DONBTC
-            :
-            {infra: "BTC", supra: "DON"},
-        DONDOGE
-            :
-            {infra: "DOGE", supra: "DON"},
-        DONLTC
-            :
-            {infra: "LTC", supra: "DON"},
-        DOPEBTC
-            :
-            {infra: "BTC", supra: "DOPE"},
-        DOPEDOGE
-            :
-            {infra: "DOGE", supra: "DOPE"},
-        DOPELTC
-            :
-            {infra: "LTC", supra: "DOPE"},
-        DOTBTC
-            :
-            {infra: "BTC", supra: "DOT"},
-        DOTDOGE
-            :
-            {infra: "DOGE", supra: "DOT"},
-        DOTLTC
-            :
-            {infra: "LTC", supra: "DOT"},
-        DOTNZDT
-            :
-            {infra: "NZDT", supra: "DOT"},
-        DOTUSDT
-            :
-            {infra: "USD", supra: "DOT"},
-        DPBTC
-            :
-            {infra: "BTC", supra: "DP"},
-        DPDOGE
-            :
-            {infra: "DOGE", supra: "DP"},
-        DPLTC
-            :
-            {infra: "LTC", supra: "DP"},
-        DPPBTC
-            :
-            {infra: "BTC", supra: "DPP"},
-        DPPDOGE
-            :
-            {infra: "DOGE", supra: "DPP"},
-        DPPLTC
-            :
-            {infra: "LTC", supra: "DPP"},
-        DRPBTC
-            :
-            {infra: "BTC", supra: "DRP"},
-        DRPDOGE
-            :
-            {infra: "DOGE", supra: "DRP"},
-        DRPLTC
-            :
-            {infra: "LTC", supra: "DRP"},
-        DRPUBTC
-            :
-            {infra: "BTC", supra: "DRPU"},
-        DRXNEBTC
-            :
-            {infra: "BTC", supra: "DRXNE"},
-        DRXNEDOGE
-            :
-            {infra: "DOGE", supra: "DRXNE"},
-        DRXNELTC
-            :
-            {infra: "LTC", supra: "DRXNE"},
-        DUOBTC
-            :
-            {infra: "BTC", supra: "DUO"},
-        DUODOGE
-            :
-            {infra: "DOGE", supra: "DUO"},
-        DUOLTC
-            :
-            {infra: "LTC", supra: "DUO"},
-        EBGBTC
-            :
-            {infra: "BTC", supra: "EBG"},
-        EBGDOGE
-            :
-            {infra: "DOGE", supra: "EBG"},
-        EBGLTC
-            :
-            {infra: "LTC", supra: "EBG"},
-        ECBTC
-            :
-            {infra: "BTC", supra: "EC"},
-        ECDOGE
-            :
-            {infra: "DOGE", supra: "EC"},
-        ECLTC
-            :
-            {infra: "LTC", supra: "EC"},
-        ECOBBTC
-            :
-            {infra: "BTC", supra: "ECOB"},
-        ECOBDOGE
-            :
-            {infra: "DOGE", supra: "ECOB"},
-        ECOBLTC
-            :
-            {infra: "LTC", supra: "ECOB"},
-        ECOBTC
-            :
-            {infra: "BTC", supra: "ECO"},
-        ECODOGE
-            :
-            {infra: "DOGE", supra: "ECO"},
-        ECOLTC
-            :
-            {infra: "LTC", supra: "ECO"},
-        EDCBTC
-            :
-            {infra: "BTC", supra: "EDC"},
-        EDCDOGE
-            :
-            {infra: "DOGE", supra: "EDC"},
-        EDCLTC
-            :
-            {infra: "LTC", supra: "EDC"},
-        EDDIEBTC
-            :
-            {infra: "BTC", supra: "EDDIE"},
-        EDDIEDOGE
-            :
-            {infra: "DOGE", supra: "EDDIE"},
-        EDDIELTC
-            :
-            {infra: "LTC", supra: "EDDIE"},
-        EDRCBTC
-            :
-            {infra: "BTC", supra: "EDRC"},
-        EDRCDOGE
-            :
-            {infra: "DOGE", supra: "EDRC"},
-        EDRCLTC
-            :
-            {infra: "LTC", supra: "EDRC"},
-        EFLBTC
-            :
-            {infra: "BTC", supra: "EFL"},
-        EFLDOGE
-            :
-            {infra: "DOGE", supra: "EFL"},
-        EFLLTC
-            :
-            {infra: "LTC", supra: "EFL"},
-        EGCBTC
-            :
-            {infra: "BTC", supra: "EGC"},
-        EGCDOGE
-            :
-            {infra: "DOGE", supra: "EGC"},
-        EGCLTC
-            :
-            {infra: "LTC", supra: "EGC"},
-        ELCBTC
-            :
-            {infra: "BTC", supra: "ELC"},
-        ELCDOGE
-            :
-            {infra: "DOGE", supra: "ELC"},
-        ELCLTC
-            :
-            {infra: "LTC", supra: "ELC"},
-        ELLABTC
-            :
-            {infra: "BTC", supra: "ELLA"},
-        ELLADOGE
-            :
-            {infra: "DOGE", supra: "ELLA"},
-        ELLALTC
-            :
-            {infra: "LTC", supra: "ELLA"},
-        ELMBTC
-            :
-            {infra: "BTC", supra: "ELM"},
-        ELMDOGE
-            :
-            {infra: "DOGE", supra: "ELM"},
-        ELMLTC
-            :
-            {infra: "LTC", supra: "ELM"},
-        ELPDOGE
-            :
-            {infra: "DOGE", supra: "ELP"},
-        ELPLTC
-            :
-            {infra: "LTC", supra: "ELP"},
-        EMBDOGE
-            :
-            {infra: "DOGE", supra: "EMB"},
-        EMBLTC
-            :
-            {infra: "LTC", supra: "EMB"},
-        EMC2BTC
-            :
-            {infra: "BTC", supra: "EMC2"},
-        EMC2DOGE
-            :
-            {infra: "DOGE", supra: "EMC2"},
-        EMC2LTC
-            :
-            {infra: "LTC", supra: "EMC2"},
-        EMCBTC
-            :
-            {infra: "BTC", supra: "EMC"},
-        EMCDOGE
-            :
-            {infra: "DOGE", supra: "EMC"},
-        EMCLTC
-            :
-            {infra: "LTC", supra: "EMC"},
-        EMDBTC
-            :
-            {infra: "BTC", supra: "EMD"},
-        EMDDOGE
-            :
-            {infra: "DOGE", supra: "EMD"},
-        EMDLTC
-            :
-            {infra: "LTC", supra: "EMD"},
-        ENJBTC
-            :
-            {infra: "BTC", supra: "ENJ"},
-        ENJDOGE
-            :
-            {infra: "DOGE", supra: "ENJ"},
-        ENJLTC
-            :
-            {infra: "LTC", supra: "ENJ"},
-        EPCBTC
-            :
-            {infra: "BTC", supra: "EPC"},
-        EPCDOGE
-            :
-            {infra: "DOGE", supra: "EPC"},
-        EPCLTC
-            :
-            {infra: "LTC", supra: "EPC"},
-        EQTBTC
-            :
-            {infra: "BTC", supra: "EQT"},
-        EQTDOGE
-            :
-            {infra: "DOGE", supra: "EQT"},
-        EQTLTC
-            :
-            {infra: "LTC", supra: "EQT"},
-        ERYBTC
-            :
-            {infra: "BTC", supra: "ERY"},
-        ERYDOGE
-            :
-            {infra: "DOGE", supra: "ERY"},
-        ERYLTC
-            :
-            {infra: "LTC", supra: "ERY"},
-        ETCBTC
-            :
-            {infra: "BTC", supra: "ETC"},
-        ETCDOGE
-            :
-            {infra: "DOGE", supra: "ETC"},
-        ETCLTC
-            :
-            {infra: "LTC", supra: "ETC"},
-        ETCNZDT
-            :
-            {infra: "NZDT", supra: "ETC"},
-        ETCUSDT
-            :
-            {infra: "USD", supra: "ETC"},
-        ETHBTC
-            :
-            {infra: "BTC", supra: "ETH"},
-        ETHDBTC
-            :
-            {infra: "BTC", supra: "ETHD"},
-        ETHDDOGE
-            :
-            {infra: "DOGE", supra: "ETHD"},
-        ETHDLTC
-            :
-            {infra: "LTC", supra: "ETHD"},
-        ETHDOGE
-            :
-            {infra: "DOGE", supra: "ETH"},
-        ETHLTC
-            :
-            {infra: "LTC", supra: "ETH"},
-        ETHNZDT
-            :
-            {infra: "NZDT", supra: "ETH"},
-        ETHUSDT
-            :
-            {infra: "USD", supra: "ETH"},
-        ETNBTC
-            :
-            {infra: "BTC", supra: "ETN"},
-        ETNDOGE
-            :
-            {infra: "DOGE", supra: "ETN"},
-        ETNLTC
-            :
-            {infra: "LTC", supra: "ETN"},
-        ETNNZDT
-            :
-            {infra: "NZDT", supra: "ETN"},
-        ETNUSDT
-            :
-            {infra: "USD", supra: "ETN"},
-        ETTBTC
-            :
-            {infra: "BTC", supra: "ETT"},
-        ETTDOGE
-            :
-            {infra: "DOGE", supra: "ETT"},
-        ETTLTC
-            :
-            {infra: "LTC", supra: "ETT"},
-        EUCBTC
-            :
-            {infra: "BTC", supra: "EUC"},
-        EUCDOGE
-            :
-            {infra: "DOGE", supra: "EUC"},
-        EUCLTC
-            :
-            {infra: "LTC", supra: "EUC"},
-        EVILBTC
-            :
-            {infra: "BTC", supra: "EVIL"},
-        EVILDOGE
-            :
-            {infra: "DOGE", supra: "EVIL"},
-        EVILLTC
-            :
-            {infra: "LTC", supra: "EVIL"},
-        EVOBTC
-            :
-            {infra: "BTC", supra: "EVO"},
-        EVODOGE
-            :
-            {infra: "DOGE", supra: "EVO"},
-        EVOLTC
-            :
-            {infra: "LTC", supra: "EVO"},
-        EVRBTC
-            :
-            {infra: "BTC", supra: "EVR"},
-        EVRDOGE
-            :
-            {infra: "DOGE", supra: "EVR"},
-        EVRLTC
-            :
-            {infra: "LTC", supra: "EVR"},
-        EXPBTC
-            :
-            {infra: "BTC", supra: "EXP"},
-        EXPDOGE
-            :
-            {infra: "DOGE", supra: "EXP"},
-        EXPLTC
-            :
-            {infra: "LTC", supra: "EXP"},
-        FAZZBTC
-            :
-            {infra: "BTC", supra: "FAZZ"},
-        FAZZDOGE
-            :
-            {infra: "DOGE", supra: "FAZZ"},
-        FAZZLTC
-            :
-            {infra: "LTC", supra: "FAZZ"},
-        FCNBTC
-            :
-            {infra: "BTC", supra: "FCN"},
-        FCNDOGE
-            :
-            {infra: "DOGE", supra: "FCN"},
-        FCNLTC
-            :
-            {infra: "LTC", supra: "FCN"},
-        FCTBTC
-            :
-            {infra: "BTC", supra: "FCT"},
-        FCTDOGE
-            :
-            {infra: "DOGE", supra: "FCT"},
-        FCTLTC
-            :
-            {infra: "LTC", supra: "FCT"},
-        FFCBTC
-            :
-            {infra: "BTC", supra: "FFC"},
-        FFCDOGE
-            :
-            {infra: "DOGE", supra: "FFC"},
-        FFCLTC
-            :
-            {infra: "LTC", supra: "FFC"},
-        FJCBTC
-            :
-            {infra: "BTC", supra: "FJC"},
-        FJCDOGE
-            :
-            {infra: "DOGE", supra: "FJC"},
-        FJCLTC
-            :
-            {infra: "LTC", supra: "FJC"},
-        FLASHBTC
-            :
-            {infra: "BTC", supra: "FLASH"},
-        FLASHDOGE
-            :
-            {infra: "DOGE", supra: "FLASH"},
-        FLASHLTC
-            :
-            {infra: "LTC", supra: "FLASH"},
-        FLAXBTC
-            :
-            {infra: "BTC", supra: "FLAX"},
-        FLAXDOGE
-            :
-            {infra: "DOGE", supra: "FLAX"},
-        FLAXLTC
-            :
-            {infra: "LTC", supra: "FLAX"},
-        FLNBTC
-            :
-            {infra: "BTC", supra: "FLN"},
-        FLNDOGE
-            :
-            {infra: "DOGE", supra: "FLN"},
-        FLNLTC
-            :
-            {infra: "LTC", supra: "FLN"},
-        FLTBTC
-            :
-            {infra: "BTC", supra: "FLT"},
-        FLTDOGE
-            :
-            {infra: "DOGE", supra: "FLT"},
-        FLTLTC
-            :
-            {infra: "LTC", supra: "FLT"},
-        FONZBTC
-            :
-            {infra: "BTC", supra: "FONZ"},
-        FONZDOGE
-            :
-            {infra: "DOGE", supra: "FONZ"},
-        FONZLTC
-            :
-            {infra: "LTC", supra: "FONZ"},
-        FORTBTC
-            :
-            {infra: "BTC", supra: "FORT"},
-        FORTDOGE
-            :
-            {infra: "DOGE", supra: "FORT"},
-        FORTLTC
-            :
-            {infra: "LTC", supra: "FORT"},
-        FRCBTC
-            :
-            {infra: "BTC", supra: "FRC"},
-        FRCDOGE
-            :
-            {infra: "DOGE", supra: "FRC"},
-        FRCLTC
-            :
-            {infra: "LTC", supra: "FRC"},
-        FRNBTC
-            :
-            {infra: "BTC", supra: "FRN"},
-        FRNDOGE
-            :
-            {infra: "DOGE", supra: "FRN"},
-        FRNLTC
-            :
-            {infra: "LTC", supra: "FRN"},
-        FSTBTC
-            :
-            {infra: "BTC", supra: "FST"},
-        FSTDOGE
-            :
-            {infra: "DOGE", supra: "FST"},
-        FSTLTC
-            :
-            {infra: "LTC", supra: "FST"},
-        FTCBTC
-            :
-            {infra: "BTC", supra: "FTC"},
-        FTCCBTC
-            :
-            {infra: "BTC", supra: "FTCC"},
-        FTCCDOGE
-            :
-            {infra: "DOGE", supra: "FTCC"},
-        FTCCLTC
-            :
-            {infra: "LTC", supra: "FTCC"},
-        FTCDOGE
-            :
-            {infra: "DOGE", supra: "FTC"},
-        FTCLTC
-            :
-            {infra: "LTC", supra: "FTC"},
-        FUELBTC
-            :
-            {infra: "BTC", supra: "FUEL"},
-        FUELDOGE
-            :
-            {infra: "DOGE", supra: "FUEL"},
-        FUELLTC
-            :
-            {infra: "LTC", supra: "FUEL"},
-        FUNKBTC
-            :
-            {infra: "BTC", supra: "FUNK"},
-        FUNKDOGE
-            :
-            {infra: "DOGE", supra: "FUNK"},
-        FUNKLTC
-            :
-            {infra: "LTC", supra: "FUNK"},
-        FUZZBTC
-            :
-            {infra: "BTC", supra: "FUZZ"},
-        FUZZDOGE
-            :
-            {infra: "DOGE", supra: "FUZZ"},
-        FUZZLTC
-            :
-            {infra: "LTC", supra: "FUZZ"},
-        GAIABTC
-            :
-            {infra: "BTC", supra: "GAIA"},
-        GAIADOGE
-            :
-            {infra: "DOGE", supra: "GAIA"},
-        GAIALTC
-            :
-            {infra: "LTC", supra: "GAIA"},
-        GAMEBTC
-            :
-            {infra: "BTC", supra: "GAME"},
-        GAMEDOGE
-            :
-            {infra: "DOGE", supra: "GAME"},
-        GAMELTC
-            :
-            {infra: "LTC", supra: "GAME"},
-        GAPBTC
-            :
-            {infra: "BTC", supra: "GAP"},
-        GAPDOGE
-            :
-            {infra: "DOGE", supra: "GAP"},
-        GAPLTC
-            :
-            {infra: "LTC", supra: "GAP"},
-        GAYBTC
-            :
-            {infra: "BTC", supra: "GAY"},
-        GAYDOGE
-            :
-            {infra: "DOGE", supra: "GAY"},
-        GAYLTC
-            :
-            {infra: "LTC", supra: "GAY"},
-        GBXBTC
-            :
-            {infra: "BTC", supra: "GBX"},
-        GBXDOGE
-            :
-            {infra: "DOGE", supra: "GBX"},
-        GBXLTC
-            :
-            {infra: "LTC", supra: "GBX"},
-        GBYTEBTC
-            :
-            {infra: "BTC", supra: "GBYTE"},
-        GBYTEDOGE
-            :
-            {infra: "DOGE", supra: "GBYTE"},
-        GBYTELTC
-            :
-            {infra: "LTC", supra: "GBYTE"},
-        GCNBTC
-            :
-            {infra: "BTC", supra: "GCN"},
-        GCNDOGE
-            :
-            {infra: "DOGE", supra: "GCN"},
-        GCNLTC
-            :
-            {infra: "LTC", supra: "GCN"},
-        GDCBTC
-            :
-            {infra: "BTC", supra: "GDC"},
-        GDCDOGE
-            :
-            {infra: "DOGE", supra: "GDC"},
-        GDCLTC
-            :
-            {infra: "LTC", supra: "GDC"},
-        GEERTBTC
-            :
-            {infra: "BTC", supra: "GEERT"},
-        GEERTDOGE
-            :
-            {infra: "DOGE", supra: "GEERT"},
-        GEERTLTC
-            :
-            {infra: "LTC", supra: "GEERT"},
-        GEOBTC
-            :
-            {infra: "BTC", supra: "GEO"},
-        GEODOGE
-            :
-            {infra: "DOGE", supra: "GEO"},
-        GEOLTC
-            :
-            {infra: "LTC", supra: "GEO"},
-        GEOOldBTC
-            :
-            {infra: "BTC", supra: "GEO_Old"},
-        GEOOldDOGE
-            :
-            {infra: "DOGE", supra: "GEO_Old"},
-        GEOOldLTC
-            :
-            {infra: "LTC", supra: "GEO_Old"},
-        GLDBTC
-            :
-            {infra: "BTC", supra: "GLD"},
-        GLDDOGE
-            :
-            {infra: "DOGE", supra: "GLD"},
-        GLDLTC
-            :
-            {infra: "LTC", supra: "GLD"},
-        GNOBTC
-            :
-            {infra: "BTC", supra: "GNO"},
-        GNODOGE
-            :
-            {infra: "DOGE", supra: "GNO"},
-        GNOLTC
-            :
-            {infra: "LTC", supra: "GNO"},
-        GNTBTC
-            :
-            {infra: "BTC", supra: "GNT"},
-        GNTDOGE
-            :
-            {infra: "DOGE", supra: "GNT"},
-        GNTLTC
-            :
-            {infra: "LTC", supra: "GNT"},
-        GPBTC
-            :
-            {infra: "BTC", supra: "GP"},
-        GPDOGE
-            :
-            {infra: "DOGE", supra: "GP"},
-        GPLBTC
-            :
-            {infra: "BTC", supra: "GPL"},
-        GPLDOGE
-            :
-            {infra: "DOGE", supra: "GPL"},
-        GPLLTC
-            :
-            {infra: "LTC", supra: "GPL"},
-        GPLTC
-            :
-            {infra: "LTC", supra: "GP"},
-        GPUBTC
-            :
-            {infra: "BTC", supra: "GPU"},
-        GPUDOGE
-            :
-            {infra: "DOGE", supra: "GPU"},
-        GPULTC
-            :
-            {infra: "LTC", supra: "GPU"},
-        GRNBTC
-            :
-            {infra: "BTC", supra: "GRN"},
-        GRNDOGE
-            :
-            {infra: "DOGE", supra: "GRN"},
-        GRNLTC
-            :
-            {infra: "LTC", supra: "GRN"},
-        GRSBTC
-            :
-            {infra: "BTC", supra: "GRS"},
-        GRSDOGE
-            :
-            {infra: "DOGE", supra: "GRS"},
-        GRSLTC
-            :
-            {infra: "LTC", supra: "GRS"},
-        GRWBTC
-            :
-            {infra: "BTC", supra: "GRW"},
-        GRWDOGE
-            :
-            {infra: "DOGE", supra: "GRW"},
-        GRWIBTC
-            :
-            {infra: "BTC", supra: "GRWI"},
-        GRWIDOGE
-            :
-            {infra: "DOGE", supra: "GRWI"},
-        GRWILTC
-            :
-            {infra: "LTC", supra: "GRWI"},
-        GRWLTC
-            :
-            {infra: "LTC", supra: "GRW"},
-        GUNBTC
-            :
-            {infra: "BTC", supra: "GUN"},
-        GUNDOGE
-            :
-            {infra: "DOGE", supra: "GUN"},
-        GUNLTC
-            :
-            {infra: "LTC", supra: "GUN"},
-        GXGBTC
-            :
-            {infra: "BTC", supra: "GXG"},
-        GXGDOGE
-            :
-            {infra: "DOGE", supra: "GXG"},
-        GXGLTC
-            :
-            {infra: "LTC", supra: "GXG"},
-        HACBTC
-            :
-            {infra: "BTC", supra: "HAC"},
-        HACDOGE
-            :
-            {infra: "DOGE", supra: "HAC"},
-        HACLTC
-            :
-            {infra: "LTC", supra: "HAC"},
-        HALBTC
-            :
-            {infra: "BTC", supra: "HAL"},
-        HALDOGE
-            :
-            {infra: "DOGE", supra: "HAL"},
-        HALLTC
-            :
-            {infra: "LTC", supra: "HAL"},
-        HAVBTC
-            :
-            {infra: "BTC", supra: "HAV"},
-        HAVDOGE
-            :
-            {infra: "DOGE", supra: "HAV"},
-        HAVLTC
-            :
-            {infra: "LTC", supra: "HAV"},
-        HBCBTC
-            :
-            {infra: "BTC", supra: "HBC"},
-        HBCDOGE
-            :
-            {infra: "DOGE", supra: "HBC"},
-        HBCLTC
-            :
-            {infra: "LTC", supra: "HBC"},
-        HBNBTC
-            :
-            {infra: "BTC", supra: "HBN"},
-        HBNDOGE
-            :
-            {infra: "DOGE", supra: "HBN"},
-        HBNLTC
-            :
-            {infra: "LTC", supra: "HBN"},
-        HCBTC
-            :
-            {infra: "BTC", supra: "HC"},
-        HCDOGE
-            :
-            {infra: "DOGE", supra: "HC"},
-        HCLTC
-            :
-            {infra: "LTC", supra: "HC"},
-        HDLBBTC
-            :
-            {infra: "BTC", supra: "HDLB"},
-        HDLBDOGE
-            :
-            {infra: "DOGE", supra: "HDLB"},
-        HDLBLTC
-            :
-            {infra: "LTC", supra: "HDLB"},
-        HEATBTC
-            :
-            {infra: "BTC", supra: "HEAT"},
-        HEATDOGE
-            :
-            {infra: "DOGE", supra: "HEAT"},
-        HEATLTC
-            :
-            {infra: "LTC", supra: "HEAT"},
-        HLMBTC
-            :
-            {infra: "BTC", supra: "HLM"},
-        HLMDOGE
-            :
-            {infra: "DOGE", supra: "HLM"},
-        HLMLTC
-            :
-            {infra: "LTC", supra: "HLM"},
-        HOLDBTC
-            :
-            {infra: "BTC", supra: "HOLD"},
-        HOLDDOGE
-            :
-            {infra: "DOGE", supra: "HOLD"},
-        HOLDLTC
-            :
-            {infra: "LTC", supra: "HOLD"},
-        HSRBTC
-            :
-            {infra: "BTC", supra: "HSR"},
-        HSRDOGE
-            :
-            {infra: "DOGE", supra: "HSR"},
-        HSRLTC
-            :
-            {infra: "LTC", supra: "HSR"},
-        HSTBTC
-            :
-            {infra: "BTC", supra: "HST"},
-        HSTDOGE
-            :
-            {infra: "DOGE", supra: "HST"},
-        HSTLTC
-            :
-            {infra: "LTC", supra: "HST"},
-        HUSHBTC
-            :
-            {infra: "BTC", supra: "HUSH"},
-        HUSHDOGE
-            :
-            {infra: "DOGE", supra: "HUSH"},
-        HUSHLTC
-            :
-            {infra: "LTC", supra: "HUSH"},
-        HUSHNZDT
-            :
-            {infra: "NZDT", supra: "HUSH"},
-        HUSHUSDT
-            :
-            {infra: "USD", supra: "HUSH"},
-        HXXBTC
-            :
-            {infra: "BTC", supra: "HXX"},
-        HXXDOGE
-            :
-            {infra: "DOGE", supra: "HXX"},
-        HXXLTC
-            :
-            {infra: "LTC", supra: "HXX"},
-        HYPBTC
-            :
-            {infra: "BTC", supra: "HYP"},
-        HYPDOGE
-            :
-            {infra: "DOGE", supra: "HYP"},
-        HYPLTC
-            :
-            {infra: "LTC", supra: "HYP"},
-        I0CBTC
-            :
-            {infra: "BTC", supra: "I0C"},
-        I0CDOGE
-            :
-            {infra: "DOGE", supra: "I0C"},
-        I0CLTC
-            :
-            {infra: "LTC", supra: "I0C"},
-        ICOBBTC
-            :
-            {infra: "BTC", supra: "ICOB"},
-        ICOBDOGE
-            :
-            {infra: "DOGE", supra: "ICOB"},
-        ICOBLTC
-            :
-            {infra: "LTC", supra: "ICOB"},
-        IFLTBTC
-            :
-            {infra: "BTC", supra: "IFLT"},
-        IFLTDOGE
-            :
-            {infra: "DOGE", supra: "IFLT"},
-        IFLTLTC
-            :
-            {infra: "LTC", supra: "IFLT"},
-        IFTBTC
-            :
-            {infra: "BTC", supra: "IFT"},
-        IFTDOGE
-            :
-            {infra: "DOGE", supra: "IFT"},
-        IFTLTC
-            :
-            {infra: "LTC", supra: "IFT"},
-        IMSBTC
-            :
-            {infra: "BTC", supra: "IMS"},
-        IMSDOGE
-            :
-            {infra: "DOGE", supra: "IMS"},
-        IMSLTC
-            :
-            {infra: "LTC", supra: "IMS"},
-        INBTC
-            :
-            {infra: "BTC", supra: "IN"},
-        INDOGE
-            :
-            {infra: "DOGE", supra: "IN"},
-        INFXBTC
-            :
-            {infra: "BTC", supra: "INFX"},
-        INFXDOGE
-            :
-            {infra: "DOGE", supra: "INFX"},
-        INFXLTC
-            :
-            {infra: "LTC", supra: "INFX"},
-        INLTC
-            :
-            {infra: "LTC", supra: "IN"},
-        INNBTC
-            :
-            {infra: "BTC", supra: "INN"},
-        INNDOGE
-            :
-            {infra: "DOGE", supra: "INN"},
-        INNLTC
-            :
-            {infra: "LTC", supra: "INN"},
-        INSNBTC
-            :
-            {infra: "BTC", supra: "INSN"},
-        INSNDOGE
-            :
-            {infra: "DOGE", supra: "INSN"},
-        INSNLTC
-            :
-            {infra: "LTC", supra: "INSN"},
-        IQTBTC
-            :
-            {infra: "BTC", supra: "IQT"},
-        IQTDOGE
-            :
-            {infra: "DOGE", supra: "IQT"},
-        IQTLTC
-            :
-            {infra: "LTC", supra: "IQT"},
-        IRLBTC
-            :
-            {infra: "BTC", supra: "IRL"},
-        IRLDOGE
-            :
-            {infra: "DOGE", supra: "IRL"},
-        IRLLTC
-            :
-            {infra: "LTC", supra: "IRL"},
-        ITIBTC
-            :
-            {infra: "BTC", supra: "ITI"},
-        ITIDOGE
-            :
-            {infra: "DOGE", supra: "ITI"},
-        ITILTC
-            :
-            {infra: "LTC", supra: "ITI"},
-        IXCBTC
-            :
-            {infra: "BTC", supra: "IXC"},
-        IXCDOGE
-            :
-            {infra: "DOGE", supra: "IXC"},
-        IXCLTC
-            :
-            {infra: "LTC", supra: "IXC"},
-        IZEBTC
-            :
-            {infra: "BTC", supra: "IZE"},
-        IZEDOGE
-            :
-            {infra: "DOGE", supra: "IZE"},
-        IZELTC
-            :
-            {infra: "LTC", supra: "IZE"},
-        KASHBTC
-            :
-            {infra: "BTC", supra: "KASH"},
-        KASHDOGE
-            :
-            {infra: "DOGE", supra: "KASH"},
-        KASHLTC
-            :
-            {infra: "LTC", supra: "KASH"},
-        KAYIBTC
-            :
-            {infra: "BTC", supra: "KAYI"},
-        KAYIDOGE
-            :
-            {infra: "DOGE", supra: "KAYI"},
-        KAYILTC
-            :
-            {infra: "LTC", supra: "KAYI"},
-        KBRBTC
-            :
-            {infra: "BTC", supra: "KBR"},
-        KBRDOGE
-            :
-            {infra: "DOGE", supra: "KBR"},
-        KBRLTC
-            :
-            {infra: "LTC", supra: "KBR"},
-        KDCBTC
-            :
-            {infra: "BTC", supra: "KDC"},
-        KDCDOGE
-            :
-            {infra: "DOGE", supra: "KDC"},
-        KDCLTC
-            :
-            {infra: "LTC", supra: "KDC"},
-        KEDBTC
-            :
-            {infra: "BTC", supra: "KED"},
-        KEDDOGE
-            :
-            {infra: "DOGE", supra: "KED"},
-        KEDLTC
-            :
-            {infra: "LTC", supra: "KED"},
-        KEKBTC
-            :
-            {infra: "BTC", supra: "KEK"},
-        KEKDOGE
-            :
-            {infra: "DOGE", supra: "KEK"},
-        KEKLTC
-            :
-            {infra: "LTC", supra: "KEK"},
-        KGBBTC
-            :
-            {infra: "BTC", supra: "KGB"},
-        KGBDOGE
-            :
-            {infra: "DOGE", supra: "KGB"},
-        KGBLTC
-            :
-            {infra: "LTC", supra: "KGB"},
-        KINGBTC
-            :
-            {infra: "BTC", supra: "KING"},
-        KINGDOGE
-            :
-            {infra: "DOGE", supra: "KING"},
-        KINGLTC
-            :
-            {infra: "LTC", supra: "KING"},
-        KMDBTC
-            :
-            {infra: "BTC", supra: "KMD"},
-        KMDDOGE
-            :
-            {infra: "DOGE", supra: "KMD"},
-        KMDLTC
-            :
-            {infra: "LTC", supra: "KMD"},
-        KNCBTC
-            :
-            {infra: "BTC", supra: "KNC"},
-        KNCDOGE
-            :
-            {infra: "DOGE", supra: "KNC"},
-        KNCLTC
-            :
-            {infra: "LTC", supra: "KNC"},
-        KOBOBTC
-            :
-            {infra: "BTC", supra: "KOBO"},
-        KOBODOGE
-            :
-            {infra: "DOGE", supra: "KOBO"},
-        KOBOLTC
-            :
-            {infra: "LTC", supra: "KOBO"},
-        KRBBTC
-            :
-            {infra: "BTC", supra: "KRB"},
-        KRBDOGE
-            :
-            {infra: "DOGE", supra: "KRB"},
-        KRBLTC
-            :
-            {infra: "LTC", supra: "KRB"},
-        KRONEBTC
-            :
-            {infra: "BTC", supra: "KRONE"},
-        KRONEDOGE
-            :
-            {infra: "DOGE", supra: "KRONE"},
-        KRONELTC
-            :
-            {infra: "LTC", supra: "KRONE"},
-        KUMABTC
-            :
-            {infra: "BTC", supra: "KUMA"},
-        KUMADOGE
-            :
-            {infra: "DOGE", supra: "KUMA"},
-        KUMALTC
-            :
-            {infra: "LTC", supra: "KUMA"},
-        KURTBTC
-            :
-            {infra: "BTC", supra: "KURT"},
-        KURTDOGE
-            :
-            {infra: "DOGE", supra: "KURT"},
-        KURTLTC
-            :
-            {infra: "LTC", supra: "KURT"},
-        KUSHBTC
-            :
-            {infra: "BTC", supra: "KUSH"},
-        KUSHDOGE
-            :
-            {infra: "DOGE", supra: "KUSH"},
-        KUSHLTC
-            :
-            {infra: "LTC", supra: "KUSH"},
-        LANABTC
-            :
-            {infra: "BTC", supra: "LANA"},
-        LANADOGE
-            :
-            {infra: "DOGE", supra: "LANA"},
-        LANALTC
-            :
-            {infra: "LTC", supra: "LANA"},
-        LBCBTC
-            :
-            {infra: "BTC", supra: "LBC"},
-        LBCDOGE
-            :
-            {infra: "DOGE", supra: "LBC"},
-        LBCLTC
-            :
-            {infra: "LTC", supra: "LBC"},
-        LBTCBTC
-            :
-            {infra: "BTC", supra: "LBTC"},
-        LBTCDOGE
-            :
-            {infra: "DOGE", supra: "LBTC"},
-        LBTCLTC
-            :
-            {infra: "LTC", supra: "LBTC"},
-        LCPBTC
-            :
-            {infra: "BTC", supra: "LCP"},
-        LCPDOGE
-            :
-            {infra: "DOGE", supra: "LCP"},
-        LCPLTC
-            :
-            {infra: "LTC", supra: "LCP"},
-        LDCBTC
-            :
-            {infra: "BTC", supra: "LDC"},
-        LDCDOGE
-            :
-            {infra: "DOGE", supra: "LDC"},
-        LDCLTC
-            :
-            {infra: "LTC", supra: "LDC"},
-        LDOGEBTC
-            :
-            {infra: "BTC", supra: "LDOGE"},
-        LDOGEDOGE
-            :
-            {infra: "DOGE", supra: "LDOGE"},
-        LDOGELTC
-            :
-            {infra: "LTC", supra: "LDOGE"},
-        LEABTC
-            :
-            {infra: "BTC", supra: "LEA"},
-        LEADOGE
-            :
-            {infra: "DOGE", supra: "LEA"},
-        LEAFBTC
-            :
-            {infra: "BTC", supra: "LEAF"},
-        LEAFDOGE
-            :
-            {infra: "DOGE", supra: "LEAF"},
-        LEAFLTC
-            :
-            {infra: "LTC", supra: "LEAF"},
-        LEALTC
-            :
-            {infra: "LTC", supra: "LEA"},
-        LEMONBTC
-            :
-            {infra: "BTC", supra: "LEMON"},
-        LEMONDOGE
-            :
-            {infra: "DOGE", supra: "LEMON"},
-        LEMONLTC
-            :
-            {infra: "LTC", supra: "LEMON"},
-        LEPENDOGE
-            :
-            {infra: "DOGE", supra: "LEPEN"},
-        LEPENLTC
-            :
-            {infra: "LTC", supra: "LEPEN"},
-        LFTCBTC
-            :
-            {infra: "BTC", supra: "LFTC"},
-        LFTCDOGE
-            :
-            {infra: "DOGE", supra: "LFTC"},
-        LFTCLTC
-            :
-            {infra: "LTC", supra: "LFTC"},
-        LINDABTC
-            :
-            {infra: "BTC", supra: "LINDA"},
-        LINDADOGE
-            :
-            {infra: "DOGE", supra: "LINDA"},
-        LINDALTC
-            :
-            {infra: "LTC", supra: "LINDA"},
-        LINXBTC
-            :
-            {infra: "BTC", supra: "LINX"},
-        LINXDOGE
-            :
-            {infra: "DOGE", supra: "LINX"},
-        LINXLTC
-            :
-            {infra: "LTC", supra: "LINX"},
-        LITBTC
-            :
-            {infra: "BTC", supra: "LIT"},
-        LITDOGE
-            :
-            {infra: "DOGE", supra: "LIT"},
-        LITLTC
-            :
-            {infra: "LTC", supra: "LIT"},
-        LIZIBTC
-            :
-            {infra: "BTC", supra: "LIZI"},
-        LIZIDOGE
-            :
-            {infra: "DOGE", supra: "LIZI"},
-        LIZILTC
-            :
-            {infra: "LTC", supra: "LIZI"},
-        LOOKDOGE
-            :
-            {infra: "DOGE", supra: "LOOK"},
-        LOOKLTC
-            :
-            {infra: "LTC", supra: "LOOK"},
-        LOTBTC
-            :
-            {infra: "BTC", supra: "LOT"},
-        LOTDOGE
-            :
-            {infra: "DOGE", supra: "LOT"},
-        LOTLTC
-            :
-            {infra: "LTC", supra: "LOT"},
-        LTBBTC
-            :
-            {infra: "BTC", supra: "LTB"},
-        LTBDOGE
-            :
-            {infra: "DOGE", supra: "LTB"},
-        LTBLTC
-            :
-            {infra: "LTC", supra: "LTB"},
-        LTCBTC
-            :
-            {infra: "BTC", supra: "LTC"},
-        LTCNZDT
-            :
-            {infra: "NZDT", supra: "LTC"},
-        LTCUBTC
-            :
-            {infra: "BTC", supra: "LTCU"},
-        LTCUDOGE
-            :
-            {infra: "DOGE", supra: "LTCU"},
-        LTCULTC
-            :
-            {infra: "LTC", supra: "LTCU"},
-        LTCUSDT
-            :
-            {infra: "USD", supra: "LTC"},
-        LUXBTC
-            :
-            {infra: "BTC", supra: "LUX"},
-        LUXDOGE
-            :
-            {infra: "DOGE", supra: "LUX"},
-        LUXLTC
-            :
-            {infra: "LTC", supra: "LUX"},
-        LUXNZDT
-            :
-            {infra: "NZDT", supra: "LUX"},
-        LUXUSDT
-            :
-            {infra: "USD", supra: "LUX"},
-        LYCBTC
-            :
-            {infra: "BTC", supra: "LYC"},
-        LYCDOGE
-            :
-            {infra: "DOGE", supra: "LYC"},
-        LYCLTC
-            :
-            {infra: "LTC", supra: "LYC"},
-        MACBTC
-            :
-            {infra: "BTC", supra: "MAC"},
-        MACDOGE
-            :
-            {infra: "DOGE", supra: "MAC"},
-        MACLTC
-            :
-            {infra: "LTC", supra: "MAC"},
-        MAGEBTC
-            :
-            {infra: "BTC", supra: "MAGE"},
-        MAGEDOGE
-            :
-            {infra: "DOGE", supra: "MAGE"},
-        MAGELTC
-            :
-            {infra: "LTC", supra: "MAGE"},
-        MAGNBTC
-            :
-            {infra: "BTC", supra: "MAGN"},
-        MAGNDOGE
-            :
-            {infra: "DOGE", supra: "MAGN"},
-        MAGNLTC
-            :
-            {infra: "LTC", supra: "MAGN"},
-        MAIDBTC
-            :
-            {infra: "BTC", supra: "MAID"},
-        MAIDDOGE
-            :
-            {infra: "DOGE", supra: "MAID"},
-        MAIDLTC
-            :
-            {infra: "LTC", supra: "MAID"},
-        MARBTC
-            :
-            {infra: "BTC", supra: "MAR"},
-        MARDOGE
-            :
-            {infra: "DOGE", supra: "MAR"},
-        MARLTC
-            :
-            {infra: "LTC", supra: "MAR"},
-        MARSBTC
-            :
-            {infra: "BTC", supra: "MARS"},
-        MARSDOGE
-            :
-            {infra: "DOGE", supra: "MARS"},
-        MARSLTC
-            :
-            {infra: "LTC", supra: "MARS"},
-        MARXBTC
-            :
-            {infra: "BTC", supra: "MARX"},
-        MARXDOGE
-            :
-            {infra: "DOGE", supra: "MARX"},
-        MARXLTC
-            :
-            {infra: "LTC", supra: "MARX"},
-        MATRXBTC
-            :
-            {infra: "BTC", supra: "MATRX"},
-        MATRXDOGE
-            :
-            {infra: "DOGE", supra: "MATRX"},
-        MATRXLTC
-            :
-            {infra: "LTC", supra: "MATRX"},
-        MBRSBTC
-            :
-            {infra: "BTC", supra: "MBRS"},
-        MBRSDOGE
-            :
-            {infra: "DOGE", supra: "MBRS"},
-        MBRSLTC
-            :
-            {infra: "LTC", supra: "MBRS"},
-        MCIBTC
-            :
-            {infra: "BTC", supra: "MCI"},
-        MCIDOGE
-            :
-            {infra: "DOGE", supra: "MCI"},
-        MCILTC
-            :
-            {infra: "LTC", supra: "MCI"},
-        MCRNBTC
-            :
-            {infra: "BTC", supra: "MCRN"},
-        MCRNDOGE
-            :
-            {infra: "DOGE", supra: "MCRN"},
-        MCRNLTC
-            :
-            {infra: "LTC", supra: "MCRN"},
-        MECBTC
-            :
-            {infra: "BTC", supra: "MEC"},
-        MECDOGE
-            :
-            {infra: "DOGE", supra: "MEC"},
-        MECLTC
-            :
-            {infra: "LTC", supra: "MEC"},
-        MEOWDOGE
-            :
-            {infra: "DOGE", supra: "MEOW"},
-        MEOWLTC
-            :
-            {infra: "LTC", supra: "MEOW"},
-        MGOBTC
-            :
-            {infra: "BTC", supra: "MGO"},
-        MGODOGE
-            :
-            {infra: "DOGE", supra: "MGO"},
-        MGOLTC
-            :
-            {infra: "LTC", supra: "MGO"},
-        MGXBTC
-            :
-            {infra: "BTC", supra: "MGX"},
-        MGXDOGE
-            :
-            {infra: "DOGE", supra: "MGX"},
-        MGXLTC
-            :
-            {infra: "LTC", supra: "MGX"},
-        MINEXBTC
-            :
-            {infra: "BTC", supra: "MINEX"},
-        MINEXDOGE
-            :
-            {infra: "DOGE", supra: "MINEX"},
-        MINEXLTC
-            :
-            {infra: "LTC", supra: "MINEX"},
-        MINTBTC
-            :
-            {infra: "BTC", supra: "MINT"},
-        MINTDOGE
-            :
-            {infra: "DOGE", supra: "MINT"},
-        MINTLTC
-            :
-            {infra: "LTC", supra: "MINT"},
-        MLITEBTC
-            :
-            {infra: "BTC", supra: "MLITE"},
-        MLITEDOGE
-            :
-            {infra: "DOGE", supra: "MLITE"},
-        MLITELTC
-            :
-            {infra: "LTC", supra: "MLITE"},
-        MNEBTC
-            :
-            {infra: "BTC", supra: "MNE"},
-        MNEDOGE
-            :
-            {infra: "DOGE", supra: "MNE"},
-        MNELTC
-            :
-            {infra: "LTC", supra: "MNE"},
-        MNMBTC
-            :
-            {infra: "BTC", supra: "MNM"},
-        MNMDOGE
-            :
-            {infra: "DOGE", supra: "MNM"},
-        MNMLTC
-            :
-            {infra: "LTC", supra: "MNM"},
-        MOINBTC
-            :
-            {infra: "BTC", supra: "MOIN"},
-        MOINDOGE
-            :
-            {infra: "DOGE", supra: "MOIN"},
-        MOINLTC
-            :
-            {infra: "LTC", supra: "MOIN"},
-        MOJOBTC
-            :
-            {infra: "BTC", supra: "MOJO"},
-        MOJODOGE
-            :
-            {infra: "DOGE", supra: "MOJO"},
-        MOJOLTC
-            :
-            {infra: "LTC", supra: "MOJO"},
-        MONKBTC
-            :
-            {infra: "BTC", supra: "MONK"},
-        MONKDOGE
-            :
-            {infra: "DOGE", supra: "MONK"},
-        MONKLTC
-            :
-            {infra: "LTC", supra: "MONK"},
-        MOTOBTC
-            :
-            {infra: "BTC", supra: "MOTO"},
-        MOTODOGE
-            :
-            {infra: "DOGE", supra: "MOTO"},
-        MOTOLTC
-            :
-            {infra: "LTC", supra: "MOTO"},
-        MSPBTC
-            :
-            {infra: "BTC", supra: "MSP"},
-        MSPDOGE
-            :
-            {infra: "DOGE", supra: "MSP"},
-        MSPLTC
-            :
-            {infra: "LTC", supra: "MSP"},
-        MSTBTC
-            :
-            {infra: "BTC", supra: "MST"},
-        MSTDOGE
-            :
-            {infra: "DOGE", supra: "MST"},
-        MSTLTC
-            :
-            {infra: "LTC", supra: "MST"},
-        MTLBTC
-            :
-            {infra: "BTC", supra: "MTL"},
-        MTLDOGE
-            :
-            {infra: "DOGE", supra: "MTL"},
-        MTLLTC
-            :
-            {infra: "LTC", supra: "MTL"},
-        MTLMCBTC
-            :
-            {infra: "BTC", supra: "MTLMC"},
-        MTLMCDOGE
-            :
-            {infra: "DOGE", supra: "MTLMC"},
-        MTLMCLTC
-            :
-            {infra: "LTC", supra: "MTLMC"},
-        MTNCBTC
-            :
-            {infra: "BTC", supra: "MTNC"},
-        MTNCDOGE
-            :
-            {infra: "DOGE", supra: "MTNC"},
-        MTNCLTC
-            :
-            {infra: "LTC", supra: "MTNC"},
-        MUSICBTC
-            :
-            {infra: "BTC", supra: "MUSIC"},
-        MUSICDOGE
-            :
-            {infra: "DOGE", supra: "MUSIC"},
-        MUSICLTC
-            :
-            {infra: "LTC", supra: "MUSIC"},
-        MYBBTC
-            :
-            {infra: "BTC", supra: "MYB"},
-        MYBDOGE
-            :
-            {infra: "DOGE", supra: "MYB"},
-        MYBLTC
-            :
-            {infra: "LTC", supra: "MYB"},
-        MZCBTC
-            :
-            {infra: "BTC", supra: "MZC"},
-        MZCDOGE
-            :
-            {infra: "DOGE", supra: "MZC"},
-        MZCLTC
-            :
-            {infra: "LTC", supra: "MZC"},
-        NAMOBTC
-            :
-            {infra: "BTC", supra: "NAMO"},
-        NAMODOGE
-            :
-            {infra: "DOGE", supra: "NAMO"},
-        NAMOLTC
-            :
-            {infra: "LTC", supra: "NAMO"},
-        NAVBTC
-            :
-            {infra: "BTC", supra: "NAV"},
-        NAVDOGE
-            :
-            {infra: "DOGE", supra: "NAV"},
-        NAVLTC
-            :
-            {infra: "LTC", supra: "NAV"},
-        NAVNZDT
-            :
-            {infra: "NZDT", supra: "NAV"},
-        NAVUSDT
-            :
-            {infra: "USD", supra: "NAV"},
-        NDAOBTC
-            :
-            {infra: "BTC", supra: "NDAO"},
-        NDAODOGE
-            :
-            {infra: "DOGE", supra: "NDAO"},
-        NDAOLTC
-            :
-            {infra: "LTC", supra: "NDAO"},
-        NEBLBTC
-            :
-            {infra: "BTC", supra: "NEBL"},
-        NEBLDOGE
-            :
-            {infra: "DOGE", supra: "NEBL"},
-        NEBLLTC
-            :
-            {infra: "LTC", supra: "NEBL"},
-        NEOBTC
-            :
-            {infra: "BTC", supra: "NEO"},
-        NEODOGE
-            :
-            {infra: "DOGE", supra: "NEO"},
-        NEOLTC
-            :
-            {infra: "LTC", supra: "NEO"},
-        NETBTC
-            :
-            {infra: "BTC", supra: "NET"},
-        NETDOGE
-            :
-            {infra: "DOGE", supra: "NET"},
-        NETKOBTC
-            :
-            {infra: "BTC", supra: "NETKO"},
-        NETKODOGE
-            :
-            {infra: "DOGE", supra: "NETKO"},
-        NETKOLTC
-            :
-            {infra: "LTC", supra: "NETKO"},
-        NETLTC
-            :
-            {infra: "LTC", supra: "NET"},
-        NEVABTC
-            :
-            {infra: "BTC", supra: "NEVA"},
-        NEVADOGE
-            :
-            {infra: "DOGE", supra: "NEVA"},
-        NEVALTC
-            :
-            {infra: "LTC", supra: "NEVA"},
-        NKABTC
-            :
-            {infra: "BTC", supra: "NKA"},
-        NKADOGE
-            :
-            {infra: "DOGE", supra: "NKA"},
-        NKALTC
-            :
-            {infra: "LTC", supra: "NKA"},
-        NLC2BTC
-            :
-            {infra: "BTC", supra: "NLC2"},
-        NLC2DOGE
-            :
-            {infra: "DOGE", supra: "NLC2"},
-        NLC2LTC
-            :
-            {infra: "LTC", supra: "NLC2"},
-        NMCBTC
-            :
-            {infra: "BTC", supra: "NMC"},
-        NMCDOGE
-            :
-            {infra: "DOGE", supra: "NMC"},
-        NMCLTC
-            :
-            {infra: "LTC", supra: "NMC"},
-        NMSBTC
-            :
-            {infra: "BTC", supra: "NMS"},
-        NMSDOGE
-            :
-            {infra: "DOGE", supra: "NMS"},
-        NMSLTC
-            :
-            {infra: "LTC", supra: "NMS"},
-        NOBLBTC
-            :
-            {infra: "BTC", supra: "NOBL"},
-        NOBLDOGE
-            :
-            {infra: "DOGE", supra: "NOBL"},
-        NOBLLTC
-            :
-            {infra: "LTC", supra: "NOBL"},
-        NOTEBTC
-            :
-            {infra: "BTC", supra: "NOTE"},
-        NOTEDOGE
-            :
-            {infra: "DOGE", supra: "NOTE"},
-        NOTELTC
-            :
-            {infra: "LTC", supra: "NOTE"},
-        NTRNBTC
-            :
-            {infra: "BTC", supra: "NTRN"},
-        NTRNDOGE
-            :
-            {infra: "DOGE", supra: "NTRN"},
-        NTRNLTC
-            :
-            {infra: "LTC", supra: "NTRN"},
-        NVCBTC
-            :
-            {infra: "BTC", supra: "NVC"},
-        NVCDOGE
-            :
-            {infra: "DOGE", supra: "NVC"},
-        NVCLTC
-            :
-            {infra: "LTC", supra: "NVC"},
-        NXSBTC
-            :
-            {infra: "BTC", supra: "NXS"},
-        NXSDOGE
-            :
-            {infra: "DOGE", supra: "NXS"},
-        NXSLTC
-            :
-            {infra: "LTC", supra: "NXS"},
-        NYANBTC
-            :
-            {infra: "BTC", supra: "NYAN"},
-        NYANDOGE
-            :
-            {infra: "DOGE", supra: "NYAN"},
-        NYANLTC
-            :
-            {infra: "LTC", supra: "NYAN"},
-        NZDTUSDT
-            :
-            {infra: "USD", supra: "NZDT"},
-        ODNBTC
-            :
-            {infra: "BTC", supra: "ODN"},
-        ODNDOGE
-            :
-            {infra: "DOGE", supra: "ODN"},
-        ODNLTC
-            :
-            {infra: "LTC", supra: "ODN"},
-        OFFBTC
-            :
-            {infra: "BTC", supra: "OFF"},
-        OFFDOGE
-            :
-            {infra: "DOGE", supra: "OFF"},
-        OFFLTC
-            :
-            {infra: "LTC", supra: "OFF"},
-        OKBTC
-            :
-            {infra: "BTC", supra: "OK"},
-        OKDOGE
-            :
-            {infra: "DOGE", supra: "OK"},
-        OKLTC
-            :
-            {infra: "LTC", supra: "OK"},
-        OMGBTC
-            :
-            {infra: "BTC", supra: "OMG"},
-        OMGDOGE
-            :
-            {infra: "DOGE", supra: "OMG"},
-        OMGLTC
-            :
-            {infra: "LTC", supra: "OMG"},
-        ONIONBTC
-            :
-            {infra: "BTC", supra: "ONION"},
-        ONIONDOGE
-            :
-            {infra: "DOGE", supra: "ONION"},
-        ONIONLTC
-            :
-            {infra: "LTC", supra: "ONION"},
-        OOOBTC
-            :
-            {infra: "BTC", supra: "OOO"},
-        OOODOGE
-            :
-            {infra: "DOGE", supra: "OOO"},
-        OOOLTC
-            :
-            {infra: "LTC", supra: "OOO"},
-        OPALBTC
-            :
-            {infra: "BTC", supra: "OPAL"},
-        OPALDOGE
-            :
-            {infra: "DOGE", supra: "OPAL"},
-        OPALLTC
-            :
-            {infra: "LTC", supra: "OPAL"},
-        OPCBTC
-            :
-            {infra: "BTC", supra: "OPC"},
-        OPCDOGE
-            :
-            {infra: "DOGE", supra: "OPC"},
-        OPCLTC
-            :
-            {infra: "LTC", supra: "OPC"},
-        ORBBTC
-            :
-            {infra: "BTC", supra: "ORB"},
-        ORBDOGE
-            :
-            {infra: "DOGE", supra: "ORB"},
-        ORBLTC
-            :
-            {infra: "LTC", supra: "ORB"},
-        ORMEBTC
-            :
-            {infra: "BTC", supra: "ORME"},
-        ORMEDOGE
-            :
-            {infra: "DOGE", supra: "ORME"},
-        ORMELTC
-            :
-            {infra: "LTC", supra: "ORME"},
-        ORMENZDT
-            :
-            {infra: "NZDT", supra: "ORME"},
-        ORMEUSDT
-            :
-            {infra: "USD", supra: "ORME"},
-        OSCBTC
-            :
-            {infra: "BTC", supra: "OSC"},
-        OSCDOGE
-            :
-            {infra: "DOGE", supra: "OSC"},
-        OSCLTC
-            :
-            {infra: "LTC", supra: "OSC"},
-        OTNBTC
-            :
-            {infra: "BTC", supra: "OTN"},
-        OTNDOGE
-            :
-            {infra: "DOGE", supra: "OTN"},
-        OTNLTC
-            :
-            {infra: "LTC", supra: "OTN"},
-        OXBTC
-            :
-            {infra: "BTC", supra: "OX"},
-        OXDOGE
-            :
-            {infra: "DOGE", supra: "OX"},
-        OXLTC
-            :
-            {infra: "LTC", supra: "OX"},
-        OZCBTC
-            :
-            {infra: "BTC", supra: "OZC"},
-        OZCDOGE
-            :
-            {infra: "DOGE", supra: "OZC"},
-        OZCLTC
-            :
-            {infra: "LTC", supra: "OZC"},
-        PACBTC
-            :
-            {infra: "BTC", supra: "PAC"},
-        PACDOGE
-            :
-            {infra: "DOGE", supra: "PAC"},
-        PACLTC
-            :
-            {infra: "LTC", supra: "PAC"},
-        PAKBTC
-            :
-            {infra: "BTC", supra: "PAK"},
-        PAKDOGE
-            :
-            {infra: "DOGE", supra: "PAK"},
-        PAKLTC
-            :
-            {infra: "LTC", supra: "PAK"},
-        PASLBTC
-            :
-            {infra: "BTC", supra: "PASL"},
-        PASLDOGE
-            :
-            {infra: "DOGE", supra: "PASL"},
-        PASLLTC
-            :
-            {infra: "LTC", supra: "PASL"},
-        PAYBTC
-            :
-            {infra: "BTC", supra: "PAY"},
-        PAYDOGE
-            :
-            {infra: "DOGE", supra: "PAY"},
-        PAYLTC
-            :
-            {infra: "LTC", supra: "PAY"},
-        PBLBTC
-            :
-            {infra: "BTC", supra: "PBL"},
-        PBLDOGE
-            :
-            {infra: "DOGE", supra: "PBL"},
-        PBLLTC
-            :
-            {infra: "LTC", supra: "PBL"},
-        PCCBTC
-            :
-            {infra: "BTC", supra: "PCC"},
-        PCCDOGE
-            :
-            {infra: "DOGE", supra: "PCC"},
-        PCCLTC
-            :
-            {infra: "LTC", supra: "PCC"},
-        PCOINBTC
-            :
-            {infra: "BTC", supra: "PCOIN"},
-        PCOINDOGE
-            :
-            {infra: "DOGE", supra: "PCOIN"},
-        PCOINLTC
-            :
-            {infra: "LTC", supra: "PCOIN"},
-        PENGBTC
-            :
-            {infra: "BTC", supra: "PENG"},
-        PENGDOGE
-            :
-            {infra: "DOGE", supra: "PENG"},
-        PENGLTC
-            :
-            {infra: "LTC", supra: "PENG"},
-        PEPEBTC
-            :
-            {infra: "BTC", supra: "PEPE"},
-        PEPEDOGE
-            :
-            {infra: "DOGE", supra: "PEPE"},
-        PEPELTC
-            :
-            {infra: "LTC", supra: "PEPE"},
-        PHOBTC
-            :
-            {infra: "BTC", supra: "PHO"},
-        PHODOGE
-            :
-            {infra: "DOGE", supra: "PHO"},
-        PHOLTC
-            :
-            {infra: "LTC", supra: "PHO"},
-        PHRBTC
-            :
-            {infra: "BTC", supra: "PHR"},
-        PHRDOGE
-            :
-            {infra: "DOGE", supra: "PHR"},
-        PHRLTC
-            :
-            {infra: "LTC", supra: "PHR"},
-        PHSBTC
-            :
-            {infra: "BTC", supra: "PHS"},
-        PHSDOGE
-            :
-            {infra: "DOGE", supra: "PHS"},
-        PHSLTC
-            :
-            {infra: "LTC", supra: "PHS"},
-        PIGGYBTC
-            :
-            {infra: "BTC", supra: "PIGGY"},
-        PIGGYDOGE
-            :
-            {infra: "DOGE", supra: "PIGGY"},
-        PIGGYLTC
-            :
-            {infra: "LTC", supra: "PIGGY"},
-        PINKBTC
-            :
-            {infra: "BTC", supra: "PINK"},
-        PINKDOGE
-            :
-            {infra: "DOGE", supra: "PINK"},
-        PINKLTC
-            :
-            {infra: "LTC", supra: "PINK"},
-        PIRLBTC
-            :
-            {infra: "BTC", supra: "PIRL"},
-        PIRLDOGE
-            :
-            {infra: "DOGE", supra: "PIRL"},
-        PIRLLTC
-            :
-            {infra: "LTC", supra: "PIRL"},
-        PIVXBTC
-            :
-            {infra: "BTC", supra: "PIVX"},
-        PIVXDOGE
-            :
-            {infra: "DOGE", supra: "PIVX"},
-        PIVXLTC
-            :
-            {infra: "LTC", supra: "PIVX"},
-        PLCBTC
-            :
-            {infra: "BTC", supra: "PLC"},
-        PLCDOGE
-            :
-            {infra: "DOGE", supra: "PLC"},
-        PLCLTC
-            :
-            {infra: "LTC", supra: "PLC"},
-        PLRBTC
-            :
-            {infra: "BTC", supra: "PLR"},
-        PLRDOGE
-            :
-            {infra: "DOGE", supra: "PLR"},
-        PLRLTC
-            :
-            {infra: "LTC", supra: "PLR"},
-        PLXBTC
-            :
-            {infra: "BTC", supra: "PLX"},
-        PLXDOGE
-            :
-            {infra: "DOGE", supra: "PLX"},
-        PLXLTC
-            :
-            {infra: "LTC", supra: "PLX"},
-        PNDBTC
-            :
-            {infra: "BTC", supra: "PND"},
-        PNDDOGE
-            :
-            {infra: "DOGE", supra: "PND"},
-        PNDLTC
-            :
-            {infra: "LTC", supra: "PND"},
-        POLLBTC
-            :
-            {infra: "BTC", supra: "POLL"},
-        POLLDOGE
-            :
-            {infra: "DOGE", supra: "POLL"},
-        POLLLTC
-            :
-            {infra: "LTC", supra: "POLL"},
-        POPBTC
-            :
-            {infra: "BTC", supra: "POP"},
-        POPDOGE
-            :
-            {infra: "DOGE", supra: "POP"},
-        POPLTC
-            :
-            {infra: "LTC", supra: "POP"},
-        POSTBTC
-            :
-            {infra: "BTC", supra: "POST"},
-        POSTDOGE
-            :
-            {infra: "DOGE", supra: "POST"},
-        POSTLTC
-            :
-            {infra: "LTC", supra: "POST"},
-        POSWBTC
-            :
-            {infra: "BTC", supra: "POSW"},
-        POSWDOGE
-            :
-            {infra: "DOGE", supra: "POSW"},
-        POSWLTC
-            :
-            {infra: "LTC", supra: "POSW"},
-        POTBTC
-            :
-            {infra: "BTC", supra: "POT"},
-        POTDOGE
-            :
-            {infra: "DOGE", supra: "POT"},
-        POTLTC
-            :
-            {infra: "LTC", supra: "POT"},
-        POWRBTC
-            :
-            {infra: "BTC", supra: "POWR"},
-        POWRDOGE
-            :
-            {infra: "DOGE", supra: "POWR"},
-        POWRLTC
-            :
-            {infra: "LTC", supra: "POWR"},
-        PPCBTC
-            :
-            {infra: "BTC", supra: "PPC"},
-        PPCDOGE
-            :
-            {infra: "DOGE", supra: "PPC"},
-        PPCLTC
-            :
-            {infra: "LTC", supra: "PPC"},
-        PRBTC
-            :
-            {infra: "BTC", supra: "PR"},
-        PRDOGE
-            :
-            {infra: "DOGE", supra: "PR"},
-        PRLBTC
-            :
-            {infra: "BTC", supra: "PRL"},
-        PRLDOGE
-            :
-            {infra: "DOGE", supra: "PRL"},
-        PRLLTC
-            :
-            {infra: "LTC", supra: "PRL"},
-        PRLTC
-            :
-            {infra: "LTC", supra: "PR"},
-        PROCBTC
-            :
-            {infra: "BTC", supra: "PROC"},
-        PROCDOGE
-            :
-            {infra: "DOGE", supra: "PROC"},
-        PROCLTC
-            :
-            {infra: "LTC", supra: "PROC"},
-        PTCBTC
-            :
-            {infra: "BTC", supra: "PTC"},
-        PTCDOGE
-            :
-            {infra: "DOGE", supra: "PTC"},
-        PTCLTC
-            :
-            {infra: "LTC", supra: "PTC"},
-        PURABTC
-            :
-            {infra: "BTC", supra: "PURA"},
-        PURADOGE
-            :
-            {infra: "DOGE", supra: "PURA"},
-        PURALTC
-            :
-            {infra: "LTC", supra: "PURA"},
-        PUTBTC
-            :
-            {infra: "BTC", supra: "PUT"},
-        PUTDOGE
-            :
-            {infra: "DOGE", supra: "PUT"},
-        PUTLTC
-            :
-            {infra: "LTC", supra: "PUT"},
-        PXCBTC
-            :
-            {infra: "BTC", supra: "PXC"},
-        PXCDOGE
-            :
-            {infra: "DOGE", supra: "PXC"},
-        PXCLTC
-            :
-            {infra: "LTC", supra: "PXC"},
-        PXIBTC
-            :
-            {infra: "BTC", supra: "PXI"},
-        PXIDOGE
-            :
-            {infra: "DOGE", supra: "PXI"},
-        PXILTC
-            :
-            {infra: "LTC", supra: "PXI"},
-        Q2CBTC
-            :
-            {infra: "BTC", supra: "Q2C"},
-        Q2CDOGE
-            :
-            {infra: "DOGE", supra: "Q2C"},
-        Q2CLTC
-            :
-            {infra: "LTC", supra: "Q2C"},
-        QBTBTC
-            :
-            {infra: "BTC", supra: "QBT"},
-        QBTDOGE
-            :
-            {infra: "DOGE", supra: "QBT"},
-        QBTLTC
-            :
-            {infra: "LTC", supra: "QBT"},
-        QRKBTC
-            :
-            {infra: "BTC", supra: "QRK"},
-        QRKDOGE
-            :
-            {infra: "DOGE", supra: "QRK"},
-        QRKLTC
-            :
-            {infra: "LTC", supra: "QRK"},
-        QTLBTC
-            :
-            {infra: "BTC", supra: "QTL"},
-        QTLDOGE
-            :
-            {infra: "DOGE", supra: "QTL"},
-        QTLLTC
-            :
-            {infra: "LTC", supra: "QTL"},
-        QWARKBTC
-            :
-            {infra: "BTC", supra: "QWARK"},
-        QWARKDOGE
-            :
-            {infra: "DOGE", supra: "QWARK"},
-        QWARKLTC
-            :
-            {infra: "LTC", supra: "QWARK"},
-        RAINBTC
-            :
-            {infra: "BTC", supra: "RAIN"},
-        RAINDOGE
-            :
-            {infra: "DOGE", supra: "RAIN"},
-        RAINLTC
-            :
-            {infra: "LTC", supra: "RAIN"},
-        RBBTBTC
-            :
-            {infra: "BTC", supra: "RBBT"},
-        RBBTDOGE
-            :
-            {infra: "DOGE", supra: "RBBT"},
-        RBBTLTC
-            :
-            {infra: "LTC", supra: "RBBT"},
-        RBTBTC
-            :
-            {infra: "BTC", supra: "RBT"},
-        RBTC
-            :
-            {infra: "BTC", supra: "R"},
-        RBTDOGE
-            :
-            {infra: "DOGE", supra: "RBT"},
-        RBTLTC
-            :
-            {infra: "LTC", supra: "RBT"},
-        RBYBTC
-            :
-            {infra: "BTC", supra: "RBY"},
-        RBYDOGE
-            :
-            {infra: "DOGE", supra: "RBY"},
-        RBYLTC
-            :
-            {infra: "LTC", supra: "RBY"},
-        RCBTC
-            :
-            {infra: "BTC", supra: "RC"},
-        RCDOGE
-            :
-            {infra: "DOGE", supra: "RC"},
-        RCLTC
-            :
-            {infra: "LTC", supra: "RC"},
-        RDDBTC
-            :
-            {infra: "BTC", supra: "RDD"},
-        RDDDOGE
-            :
-            {infra: "DOGE", supra: "RDD"},
-        RDDLTC
-            :
-            {infra: "LTC", supra: "RDD"},
-        RDOGE
-            :
-            {infra: "DOGE", supra: "R"},
-        REDBTC
-            :
-            {infra: "BTC", supra: "RED"},
-        REDDOGE
-            :
-            {infra: "DOGE", supra: "RED"},
-        REDLTC
-            :
-            {infra: "LTC", supra: "RED"},
-        REPBTC
-            :
-            {infra: "BTC", supra: "REP"},
-        REPDOGE
-            :
-            {infra: "DOGE", supra: "REP"},
-        REPLTC
-            :
-            {infra: "LTC", supra: "REP"},
-        RICKSBTC
-            :
-            {infra: "BTC", supra: "RICKS"},
-        RICKSDOGE
-            :
-            {infra: "DOGE", supra: "RICKS"},
-        RICKSLTC
-            :
-            {infra: "LTC", supra: "RICKS"},
-        RIYABTC
-            :
-            {infra: "BTC", supra: "RIYA"},
-        RIYADOGE
-            :
-            {infra: "DOGE", supra: "RIYA"},
-        RIYALTC
-            :
-            {infra: "LTC", supra: "RIYA"},
-        RKCBTC
-            :
-            {infra: "BTC", supra: "RKC"},
-        RKCDOGE
-            :
-            {infra: "DOGE", supra: "RKC"},
-        RKCLTC
-            :
-            {infra: "LTC", supra: "RKC"},
-        RLTC
-            :
-            {infra: "LTC", supra: "R"},
-        RNSBTC
-            :
-            {infra: "BTC", supra: "RNS"},
-        RNSDOGE
-            :
-            {infra: "DOGE", supra: "RNS"},
-        RNSLTC
-            :
-            {infra: "LTC", supra: "RNS"},
-        RPCBTC
-            :
-            {infra: "BTC", supra: "RPC"},
-        RPCDOGE
-            :
-            {infra: "DOGE", supra: "RPC"},
-        RPCLTC
-            :
-            {infra: "LTC", supra: "RPC"},
-        RUPBTC
-            :
-            {infra: "BTC", supra: "RUP"},
-        RUPDOGE
-            :
-            {infra: "DOGE", supra: "RUP"},
-        RUPLTC
-            :
-            {infra: "LTC", supra: "RUP"},
-        SAFEXBTC
-            :
-            {infra: "BTC", supra: "SAFEX"},
-        SAFEXDOGE
-            :
-            {infra: "DOGE", supra: "SAFEX"},
-        SAFEXLTC
-            :
-            {infra: "LTC", supra: "SAFEX"},
-        SAGABTC
-            :
-            {infra: "BTC", supra: "SAGA"},
-        SAGADOGE
-            :
-            {infra: "DOGE", supra: "SAGA"},
-        SAGALTC
-            :
-            {infra: "LTC", supra: "SAGA"},
-        SAKBTC
-            :
-            {infra: "BTC", supra: "SAK"},
-        SAKDOGE
-            :
-            {infra: "DOGE", supra: "SAK"},
-        SAKLTC
-            :
-            {infra: "LTC", supra: "SAK"},
-        SANDBTC
-            :
-            {infra: "BTC", supra: "SAND"},
-        SANDDOGE
-            :
-            {infra: "DOGE", supra: "SAND"},
-        SANDLTC
-            :
-            {infra: "LTC", supra: "SAND"},
-        SBCBTC
-            :
-            {infra: "BTC", supra: "SBC"},
-        SBCDOGE
-            :
-            {infra: "DOGE", supra: "SBC"},
-        SBCLTC
-            :
-            {infra: "LTC", supra: "SBC"},
-        SCLBTC
-            :
-            {infra: "BTC", supra: "SCL"},
-        SCLDOGE
-            :
-            {infra: "DOGE", supra: "SCL"},
-        SCLLTC
-            :
-            {infra: "LTC", supra: "SCL"},
-        SCTBTC
-            :
-            {infra: "BTC", supra: "SCT"},
-        SDRNBTC
-            :
-            {infra: "BTC", supra: "SDRN"},
-        SDRNDOGE
-            :
-            {infra: "DOGE", supra: "SDRN"},
-        SDRNLTC
-            :
-            {infra: "LTC", supra: "SDRN"},
-        SELBTC
-            :
-            {infra: "BTC", supra: "SEL"},
-        SELDOGE
-            :
-            {infra: "DOGE", supra: "SEL"},
-        SELLTC
-            :
-            {infra: "LTC", supra: "SEL"},
-        SENDBTC
-            :
-            {infra: "BTC", supra: "SEND"},
-        SENDDOGE
-            :
-            {infra: "DOGE", supra: "SEND"},
-        SENDLTC
-            :
-            {infra: "LTC", supra: "SEND"},
-        SFCBTC
-            :
-            {infra: "BTC", supra: "SFC"},
-        SFCDOGE
-            :
-            {infra: "DOGE", supra: "SFC"},
-        SFCLTC
-            :
-            {infra: "LTC", supra: "SFC"},
-        SHABTC
-            :
-            {infra: "BTC", supra: "SHA"},
-        SHADOGE
-            :
-            {infra: "DOGE", supra: "SHA"},
-        SHALTC
-            :
-            {infra: "LTC", supra: "SHA"},
-        SHRMBTC
-            :
-            {infra: "BTC", supra: "SHRM"},
-        SHRMDOGE
-            :
-            {infra: "DOGE", supra: "SHRM"},
-        SHRMLTC
-            :
-            {infra: "LTC", supra: "SHRM"},
-        SIBBTC
-            :
-            {infra: "BTC", supra: "SIB"},
-        SIBDOGE
-            :
-            {infra: "DOGE", supra: "SIB"},
-        SIBLTC
-            :
-            {infra: "LTC", supra: "SIB"},
-        SJWBTC
-            :
-            {infra: "BTC", supra: "SJW"},
-        SJWDOGE
-            :
-            {infra: "DOGE", supra: "SJW"},
-        SJWLTC
-            :
-            {infra: "LTC", supra: "SJW"},
-        SKCBTC
-            :
-            {infra: "BTC", supra: "SKC"},
-        SKCDOGE
-            :
-            {infra: "DOGE", supra: "SKC"},
-        SKCLTC
-            :
-            {infra: "LTC", supra: "SKC"},
-        SKINBTC
-            :
-            {infra: "BTC", supra: "SKIN"},
-        SKINDOGE
-            :
-            {infra: "DOGE", supra: "SKIN"},
-        SKINLTC
-            :
-            {infra: "LTC", supra: "SKIN"},
-        SKRBTC
-            :
-            {infra: "BTC", supra: "SKR"},
-        SKRDOGE
-            :
-            {infra: "DOGE", supra: "SKR"},
-        SKRLTC
-            :
-            {infra: "LTC", supra: "SKR"},
-        SKYBTC
-            :
-            {infra: "BTC", supra: "SKY"},
-        SKYDOGE
-            :
-            {infra: "DOGE", supra: "SKY"},
-        SKYLTC
-            :
-            {infra: "LTC", supra: "SKY"},
-        SKYNZDT
-            :
-            {infra: "NZDT", supra: "SKY"},
-        SKYUSDT
-            :
-            {infra: "USD", supra: "SKY"},
-        SLGBTC
-            :
-            {infra: "BTC", supra: "SLG"},
-        SLGDOGE
-            :
-            {infra: "DOGE", supra: "SLG"},
-        SLGLTC
-            :
-            {infra: "LTC", supra: "SLG"},
-        SLOTHBTC
-            :
-            {infra: "BTC", supra: "SLOTH"},
-        SLOTHDOGE
-            :
-            {infra: "DOGE", supra: "SLOTH"},
-        SLOTHLTC
-            :
-            {infra: "LTC", supra: "SLOTH"},
-        SMARTBTC
-            :
-            {infra: "BTC", supra: "SMART"},
-        SMARTDOGE
-            :
-            {infra: "DOGE", supra: "SMART"},
-        SMARTLTC
-            :
-            {infra: "LTC", supra: "SMART"},
-        SMCBTC
-            :
-            {infra: "BTC", supra: "SMC"},
-        SMCDOGE
-            :
-            {infra: "DOGE", supra: "SMC"},
-        SMCLTC
-            :
-            {infra: "LTC", supra: "SMC"},
-        SOILBTC
-            :
-            {infra: "BTC", supra: "SOIL"},
-        SOILDOGE
-            :
-            {infra: "DOGE", supra: "SOIL"},
-        SOILLTC
-            :
-            {infra: "LTC", supra: "SOIL"},
-        SONGBTC
-            :
-            {infra: "BTC", supra: "SONG"},
-        SONGDOGE
-            :
-            {infra: "DOGE", supra: "SONG"},
-        SONGLTC
-            :
-            {infra: "LTC", supra: "SONG"},
-        SOONBTC
-            :
-            {infra: "BTC", supra: "SOON"},
-        SOONDOGE
-            :
-            {infra: "DOGE", supra: "SOON"},
-        SOONLTC
-            :
-            {infra: "LTC", supra: "SOON"},
-        SPACEBTC
-            :
-            {infra: "BTC", supra: "SPACE"},
-        SPACEDOGE
-            :
-            {infra: "DOGE", supra: "SPACE"},
-        SPACELTC
-            :
-            {infra: "LTC", supra: "SPACE"},
-        SPANKBTC
-            :
-            {infra: "BTC", supra: "SPANK"},
-        SPANKDOGE
-            :
-            {infra: "DOGE", supra: "SPANK"},
-        SPANKLTC
-            :
-            {infra: "LTC", supra: "SPANK"},
-        SPNBTC
-            :
-            {infra: "BTC", supra: "SPN"},
-        SPNDOGE
-            :
-            {infra: "DOGE", supra: "SPN"},
-        SPNLTC
-            :
-            {infra: "LTC", supra: "SPN"},
-        SPRBTC
-            :
-            {infra: "BTC", supra: "SPR"},
-        SPRDOGE
-            :
-            {infra: "DOGE", supra: "SPR"},
-        SPRLTC
-            :
-            {infra: "LTC", supra: "SPR"},
-        SPTBTC
-            :
-            {infra: "BTC", supra: "SPT"},
-        SPTDOGE
-            :
-            {infra: "DOGE", supra: "SPT"},
-        SPTLTC
-            :
-            {infra: "LTC", supra: "SPT"},
-        SQLBTC
-            :
-            {infra: "BTC", supra: "SQL"},
-        SQLDOGE
-            :
-            {infra: "DOGE", supra: "SQL"},
-        SQLLTC
-            :
-            {infra: "LTC", supra: "SQL"},
-        SRCBTC
-            :
-            {infra: "BTC", supra: "SRC"},
-        SRCDOGE
-            :
-            {infra: "DOGE", supra: "SRC"},
-        SRCLTC
-            :
-            {infra: "LTC", supra: "SRC"},
-        STARTBTC
-            :
-            {infra: "BTC", supra: "START"},
-        STARTDOGE
-            :
-            {infra: "DOGE", supra: "START"},
-        STARTLTC
-            :
-            {infra: "LTC", supra: "START"},
-        STCBTC
-            :
-            {infra: "BTC", supra: "STC"},
-        STCDOGE
-            :
-            {infra: "DOGE", supra: "STC"},
-        STCLTC
-            :
-            {infra: "LTC", supra: "STC"},
-        STNBTC
-            :
-            {infra: "BTC", supra: "STN"},
-        STNDOGE
-            :
-            {infra: "DOGE", supra: "STN"},
-        STNLTC
-            :
-            {infra: "LTC", supra: "STN"},
-        STRATBTC
-            :
-            {infra: "BTC", supra: "STRAT"},
-        STRATDOGE
-            :
-            {infra: "DOGE", supra: "STRAT"},
-        STRATLTC
-            :
-            {infra: "LTC", supra: "STRAT"},
-        STRCBTC
-            :
-            {infra: "BTC", supra: "STRC"},
-        STRCDOGE
-            :
-            {infra: "DOGE", supra: "STRC"},
-        STRCLTC
-            :
-            {infra: "LTC", supra: "STRC"},
-        STVBTC
-            :
-            {infra: "BTC", supra: "STV"},
-        STVDOGE
-            :
-            {infra: "DOGE", supra: "STV"},
-        STVLTC
-            :
-            {infra: "LTC", supra: "STV"},
-        SUMOBTC
-            :
-            {infra: "BTC", supra: "SUMO"},
-        SUMODOGE
-            :
-            {infra: "DOGE", supra: "SUMO"},
-        SUMOLTC
-            :
-            {infra: "LTC", supra: "SUMO"},
-        SWINGBTC
-            :
-            {infra: "BTC", supra: "SWING"},
-        SWINGDOGE
-            :
-            {infra: "DOGE", supra: "SWING"},
-        SWINGLTC
-            :
-            {infra: "LTC", supra: "SWING"},
-        SXCBTC
-            :
-            {infra: "BTC", supra: "SXC"},
-        SXCDOGE
-            :
-            {infra: "DOGE", supra: "SXC"},
-        SXCLTC
-            :
-            {infra: "LTC", supra: "SXC"},
-        SYNXBTC
-            :
-            {infra: "BTC", supra: "SYNX"},
-        SYNXDOGE
-            :
-            {infra: "DOGE", supra: "SYNX"},
-        SYNXLTC
-            :
-            {infra: "LTC", supra: "SYNX"},
-        TAJBTC
-            :
-            {infra: "BTC", supra: "TAJ"},
-        TAJDOGE
-            :
-            {infra: "DOGE", supra: "TAJ"},
-        TAJLTC
-            :
-            {infra: "LTC", supra: "TAJ"},
-        TEKBTC
-            :
-            {infra: "BTC", supra: "TEK"},
-        TEKDOGE
-            :
-            {infra: "DOGE", supra: "TEK"},
-        TEKLTC
-            :
-            {infra: "LTC", supra: "TEK"},
-        TERBTC
-            :
-            {infra: "BTC", supra: "TER"},
-        TERDOGE
-            :
-            {infra: "DOGE", supra: "TER"},
-        TERLTC
-            :
-            {infra: "LTC", supra: "TER"},
-        TESBTC
-            :
-            {infra: "BTC", supra: "TES"},
-        TESDOGE
-            :
-            {infra: "DOGE", supra: "TES"},
-        TESLTC
-            :
-            {infra: "LTC", supra: "TES"},
-        TGCBTC
-            :
-            {infra: "BTC", supra: "TGC"},
-        TGCDOGE
-            :
-            {infra: "DOGE", supra: "TGC"},
-        TGCLTC
-            :
-            {infra: "LTC", supra: "TGC"},
-        TITBTC
-            :
-            {infra: "BTC", supra: "TIT"},
-        TITDOGE
-            :
-            {infra: "DOGE", supra: "TIT"},
-        TITLTC
-            :
-            {infra: "LTC", supra: "TIT"},
-        TIXBTC
-            :
-            {infra: "BTC", supra: "TIX"},
-        TIXDOGE
-            :
-            {infra: "DOGE", supra: "TIX"},
-        TIXLTC
-            :
-            {infra: "LTC", supra: "TIX"},
-        TOABTC
-            :
-            {infra: "BTC", supra: "TOA"},
-        TOADOGE
-            :
-            {infra: "DOGE", supra: "TOA"},
-        TOALTC
-            :
-            {infra: "LTC", supra: "TOA"},
-        TOKBTC
-            :
-            {infra: "BTC", supra: "TOK"},
-        TOKDOGE
-            :
-            {infra: "DOGE", supra: "TOK"},
-        TOKLTC
-            :
-            {infra: "LTC", supra: "TOK"},
-        TOPBTC
-            :
-            {infra: "BTC", supra: "TOP"},
-        TOPDOGE
-            :
-            {infra: "DOGE", supra: "TOP"},
-        TOPLTC
-            :
-            {infra: "LTC", supra: "TOP"},
-        TRBOBTC
-            :
-            {infra: "BTC", supra: "TRBO"},
-        TRCBTC
-            :
-            {infra: "BTC", supra: "TRC"},
-        TRCDOGE
-            :
-            {infra: "DOGE", supra: "TRC"},
-        TRCLTC
-            :
-            {infra: "LTC", supra: "TRC"},
-        TRIBTC
-            :
-            {infra: "BTC", supra: "TRI"},
-        TRIDOGE
-            :
-            {infra: "DOGE", supra: "TRI"},
-        TRILTC
-            :
-            {infra: "LTC", supra: "TRI"},
-        TRKBTC
-            :
-            {infra: "BTC", supra: "TRK"},
-        TRKDOGE
-            :
-            {infra: "DOGE", supra: "TRK"},
-        TRKLTC
-            :
-            {infra: "LTC", supra: "TRK"},
-        TRUMPBTC
-            :
-            {infra: "BTC", supra: "TRUMP"},
-        TRUMPDOGE
-            :
-            {infra: "DOGE", supra: "TRUMP"},
-        TRUMPLTC
-            :
-            {infra: "LTC", supra: "TRUMP"},
-        TRXBTC
-            :
-            {infra: "BTC", supra: "TRX"},
-        TSEBTC
-            :
-            {infra: "BTC", supra: "TSE"},
-        TSEDOGE
-            :
-            {infra: "DOGE", supra: "TSE"},
-        TSELTC
-            :
-            {infra: "LTC", supra: "TSE"},
-        TTCBTC
-            :
-            {infra: "BTC", supra: "TTC"},
-        TTCDOGE
-            :
-            {infra: "DOGE", supra: "TTC"},
-        TTCLTC
-            :
-            {infra: "LTC", supra: "TTC"},
-        TTYBTC
-            :
-            {infra: "BTC", supra: "TTY"},
-        TTYDOGE
-            :
-            {infra: "DOGE", supra: "TTY"},
-        TTYLTC
-            :
-            {infra: "LTC", supra: "TTY"},
-        TXBTC
-            :
-            {infra: "BTC", supra: "TX"},
-        TXDOGE
-            :
-            {infra: "DOGE", supra: "TX"},
-        TXLTC
-            :
-            {infra: "LTC", supra: "TX"},
-        TZCBTC
-            :
-            {infra: "BTC", supra: "TZC"},
-        TZCDOGE
-            :
-            {infra: "DOGE", supra: "TZC"},
-        TZCLTC
-            :
-            {infra: "LTC", supra: "TZC"},
-        UBQBTC
-            :
-            {infra: "BTC", supra: "UBQ"},
-        UBQDOGE
-            :
-            {infra: "DOGE", supra: "UBQ"},
-        UBQLTC
-            :
-            {infra: "LTC", supra: "UBQ"},
-        UFRBTC
-            :
-            {infra: "BTC", supra: "UFR"},
-        UFRDOGE
-            :
-            {infra: "DOGE", supra: "UFR"},
-        UFRLTC
-            :
-            {infra: "LTC", supra: "UFR"},
-        UISBTC
-            :
-            {infra: "BTC", supra: "UIS"},
-        UISDOGE
-            :
-            {infra: "DOGE", supra: "UIS"},
-        UISLTC
-            :
-            {infra: "LTC", supra: "UIS"},
-        UMOBTC
-            :
-            {infra: "BTC", supra: "UMO"},
-        UMODOGE
-            :
-            {infra: "DOGE", supra: "UMO"},
-        UMOLTC
-            :
-            {infra: "LTC", supra: "UMO"},
-        UNICBTC
-            :
-            {infra: "BTC", supra: "UNIC"},
-        UNICDOGE
-            :
-            {infra: "DOGE", supra: "UNIC"},
-        UNICLTC
-            :
-            {infra: "LTC", supra: "UNIC"},
-        UNIFYBTC
-            :
-            {infra: "BTC", supra: "UNIFY"},
-        UNIFYDOGE
-            :
-            {infra: "DOGE", supra: "UNIFY"},
-        UNIFYLTC
-            :
-            {infra: "LTC", supra: "UNIFY"},
-        UNITBTC
-            :
-            {infra: "BTC", supra: "UNIT"},
-        UNITDOGE
-            :
-            {infra: "DOGE", supra: "UNIT"},
-        UNITLTC
-            :
-            {infra: "LTC", supra: "UNIT"},
-        UNITSBTC
-            :
-            {infra: "BTC", supra: "UNITS"},
-        UNITSDOGE
-            :
-            {infra: "DOGE", supra: "UNITS"},
-        UNITSLTC
-            :
-            {infra: "LTC", supra: "UNITS"},
-        UNOBTC
-            :
-            {infra: "BTC", supra: "UNO"},
-        UNODOGE
-            :
-            {infra: "DOGE", supra: "UNO"},
-        UNOLTC
-            :
-            {infra: "LTC", supra: "UNO"},
-        UNOUSDT
-            :
-            {infra: "USD", supra: "UNO"},
-        URBTC
-            :
-            {infra: "BTC", supra: "UR"},
-        URDOGE
-            :
-            {infra: "DOGE", supra: "UR"},
-        URLTC
-            :
-            {infra: "LTC", supra: "UR"},
-        UTCBTC
-            :
-            {infra: "BTC", supra: "UTC"},
-        UTCDOGE
-            :
-            {infra: "DOGE", supra: "UTC"},
-        UTCLTC
-            :
-            {infra: "LTC", supra: "UTC"},
-        VBTC
-            :
-            {infra: "BTC", supra: "V"},
-        VCCBTC
-            :
-            {infra: "BTC", supra: "VCC"},
-        VCCDOGE
-            :
-            {infra: "DOGE", supra: "VCC"},
-        VCCLTC
-            :
-            {infra: "LTC", supra: "VCC"},
-        VDOGE
-            :
-            {infra: "DOGE", supra: "V"},
-        VIDZBTC
-            :
-            {infra: "BTC", supra: "VIDZ"},
-        VIDZDOGE
-            :
-            {infra: "DOGE", supra: "VIDZ"},
-        VIDZLTC
-            :
-            {infra: "LTC", supra: "VIDZ"},
-        VIVOBTC
-            :
-            {infra: "BTC", supra: "VIVO"},
-        VIVODOGE
-            :
-            {infra: "DOGE", supra: "VIVO"},
-        VIVOLTC
-            :
-            {infra: "LTC", supra: "VIVO"},
-        VLTC
-            :
-            {infra: "LTC", supra: "V"},
-        VOISEBTC
-            :
-            {infra: "BTC", supra: "VOISE"},
-        VOISEDOGE
-            :
-            {infra: "DOGE", supra: "VOISE"},
-        VOISELTC
-            :
-            {infra: "LTC", supra: "VOISE"},
-        VPRCBTC
-            :
-            {infra: "BTC", supra: "VPRC"},
-        VPRCDOGE
-            :
-            {infra: "DOGE", supra: "VPRC"},
-        VPRCLTC
-            :
-            {infra: "LTC", supra: "VPRC"},
-        VRCBTC
-            :
-            {infra: "BTC", supra: "VRC"},
-        VRCDOGE
-            :
-            {infra: "DOGE", supra: "VRC"},
-        VRCLTC
-            :
-            {infra: "LTC", supra: "VRC"},
-        VRMBTC
-            :
-            {infra: "BTC", supra: "VRM"},
-        VRMDOGE
-            :
-            {infra: "DOGE", supra: "VRM"},
-        VRMLTC
-            :
-            {infra: "LTC", supra: "VRM"},
-        VUCBTC
-            :
-            {infra: "BTC", supra: "VUC"},
-        VUCDOGE
-            :
-            {infra: "DOGE", supra: "VUC"},
-        VUCLTC
-            :
-            {infra: "LTC", supra: "VUC"},
-        WCBTC
-            :
-            {infra: "BTC", supra: "WC"},
-        WCDOGE
-            :
-            {infra: "DOGE", supra: "WC"},
-        WCLTC
-            :
-            {infra: "LTC", supra: "WC"},
-        WColdBTC
-            :
-            {infra: "BTC", supra: "WC_old"},
-        WColdDOGE
-            :
-            {infra: "DOGE", supra: "WC_old"},
-        WColdLTC
-            :
-            {infra: "LTC", supra: "WC_old"},
-        WDCBTC
-            :
-            {infra: "BTC", supra: "WDC"},
-        WDCDOGE
-            :
-            {infra: "DOGE", supra: "WDC"},
-        WDCLTC
-            :
-            {infra: "LTC", supra: "WDC"},
-        WEEDBTC
-            :
-            {infra: "BTC", supra: "WEED"},
-        WEEDDOGE
-            :
-            {infra: "DOGE", supra: "WEED"},
-        WEEDLTC
-            :
-            {infra: "LTC", supra: "WEED"},
-        WILDBTC
-            :
-            {infra: "BTC", supra: "WILD"},
-        WILDDOGE
-            :
-            {infra: "DOGE", supra: "WILD"},
-        WILDLTC
-            :
-            {infra: "LTC", supra: "WILD"},
-        WISHBTC
-            :
-            {infra: "BTC", supra: "WISH"},
-        WISHDOGE
-            :
-            {infra: "DOGE", supra: "WISH"},
-        WISHLTC
-            :
-            {infra: "LTC", supra: "WISH"},
-        WLCBTC
-            :
-            {infra: "BTC", supra: "WLC"},
-        WLCDOGE
-            :
-            {infra: "DOGE", supra: "WLC"},
-        WLCLTC
-            :
-            {infra: "LTC", supra: "WLC"},
-        WRCBTC
-            :
-            {infra: "BTC", supra: "WRC"},
-        WRCDOGE
-            :
-            {infra: "DOGE", supra: "WRC"},
-        WRCLTC
-            :
-            {infra: "LTC", supra: "WRC"},
-        WSXBTC
-            :
-            {infra: "BTC", supra: "WSX"},
-        WSXDOGE
-            :
-            {infra: "DOGE", supra: "WSX"},
-        WSXLTC
-            :
-            {infra: "LTC", supra: "WSX"},
-        WWBTC
-            :
-            {infra: "BTC", supra: "WW"},
-        WWDOGE
-            :
-            {infra: "DOGE", supra: "WW"},
-        WWLTC
-            :
-            {infra: "LTC", supra: "WW"},
-        XBCBTC
-            :
-            {infra: "BTC", supra: "XBC"},
-        XBCDOGE
-            :
-            {infra: "DOGE", supra: "XBC"},
-        XBCLTC
-            :
-            {infra: "LTC", supra: "XBC"},
-        XBLBTC
-            :
-            {infra: "BTC", supra: "XBL"},
-        XBLDOGE
-            :
-            {infra: "DOGE", supra: "XBL"},
-        XBLLTC
-            :
-            {infra: "LTC", supra: "XBL"},
-        XBTSBTC
-            :
-            {infra: "BTC", supra: "XBTS"},
-        XBTSDOGE
-            :
-            {infra: "DOGE", supra: "XBTS"},
-        XBTSLTC
-            :
-            {infra: "LTC", supra: "XBTS"},
-        XBYBTC
-            :
-            {infra: "BTC", supra: "XBY"},
-        XBYDOGE
-            :
-            {infra: "DOGE", supra: "XBY"},
-        XBYLTC
-            :
-            {infra: "LTC", supra: "XBY"},
-        XCOBTC
-            :
-            {infra: "BTC", supra: "XCO"},
-        XCODOGE
-            :
-            {infra: "DOGE", supra: "XCO"},
-        XCOLTC
-            :
-            {infra: "LTC", supra: "XCO"},
-        XCPOBTC
-            :
-            {infra: "BTC", supra: "XCPO"},
-        XCPODOGE
-            :
-            {infra: "DOGE", supra: "XCPO"},
-        XCPOLTC
-            :
-            {infra: "LTC", supra: "XCPO"},
-        XCREBTC
-            :
-            {infra: "BTC", supra: "XCRE"},
-        XCREDOGE
-            :
-            {infra: "DOGE", supra: "XCRE"},
-        XCRELTC
-            :
-            {infra: "LTC", supra: "XCRE"},
-        XCTBTC
-            :
-            {infra: "BTC", supra: "XCT"},
-        XCTDOGE
-            :
-            {infra: "DOGE", supra: "XCT"},
-        XCTLTC
-            :
-            {infra: "LTC", supra: "XCT"},
-        XCXTBTC
-            :
-            {infra: "BTC", supra: "XCXT"},
-        XCXTDOGE
-            :
-            {infra: "DOGE", supra: "XCXT"},
-        XCXTLTC
-            :
-            {infra: "LTC", supra: "XCXT"},
-        XEMBTC
-            :
-            {infra: "BTC", supra: "XEM"},
-        XEMDOGE
-            :
-            {infra: "DOGE", supra: "XEM"},
-        XEMLTC
-            :
-            {infra: "LTC", supra: "XEM"},
-        XFTBTC
-            :
-            {infra: "BTC", supra: "XFT"},
-        XFTDOGE
-            :
-            {infra: "DOGE", supra: "XFT"},
-        XFTLTC
-            :
-            {infra: "LTC", supra: "XFT"},
-        XGOXBTC
-            :
-            {infra: "BTC", supra: "XGOX"},
-        XGOXDOGE
-            :
-            {infra: "DOGE", supra: "XGOX"},
-        XGOXLTC
-            :
-            {infra: "LTC", supra: "XGOX"},
-        XGRBTC
-            :
-            {infra: "BTC", supra: "XGR"},
-        XGRDOGE
-            :
-            {infra: "DOGE", supra: "XGR"},
-        XGRLTC
-            :
-            {infra: "LTC", supra: "XGR"},
-        XIDBTC
-            :
-            {infra: "BTC", supra: "XID"},
-        XIDDOGE
-            :
-            {infra: "DOGE", supra: "XID"},
-        XIDLTC
-            :
-            {infra: "LTC", supra: "XID"},
-        XJOBTC
-            :
-            {infra: "BTC", supra: "XJO"},
-        XJODOGE
-            :
-            {infra: "DOGE", supra: "XJO"},
-        XJOLTC
-            :
-            {infra: "LTC", supra: "XJO"},
-        XLCBTC
-            :
-            {infra: "BTC", supra: "XLC"},
-        XLCDOGE
-            :
-            {infra: "DOGE", supra: "XLC"},
-        XLCLTC
-            :
-            {infra: "LTC", supra: "XLC"},
-        XMCCBTC
-            :
-            {infra: "BTC", supra: "XMCC"},
-        XMCCDOGE
-            :
-            {infra: "DOGE", supra: "XMCC"},
-        XMCCLTC
-            :
-            {infra: "LTC", supra: "XMCC"},
-        XMGBTC
-            :
-            {infra: "BTC", supra: "XMG"},
-        XMGDOGE
-            :
-            {infra: "DOGE", supra: "XMG"},
-        XMGLTC
-            :
-            {infra: "LTC", supra: "XMG"},
-        XMRBTC
-            :
-            {infra: "BTC", supra: "XMR"},
-        XMRDOGE
-            :
-            {infra: "DOGE", supra: "XMR"},
-        XMRLTC
-            :
-            {infra: "LTC", supra: "XMR"},
-        XMRNZDT
-            :
-            {infra: "NZDT", supra: "XMR"},
-        XMRUSDT
-            :
-            {infra: "USD", supra: "XMR"},
-        XMYBTC
-            :
-            {infra: "BTC", supra: "XMY"},
-        XMYDOGE
-            :
-            {infra: "DOGE", supra: "XMY"},
-        XMYLTC
-            :
-            {infra: "LTC", supra: "XMY"},
-        XPDBTC
-            :
-            {infra: "BTC", supra: "XPD"},
-        XPDDOGE
-            :
-            {infra: "DOGE", supra: "XPD"},
-        XPDLTC
-            :
-            {infra: "LTC", supra: "XPD"},
-        XPMBTC
-            :
-            {infra: "BTC", supra: "XPM"},
-        XPMDOGE
-            :
-            {infra: "DOGE", supra: "XPM"},
-        XPMLTC
-            :
-            {infra: "LTC", supra: "XPM"},
-        XPTXBTC
-            :
-            {infra: "BTC", supra: "XPTX"},
-        XPTXDOGE
-            :
-            {infra: "DOGE", supra: "XPTX"},
-        XPTXLTC
-            :
-            {infra: "LTC", supra: "XPTX"},
-        XRABTC
-            :
-            {infra: "BTC", supra: "XRA"},
-        XRADOGE
-            :
-            {infra: "DOGE", supra: "XRA"},
-        XRALTC
-            :
-            {infra: "LTC", supra: "XRA"},
-        XREBTC
-            :
-            {infra: "BTC", supra: "XRE"},
-        XREDOGE
-            :
-            {infra: "DOGE", supra: "XRE"},
-        XRELTC
-            :
-            {infra: "LTC", supra: "XRE"},
-        XRYBTC
-            :
-            {infra: "BTC", supra: "XRY"},
-        XRYDOGE
-            :
-            {infra: "DOGE", supra: "XRY"},
-        XRYLTC
-            :
-            {infra: "LTC", supra: "XRY"},
-        XSPECBTC
-            :
-            {infra: "BTC", supra: "XSPEC"},
-        XSPECDOGE
-            :
-            {infra: "DOGE", supra: "XSPEC"},
-        XSPECLTC
-            :
-            {infra: "LTC", supra: "XSPEC"},
-        XSTBTC
-            :
-            {infra: "BTC", supra: "XST"},
-        XSTDOGE
-            :
-            {infra: "DOGE", supra: "XST"},
-        XSTLTC
-            :
-            {infra: "LTC", supra: "XST"},
-        XVGBTC
-            :
-            {infra: "BTC", supra: "XVG"},
-        XVGDOGE
-            :
-            {infra: "DOGE", supra: "XVG"},
-        XVGLTC
-            :
-            {infra: "LTC", supra: "XVG"},
-        XVGNZDT
-            :
-            {infra: "NZDT", supra: "XVG"},
-        XVGUSDT
-            :
-            {infra: "USD", supra: "XVG"},
-        XZCBTC
-            :
-            {infra: "BTC", supra: "XZC"},
-        XZCDOGE
-            :
-            {infra: "DOGE", supra: "XZC"},
-        XZCLTC
-            :
-            {infra: "LTC", supra: "XZC"},
-        YOVIBTC
-            :
-            {infra: "BTC", supra: "YOVI"},
-        YOVIDOGE
-            :
-            {infra: "DOGE", supra: "YOVI"},
-        YOVILTC
-            :
-            {infra: "LTC", supra: "YOVI"},
-        ZAPBTC
-            :
-            {infra: "BTC", supra: "ZAP"},
-        ZAPDOGE
-            :
-            {infra: "DOGE", supra: "ZAP"},
-        ZAPLTC
-            :
-            {infra: "LTC", supra: "ZAP"},
-        ZCLBTC
-            :
-            {infra: "BTC", supra: "ZCL"},
-        ZCLDOGE
-            :
-            {infra: "DOGE", supra: "ZCL"},
-        ZCLLTC
-            :
-            {infra: "LTC", supra: "ZCL"},
-        ZECBTC
-            :
-            {infra: "BTC", supra: "ZEC"},
-        ZECDOGE
-            :
-            {infra: "DOGE", supra: "ZEC"},
-        ZECLTC
-            :
-            {infra: "LTC", supra: "ZEC"},
-        ZECNZDT
-            :
-            {infra: "NZDT", supra: "ZEC"},
-        ZECUSDT
-            :
-            {infra: "USD", supra: "ZEC"},
-        ZEITBTC
-            :
-            {infra: "BTC", supra: "ZEIT"},
-        ZEITDOGE
-            :
-            {infra: "DOGE", supra: "ZEIT"},
-        ZEITLTC
-            :
-            {infra: "LTC", supra: "ZEIT"},
-        ZENBTC
-            :
-            {infra: "BTC", supra: "ZEN"},
-        ZENDOGE
-            :
-            {infra: "DOGE", supra: "ZEN"},
-        ZENLTC
-            :
-            {infra: "LTC", supra: "ZEN"},
-        ZERBTC
-            :
-            {infra: "BTC", supra: "ZER"},
-        ZERDOGE
-            :
-            {infra: "DOGE", supra: "ZER"},
-        ZERLTC
-            :
-            {infra: "LTC", supra: "ZER"},
-        ZETBTC
-            :
-            {infra: "BTC", supra: "ZET"},
-        ZETDOGE
-            :
-            {infra: "DOGE", supra: "ZET"},
-        ZETLTC
-            :
-            {infra: "LTC", supra: "ZET"},
-        ZOIBTC
-            :
-            {infra: "BTC", supra: "ZOI"},
-        ZOIDOGE
-            :
-            {infra: "DOGE", supra: "ZOI"},
-        ZOILTC
-            :
-            {infra: "LTC", supra: "ZOI"},
-        ZSEBTC
-            :
-            {infra: "BTC", supra: "ZSE"},
-        ZSEDOGE
-            :
-            {infra: "DOGE", supra: "ZSE"},
-        ZSELTC
-            :
-            {infra: "LTC", supra: "ZSE"},
-    }
+        },
+        cryptopia: {
+            "8BITBTC": {infra: "BTC", supra: "8BIT"},
+            "8BITDOGE": {infra: "DOGE", supra: "8BIT"},
+            "8BITLTC": {infra: "LTC", supra: "8BIT"},
+            "21MBTC": {infra: "BTC", supra: "21M"},
+            "21MDOGE": {infra: "DOGE", supra: "21M"},
+            "21MLTC":
+                {infra: "LTC", supra: "21M"},
+            "42BTC":
+                {infra: "BTC", supra: "42"},
+            "42DOGE":
+                {infra: "DOGE", supra: "42"},
+            "42LTC":
+                {infra: "LTC", supra: "42"},
+            "300BTC":
+                {infra: "BTC", supra: "300"},
+            "300DOGE":
+                {infra: "DOGE", supra: "300"},
+            "300LTC":
+                {infra: "LTC", supra: "300"},
+            "611BTC":
+                {infra: "BTC", supra: "611"},
+            "611DOGE":
+                {infra: "DOGE", supra: "611"},
+            "611LTC":
+                {infra: "LTC", supra: "611"},
+            "808BTC":
+                {infra: "BTC", supra: "808"},
+            "808DOGE":
+                {infra: "DOGE", supra: "808"},
+            "808LTC":
+                {infra: "LTC", supra: "808"},
+            "888BTC":
+                {infra: "BTC", supra: "888"},
+            "888DOGE":
+                {infra: "DOGE", supra: "888"},
+            "888LTC":
+                {infra: "LTC", supra: "888"},
+            "1337BTC":
+                {infra: "BTC", supra: "1337"},
+            "1337DOGE":
+                {infra: "DOGE", supra: "1337"},
+            "1337LTC":
+                {infra: "LTC", supra: "1337"},
+            "$$$BTC":
+                {infra: "BTC", supra: "$$$"},
+            "$$$DOGE":
+                {infra: "DOGE", supra: "$$$"},
+            "$$$LTC":
+                {infra: "LTC", supra: "$$$"},
+            ABCBTC:
+                {infra: "BTC", supra: "ABC"},
+            ABCDOGE:
+                {infra: "DOGE", supra: "ABC"},
+            ABCLTC:
+                {infra: "LTC", supra: "ABC"},
+            ABYBTC:
+                {infra: "BTC", supra: "ABY"},
+            ABYDOGE:
+                {infra: "DOGE", supra: "ABY"},
+            ABYLTC:
+                {infra: "LTC", supra: "ABY"},
+            ACBTC:
+                {infra: "BTC", supra: "AC"},
+            ACCBTC:
+                {infra: "BTC", supra: "ACC"},
+            ACCDOGE:
+                {infra: "DOGE", supra: "ACC"},
+            ACCLTC:
+                {infra: "LTC", supra: "ACC"},
+            ACDOGE:
+                {infra: "DOGE", supra: "AC"},
+            ACLTC:
+                {infra: "LTC", supra: "AC"},
+            ACOINBTC:
+                {infra: "BTC", supra: "ACOIN"},
+            ACOINDOGE:
+                {infra: "DOGE", supra: "ACOIN"},
+            ACOINLTC:
+                {infra: "LTC", supra: "ACOIN"},
+            ADCBTC:
+                {infra: "BTC", supra: "ADC"},
+            ADCDOGE:
+                {infra: "DOGE", supra: "ADC"},
+            ADCLTC:
+                {infra: "LTC", supra: "ADC"},
+            ADSTBTC:
+                {infra: "BTC", supra: "ADST"},
+            ADSTDOGE:
+                {infra: "DOGE", supra: "ADST"},
+            ADSTLTC:
+                {infra: "LTC", supra: "ADST"},
+            AGABTC:
+                {infra: "BTC", supra: "AGA"},
+            AGADOGE:
+                {infra: "DOGE", supra: "AGA"},
+            AGALTC:
+                {infra: "LTC", supra: "AGA"},
+            ALEXBTC:
+                {infra: "BTC", supra: "ALEX"},
+            ALEXDOGE:
+                {infra: "DOGE", supra: "ALEX"},
+            ALEXLTC:
+                {infra: "LTC", supra: "ALEX"},
+            ALISBTC:
+                {infra: "BTC", supra: "ALIS"},
+            ALISDOGE:
+                {infra: "DOGE", supra: "ALIS"},
+            ALISLTC:
+                {infra: "LTC", supra: "ALIS"},
+            ALLBTC:
+                {infra: "BTC", supra: "ALL"},
+            ALLDOGE:
+                {infra: "DOGE", supra: "ALL"},
+            ALLLTC:
+                {infra: "LTC", supra: "ALL"},
+            ALTBTC:
+                {infra: "BTC", supra: "ALT"},
+            ALTDOGE:
+                {infra: "DOGE", supra: "ALT"},
+            ALTLTC:
+                {infra: "LTC", supra: "ALT"},
+            AMPBTC:
+                {infra: "BTC", supra: "AMP"},
+            AMPDOGE:
+                {infra: "DOGE", supra: "AMP"},
+            AMPLTC:
+                {infra: "LTC", supra: "AMP"},
+            ANIBTC:
+                {infra: "BTC", supra: "ANI"},
+            ANIDOGE:
+                {infra: "DOGE", supra: "ANI"},
+            ANILTC:
+                {infra: "LTC", supra: "ANI"},
+            APXBTC:
+                {infra: "BTC", supra: "APX"},
+            APXDOGE:
+                {infra: "DOGE", supra: "APX"},
+            APXLTC:
+                {infra: "LTC", supra: "APX"},
+            ARCBTC:
+                {infra: "BTC", supra: "ARC"},
+            ARCDOGE:
+                {infra: "DOGE", supra: "ARC"},
+            ARCLTC:
+                {infra: "LTC", supra: "ARC"},
+            ARCOBTC:
+                {infra: "BTC", supra: "ARCO"},
+            ARCODOGE:
+                {infra: "DOGE", supra: "ARCO"},
+            ARCOLTC:
+                {infra: "LTC", supra: "ARCO"},
+            ARGBTC:
+                {infra: "BTC", supra: "ARG"},
+            ARGDOGE:
+                {infra: "DOGE", supra: "ARG"},
+            ARGLTC:
+                {infra: "LTC", supra: "ARG"},
+            ARGUSBTC:
+                {infra: "BTC", supra: "ARGUS"},
+            ARGUSDOGE:
+                {infra: "DOGE", supra: "ARGUS"},
+            ARGUSLTC:
+                {infra: "LTC", supra: "ARGUS"},
+            ARIBTC:
+                {infra: "BTC", supra: "ARI"},
+            ARIDOGE:
+                {infra: "DOGE", supra: "ARI"},
+            ARILTC:
+                {infra: "LTC", supra: "ARI"},
+            ARKBTC:
+                {infra: "BTC", supra: "ARK"},
+            ARKDOGE:
+                {infra: "DOGE", supra: "ARK"},
+            ARKLTC:
+                {infra: "LTC", supra: "ARK"},
+            ARKUSDT:
+                {infra: "USD", supra: "ARK"},
+            ATHBTC:
+                {infra: "BTC", supra: "ATH"},
+            ATHDOGE:
+                {infra: "DOGE", supra: "ATH"},
+            ATHLTC:
+                {infra: "LTC", supra: "ATH"},
+            ATMSBTC:
+                {infra: "BTC", supra: "ATMS"},
+            ATMSDOGE:
+                {infra: "DOGE", supra: "ATMS"},
+            ATMSLTC:
+                {infra: "LTC", supra: "ATMS"},
+            ATOMBTC:
+                {infra: "BTC", supra: "ATOM"},
+            ATOMDOGE:
+                {infra: "DOGE", supra: "ATOM"},
+            ATOMLTC:
+                {infra: "LTC", supra: "ATOM"},
+            AUBTC:
+                {infra: "BTC", supra: "AU"},
+            AUDOGE:
+                {infra: "DOGE", supra: "AU"},
+            AULTC:
+                {infra: "LTC", supra: "AU"},
+            AURBTC:
+                {infra: "BTC", supra: "AUR"},
+            AURDOGE:
+                {infra: "DOGE", supra: "AUR"},
+            AURLTC:
+                {infra: "LTC", supra: "AUR"},
+            AURSBTC:
+                {infra: "BTC", supra: "AURS"},
+            AURSDOGE:
+                {infra: "DOGE", supra: "AURS"},
+            AURSLTC:
+                {infra: "LTC", supra: "AURS"},
+            BATBTC:
+                {infra: "BTC", supra: "BAT"},
+            BATDOGE:
+                {infra: "DOGE", supra: "BAT"},
+            BATLTC:
+                {infra: "LTC", supra: "BAT"},
+            BAYBTC:
+                {infra: "BTC", supra: "BAY"},
+            BAYDOGE:
+                {infra: "DOGE", supra: "BAY"},
+            BAYLTC:
+                {infra: "LTC", supra: "BAY"},
+            BCFBTC:
+                {infra: "BTC", supra: "BCF"},
+            BCFDOGE:
+                {infra: "DOGE", supra: "BCF"},
+            BCFLTC:
+                {infra: "LTC", supra: "BCF"},
+            BCHBTC:
+                {infra: "BTC", supra: "BCH"},
+            BCHDOGE:
+                {infra: "DOGE", supra: "BCH"},
+            BCHLTC:
+                {infra: "LTC", supra: "BCH"},
+            BCHNZDT:
+                {infra: "NZDT", supra: "BCH"},
+            BCHUSDT:
+                {infra: "USD", supra: "BCH"},
+            BCPTBTC:
+                {infra: "BTC", supra: "BCPT"},
+            BCPTDOGE:
+                {infra: "DOGE", supra: "BCPT"},
+            BCPTLTC:
+                {infra: "LTC", supra: "BCPT"},
+            BDLBTC:
+                {infra: "BTC", supra: "BDL"},
+            BDLDOGE:
+                {infra: "DOGE", supra: "BDL"},
+            BDLLTC:
+                {infra: "LTC", supra: "BDL"},
+            BEEZBTC:
+                {infra: "BTC", supra: "BEEZ"},
+            BEEZDOGE:
+                {infra: "DOGE", supra: "BEEZ"},
+            BEEZLTC:
+                {infra: "LTC", supra: "BEEZ"},
+            BENJIBTC:
+                {infra: "BTC", supra: "BENJI"},
+            BENJIDOGE:
+                {infra: "DOGE", supra: "BENJI"},
+            BENJILTC:
+                {infra: "LTC", supra: "BENJI"},
+            BERNBTC:
+                {infra: "BTC", supra: "BERN"},
+            BERNDOGE:
+                {infra: "DOGE", supra: "BERN"},
+            BERNLTC:
+                {infra: "LTC", supra: "BERN"},
+            BESTBTC:
+                {infra: "BTC", supra: "BEST"},
+            BESTDOGE:
+                {infra: "DOGE", supra: "BEST"},
+            BESTLTC:
+                {infra: "LTC", supra: "BEST"},
+            BGRBTC:
+                {infra: "BTC", supra: "BGR"},
+            BGRDOGE:
+                {infra: "DOGE", supra: "BGR"},
+            BGRLTC:
+                {infra: "LTC", supra: "BGR"},
+            BIPBTC:
+                {infra: "BTC", supra: "BIP"},
+            BIPDOGE:
+                {infra: "DOGE", supra: "BIP"},
+            BIPLTC:
+                {infra: "LTC", supra: "BIP"},
+            BIRDBTC:
+                {infra: "BTC", supra: "BIRD"},
+            BIRDDOGE:
+                {infra: "DOGE", supra: "BIRD"},
+            BIRDLTC:
+                {infra: "LTC", supra: "BIRD"},
+            BISBTC:
+                {infra: "BTC", supra: "BIS"},
+            BISDOGE:
+                {infra: "DOGE", supra: "BIS"},
+            BISLTC:
+                {infra: "LTC", supra: "BIS"},
+            BITBBTC:
+                {infra: "BTC", supra: "BITB"},
+            BITBDOGE:
+                {infra: "DOGE", supra: "BITB"},
+            BITBLTC:
+                {infra: "LTC", supra: "BITB"},
+            BITSBTC:
+                {infra: "BTC", supra: "BITS"},
+            BITSDOGE:
+                {infra: "DOGE", supra: "BITS"},
+            BITSLTC:
+                {infra: "LTC", supra: "BITS"},
+            BKCATBTC:
+                {infra: "BTC", supra: "BKCAT"},
+            BKCATDOGE:
+                {infra: "DOGE", supra: "BKCAT"},
+            BKCATLTC:
+                {infra: "LTC", supra: "BKCAT"},
+            BLCBTC:
+                {infra: "BTC", supra: "BLC"},
+            BLCDOGE:
+                {infra: "DOGE", supra: "BLC"},
+            BLCLTC:
+                {infra: "LTC", supra: "BLC"},
+            BLKBTC:
+                {infra: "BTC", supra: "BLK"},
+            BLKDOGE:
+                {infra: "DOGE", supra: "BLK"},
+            BLKLTC:
+                {infra: "LTC", supra: "BLK"},
+            BLZBTC:
+                {infra: "BTC", supra: "BLZ"},
+            BLZDOGE:
+                {infra: "DOGE", supra: "BLZ"},
+            BLZLTC:
+                {infra: "LTC", supra: "BLZ"},
+            BNCBTC:
+                {infra: "BTC", supra: "BNC"},
+            BNCDOGE:
+                {infra: "DOGE", supra: "BNC"},
+            BNCLTC:
+                {infra: "LTC", supra: "BNC"},
+            BNXBTC:
+                {infra: "BTC", supra: "BNX"},
+            BNXDOGE:
+                {infra: "DOGE", supra: "BNX"},
+            BNXLTC:
+                {infra: "LTC", supra: "BNX"},
+            BOLIBTC:
+                {infra: "BTC", supra: "BOLI"},
+            BOLIDOGE:
+                {infra: "DOGE", supra: "BOLI"},
+            BOLILTC:
+                {infra: "LTC", supra: "BOLI"},
+            BONBTC:
+                {infra: "BTC", supra: "BON"},
+            BONDOGE:
+                {infra: "DOGE", supra: "BON"},
+            BONLTC:
+                {infra: "LTC", supra: "BON"},
+            BOPBTC:
+                {infra: "BTC", supra: "BOP"},
+            BOPDOGE:
+                {infra: "DOGE", supra: "BOP"},
+            BOPLTC:
+                {infra: "LTC", supra: "BOP"},
+            BOSONDOGE:
+                {infra: "DOGE", supra: "BOSON"},
+            BOSONLTC:
+                {infra: "LTC", supra: "BOSON"},
+            BPLBTC:
+                {infra: "BTC", supra: "BPL"},
+            BPLDOGE:
+                {infra: "DOGE", supra: "BPL"},
+            BPLLTC:
+                {infra: "LTC", supra: "BPL"},
+            BRGBTC:
+                {infra: "BTC", supra: "BRG"},
+            BRGDOGE:
+                {infra: "DOGE", supra: "BRG"},
+            BRGLTC:
+                {infra: "LTC", supra: "BRG"},
+            BROBTC:
+                {infra: "BTC", supra: "BRO"},
+            BRODOGE:
+                {infra: "DOGE", supra: "BRO"},
+            BROLTC:
+                {infra: "LTC", supra: "BRO"},
+            BSDBTC:
+                {infra: "BTC", supra: "BSD"},
+            BSDDOGE:
+                {infra: "DOGE", supra: "BSD"},
+            BSDLTC:
+                {infra: "LTC", supra: "BSD"},
+            BSDUSDT:
+                {infra: "USD", supra: "BSD"},
+            BSTYBTC:
+                {infra: "BTC", supra: "BSTY"},
+            BSTYDOGE:
+                {infra: "DOGE", supra: "BSTY"},
+            BSTYLTC:
+                {infra: "LTC", supra: "BSTY"},
+            BTABTC:
+                {infra: "BTC", supra: "BTA"},
+            BTADOGE:
+                {infra: "DOGE", supra: "BTA"},
+            BTALTC:
+                {infra: "LTC", supra: "BTA"},
+            BTBBTC:
+                {infra: "BTC", supra: "BTB"},
+            BTBDOGE:
+                {infra: "DOGE", supra: "BTB"},
+            BTBLTC:
+                {infra: "LTC", supra: "BTB"},
+            BTCDBTC:
+                {infra: "BTC", supra: "BTCD"},
+            BTCDDOGE:
+                {infra: "DOGE", supra: "BTCD"},
+            BTCDLTC:
+                {infra: "LTC", supra: "BTCD"},
+            BTCNZDT:
+                {infra: "NZDT", supra: "BTC"},
+            BTCSBTC:
+                {infra: "BTC", supra: "BTCS"},
+            BTCSDOGE:
+                {infra: "DOGE", supra: "BTCS"},
+            BTCSLTC:
+                {infra: "LTC", supra: "BTCS"},
+            BTCUSDT:
+                {infra: "USD", supra: "BTC"},
+            BTDXBTC:
+                {infra: "BTC", supra: "BTDX"},
+            BTDXDOGE:
+                {infra: "DOGE", supra: "BTDX"},
+            BTDXLTC:
+                {infra: "LTC", supra: "BTDX"},
+            BTGBTC:
+                {infra: "BTC", supra: "BTG"},
+            BTGDOGE:
+                {infra: "DOGE", supra: "BTG"},
+            BTGLTC:
+                {infra: "LTC", supra: "BTG"},
+            BTMBTC:
+                {infra: "BTC", supra: "BTM"},
+            BTMDOGE:
+                {infra: "DOGE", supra: "BTM"},
+            BTMLTC:
+                {infra: "LTC", supra: "BTM"},
+            BTXBTC:
+                {infra: "BTC", supra: "BTX"},
+            BTXDOGE:
+                {infra: "DOGE", supra: "BTX"},
+            BTXLTC:
+                {infra: "LTC", supra: "BTX"},
+            BTXNZDT:
+                {infra: "NZDT", supra: "BTX"},
+            BTXUSDT:
+                {infra: "USD", supra: "BTX"},
+            BUCKSBTC:
+                {infra: "BTC", supra: "BUCKS"},
+            BUCKSDOGE:
+                {infra: "DOGE", supra: "BUCKS"},
+            BUCKSLTC:
+                {infra: "LTC", supra: "BUCKS"},
+            BUMBABTC:
+                {infra: "BTC", supra: "BUMBA"},
+            BUMBADOGE:
+                {infra: "DOGE", supra: "BUMBA"},
+            BUMBALTC:
+                {infra: "LTC", supra: "BUMBA"},
+            BUNBTC:
+                {infra: "BTC", supra: "BUN"},
+            BUNDOGE:
+                {infra: "DOGE", supra: "BUN"},
+            BUNLTC:
+                {infra: "LTC", supra: "BUN"},
+            BVBBTC:
+                {infra: "BTC", supra: "BVB"},
+            BVBDOGE:
+                {infra: "DOGE", supra: "BVB"},
+            BVBLTC:
+                {infra: "LTC", supra: "BVB"},
+            BWKBTC:
+                {infra: "BTC", supra: "BWK"},
+            BWKDOGE:
+                {infra: "DOGE", supra: "BWK"},
+            BWKLTC:
+                {infra: "LTC", supra: "BWK"},
+            BXCBTC:
+                {infra: "BTC", supra: "BXC"},
+            BXCDOGE:
+                {infra: "DOGE", supra: "BXC"},
+            BXCLTC:
+                {infra: "LTC", supra: "BXC"},
+            C2BTC:
+                {infra: "BTC", supra: "C2"},
+            C2DOGE:
+                {infra: "DOGE", supra: "C2"},
+            C2LTC:
+                {infra: "LTC", supra: "C2"},
+            CACHBTC:
+                {infra: "BTC", supra: "CACH"},
+            CACHDOGE:
+                {infra: "DOGE", supra: "CACH"},
+            CACHLTC:
+                {infra: "LTC", supra: "CACH"},
+            CANBTC:
+                {infra: "BTC", supra: "CAN"},
+            CANNBTC:
+                {infra: "BTC", supra: "CANN"},
+            CANNDOGE:
+                {infra: "DOGE", supra: "CANN"},
+            CANNLTC:
+                {infra: "LTC", supra: "CANN"},
+            CAPPBTC:
+                {infra: "BTC", supra: "CAPP"},
+            CAPPDOGE:
+                {infra: "DOGE", supra: "CAPP"},
+            CAPPLTC:
+                {infra: "LTC", supra: "CAPP"},
+            CARBTC:
+                {infra: "BTC", supra: "CAR"},
+            CARDOGE:
+                {infra: "DOGE", supra: "CAR"},
+            CARLTC:
+                {infra: "LTC", supra: "CAR"},
+            CATBTC:
+                {infra: "BTC", supra: "CAT"},
+            CATDOGE:
+                {infra: "DOGE", supra: "CAT"},
+            CATLTC:
+                {infra: "LTC", supra: "CAT"},
+            CBXBTC:
+                {infra: "BTC", supra: "CBX"},
+            CBXDOGE:
+                {infra: "DOGE", supra: "CBX"},
+            CBXLTC:
+                {infra: "LTC", supra: "CBX"},
+            CCBBTC:
+                {infra: "BTC", supra: "CCB"},
+            CCBDOGE:
+                {infra: "DOGE", supra: "CCB"},
+            CCBLTC:
+                {infra: "LTC", supra: "CCB"},
+            CCBTC:
+                {infra: "BTC", supra: "CC"},
+            CCDOGE:
+                {infra: "DOGE", supra: "CC"},
+            CCLTC:
+                {infra: "LTC", supra: "CC"},
+            CCNBTC:
+                {infra: "BTC", supra: "CCN"},
+            CCNDOGE:
+                {infra: "DOGE", supra: "CCN"},
+            CCNLTC:
+                {infra: "LTC", supra: "CCN"},
+            CDNBTC:
+                {infra: "BTC", supra: "CDN"},
+            CDNDOGE:
+                {infra: "DOGE", supra: "CDN"},
+            CDNLTC:
+                {infra: "LTC", supra: "CDN"},
+            CEFSBTC:
+                {infra: "BTC", supra: "CEFS"},
+            CEFSDOGE:
+                {infra: "DOGE", supra: "CEFS"},
+            CEFSLTC:
+                {infra: "LTC", supra: "CEFS"},
+            CEFSNZDT:
+                {infra: "NZDT", supra: "CEFS"},
+            CEFSUSDT:
+                {infra: "USD", supra: "CEFS"},
+            CFCBTC:
+                {infra: "BTC", supra: "CFC"},
+            CFCDOGE:
+                {infra: "DOGE", supra: "CFC"},
+            CFCLTC:
+                {infra: "LTC", supra: "CFC"},
+            CFTBTC:
+                {infra: "BTC", supra: "CFT"},
+            CFTDOGE:
+                {infra: "DOGE", supra: "CFT"},
+            CFTLTC:
+                {infra: "LTC", supra: "CFT"},
+            CHANBTC:
+                {infra: "BTC", supra: "CHAN"},
+            CHANDOGE:
+                {infra: "DOGE", supra: "CHAN"},
+            CHANLTC:
+                {infra: "LTC", supra: "CHAN"},
+            CHCBTC:
+                {infra: "BTC", supra: "CHC"},
+            CHCDOGE:
+                {infra: "DOGE", supra: "CHC"},
+            CHCLTC:
+                {infra: "LTC", supra: "CHC"},
+            CHESSBTC:
+                {infra: "BTC", supra: "CHESS"},
+            CHESSDOGE:
+                {infra: "DOGE", supra: "CHESS"},
+            CHESSLTC:
+                {infra: "LTC", supra: "CHESS"},
+            CHIEFDOGE:
+                {infra: "DOGE", supra: "CHIEF"},
+            CHIEFLTC:
+                {infra: "LTC", supra: "CHIEF"},
+            CJBTC:
+                {infra: "BTC", supra: "CJ"},
+            CJDOGE:
+                {infra: "DOGE", supra: "CJ"},
+            CJLTC:
+                {infra: "LTC", supra: "CJ"},
+            CLAMBTC:
+                {infra: "BTC", supra: "CLAM"},
+            CLAMDOGE:
+                {infra: "DOGE", supra: "CLAM"},
+            CLAMLTC:
+                {infra: "LTC", supra: "CLAM"},
+            CLBTC:
+                {infra: "BTC", supra: "CL"},
+            CLOAKBTC:
+                {infra: "BTC", supra: "CLOAK"},
+            CLOAKDOGE:
+                {infra: "DOGE", supra: "CLOAK"},
+            CLOAKLTC:
+                {infra: "LTC", supra: "CLOAK"},
+            CMPBTC:
+                {infra: "BTC", supra: "CMP"},
+            CMPCOBTC:
+                {infra: "BTC", supra: "CMPCO"},
+            CMPCODOGE:
+                {infra: "DOGE", supra: "CMPCO"},
+            CMPCOLTC:
+                {infra: "LTC", supra: "CMPCO"},
+            CMPDOGE:
+                {infra: "DOGE", supra: "CMP"},
+            CMPLTC:
+                {infra: "LTC", supra: "CMP"},
+            CMTBTC:
+                {infra: "BTC", supra: "CMT"},
+            CMTDOGE:
+                {infra: "DOGE", supra: "CMT"},
+            CMTLTC:
+                {infra: "LTC", supra: "CMT"},
+            CNNCBTC:
+                {infra: "BTC", supra: "CNNC"},
+            CNNCDOGE:
+                {infra: "DOGE", supra: "CNNC"},
+            CNNCLTC:
+                {infra: "LTC", supra: "CNNC"},
+            CNOBTC:
+                {infra: "BTC", supra: "CNO"},
+            CNODOGE:
+                {infra: "DOGE", supra: "CNO"},
+            CNOLTC:
+                {infra: "LTC", supra: "CNO"},
+            COALBTC:
+                {infra: "BTC", supra: "COAL"},
+            COALDOGE:
+                {infra: "DOGE", supra: "COAL"},
+            COALLTC:
+                {infra: "LTC", supra: "COAL"},
+            COMPBTC:
+                {infra: "BTC", supra: "COMP"},
+            COMPDOGE:
+                {infra: "DOGE", supra: "COMP"},
+            COMPLTC:
+                {infra: "LTC", supra: "COMP"},
+            CONBTC:
+                {infra: "BTC", supra: "CON"},
+            CONDOGE:
+                {infra: "DOGE", supra: "CON"},
+            CONLTC:
+                {infra: "LTC", supra: "CON"},
+            COPPERBTC:
+                {infra: "BTC", supra: "COPPER"},
+            COPPERDOGE:
+                {infra: "DOGE", supra: "COPPER"},
+            COPPERLTC:
+                {infra: "LTC", supra: "COPPER"},
+            CORBTC:
+                {infra: "BTC", supra: "COR"},
+            CORDOGE:
+                {infra: "DOGE", supra: "COR"},
+            CORGBTC:
+                {infra: "BTC", supra: "CORG"},
+            CORGDOGE:
+                {infra: "DOGE", supra: "CORG"},
+            CORGLTC:
+                {infra: "LTC", supra: "CORG"},
+            CORLTC:
+                {infra: "LTC", supra: "COR"},
+            CPNBTC:
+                {infra: "BTC", supra: "CPN"},
+            CPNDOGE:
+                {infra: "DOGE", supra: "CPN"},
+            CPNLTC:
+                {infra: "LTC", supra: "CPN"},
+            CQSTBTC:
+                {infra: "BTC", supra: "CQST"},
+            CQSTDOGE:
+                {infra: "DOGE", supra: "CQST"},
+            CQSTLTC:
+                {infra: "LTC", supra: "CQST"},
+            CRAVEBTC:
+                {infra: "BTC", supra: "CRAVE"},
+            CRAVEDOGE:
+                {infra: "DOGE", supra: "CRAVE"},
+            CRAVELTC:
+                {infra: "LTC", supra: "CRAVE"},
+            CRCBTC:
+                {infra: "BTC", supra: "CRC"},
+            CRCDOGE:
+                {infra: "DOGE", supra: "CRC"},
+            CRCLTC:
+                {infra: "LTC", supra: "CRC"},
+            CREABTC:
+                {infra: "BTC", supra: "CREA"},
+            CREADOGE:
+                {infra: "DOGE", supra: "CREA"},
+            CREALTC:
+                {infra: "LTC", supra: "CREA"},
+            CRMBTC:
+                {infra: "BTC", supra: "CRM"},
+            CRMDOGE:
+                {infra: "DOGE", supra: "CRM"},
+            CRMLTC:
+                {infra: "LTC", supra: "CRM"},
+            CRURBTC:
+                {infra: "BTC", supra: "CRUR"},
+            CRURDOGE:
+                {infra: "DOGE", supra: "CRUR"},
+            CRURLTC:
+                {infra: "LTC", supra: "CRUR"},
+            CRXBTC:
+                {infra: "BTC", supra: "CRX"},
+            CRXDOGE:
+                {infra: "DOGE", supra: "CRX"},
+            CRXLTC:
+                {infra: "LTC", supra: "CRX"},
+            CRYPTBTC:
+                {infra: "BTC", supra: "CRYPT"},
+            CRYPTDOGE:
+                {infra: "DOGE", supra: "CRYPT"},
+            CRYPTLTC:
+                {infra: "LTC", supra: "CRYPT"},
+            CTIC3BTC:
+                {infra: "BTC", supra: "CTIC3"},
+            CTIC3DOGE:
+                {infra: "DOGE", supra: "CTIC3"},
+            CTIC3LTC:
+                {infra: "LTC", supra: "CTIC3"},
+            CTRBTC:
+                {infra: "BTC", supra: "CTR"},
+            CTRDOGE:
+                {infra: "DOGE", supra: "CTR"},
+            CTRLTC:
+                {infra: "LTC", supra: "CTR"},
+            CXTBTC:
+                {infra: "BTC", supra: "CXT"},
+            CXTDOGE:
+                {infra: "DOGE", supra: "CXT"},
+            CXTLTC:
+                {infra: "LTC", supra: "CXT"},
+            DALCBTC:
+                {infra: "BTC", supra: "DALC"},
+            DALCDOGE:
+                {infra: "DOGE", supra: "DALC"},
+            DALCLTC:
+                {infra: "LTC", supra: "DALC"},
+            DARKBTC:
+                {infra: "BTC", supra: "DARK"},
+            DARKDOGE:
+                {infra: "DOGE", supra: "DARK"},
+            DARKLTC:
+                {infra: "LTC", supra: "DARK"},
+            DASBTC:
+                {infra: "BTC", supra: "DAS"},
+            DASDOGE:
+                {infra: "DOGE", supra: "DAS"},
+            DASHBTC:
+                {infra: "BTC", supra: "DASH"},
+            DASHDOGE:
+                {infra: "DOGE", supra: "DASH"},
+            DASHLTC:
+                {infra: "LTC", supra: "DASH"},
+            DASHUSDT:
+                {infra: "USD", supra: "DASH"},
+            DASLTC:
+                {infra: "LTC", supra: "DAS"},
+            DAXXBTC:
+                {infra: "BTC", supra: "DAXX"},
+            DAXXDOGE:
+                {infra: "DOGE", supra: "DAXX"},
+            DAXXLTC:
+                {infra: "LTC", supra: "DAXX"},
+            DBETBTC:
+                {infra: "BTC", supra: "DBET"},
+            DBETDOGE:
+                {infra: "DOGE", supra: "DBET"},
+            DBETLTC:
+                {infra: "LTC", supra: "DBET"},
+            DBIXBTC:
+                {infra: "BTC", supra: "DBIX"},
+            DBIXDOGE:
+                {infra: "DOGE", supra: "DBIX"},
+            DBIXLTC:
+                {infra: "LTC", supra: "DBIX"},
+            DCNBTC:
+                {infra: "BTC", supra: "DCN"},
+            DCNDOGE:
+                {infra: "DOGE", supra: "DCN"},
+            DCNLTC:
+                {infra: "LTC", supra: "DCN"},
+            DCRBTC:
+                {infra: "BTC", supra: "DCR"},
+            DCRDOGE:
+                {infra: "DOGE", supra: "DCR"},
+            DCRLTC:
+                {infra: "LTC", supra: "DCR"},
+            DCRUSDT:
+                {infra: "USD", supra: "DCR"},
+            DCYBTC:
+                {infra: "BTC", supra: "DCY"},
+            DCYDOGE:
+                {infra: "DOGE", supra: "DCY"},
+            DCYLTC:
+                {infra: "LTC", supra: "DCY"},
+            DDFBTC:
+                {infra: "BTC", supra: "DDF"},
+            DDFDOGE:
+                {infra: "DOGE", supra: "DDF"},
+            DDFLTC:
+                {infra: "LTC", supra: "DDF"},
+            DEMBTC:
+                {infra: "BTC", supra: "DEM"},
+            DEMDOGE:
+                {infra: "DOGE", supra: "DEM"},
+            DEMLTC:
+                {infra: "LTC", supra: "DEM"},
+            DEUSBTC:
+                {infra: "BTC", supra: "DEUS"},
+            DEUSDOGE:
+                {infra: "DOGE", supra: "DEUS"},
+            DEUSLTC:
+                {infra: "LTC", supra: "DEUS"},
+            DFSBTC:
+                {infra: "BTC", supra: "DFS"},
+            DFSDOGE:
+                {infra: "DOGE", supra: "DFS"},
+            DFSLTC:
+                {infra: "LTC", supra: "DFS"},
+            DGBBTC:
+                {infra: "BTC", supra: "DGB"},
+            DGBDOGE:
+                {infra: "DOGE", supra: "DGB"},
+            DGBLTC:
+                {infra: "LTC", supra: "DGB"},
+            DGCBTC:
+                {infra: "BTC", supra: "DGC"},
+            DGCDOGE:
+                {infra: "DOGE", supra: "DGC"},
+            DGCLTC:
+                {infra: "LTC", supra: "DGC"},
+            DGPTBTC:
+                {infra: "BTC", supra: "DGPT"},
+            DGPTDOGE:
+                {infra: "DOGE", supra: "DGPT"},
+            DGPTLTC:
+                {infra: "LTC", supra: "DGPT"},
+            DIMEBTC:
+                {infra: "BTC", supra: "DIME"},
+            DIMEDOGE:
+                {infra: "DOGE", supra: "DIME"},
+            DIMELTC:
+                {infra: "LTC", supra: "DIME"},
+            DIVXBTC:
+                {infra: "BTC", supra: "DIVX"},
+            DIVXDOGE:
+                {infra: "DOGE", supra: "DIVX"},
+            DIVXLTC:
+                {infra: "LTC", supra: "DIVX"},
+            DNABTC:
+                {infra: "BTC", supra: "DNA"},
+            DNADOGE:
+                {infra: "DOGE", supra: "DNA"},
+            DNALTC:
+                {infra: "LTC", supra: "DNA"},
+            DNRBTC:
+                {infra: "BTC", supra: "DNR"},
+            DNRDOGE:
+                {infra: "DOGE", supra: "DNR"},
+            DNRLTC:
+                {infra: "LTC", supra: "DNR"},
+            DOGEBTC:
+                {infra: "BTC", supra: "DOGE"},
+            DOGELTC:
+                {infra: "LTC", supra: "DOGE"},
+            DOGENZDT:
+                {infra: "NZDT", supra: "DOGE"},
+            DOGEUSDT:
+                {infra: "USD", supra: "DOGE"},
+            DONBTC:
+                {infra: "BTC", supra: "DON"},
+            DONDOGE:
+                {infra: "DOGE", supra: "DON"},
+            DONLTC:
+                {infra: "LTC", supra: "DON"},
+            DOPEBTC:
+                {infra: "BTC", supra: "DOPE"},
+            DOPEDOGE:
+                {infra: "DOGE", supra: "DOPE"},
+            DOPELTC:
+                {infra: "LTC", supra: "DOPE"},
+            DOTBTC:
+                {infra: "BTC", supra: "DOT"},
+            DOTDOGE:
+                {infra: "DOGE", supra: "DOT"},
+            DOTLTC:
+                {infra: "LTC", supra: "DOT"},
+            DOTNZDT:
+                {infra: "NZDT", supra: "DOT"},
+            DOTUSDT:
+                {infra: "USD", supra: "DOT"},
+            DPBTC:
+                {infra: "BTC", supra: "DP"},
+            DPDOGE:
+                {infra: "DOGE", supra: "DP"},
+            DPLTC:
+                {infra: "LTC", supra: "DP"},
+            DPPBTC:
+                {infra: "BTC", supra: "DPP"},
+            DPPDOGE:
+                {infra: "DOGE", supra: "DPP"},
+            DPPLTC:
+                {infra: "LTC", supra: "DPP"},
+            DRPBTC:
+                {infra: "BTC", supra: "DRP"},
+            DRPDOGE:
+                {infra: "DOGE", supra: "DRP"},
+            DRPLTC:
+                {infra: "LTC", supra: "DRP"},
+            DRPUBTC:
+                {infra: "BTC", supra: "DRPU"},
+            DRXNEBTC:
+                {infra: "BTC", supra: "DRXNE"},
+            DRXNEDOGE:
+                {infra: "DOGE", supra: "DRXNE"},
+            DRXNELTC:
+                {infra: "LTC", supra: "DRXNE"},
+            DUOBTC:
+                {infra: "BTC", supra: "DUO"},
+            DUODOGE:
+                {infra: "DOGE", supra: "DUO"},
+            DUOLTC:
+                {infra: "LTC", supra: "DUO"},
+            EBGBTC:
+                {infra: "BTC", supra: "EBG"},
+            EBGDOGE:
+                {infra: "DOGE", supra: "EBG"},
+            EBGLTC:
+                {infra: "LTC", supra: "EBG"},
+            ECBTC:
+                {infra: "BTC", supra: "EC"},
+            ECDOGE:
+                {infra: "DOGE", supra: "EC"},
+            ECLTC:
+                {infra: "LTC", supra: "EC"},
+            ECOBBTC:
+                {infra: "BTC", supra: "ECOB"},
+            ECOBDOGE:
+                {infra: "DOGE", supra: "ECOB"},
+            ECOBLTC:
+                {infra: "LTC", supra: "ECOB"},
+            ECOBTC:
+                {infra: "BTC", supra: "ECO"},
+            ECODOGE:
+                {infra: "DOGE", supra: "ECO"},
+            ECOLTC:
+                {infra: "LTC", supra: "ECO"},
+            EDCBTC:
+                {infra: "BTC", supra: "EDC"},
+            EDCDOGE:
+                {infra: "DOGE", supra: "EDC"},
+            EDCLTC:
+                {infra: "LTC", supra: "EDC"},
+            EDDIEBTC:
+                {infra: "BTC", supra: "EDDIE"},
+            EDDIEDOGE:
+                {infra: "DOGE", supra: "EDDIE"},
+            EDDIELTC:
+                {infra: "LTC", supra: "EDDIE"},
+            EDRCBTC:
+                {infra: "BTC", supra: "EDRC"},
+            EDRCDOGE:
+                {infra: "DOGE", supra: "EDRC"},
+            EDRCLTC:
+                {infra: "LTC", supra: "EDRC"},
+            EFLBTC:
+                {infra: "BTC", supra: "EFL"},
+            EFLDOGE:
+                {infra: "DOGE", supra: "EFL"},
+            EFLLTC:
+                {infra: "LTC", supra: "EFL"},
+            EGCBTC:
+                {infra: "BTC", supra: "EGC"},
+            EGCDOGE:
+                {infra: "DOGE", supra: "EGC"},
+            EGCLTC:
+                {infra: "LTC", supra: "EGC"},
+            ELCBTC:
+                {infra: "BTC", supra: "ELC"},
+            ELCDOGE:
+                {infra: "DOGE", supra: "ELC"},
+            ELCLTC:
+                {infra: "LTC", supra: "ELC"},
+            ELLABTC:
+                {infra: "BTC", supra: "ELLA"},
+            ELLADOGE:
+                {infra: "DOGE", supra: "ELLA"},
+            ELLALTC:
+                {infra: "LTC", supra: "ELLA"},
+            ELMBTC:
+                {infra: "BTC", supra: "ELM"},
+            ELMDOGE:
+                {infra: "DOGE", supra: "ELM"},
+            ELMLTC:
+                {infra: "LTC", supra: "ELM"},
+            ELPDOGE:
+                {infra: "DOGE", supra: "ELP"},
+            ELPLTC:
+                {infra: "LTC", supra: "ELP"},
+            EMBDOGE:
+                {infra: "DOGE", supra: "EMB"},
+            EMBLTC:
+                {infra: "LTC", supra: "EMB"},
+            EMC2BTC:
+                {infra: "BTC", supra: "EMC2"},
+            EMC2DOGE:
+                {infra: "DOGE", supra: "EMC2"},
+            EMC2LTC:
+                {infra: "LTC", supra: "EMC2"},
+            EMCBTC:
+                {infra: "BTC", supra: "EMC"},
+            EMCDOGE:
+                {infra: "DOGE", supra: "EMC"},
+            EMCLTC:
+                {infra: "LTC", supra: "EMC"},
+            EMDBTC:
+                {infra: "BTC", supra: "EMD"},
+            EMDDOGE:
+                {infra: "DOGE", supra: "EMD"},
+            EMDLTC:
+                {infra: "LTC", supra: "EMD"},
+            ENJBTC:
+                {infra: "BTC", supra: "ENJ"},
+            ENJDOGE:
+                {infra: "DOGE", supra: "ENJ"},
+            ENJLTC:
+                {infra: "LTC", supra: "ENJ"},
+            EPCBTC:
+                {infra: "BTC", supra: "EPC"},
+            EPCDOGE:
+                {infra: "DOGE", supra: "EPC"},
+            EPCLTC:
+                {infra: "LTC", supra: "EPC"},
+            EQTBTC:
+                {infra: "BTC", supra: "EQT"},
+            EQTDOGE:
+                {infra: "DOGE", supra: "EQT"},
+            EQTLTC:
+                {infra: "LTC", supra: "EQT"},
+            ERYBTC:
+                {infra: "BTC", supra: "ERY"},
+            ERYDOGE:
+                {infra: "DOGE", supra: "ERY"},
+            ERYLTC:
+                {infra: "LTC", supra: "ERY"},
+            ETCBTC:
+                {infra: "BTC", supra: "ETC"},
+            ETCDOGE:
+                {infra: "DOGE", supra: "ETC"},
+            ETCLTC:
+                {infra: "LTC", supra: "ETC"},
+            ETCNZDT:
+                {infra: "NZDT", supra: "ETC"},
+            ETCUSDT:
+                {infra: "USD", supra: "ETC"},
+            ETHBTC:
+                {infra: "BTC", supra: "ETH"},
+            ETHDBTC:
+                {infra: "BTC", supra: "ETHD"},
+            ETHDDOGE:
+                {infra: "DOGE", supra: "ETHD"},
+            ETHDLTC:
+                {infra: "LTC", supra: "ETHD"},
+            ETHDOGE:
+                {infra: "DOGE", supra: "ETH"},
+            ETHLTC:
+                {infra: "LTC", supra: "ETH"},
+            ETHNZDT:
+                {infra: "NZDT", supra: "ETH"},
+            ETHUSDT:
+                {infra: "USD", supra: "ETH"},
+            ETNBTC:
+                {infra: "BTC", supra: "ETN"},
+            ETNDOGE:
+                {infra: "DOGE", supra: "ETN"},
+            ETNLTC:
+                {infra: "LTC", supra: "ETN"},
+            ETNNZDT:
+                {infra: "NZDT", supra: "ETN"},
+            ETNUSDT:
+                {infra: "USD", supra: "ETN"},
+            ETTBTC:
+                {infra: "BTC", supra: "ETT"},
+            ETTDOGE:
+                {infra: "DOGE", supra: "ETT"},
+            ETTLTC:
+                {infra: "LTC", supra: "ETT"},
+            EUCBTC:
+                {infra: "BTC", supra: "EUC"},
+            EUCDOGE:
+                {infra: "DOGE", supra: "EUC"},
+            EUCLTC:
+                {infra: "LTC", supra: "EUC"},
+            EVILBTC:
+                {infra: "BTC", supra: "EVIL"},
+            EVILDOGE:
+                {infra: "DOGE", supra: "EVIL"},
+            EVILLTC:
+                {infra: "LTC", supra: "EVIL"},
+            EVOBTC:
+                {infra: "BTC", supra: "EVO"},
+            EVODOGE:
+                {infra: "DOGE", supra: "EVO"},
+            EVOLTC:
+                {infra: "LTC", supra: "EVO"},
+            EVRBTC:
+                {infra: "BTC", supra: "EVR"},
+            EVRDOGE:
+                {infra: "DOGE", supra: "EVR"},
+            EVRLTC:
+                {infra: "LTC", supra: "EVR"},
+            EXPBTC:
+                {infra: "BTC", supra: "EXP"},
+            EXPDOGE:
+                {infra: "DOGE", supra: "EXP"},
+            EXPLTC:
+                {infra: "LTC", supra: "EXP"},
+            FAZZBTC:
+                {infra: "BTC", supra: "FAZZ"},
+            FAZZDOGE:
+                {infra: "DOGE", supra: "FAZZ"},
+            FAZZLTC:
+                {infra: "LTC", supra: "FAZZ"},
+            FCNBTC:
+                {infra: "BTC", supra: "FCN"},
+            FCNDOGE:
+                {infra: "DOGE", supra: "FCN"},
+            FCNLTC:
+                {infra: "LTC", supra: "FCN"},
+            FCTBTC:
+                {infra: "BTC", supra: "FCT"},
+            FCTDOGE:
+                {infra: "DOGE", supra: "FCT"},
+            FCTLTC:
+                {infra: "LTC", supra: "FCT"},
+            FFCBTC:
+                {infra: "BTC", supra: "FFC"},
+            FFCDOGE:
+                {infra: "DOGE", supra: "FFC"},
+            FFCLTC:
+                {infra: "LTC", supra: "FFC"},
+            FJCBTC:
+                {infra: "BTC", supra: "FJC"},
+            FJCDOGE:
+                {infra: "DOGE", supra: "FJC"},
+            FJCLTC:
+                {infra: "LTC", supra: "FJC"},
+            FLASHBTC:
+                {infra: "BTC", supra: "FLASH"},
+            FLASHDOGE:
+                {infra: "DOGE", supra: "FLASH"},
+            FLASHLTC:
+                {infra: "LTC", supra: "FLASH"},
+            FLAXBTC:
+                {infra: "BTC", supra: "FLAX"},
+            FLAXDOGE:
+                {infra: "DOGE", supra: "FLAX"},
+            FLAXLTC:
+                {infra: "LTC", supra: "FLAX"},
+            FLNBTC:
+                {infra: "BTC", supra: "FLN"},
+            FLNDOGE:
+                {infra: "DOGE", supra: "FLN"},
+            FLNLTC:
+                {infra: "LTC", supra: "FLN"},
+            FLTBTC:
+                {infra: "BTC", supra: "FLT"},
+            FLTDOGE:
+                {infra: "DOGE", supra: "FLT"},
+            FLTLTC:
+                {infra: "LTC", supra: "FLT"},
+            FONZBTC:
+                {infra: "BTC", supra: "FONZ"},
+            FONZDOGE:
+                {infra: "DOGE", supra: "FONZ"},
+            FONZLTC:
+                {infra: "LTC", supra: "FONZ"},
+            FORTBTC:
+                {infra: "BTC", supra: "FORT"},
+            FORTDOGE:
+                {infra: "DOGE", supra: "FORT"},
+            FORTLTC:
+                {infra: "LTC", supra: "FORT"},
+            FRCBTC:
+                {infra: "BTC", supra: "FRC"},
+            FRCDOGE:
+                {infra: "DOGE", supra: "FRC"},
+            FRCLTC:
+                {infra: "LTC", supra: "FRC"},
+            FRNBTC:
+                {infra: "BTC", supra: "FRN"},
+            FRNDOGE:
+                {infra: "DOGE", supra: "FRN"},
+            FRNLTC:
+                {infra: "LTC", supra: "FRN"},
+            FSTBTC:
+                {infra: "BTC", supra: "FST"},
+            FSTDOGE:
+                {infra: "DOGE", supra: "FST"},
+            FSTLTC:
+                {infra: "LTC", supra: "FST"},
+            FTCBTC:
+                {infra: "BTC", supra: "FTC"},
+            FTCCBTC:
+                {infra: "BTC", supra: "FTCC"},
+            FTCCDOGE:
+                {infra: "DOGE", supra: "FTCC"},
+            FTCCLTC:
+                {infra: "LTC", supra: "FTCC"},
+            FTCDOGE:
+                {infra: "DOGE", supra: "FTC"},
+            FTCLTC:
+                {infra: "LTC", supra: "FTC"},
+            FUELBTC:
+                {infra: "BTC", supra: "FUEL"},
+            FUELDOGE:
+                {infra: "DOGE", supra: "FUEL"},
+            FUELLTC:
+                {infra: "LTC", supra: "FUEL"},
+            FUNKBTC:
+                {infra: "BTC", supra: "FUNK"},
+            FUNKDOGE:
+                {infra: "DOGE", supra: "FUNK"},
+            FUNKLTC:
+                {infra: "LTC", supra: "FUNK"},
+            FUZZBTC:
+                {infra: "BTC", supra: "FUZZ"},
+            FUZZDOGE:
+                {infra: "DOGE", supra: "FUZZ"},
+            FUZZLTC:
+                {infra: "LTC", supra: "FUZZ"},
+            GAIABTC:
+                {infra: "BTC", supra: "GAIA"},
+            GAIADOGE:
+                {infra: "DOGE", supra: "GAIA"},
+            GAIALTC:
+                {infra: "LTC", supra: "GAIA"},
+            GAMEBTC:
+                {infra: "BTC", supra: "GAME"},
+            GAMEDOGE:
+                {infra: "DOGE", supra: "GAME"},
+            GAMELTC:
+                {infra: "LTC", supra: "GAME"},
+            GAPBTC:
+                {infra: "BTC", supra: "GAP"},
+            GAPDOGE:
+                {infra: "DOGE", supra: "GAP"},
+            GAPLTC:
+                {infra: "LTC", supra: "GAP"},
+            GAYBTC:
+                {infra: "BTC", supra: "GAY"},
+            GAYDOGE:
+                {infra: "DOGE", supra: "GAY"},
+            GAYLTC:
+                {infra: "LTC", supra: "GAY"},
+            GBXBTC:
+                {infra: "BTC", supra: "GBX"},
+            GBXDOGE:
+                {infra: "DOGE", supra: "GBX"},
+            GBXLTC:
+                {infra: "LTC", supra: "GBX"},
+            GBYTEBTC:
+                {infra: "BTC", supra: "GBYTE"},
+            GBYTEDOGE:
+                {infra: "DOGE", supra: "GBYTE"},
+            GBYTELTC:
+                {infra: "LTC", supra: "GBYTE"},
+            GCNBTC:
+                {infra: "BTC", supra: "GCN"},
+            GCNDOGE:
+                {infra: "DOGE", supra: "GCN"},
+            GCNLTC:
+                {infra: "LTC", supra: "GCN"},
+            GDCBTC:
+                {infra: "BTC", supra: "GDC"},
+            GDCDOGE:
+                {infra: "DOGE", supra: "GDC"},
+            GDCLTC:
+                {infra: "LTC", supra: "GDC"},
+            GEERTBTC:
+                {infra: "BTC", supra: "GEERT"},
+            GEERTDOGE:
+                {infra: "DOGE", supra: "GEERT"},
+            GEERTLTC:
+                {infra: "LTC", supra: "GEERT"},
+            GEOBTC:
+                {infra: "BTC", supra: "GEO"},
+            GEODOGE:
+                {infra: "DOGE", supra: "GEO"},
+            GEOLTC:
+                {infra: "LTC", supra: "GEO"},
+            GEOOldBTC:
+                {infra: "BTC", supra: "GEO_Old"},
+            GEOOldDOGE:
+                {infra: "DOGE", supra: "GEO_Old"},
+            GEOOldLTC:
+                {infra: "LTC", supra: "GEO_Old"},
+            GLDBTC:
+                {infra: "BTC", supra: "GLD"},
+            GLDDOGE:
+                {infra: "DOGE", supra: "GLD"},
+            GLDLTC:
+                {infra: "LTC", supra: "GLD"},
+            GNOBTC:
+                {infra: "BTC", supra: "GNO"},
+            GNODOGE:
+                {infra: "DOGE", supra: "GNO"},
+            GNOLTC:
+                {infra: "LTC", supra: "GNO"},
+            GNTBTC:
+                {infra: "BTC", supra: "GNT"},
+            GNTDOGE:
+                {infra: "DOGE", supra: "GNT"},
+            GNTLTC:
+                {infra: "LTC", supra: "GNT"},
+            GPBTC:
+                {infra: "BTC", supra: "GP"},
+            GPDOGE:
+                {infra: "DOGE", supra: "GP"},
+            GPLBTC:
+                {infra: "BTC", supra: "GPL"},
+            GPLDOGE:
+                {infra: "DOGE", supra: "GPL"},
+            GPLLTC:
+                {infra: "LTC", supra: "GPL"},
+            GPLTC:
+                {infra: "LTC", supra: "GP"},
+            GPUBTC:
+                {infra: "BTC", supra: "GPU"},
+            GPUDOGE:
+                {infra: "DOGE", supra: "GPU"},
+            GPULTC:
+                {infra: "LTC", supra: "GPU"},
+            GRNBTC:
+                {infra: "BTC", supra: "GRN"},
+            GRNDOGE:
+                {infra: "DOGE", supra: "GRN"},
+            GRNLTC:
+                {infra: "LTC", supra: "GRN"},
+            GRSBTC:
+                {infra: "BTC", supra: "GRS"},
+            GRSDOGE:
+                {infra: "DOGE", supra: "GRS"},
+            GRSLTC:
+                {infra: "LTC", supra: "GRS"},
+            GRWBTC:
+                {infra: "BTC", supra: "GRW"},
+            GRWDOGE:
+                {infra: "DOGE", supra: "GRW"},
+            GRWIBTC:
+                {infra: "BTC", supra: "GRWI"},
+            GRWIDOGE:
+                {infra: "DOGE", supra: "GRWI"},
+            GRWILTC:
+                {infra: "LTC", supra: "GRWI"},
+            GRWLTC:
+                {infra: "LTC", supra: "GRW"},
+            GUNBTC:
+                {infra: "BTC", supra: "GUN"},
+            GUNDOGE:
+                {infra: "DOGE", supra: "GUN"},
+            GUNLTC:
+                {infra: "LTC", supra: "GUN"},
+            GXGBTC:
+                {infra: "BTC", supra: "GXG"},
+            GXGDOGE:
+                {infra: "DOGE", supra: "GXG"},
+            GXGLTC:
+                {infra: "LTC", supra: "GXG"},
+            HACBTC:
+                {infra: "BTC", supra: "HAC"},
+            HACDOGE:
+                {infra: "DOGE", supra: "HAC"},
+            HACLTC:
+                {infra: "LTC", supra: "HAC"},
+            HALBTC:
+                {infra: "BTC", supra: "HAL"},
+            HALDOGE:
+                {infra: "DOGE", supra: "HAL"},
+            HALLTC:
+                {infra: "LTC", supra: "HAL"},
+            HAVBTC:
+                {infra: "BTC", supra: "HAV"},
+            HAVDOGE:
+                {infra: "DOGE", supra: "HAV"},
+            HAVLTC:
+                {infra: "LTC", supra: "HAV"},
+            HBCBTC:
+                {infra: "BTC", supra: "HBC"},
+            HBCDOGE:
+                {infra: "DOGE", supra: "HBC"},
+            HBCLTC:
+                {infra: "LTC", supra: "HBC"},
+            HBNBTC:
+                {infra: "BTC", supra: "HBN"},
+            HBNDOGE:
+                {infra: "DOGE", supra: "HBN"},
+            HBNLTC:
+                {infra: "LTC", supra: "HBN"},
+            HCBTC:
+                {infra: "BTC", supra: "HC"},
+            HCDOGE:
+                {infra: "DOGE", supra: "HC"},
+            HCLTC:
+                {infra: "LTC", supra: "HC"},
+            HDLBBTC:
+                {infra: "BTC", supra: "HDLB"},
+            HDLBDOGE:
+                {infra: "DOGE", supra: "HDLB"},
+            HDLBLTC:
+                {infra: "LTC", supra: "HDLB"},
+            HEATBTC:
+                {infra: "BTC", supra: "HEAT"},
+            HEATDOGE:
+                {infra: "DOGE", supra: "HEAT"},
+            HEATLTC:
+                {infra: "LTC", supra: "HEAT"},
+            HLMBTC:
+                {infra: "BTC", supra: "HLM"},
+            HLMDOGE:
+                {infra: "DOGE", supra: "HLM"},
+            HLMLTC:
+                {infra: "LTC", supra: "HLM"},
+            HOLDBTC:
+                {infra: "BTC", supra: "HOLD"},
+            HOLDDOGE:
+                {infra: "DOGE", supra: "HOLD"},
+            HOLDLTC:
+                {infra: "LTC", supra: "HOLD"},
+            HSRBTC:
+                {infra: "BTC", supra: "HSR"},
+            HSRDOGE:
+                {infra: "DOGE", supra: "HSR"},
+            HSRLTC:
+                {infra: "LTC", supra: "HSR"},
+            HSTBTC:
+                {infra: "BTC", supra: "HST"},
+            HSTDOGE:
+                {infra: "DOGE", supra: "HST"},
+            HSTLTC:
+                {infra: "LTC", supra: "HST"},
+            HUSHBTC:
+                {infra: "BTC", supra: "HUSH"},
+            HUSHDOGE:
+                {infra: "DOGE", supra: "HUSH"},
+            HUSHLTC:
+                {infra: "LTC", supra: "HUSH"},
+            HUSHNZDT:
+                {infra: "NZDT", supra: "HUSH"},
+            HUSHUSDT:
+                {infra: "USD", supra: "HUSH"},
+            HXXBTC:
+                {infra: "BTC", supra: "HXX"},
+            HXXDOGE:
+                {infra: "DOGE", supra: "HXX"},
+            HXXLTC:
+                {infra: "LTC", supra: "HXX"},
+            HYPBTC:
+                {infra: "BTC", supra: "HYP"},
+            HYPDOGE:
+                {infra: "DOGE", supra: "HYP"},
+            HYPLTC:
+                {infra: "LTC", supra: "HYP"},
+            I0CBTC:
+                {infra: "BTC", supra: "I0C"},
+            I0CDOGE:
+                {infra: "DOGE", supra: "I0C"},
+            I0CLTC:
+                {infra: "LTC", supra: "I0C"},
+            ICOBBTC:
+                {infra: "BTC", supra: "ICOB"},
+            ICOBDOGE:
+                {infra: "DOGE", supra: "ICOB"},
+            ICOBLTC:
+                {infra: "LTC", supra: "ICOB"},
+            IFLTBTC:
+                {infra: "BTC", supra: "IFLT"},
+            IFLTDOGE:
+                {infra: "DOGE", supra: "IFLT"},
+            IFLTLTC:
+                {infra: "LTC", supra: "IFLT"},
+            IFTBTC:
+                {infra: "BTC", supra: "IFT"},
+            IFTDOGE:
+                {infra: "DOGE", supra: "IFT"},
+            IFTLTC:
+                {infra: "LTC", supra: "IFT"},
+            IMSBTC:
+                {infra: "BTC", supra: "IMS"},
+            IMSDOGE:
+                {infra: "DOGE", supra: "IMS"},
+            IMSLTC:
+                {infra: "LTC", supra: "IMS"},
+            INBTC:
+                {infra: "BTC", supra: "IN"},
+            INDOGE:
+                {infra: "DOGE", supra: "IN"},
+            INFXBTC:
+                {infra: "BTC", supra: "INFX"},
+            INFXDOGE:
+                {infra: "DOGE", supra: "INFX"},
+            INFXLTC:
+                {infra: "LTC", supra: "INFX"},
+            INLTC:
+                {infra: "LTC", supra: "IN"},
+            INNBTC:
+                {infra: "BTC", supra: "INN"},
+            INNDOGE:
+                {infra: "DOGE", supra: "INN"},
+            INNLTC:
+                {infra: "LTC", supra: "INN"},
+            INSNBTC:
+                {infra: "BTC", supra: "INSN"},
+            INSNDOGE:
+                {infra: "DOGE", supra: "INSN"},
+            INSNLTC:
+                {infra: "LTC", supra: "INSN"},
+            IQTBTC:
+                {infra: "BTC", supra: "IQT"},
+            IQTDOGE:
+                {infra: "DOGE", supra: "IQT"},
+            IQTLTC:
+                {infra: "LTC", supra: "IQT"},
+            IRLBTC:
+                {infra: "BTC", supra: "IRL"},
+            IRLDOGE:
+                {infra: "DOGE", supra: "IRL"},
+            IRLLTC:
+                {infra: "LTC", supra: "IRL"},
+            ITIBTC:
+                {infra: "BTC", supra: "ITI"},
+            ITIDOGE:
+                {infra: "DOGE", supra: "ITI"},
+            ITILTC:
+                {infra: "LTC", supra: "ITI"},
+            IXCBTC:
+                {infra: "BTC", supra: "IXC"},
+            IXCDOGE:
+                {infra: "DOGE", supra: "IXC"},
+            IXCLTC:
+                {infra: "LTC", supra: "IXC"},
+            IZEBTC:
+                {infra: "BTC", supra: "IZE"},
+            IZEDOGE:
+                {infra: "DOGE", supra: "IZE"},
+            IZELTC:
+                {infra: "LTC", supra: "IZE"},
+            KASHBTC:
+                {infra: "BTC", supra: "KASH"},
+            KASHDOGE:
+                {infra: "DOGE", supra: "KASH"},
+            KASHLTC:
+                {infra: "LTC", supra: "KASH"},
+            KAYIBTC:
+                {infra: "BTC", supra: "KAYI"},
+            KAYIDOGE:
+                {infra: "DOGE", supra: "KAYI"},
+            KAYILTC:
+                {infra: "LTC", supra: "KAYI"},
+            KBRBTC:
+                {infra: "BTC", supra: "KBR"},
+            KBRDOGE:
+                {infra: "DOGE", supra: "KBR"},
+            KBRLTC:
+                {infra: "LTC", supra: "KBR"},
+            KDCBTC:
+                {infra: "BTC", supra: "KDC"},
+            KDCDOGE:
+                {infra: "DOGE", supra: "KDC"},
+            KDCLTC:
+                {infra: "LTC", supra: "KDC"},
+            KEDBTC:
+                {infra: "BTC", supra: "KED"},
+            KEDDOGE:
+                {infra: "DOGE", supra: "KED"},
+            KEDLTC:
+                {infra: "LTC", supra: "KED"},
+            KEKBTC:
+                {infra: "BTC", supra: "KEK"},
+            KEKDOGE:
+                {infra: "DOGE", supra: "KEK"},
+            KEKLTC:
+                {infra: "LTC", supra: "KEK"},
+            KGBBTC:
+                {infra: "BTC", supra: "KGB"},
+            KGBDOGE:
+                {infra: "DOGE", supra: "KGB"},
+            KGBLTC:
+                {infra: "LTC", supra: "KGB"},
+            KINGBTC:
+                {infra: "BTC", supra: "KING"},
+            KINGDOGE:
+                {infra: "DOGE", supra: "KING"},
+            KINGLTC:
+                {infra: "LTC", supra: "KING"},
+            KMDBTC:
+                {infra: "BTC", supra: "KMD"},
+            KMDDOGE:
+                {infra: "DOGE", supra: "KMD"},
+            KMDLTC:
+                {infra: "LTC", supra: "KMD"},
+            KNCBTC:
+                {infra: "BTC", supra: "KNC"},
+            KNCDOGE:
+                {infra: "DOGE", supra: "KNC"},
+            KNCLTC:
+                {infra: "LTC", supra: "KNC"},
+            KOBOBTC:
+                {infra: "BTC", supra: "KOBO"},
+            KOBODOGE:
+                {infra: "DOGE", supra: "KOBO"},
+            KOBOLTC:
+                {infra: "LTC", supra: "KOBO"},
+            KRBBTC:
+                {infra: "BTC", supra: "KRB"},
+            KRBDOGE:
+                {infra: "DOGE", supra: "KRB"},
+            KRBLTC:
+                {infra: "LTC", supra: "KRB"},
+            KRONEBTC:
+                {infra: "BTC", supra: "KRONE"},
+            KRONEDOGE:
+                {infra: "DOGE", supra: "KRONE"},
+            KRONELTC:
+                {infra: "LTC", supra: "KRONE"},
+            KUMABTC:
+                {infra: "BTC", supra: "KUMA"},
+            KUMADOGE:
+                {infra: "DOGE", supra: "KUMA"},
+            KUMALTC:
+                {infra: "LTC", supra: "KUMA"},
+            KURTBTC:
+                {infra: "BTC", supra: "KURT"},
+            KURTDOGE:
+                {infra: "DOGE", supra: "KURT"},
+            KURTLTC:
+                {infra: "LTC", supra: "KURT"},
+            KUSHBTC:
+                {infra: "BTC", supra: "KUSH"},
+            KUSHDOGE:
+                {infra: "DOGE", supra: "KUSH"},
+            KUSHLTC:
+                {infra: "LTC", supra: "KUSH"},
+            LANABTC:
+                {infra: "BTC", supra: "LANA"},
+            LANADOGE:
+                {infra: "DOGE", supra: "LANA"},
+            LANALTC:
+                {infra: "LTC", supra: "LANA"},
+            LBCBTC:
+                {infra: "BTC", supra: "LBC"},
+            LBCDOGE:
+                {infra: "DOGE", supra: "LBC"},
+            LBCLTC:
+                {infra: "LTC", supra: "LBC"},
+            LBTCBTC:
+                {infra: "BTC", supra: "LBTC"},
+            LBTCDOGE:
+                {infra: "DOGE", supra: "LBTC"},
+            LBTCLTC:
+                {infra: "LTC", supra: "LBTC"},
+            LCPBTC:
+                {infra: "BTC", supra: "LCP"},
+            LCPDOGE:
+                {infra: "DOGE", supra: "LCP"},
+            LCPLTC:
+                {infra: "LTC", supra: "LCP"},
+            LDCBTC:
+                {infra: "BTC", supra: "LDC"},
+            LDCDOGE:
+                {infra: "DOGE", supra: "LDC"},
+            LDCLTC:
+                {infra: "LTC", supra: "LDC"},
+            LDOGEBTC:
+                {infra: "BTC", supra: "LDOGE"},
+            LDOGEDOGE:
+                {infra: "DOGE", supra: "LDOGE"},
+            LDOGELTC:
+                {infra: "LTC", supra: "LDOGE"},
+            LEABTC:
+                {infra: "BTC", supra: "LEA"},
+            LEADOGE:
+                {infra: "DOGE", supra: "LEA"},
+            LEAFBTC:
+                {infra: "BTC", supra: "LEAF"},
+            LEAFDOGE:
+                {infra: "DOGE", supra: "LEAF"},
+            LEAFLTC:
+                {infra: "LTC", supra: "LEAF"},
+            LEALTC:
+                {infra: "LTC", supra: "LEA"},
+            LEMONBTC:
+                {infra: "BTC", supra: "LEMON"},
+            LEMONDOGE:
+                {infra: "DOGE", supra: "LEMON"},
+            LEMONLTC:
+                {infra: "LTC", supra: "LEMON"},
+            LEPENDOGE:
+                {infra: "DOGE", supra: "LEPEN"},
+            LEPENLTC:
+                {infra: "LTC", supra: "LEPEN"},
+            LFTCBTC:
+                {infra: "BTC", supra: "LFTC"},
+            LFTCDOGE:
+                {infra: "DOGE", supra: "LFTC"},
+            LFTCLTC:
+                {infra: "LTC", supra: "LFTC"},
+            LINDABTC:
+                {infra: "BTC", supra: "LINDA"},
+            LINDADOGE:
+                {infra: "DOGE", supra: "LINDA"},
+            LINDALTC:
+                {infra: "LTC", supra: "LINDA"},
+            LINXBTC:
+                {infra: "BTC", supra: "LINX"},
+            LINXDOGE:
+                {infra: "DOGE", supra: "LINX"},
+            LINXLTC:
+                {infra: "LTC", supra: "LINX"},
+            LITBTC:
+                {infra: "BTC", supra: "LIT"},
+            LITDOGE:
+                {infra: "DOGE", supra: "LIT"},
+            LITLTC:
+                {infra: "LTC", supra: "LIT"},
+            LIZIBTC:
+                {infra: "BTC", supra: "LIZI"},
+            LIZIDOGE:
+                {infra: "DOGE", supra: "LIZI"},
+            LIZILTC:
+                {infra: "LTC", supra: "LIZI"},
+            LOOKDOGE:
+                {infra: "DOGE", supra: "LOOK"},
+            LOOKLTC:
+                {infra: "LTC", supra: "LOOK"},
+            LOTBTC:
+                {infra: "BTC", supra: "LOT"},
+            LOTDOGE:
+                {infra: "DOGE", supra: "LOT"},
+            LOTLTC:
+                {infra: "LTC", supra: "LOT"},
+            LTBBTC:
+                {infra: "BTC", supra: "LTB"},
+            LTBDOGE:
+                {infra: "DOGE", supra: "LTB"},
+            LTBLTC:
+                {infra: "LTC", supra: "LTB"},
+            LTCBTC:
+                {infra: "BTC", supra: "LTC"},
+            LTCNZDT:
+                {infra: "NZDT", supra: "LTC"},
+            LTCUBTC:
+                {infra: "BTC", supra: "LTCU"},
+            LTCUDOGE:
+                {infra: "DOGE", supra: "LTCU"},
+            LTCULTC:
+                {infra: "LTC", supra: "LTCU"},
+            LTCUSDT:
+                {infra: "USD", supra: "LTC"},
+            LUXBTC:
+                {infra: "BTC", supra: "LUX"},
+            LUXDOGE:
+                {infra: "DOGE", supra: "LUX"},
+            LUXLTC:
+                {infra: "LTC", supra: "LUX"},
+            LUXNZDT:
+                {infra: "NZDT", supra: "LUX"},
+            LUXUSDT:
+                {infra: "USD", supra: "LUX"},
+            LYCBTC:
+                {infra: "BTC", supra: "LYC"},
+            LYCDOGE:
+                {infra: "DOGE", supra: "LYC"},
+            LYCLTC:
+                {infra: "LTC", supra: "LYC"},
+            MACBTC:
+                {infra: "BTC", supra: "MAC"},
+            MACDOGE:
+                {infra: "DOGE", supra: "MAC"},
+            MACLTC:
+                {infra: "LTC", supra: "MAC"},
+            MAGEBTC:
+                {infra: "BTC", supra: "MAGE"},
+            MAGEDOGE:
+                {infra: "DOGE", supra: "MAGE"},
+            MAGELTC:
+                {infra: "LTC", supra: "MAGE"},
+            MAGNBTC:
+                {infra: "BTC", supra: "MAGN"},
+            MAGNDOGE:
+                {infra: "DOGE", supra: "MAGN"},
+            MAGNLTC:
+                {infra: "LTC", supra: "MAGN"},
+            MAIDBTC:
+                {infra: "BTC", supra: "MAID"},
+            MAIDDOGE:
+                {infra: "DOGE", supra: "MAID"},
+            MAIDLTC:
+                {infra: "LTC", supra: "MAID"},
+            MARBTC:
+                {infra: "BTC", supra: "MAR"},
+            MARDOGE:
+                {infra: "DOGE", supra: "MAR"},
+            MARLTC:
+                {infra: "LTC", supra: "MAR"},
+            MARSBTC:
+                {infra: "BTC", supra: "MARS"},
+            MARSDOGE:
+                {infra: "DOGE", supra: "MARS"},
+            MARSLTC:
+                {infra: "LTC", supra: "MARS"},
+            MARXBTC:
+                {infra: "BTC", supra: "MARX"},
+            MARXDOGE:
+                {infra: "DOGE", supra: "MARX"},
+            MARXLTC:
+                {infra: "LTC", supra: "MARX"},
+            MATRXBTC:
+                {infra: "BTC", supra: "MATRX"},
+            MATRXDOGE:
+                {infra: "DOGE", supra: "MATRX"},
+            MATRXLTC:
+                {infra: "LTC", supra: "MATRX"},
+            MBRSBTC:
+                {infra: "BTC", supra: "MBRS"},
+            MBRSDOGE:
+                {infra: "DOGE", supra: "MBRS"},
+            MBRSLTC:
+                {infra: "LTC", supra: "MBRS"},
+            MCIBTC:
+                {infra: "BTC", supra: "MCI"},
+            MCIDOGE:
+                {infra: "DOGE", supra: "MCI"},
+            MCILTC:
+                {infra: "LTC", supra: "MCI"},
+            MCRNBTC:
+                {infra: "BTC", supra: "MCRN"},
+            MCRNDOGE:
+                {infra: "DOGE", supra: "MCRN"},
+            MCRNLTC:
+                {infra: "LTC", supra: "MCRN"},
+            MECBTC:
+                {infra: "BTC", supra: "MEC"},
+            MECDOGE:
+                {infra: "DOGE", supra: "MEC"},
+            MECLTC:
+                {infra: "LTC", supra: "MEC"},
+            MEOWDOGE:
+                {infra: "DOGE", supra: "MEOW"},
+            MEOWLTC:
+                {infra: "LTC", supra: "MEOW"},
+            MGOBTC:
+                {infra: "BTC", supra: "MGO"},
+            MGODOGE:
+                {infra: "DOGE", supra: "MGO"},
+            MGOLTC:
+                {infra: "LTC", supra: "MGO"},
+            MGXBTC:
+                {infra: "BTC", supra: "MGX"},
+            MGXDOGE:
+                {infra: "DOGE", supra: "MGX"},
+            MGXLTC:
+                {infra: "LTC", supra: "MGX"},
+            MINEXBTC:
+                {infra: "BTC", supra: "MINEX"},
+            MINEXDOGE:
+                {infra: "DOGE", supra: "MINEX"},
+            MINEXLTC:
+                {infra: "LTC", supra: "MINEX"},
+            MINTBTC:
+                {infra: "BTC", supra: "MINT"},
+            MINTDOGE:
+                {infra: "DOGE", supra: "MINT"},
+            MINTLTC:
+                {infra: "LTC", supra: "MINT"},
+            MLITEBTC:
+                {infra: "BTC", supra: "MLITE"},
+            MLITEDOGE:
+                {infra: "DOGE", supra: "MLITE"},
+            MLITELTC:
+                {infra: "LTC", supra: "MLITE"},
+            MNEBTC:
+                {infra: "BTC", supra: "MNE"},
+            MNEDOGE:
+                {infra: "DOGE", supra: "MNE"},
+            MNELTC:
+                {infra: "LTC", supra: "MNE"},
+            MNMBTC:
+                {infra: "BTC", supra: "MNM"},
+            MNMDOGE:
+                {infra: "DOGE", supra: "MNM"},
+            MNMLTC:
+                {infra: "LTC", supra: "MNM"},
+            MOINBTC:
+                {infra: "BTC", supra: "MOIN"},
+            MOINDOGE:
+                {infra: "DOGE", supra: "MOIN"},
+            MOINLTC:
+                {infra: "LTC", supra: "MOIN"},
+            MOJOBTC:
+                {infra: "BTC", supra: "MOJO"},
+            MOJODOGE:
+                {infra: "DOGE", supra: "MOJO"},
+            MOJOLTC:
+                {infra: "LTC", supra: "MOJO"},
+            MONKBTC:
+                {infra: "BTC", supra: "MONK"},
+            MONKDOGE:
+                {infra: "DOGE", supra: "MONK"},
+            MONKLTC:
+                {infra: "LTC", supra: "MONK"},
+            MOTOBTC:
+                {infra: "BTC", supra: "MOTO"},
+            MOTODOGE:
+                {infra: "DOGE", supra: "MOTO"},
+            MOTOLTC:
+                {infra: "LTC", supra: "MOTO"},
+            MSPBTC:
+                {infra: "BTC", supra: "MSP"},
+            MSPDOGE:
+                {infra: "DOGE", supra: "MSP"},
+            MSPLTC:
+                {infra: "LTC", supra: "MSP"},
+            MSTBTC:
+                {infra: "BTC", supra: "MST"},
+            MSTDOGE:
+                {infra: "DOGE", supra: "MST"},
+            MSTLTC:
+                {infra: "LTC", supra: "MST"},
+            MTLBTC:
+                {infra: "BTC", supra: "MTL"},
+            MTLDOGE:
+                {infra: "DOGE", supra: "MTL"},
+            MTLLTC:
+                {infra: "LTC", supra: "MTL"},
+            MTLMCBTC:
+                {infra: "BTC", supra: "MTLMC"},
+            MTLMCDOGE:
+                {infra: "DOGE", supra: "MTLMC"},
+            MTLMCLTC:
+                {infra: "LTC", supra: "MTLMC"},
+            MTNCBTC:
+                {infra: "BTC", supra: "MTNC"},
+            MTNCDOGE:
+                {infra: "DOGE", supra: "MTNC"},
+            MTNCLTC:
+                {infra: "LTC", supra: "MTNC"},
+            MUSICBTC:
+                {infra: "BTC", supra: "MUSIC"},
+            MUSICDOGE:
+                {infra: "DOGE", supra: "MUSIC"},
+            MUSICLTC:
+                {infra: "LTC", supra: "MUSIC"},
+            MYBBTC:
+                {infra: "BTC", supra: "MYB"},
+            MYBDOGE:
+                {infra: "DOGE", supra: "MYB"},
+            MYBLTC:
+                {infra: "LTC", supra: "MYB"},
+            MZCBTC:
+                {infra: "BTC", supra: "MZC"},
+            MZCDOGE:
+                {infra: "DOGE", supra: "MZC"},
+            MZCLTC:
+                {infra: "LTC", supra: "MZC"},
+            NAMOBTC:
+                {infra: "BTC", supra: "NAMO"},
+            NAMODOGE:
+                {infra: "DOGE", supra: "NAMO"},
+            NAMOLTC:
+                {infra: "LTC", supra: "NAMO"},
+            NAVBTC:
+                {infra: "BTC", supra: "NAV"},
+            NAVDOGE:
+                {infra: "DOGE", supra: "NAV"},
+            NAVLTC:
+                {infra: "LTC", supra: "NAV"},
+            NAVNZDT:
+                {infra: "NZDT", supra: "NAV"},
+            NAVUSDT:
+                {infra: "USD", supra: "NAV"},
+            NDAOBTC:
+                {infra: "BTC", supra: "NDAO"},
+            NDAODOGE:
+                {infra: "DOGE", supra: "NDAO"},
+            NDAOLTC:
+                {infra: "LTC", supra: "NDAO"},
+            NEBLBTC:
+                {infra: "BTC", supra: "NEBL"},
+            NEBLDOGE:
+                {infra: "DOGE", supra: "NEBL"},
+            NEBLLTC:
+                {infra: "LTC", supra: "NEBL"},
+            NEOBTC:
+                {infra: "BTC", supra: "NEO"},
+            NEODOGE:
+                {infra: "DOGE", supra: "NEO"},
+            NEOLTC:
+                {infra: "LTC", supra: "NEO"},
+            NETBTC:
+                {infra: "BTC", supra: "NET"},
+            NETDOGE:
+                {infra: "DOGE", supra: "NET"},
+            NETKOBTC:
+                {infra: "BTC", supra: "NETKO"},
+            NETKODOGE:
+                {infra: "DOGE", supra: "NETKO"},
+            NETKOLTC:
+                {infra: "LTC", supra: "NETKO"},
+            NETLTC:
+                {infra: "LTC", supra: "NET"},
+            NEVABTC:
+                {infra: "BTC", supra: "NEVA"},
+            NEVADOGE:
+                {infra: "DOGE", supra: "NEVA"},
+            NEVALTC:
+                {infra: "LTC", supra: "NEVA"},
+            NKABTC:
+                {infra: "BTC", supra: "NKA"},
+            NKADOGE:
+                {infra: "DOGE", supra: "NKA"},
+            NKALTC:
+                {infra: "LTC", supra: "NKA"},
+            NLC2BTC:
+                {infra: "BTC", supra: "NLC2"},
+            NLC2DOGE:
+                {infra: "DOGE", supra: "NLC2"},
+            NLC2LTC:
+                {infra: "LTC", supra: "NLC2"},
+            NMCBTC:
+                {infra: "BTC", supra: "NMC"},
+            NMCDOGE:
+                {infra: "DOGE", supra: "NMC"},
+            NMCLTC:
+                {infra: "LTC", supra: "NMC"},
+            NMSBTC:
+                {infra: "BTC", supra: "NMS"},
+            NMSDOGE:
+                {infra: "DOGE", supra: "NMS"},
+            NMSLTC:
+                {infra: "LTC", supra: "NMS"},
+            NOBLBTC:
+                {infra: "BTC", supra: "NOBL"},
+            NOBLDOGE:
+                {infra: "DOGE", supra: "NOBL"},
+            NOBLLTC:
+                {infra: "LTC", supra: "NOBL"},
+            NOTEBTC:
+                {infra: "BTC", supra: "NOTE"},
+            NOTEDOGE:
+                {infra: "DOGE", supra: "NOTE"},
+            NOTELTC:
+                {infra: "LTC", supra: "NOTE"},
+            NTRNBTC:
+                {infra: "BTC", supra: "NTRN"},
+            NTRNDOGE:
+                {infra: "DOGE", supra: "NTRN"},
+            NTRNLTC:
+                {infra: "LTC", supra: "NTRN"},
+            NVCBTC:
+                {infra: "BTC", supra: "NVC"},
+            NVCDOGE:
+                {infra: "DOGE", supra: "NVC"},
+            NVCLTC:
+                {infra: "LTC", supra: "NVC"},
+            NXSBTC:
+                {infra: "BTC", supra: "NXS"},
+            NXSDOGE:
+                {infra: "DOGE", supra: "NXS"},
+            NXSLTC:
+                {infra: "LTC", supra: "NXS"},
+            NYANBTC:
+                {infra: "BTC", supra: "NYAN"},
+            NYANDOGE:
+                {infra: "DOGE", supra: "NYAN"},
+            NYANLTC:
+                {infra: "LTC", supra: "NYAN"},
+            NZDTUSDT:
+                {infra: "USD", supra: "NZDT"},
+            ODNBTC:
+                {infra: "BTC", supra: "ODN"},
+            ODNDOGE:
+                {infra: "DOGE", supra: "ODN"},
+            ODNLTC:
+                {infra: "LTC", supra: "ODN"},
+            OFFBTC:
+                {infra: "BTC", supra: "OFF"},
+            OFFDOGE:
+                {infra: "DOGE", supra: "OFF"},
+            OFFLTC:
+                {infra: "LTC", supra: "OFF"},
+            OKBTC:
+                {infra: "BTC", supra: "OK"},
+            OKDOGE:
+                {infra: "DOGE", supra: "OK"},
+            OKLTC:
+                {infra: "LTC", supra: "OK"},
+            OMGBTC:
+                {infra: "BTC", supra: "OMG"},
+            OMGDOGE:
+                {infra: "DOGE", supra: "OMG"},
+            OMGLTC:
+                {infra: "LTC", supra: "OMG"},
+            ONIONBTC:
+                {infra: "BTC", supra: "ONION"},
+            ONIONDOGE:
+                {infra: "DOGE", supra: "ONION"},
+            ONIONLTC:
+                {infra: "LTC", supra: "ONION"},
+            OOOBTC:
+                {infra: "BTC", supra: "OOO"},
+            OOODOGE:
+                {infra: "DOGE", supra: "OOO"},
+            OOOLTC:
+                {infra: "LTC", supra: "OOO"},
+            OPALBTC:
+                {infra: "BTC", supra: "OPAL"},
+            OPALDOGE:
+                {infra: "DOGE", supra: "OPAL"},
+            OPALLTC:
+                {infra: "LTC", supra: "OPAL"},
+            OPCBTC:
+                {infra: "BTC", supra: "OPC"},
+            OPCDOGE:
+                {infra: "DOGE", supra: "OPC"},
+            OPCLTC:
+                {infra: "LTC", supra: "OPC"},
+            ORBBTC:
+                {infra: "BTC", supra: "ORB"},
+            ORBDOGE:
+                {infra: "DOGE", supra: "ORB"},
+            ORBLTC:
+                {infra: "LTC", supra: "ORB"},
+            ORMEBTC:
+                {infra: "BTC", supra: "ORME"},
+            ORMEDOGE:
+                {infra: "DOGE", supra: "ORME"},
+            ORMELTC:
+                {infra: "LTC", supra: "ORME"},
+            ORMENZDT:
+                {infra: "NZDT", supra: "ORME"},
+            ORMEUSDT:
+                {infra: "USD", supra: "ORME"},
+            OSCBTC:
+                {infra: "BTC", supra: "OSC"},
+            OSCDOGE:
+                {infra: "DOGE", supra: "OSC"},
+            OSCLTC:
+                {infra: "LTC", supra: "OSC"},
+            OTNBTC:
+                {infra: "BTC", supra: "OTN"},
+            OTNDOGE:
+                {infra: "DOGE", supra: "OTN"},
+            OTNLTC:
+                {infra: "LTC", supra: "OTN"},
+            OXBTC:
+                {infra: "BTC", supra: "OX"},
+            OXDOGE:
+                {infra: "DOGE", supra: "OX"},
+            OXLTC:
+                {infra: "LTC", supra: "OX"},
+            OZCBTC:
+                {infra: "BTC", supra: "OZC"},
+            OZCDOGE:
+                {infra: "DOGE", supra: "OZC"},
+            OZCLTC:
+                {infra: "LTC", supra: "OZC"},
+            PACBTC:
+                {infra: "BTC", supra: "PAC"},
+            PACDOGE:
+                {infra: "DOGE", supra: "PAC"},
+            PACLTC:
+                {infra: "LTC", supra: "PAC"},
+            PAKBTC:
+                {infra: "BTC", supra: "PAK"},
+            PAKDOGE:
+                {infra: "DOGE", supra: "PAK"},
+            PAKLTC:
+                {infra: "LTC", supra: "PAK"},
+            PASLBTC:
+                {infra: "BTC", supra: "PASL"},
+            PASLDOGE:
+                {infra: "DOGE", supra: "PASL"},
+            PASLLTC:
+                {infra: "LTC", supra: "PASL"},
+            PAYBTC:
+                {infra: "BTC", supra: "PAY"},
+            PAYDOGE:
+                {infra: "DOGE", supra: "PAY"},
+            PAYLTC:
+                {infra: "LTC", supra: "PAY"},
+            PBLBTC:
+                {infra: "BTC", supra: "PBL"},
+            PBLDOGE:
+                {infra: "DOGE", supra: "PBL"},
+            PBLLTC:
+                {infra: "LTC", supra: "PBL"},
+            PCCBTC:
+                {infra: "BTC", supra: "PCC"},
+            PCCDOGE:
+                {infra: "DOGE", supra: "PCC"},
+            PCCLTC:
+                {infra: "LTC", supra: "PCC"},
+            PCOINBTC:
+                {infra: "BTC", supra: "PCOIN"},
+            PCOINDOGE:
+                {infra: "DOGE", supra: "PCOIN"},
+            PCOINLTC:
+                {infra: "LTC", supra: "PCOIN"},
+            PENGBTC:
+                {infra: "BTC", supra: "PENG"},
+            PENGDOGE:
+                {infra: "DOGE", supra: "PENG"},
+            PENGLTC:
+                {infra: "LTC", supra: "PENG"},
+            PEPEBTC:
+                {infra: "BTC", supra: "PEPE"},
+            PEPEDOGE:
+                {infra: "DOGE", supra: "PEPE"},
+            PEPELTC:
+                {infra: "LTC", supra: "PEPE"},
+            PHOBTC:
+                {infra: "BTC", supra: "PHO"},
+            PHODOGE:
+                {infra: "DOGE", supra: "PHO"},
+            PHOLTC:
+                {infra: "LTC", supra: "PHO"},
+            PHRBTC:
+                {infra: "BTC", supra: "PHR"},
+            PHRDOGE:
+                {infra: "DOGE", supra: "PHR"},
+            PHRLTC:
+                {infra: "LTC", supra: "PHR"},
+            PHSBTC:
+                {infra: "BTC", supra: "PHS"},
+            PHSDOGE:
+                {infra: "DOGE", supra: "PHS"},
+            PHSLTC:
+                {infra: "LTC", supra: "PHS"},
+            PIGGYBTC:
+                {infra: "BTC", supra: "PIGGY"},
+            PIGGYDOGE:
+                {infra: "DOGE", supra: "PIGGY"},
+            PIGGYLTC:
+                {infra: "LTC", supra: "PIGGY"},
+            PINKBTC:
+                {infra: "BTC", supra: "PINK"},
+            PINKDOGE:
+                {infra: "DOGE", supra: "PINK"},
+            PINKLTC:
+                {infra: "LTC", supra: "PINK"},
+            PIRLBTC:
+                {infra: "BTC", supra: "PIRL"},
+            PIRLDOGE:
+                {infra: "DOGE", supra: "PIRL"},
+            PIRLLTC:
+                {infra: "LTC", supra: "PIRL"},
+            PIVXBTC:
+                {infra: "BTC", supra: "PIVX"},
+            PIVXDOGE:
+                {infra: "DOGE", supra: "PIVX"},
+            PIVXLTC:
+                {infra: "LTC", supra: "PIVX"},
+            PLCBTC:
+                {infra: "BTC", supra: "PLC"},
+            PLCDOGE:
+                {infra: "DOGE", supra: "PLC"},
+            PLCLTC:
+                {infra: "LTC", supra: "PLC"},
+            PLRBTC:
+                {infra: "BTC", supra: "PLR"},
+            PLRDOGE:
+                {infra: "DOGE", supra: "PLR"},
+            PLRLTC:
+                {infra: "LTC", supra: "PLR"},
+            PLXBTC:
+                {infra: "BTC", supra: "PLX"},
+            PLXDOGE:
+                {infra: "DOGE", supra: "PLX"},
+            PLXLTC:
+                {infra: "LTC", supra: "PLX"},
+            PNDBTC:
+                {infra: "BTC", supra: "PND"},
+            PNDDOGE:
+                {infra: "DOGE", supra: "PND"},
+            PNDLTC:
+                {infra: "LTC", supra: "PND"},
+            POLLBTC:
+                {infra: "BTC", supra: "POLL"},
+            POLLDOGE:
+                {infra: "DOGE", supra: "POLL"},
+            POLLLTC:
+                {infra: "LTC", supra: "POLL"},
+            POPBTC:
+                {infra: "BTC", supra: "POP"},
+            POPDOGE:
+                {infra: "DOGE", supra: "POP"},
+            POPLTC:
+                {infra: "LTC", supra: "POP"},
+            POSTBTC:
+                {infra: "BTC", supra: "POST"},
+            POSTDOGE:
+                {infra: "DOGE", supra: "POST"},
+            POSTLTC:
+                {infra: "LTC", supra: "POST"},
+            POSWBTC:
+                {infra: "BTC", supra: "POSW"},
+            POSWDOGE:
+                {infra: "DOGE", supra: "POSW"},
+            POSWLTC:
+                {infra: "LTC", supra: "POSW"},
+            POTBTC:
+                {infra: "BTC", supra: "POT"},
+            POTDOGE:
+                {infra: "DOGE", supra: "POT"},
+            POTLTC:
+                {infra: "LTC", supra: "POT"},
+            POWRBTC:
+                {infra: "BTC", supra: "POWR"},
+            POWRDOGE:
+                {infra: "DOGE", supra: "POWR"},
+            POWRLTC:
+                {infra: "LTC", supra: "POWR"},
+            PPCBTC:
+                {infra: "BTC", supra: "PPC"},
+            PPCDOGE:
+                {infra: "DOGE", supra: "PPC"},
+            PPCLTC:
+                {infra: "LTC", supra: "PPC"},
+            PRBTC:
+                {infra: "BTC", supra: "PR"},
+            PRDOGE:
+                {infra: "DOGE", supra: "PR"},
+            PRLBTC:
+                {infra: "BTC", supra: "PRL"},
+            PRLDOGE:
+                {infra: "DOGE", supra: "PRL"},
+            PRLLTC:
+                {infra: "LTC", supra: "PRL"},
+            PRLTC:
+                {infra: "LTC", supra: "PR"},
+            PROCBTC:
+                {infra: "BTC", supra: "PROC"},
+            PROCDOGE:
+                {infra: "DOGE", supra: "PROC"},
+            PROCLTC:
+                {infra: "LTC", supra: "PROC"},
+            PTCBTC:
+                {infra: "BTC", supra: "PTC"},
+            PTCDOGE:
+                {infra: "DOGE", supra: "PTC"},
+            PTCLTC:
+                {infra: "LTC", supra: "PTC"},
+            PURABTC:
+                {infra: "BTC", supra: "PURA"},
+            PURADOGE:
+                {infra: "DOGE", supra: "PURA"},
+            PURALTC:
+                {infra: "LTC", supra: "PURA"},
+            PUTBTC:
+                {infra: "BTC", supra: "PUT"},
+            PUTDOGE:
+                {infra: "DOGE", supra: "PUT"},
+            PUTLTC:
+                {infra: "LTC", supra: "PUT"},
+            PXCBTC:
+                {infra: "BTC", supra: "PXC"},
+            PXCDOGE:
+                {infra: "DOGE", supra: "PXC"},
+            PXCLTC:
+                {infra: "LTC", supra: "PXC"},
+            PXIBTC:
+                {infra: "BTC", supra: "PXI"},
+            PXIDOGE:
+                {infra: "DOGE", supra: "PXI"},
+            PXILTC:
+                {infra: "LTC", supra: "PXI"},
+            Q2CBTC:
+                {infra: "BTC", supra: "Q2C"},
+            Q2CDOGE:
+                {infra: "DOGE", supra: "Q2C"},
+            Q2CLTC:
+                {infra: "LTC", supra: "Q2C"},
+            QBTBTC:
+                {infra: "BTC", supra: "QBT"},
+            QBTDOGE:
+                {infra: "DOGE", supra: "QBT"},
+            QBTLTC:
+                {infra: "LTC", supra: "QBT"},
+            QRKBTC:
+                {infra: "BTC", supra: "QRK"},
+            QRKDOGE:
+                {infra: "DOGE", supra: "QRK"},
+            QRKLTC:
+                {infra: "LTC", supra: "QRK"},
+            QTLBTC:
+                {infra: "BTC", supra: "QTL"},
+            QTLDOGE:
+                {infra: "DOGE", supra: "QTL"},
+            QTLLTC:
+                {infra: "LTC", supra: "QTL"},
+            QWARKBTC:
+                {infra: "BTC", supra: "QWARK"},
+            QWARKDOGE:
+                {infra: "DOGE", supra: "QWARK"},
+            QWARKLTC:
+                {infra: "LTC", supra: "QWARK"},
+            RAINBTC:
+                {infra: "BTC", supra: "RAIN"},
+            RAINDOGE:
+                {infra: "DOGE", supra: "RAIN"},
+            RAINLTC:
+                {infra: "LTC", supra: "RAIN"},
+            RBBTBTC:
+                {infra: "BTC", supra: "RBBT"},
+            RBBTDOGE:
+                {infra: "DOGE", supra: "RBBT"},
+            RBBTLTC:
+                {infra: "LTC", supra: "RBBT"},
+            RBTBTC:
+                {infra: "BTC", supra: "RBT"},
+            RBTC:
+                {infra: "BTC", supra: "R"},
+            RBTDOGE:
+                {infra: "DOGE", supra: "RBT"},
+            RBTLTC:
+                {infra: "LTC", supra: "RBT"},
+            RBYBTC:
+                {infra: "BTC", supra: "RBY"},
+            RBYDOGE:
+                {infra: "DOGE", supra: "RBY"},
+            RBYLTC:
+                {infra: "LTC", supra: "RBY"},
+            RCBTC:
+                {infra: "BTC", supra: "RC"},
+            RCDOGE:
+                {infra: "DOGE", supra: "RC"},
+            RCLTC:
+                {infra: "LTC", supra: "RC"},
+            RDDBTC:
+                {infra: "BTC", supra: "RDD"},
+            RDDDOGE:
+                {infra: "DOGE", supra: "RDD"},
+            RDDLTC:
+                {infra: "LTC", supra: "RDD"},
+            RDOGE:
+                {infra: "DOGE", supra: "R"},
+            REDBTC:
+                {infra: "BTC", supra: "RED"},
+            REDDOGE:
+                {infra: "DOGE", supra: "RED"},
+            REDLTC:
+                {infra: "LTC", supra: "RED"},
+            REPBTC:
+                {infra: "BTC", supra: "REP"},
+            REPDOGE:
+                {infra: "DOGE", supra: "REP"},
+            REPLTC:
+                {infra: "LTC", supra: "REP"},
+            RICKSBTC:
+                {infra: "BTC", supra: "RICKS"},
+            RICKSDOGE:
+                {infra: "DOGE", supra: "RICKS"},
+            RICKSLTC:
+                {infra: "LTC", supra: "RICKS"},
+            RIYABTC:
+                {infra: "BTC", supra: "RIYA"},
+            RIYADOGE:
+                {infra: "DOGE", supra: "RIYA"},
+            RIYALTC:
+                {infra: "LTC", supra: "RIYA"},
+            RKCBTC:
+                {infra: "BTC", supra: "RKC"},
+            RKCDOGE:
+                {infra: "DOGE", supra: "RKC"},
+            RKCLTC:
+                {infra: "LTC", supra: "RKC"},
+            RLTC:
+                {infra: "LTC", supra: "R"},
+            RNSBTC:
+                {infra: "BTC", supra: "RNS"},
+            RNSDOGE:
+                {infra: "DOGE", supra: "RNS"},
+            RNSLTC:
+                {infra: "LTC", supra: "RNS"},
+            RPCBTC:
+                {infra: "BTC", supra: "RPC"},
+            RPCDOGE:
+                {infra: "DOGE", supra: "RPC"},
+            RPCLTC:
+                {infra: "LTC", supra: "RPC"},
+            RUPBTC:
+                {infra: "BTC", supra: "RUP"},
+            RUPDOGE:
+                {infra: "DOGE", supra: "RUP"},
+            RUPLTC:
+                {infra: "LTC", supra: "RUP"},
+            SAFEXBTC:
+                {infra: "BTC", supra: "SAFEX"},
+            SAFEXDOGE:
+                {infra: "DOGE", supra: "SAFEX"},
+            SAFEXLTC:
+                {infra: "LTC", supra: "SAFEX"},
+            SAGABTC:
+                {infra: "BTC", supra: "SAGA"},
+            SAGADOGE:
+                {infra: "DOGE", supra: "SAGA"},
+            SAGALTC:
+                {infra: "LTC", supra: "SAGA"},
+            SAKBTC:
+                {infra: "BTC", supra: "SAK"},
+            SAKDOGE:
+                {infra: "DOGE", supra: "SAK"},
+            SAKLTC:
+                {infra: "LTC", supra: "SAK"},
+            SANDBTC:
+                {infra: "BTC", supra: "SAND"},
+            SANDDOGE:
+                {infra: "DOGE", supra: "SAND"},
+            SANDLTC:
+                {infra: "LTC", supra: "SAND"},
+            SBCBTC:
+                {infra: "BTC", supra: "SBC"},
+            SBCDOGE:
+                {infra: "DOGE", supra: "SBC"},
+            SBCLTC:
+                {infra: "LTC", supra: "SBC"},
+            SCLBTC:
+                {infra: "BTC", supra: "SCL"},
+            SCLDOGE:
+                {infra: "DOGE", supra: "SCL"},
+            SCLLTC:
+                {infra: "LTC", supra: "SCL"},
+            SCTBTC:
+                {infra: "BTC", supra: "SCT"},
+            SDRNBTC:
+                {infra: "BTC", supra: "SDRN"},
+            SDRNDOGE:
+                {infra: "DOGE", supra: "SDRN"},
+            SDRNLTC:
+                {infra: "LTC", supra: "SDRN"},
+            SELBTC:
+                {infra: "BTC", supra: "SEL"},
+            SELDOGE:
+                {infra: "DOGE", supra: "SEL"},
+            SELLTC:
+                {infra: "LTC", supra: "SEL"},
+            SENDBTC:
+                {infra: "BTC", supra: "SEND"},
+            SENDDOGE:
+                {infra: "DOGE", supra: "SEND"},
+            SENDLTC:
+                {infra: "LTC", supra: "SEND"},
+            SFCBTC:
+                {infra: "BTC", supra: "SFC"},
+            SFCDOGE:
+                {infra: "DOGE", supra: "SFC"},
+            SFCLTC:
+                {infra: "LTC", supra: "SFC"},
+            SHABTC:
+                {infra: "BTC", supra: "SHA"},
+            SHADOGE:
+                {infra: "DOGE", supra: "SHA"},
+            SHALTC:
+                {infra: "LTC", supra: "SHA"},
+            SHRMBTC:
+                {infra: "BTC", supra: "SHRM"},
+            SHRMDOGE:
+                {infra: "DOGE", supra: "SHRM"},
+            SHRMLTC:
+                {infra: "LTC", supra: "SHRM"},
+            SIBBTC:
+                {infra: "BTC", supra: "SIB"},
+            SIBDOGE:
+                {infra: "DOGE", supra: "SIB"},
+            SIBLTC:
+                {infra: "LTC", supra: "SIB"},
+            SJWBTC:
+                {infra: "BTC", supra: "SJW"},
+            SJWDOGE:
+                {infra: "DOGE", supra: "SJW"},
+            SJWLTC:
+                {infra: "LTC", supra: "SJW"},
+            SKCBTC:
+                {infra: "BTC", supra: "SKC"},
+            SKCDOGE:
+                {infra: "DOGE", supra: "SKC"},
+            SKCLTC:
+                {infra: "LTC", supra: "SKC"},
+            SKINBTC:
+                {infra: "BTC", supra: "SKIN"},
+            SKINDOGE:
+                {infra: "DOGE", supra: "SKIN"},
+            SKINLTC:
+                {infra: "LTC", supra: "SKIN"},
+            SKRBTC:
+                {infra: "BTC", supra: "SKR"},
+            SKRDOGE:
+                {infra: "DOGE", supra: "SKR"},
+            SKRLTC:
+                {infra: "LTC", supra: "SKR"},
+            SKYBTC:
+                {infra: "BTC", supra: "SKY"},
+            SKYDOGE:
+                {infra: "DOGE", supra: "SKY"},
+            SKYLTC:
+                {infra: "LTC", supra: "SKY"},
+            SKYNZDT:
+                {infra: "NZDT", supra: "SKY"},
+            SKYUSDT:
+                {infra: "USD", supra: "SKY"},
+            SLGBTC:
+                {infra: "BTC", supra: "SLG"},
+            SLGDOGE:
+                {infra: "DOGE", supra: "SLG"},
+            SLGLTC:
+                {infra: "LTC", supra: "SLG"},
+            SLOTHBTC:
+                {infra: "BTC", supra: "SLOTH"},
+            SLOTHDOGE:
+                {infra: "DOGE", supra: "SLOTH"},
+            SLOTHLTC:
+                {infra: "LTC", supra: "SLOTH"},
+            SMARTBTC:
+                {infra: "BTC", supra: "SMART"},
+            SMARTDOGE:
+                {infra: "DOGE", supra: "SMART"},
+            SMARTLTC:
+                {infra: "LTC", supra: "SMART"},
+            SMCBTC:
+                {infra: "BTC", supra: "SMC"},
+            SMCDOGE:
+                {infra: "DOGE", supra: "SMC"},
+            SMCLTC:
+                {infra: "LTC", supra: "SMC"},
+            SOILBTC:
+                {infra: "BTC", supra: "SOIL"},
+            SOILDOGE:
+                {infra: "DOGE", supra: "SOIL"},
+            SOILLTC:
+                {infra: "LTC", supra: "SOIL"},
+            SONGBTC:
+                {infra: "BTC", supra: "SONG"},
+            SONGDOGE:
+                {infra: "DOGE", supra: "SONG"},
+            SONGLTC:
+                {infra: "LTC", supra: "SONG"},
+            SOONBTC:
+                {infra: "BTC", supra: "SOON"},
+            SOONDOGE:
+                {infra: "DOGE", supra: "SOON"},
+            SOONLTC:
+                {infra: "LTC", supra: "SOON"},
+            SPACEBTC:
+                {infra: "BTC", supra: "SPACE"},
+            SPACEDOGE:
+                {infra: "DOGE", supra: "SPACE"},
+            SPACELTC:
+                {infra: "LTC", supra: "SPACE"},
+            SPANKBTC:
+                {infra: "BTC", supra: "SPANK"},
+            SPANKDOGE:
+                {infra: "DOGE", supra: "SPANK"},
+            SPANKLTC:
+                {infra: "LTC", supra: "SPANK"},
+            SPNBTC:
+                {infra: "BTC", supra: "SPN"},
+            SPNDOGE:
+                {infra: "DOGE", supra: "SPN"},
+            SPNLTC:
+                {infra: "LTC", supra: "SPN"},
+            SPRBTC:
+                {infra: "BTC", supra: "SPR"},
+            SPRDOGE:
+                {infra: "DOGE", supra: "SPR"},
+            SPRLTC:
+                {infra: "LTC", supra: "SPR"},
+            SPTBTC:
+                {infra: "BTC", supra: "SPT"},
+            SPTDOGE:
+                {infra: "DOGE", supra: "SPT"},
+            SPTLTC:
+                {infra: "LTC", supra: "SPT"},
+            SQLBTC:
+                {infra: "BTC", supra: "SQL"},
+            SQLDOGE:
+                {infra: "DOGE", supra: "SQL"},
+            SQLLTC:
+                {infra: "LTC", supra: "SQL"},
+            SRCBTC:
+                {infra: "BTC", supra: "SRC"},
+            SRCDOGE:
+                {infra: "DOGE", supra: "SRC"},
+            SRCLTC:
+                {infra: "LTC", supra: "SRC"},
+            STARTBTC:
+                {infra: "BTC", supra: "START"},
+            STARTDOGE:
+                {infra: "DOGE", supra: "START"},
+            STARTLTC:
+                {infra: "LTC", supra: "START"},
+            STCBTC:
+                {infra: "BTC", supra: "STC"},
+            STCDOGE:
+                {infra: "DOGE", supra: "STC"},
+            STCLTC:
+                {infra: "LTC", supra: "STC"},
+            STNBTC:
+                {infra: "BTC", supra: "STN"},
+            STNDOGE:
+                {infra: "DOGE", supra: "STN"},
+            STNLTC:
+                {infra: "LTC", supra: "STN"},
+            STRATBTC:
+                {infra: "BTC", supra: "STRAT"},
+            STRATDOGE:
+                {infra: "DOGE", supra: "STRAT"},
+            STRATLTC:
+                {infra: "LTC", supra: "STRAT"},
+            STRCBTC:
+                {infra: "BTC", supra: "STRC"},
+            STRCDOGE:
+                {infra: "DOGE", supra: "STRC"},
+            STRCLTC:
+                {infra: "LTC", supra: "STRC"},
+            STVBTC:
+                {infra: "BTC", supra: "STV"},
+            STVDOGE:
+                {infra: "DOGE", supra: "STV"},
+            STVLTC:
+                {infra: "LTC", supra: "STV"},
+            SUMOBTC:
+                {infra: "BTC", supra: "SUMO"},
+            SUMODOGE:
+                {infra: "DOGE", supra: "SUMO"},
+            SUMOLTC:
+                {infra: "LTC", supra: "SUMO"},
+            SWINGBTC:
+                {infra: "BTC", supra: "SWING"},
+            SWINGDOGE:
+                {infra: "DOGE", supra: "SWING"},
+            SWINGLTC:
+                {infra: "LTC", supra: "SWING"},
+            SXCBTC:
+                {infra: "BTC", supra: "SXC"},
+            SXCDOGE:
+                {infra: "DOGE", supra: "SXC"},
+            SXCLTC:
+                {infra: "LTC", supra: "SXC"},
+            SYNXBTC:
+                {infra: "BTC", supra: "SYNX"},
+            SYNXDOGE:
+                {infra: "DOGE", supra: "SYNX"},
+            SYNXLTC:
+                {infra: "LTC", supra: "SYNX"},
+            TAJBTC:
+                {infra: "BTC", supra: "TAJ"},
+            TAJDOGE:
+                {infra: "DOGE", supra: "TAJ"},
+            TAJLTC:
+                {infra: "LTC", supra: "TAJ"},
+            TEKBTC:
+                {infra: "BTC", supra: "TEK"},
+            TEKDOGE:
+                {infra: "DOGE", supra: "TEK"},
+            TEKLTC:
+                {infra: "LTC", supra: "TEK"},
+            TERBTC:
+                {infra: "BTC", supra: "TER"},
+            TERDOGE:
+                {infra: "DOGE", supra: "TER"},
+            TERLTC:
+                {infra: "LTC", supra: "TER"},
+            TESBTC:
+                {infra: "BTC", supra: "TES"},
+            TESDOGE:
+                {infra: "DOGE", supra: "TES"},
+            TESLTC:
+                {infra: "LTC", supra: "TES"},
+            TGCBTC:
+                {infra: "BTC", supra: "TGC"},
+            TGCDOGE:
+                {infra: "DOGE", supra: "TGC"},
+            TGCLTC:
+                {infra: "LTC", supra: "TGC"},
+            TITBTC:
+                {infra: "BTC", supra: "TIT"},
+            TITDOGE:
+                {infra: "DOGE", supra: "TIT"},
+            TITLTC:
+                {infra: "LTC", supra: "TIT"},
+            TIXBTC:
+                {infra: "BTC", supra: "TIX"},
+            TIXDOGE:
+                {infra: "DOGE", supra: "TIX"},
+            TIXLTC:
+                {infra: "LTC", supra: "TIX"},
+            TOABTC:
+                {infra: "BTC", supra: "TOA"},
+            TOADOGE:
+                {infra: "DOGE", supra: "TOA"},
+            TOALTC:
+                {infra: "LTC", supra: "TOA"},
+            TOKBTC:
+                {infra: "BTC", supra: "TOK"},
+            TOKDOGE:
+                {infra: "DOGE", supra: "TOK"},
+            TOKLTC:
+                {infra: "LTC", supra: "TOK"},
+            TOPBTC:
+                {infra: "BTC", supra: "TOP"},
+            TOPDOGE:
+                {infra: "DOGE", supra: "TOP"},
+            TOPLTC:
+                {infra: "LTC", supra: "TOP"},
+            TRBOBTC:
+                {infra: "BTC", supra: "TRBO"},
+            TRCBTC:
+                {infra: "BTC", supra: "TRC"},
+            TRCDOGE:
+                {infra: "DOGE", supra: "TRC"},
+            TRCLTC:
+                {infra: "LTC", supra: "TRC"},
+            TRIBTC:
+                {infra: "BTC", supra: "TRI"},
+            TRIDOGE:
+                {infra: "DOGE", supra: "TRI"},
+            TRILTC:
+                {infra: "LTC", supra: "TRI"},
+            TRKBTC:
+                {infra: "BTC", supra: "TRK"},
+            TRKDOGE:
+                {infra: "DOGE", supra: "TRK"},
+            TRKLTC:
+                {infra: "LTC", supra: "TRK"},
+            TRUMPBTC:
+                {infra: "BTC", supra: "TRUMP"},
+            TRUMPDOGE:
+                {infra: "DOGE", supra: "TRUMP"},
+            TRUMPLTC:
+                {infra: "LTC", supra: "TRUMP"},
+            TRXBTC:
+                {infra: "BTC", supra: "TRX"},
+            TSEBTC:
+                {infra: "BTC", supra: "TSE"},
+            TSEDOGE:
+                {infra: "DOGE", supra: "TSE"},
+            TSELTC:
+                {infra: "LTC", supra: "TSE"},
+            TTCBTC:
+                {infra: "BTC", supra: "TTC"},
+            TTCDOGE:
+                {infra: "DOGE", supra: "TTC"},
+            TTCLTC:
+                {infra: "LTC", supra: "TTC"},
+            TTYBTC:
+                {infra: "BTC", supra: "TTY"},
+            TTYDOGE:
+                {infra: "DOGE", supra: "TTY"},
+            TTYLTC:
+                {infra: "LTC", supra: "TTY"},
+            TXBTC:
+                {infra: "BTC", supra: "TX"},
+            TXDOGE:
+                {infra: "DOGE", supra: "TX"},
+            TXLTC:
+                {infra: "LTC", supra: "TX"},
+            TZCBTC:
+                {infra: "BTC", supra: "TZC"},
+            TZCDOGE:
+                {infra: "DOGE", supra: "TZC"},
+            TZCLTC:
+                {infra: "LTC", supra: "TZC"},
+            UBQBTC:
+                {infra: "BTC", supra: "UBQ"},
+            UBQDOGE:
+                {infra: "DOGE", supra: "UBQ"},
+            UBQLTC:
+                {infra: "LTC", supra: "UBQ"},
+            UFRBTC:
+                {infra: "BTC", supra: "UFR"},
+            UFRDOGE:
+                {infra: "DOGE", supra: "UFR"},
+            UFRLTC:
+                {infra: "LTC", supra: "UFR"},
+            UISBTC:
+                {infra: "BTC", supra: "UIS"},
+            UISDOGE:
+                {infra: "DOGE", supra: "UIS"},
+            UISLTC:
+                {infra: "LTC", supra: "UIS"},
+            UMOBTC:
+                {infra: "BTC", supra: "UMO"},
+            UMODOGE:
+                {infra: "DOGE", supra: "UMO"},
+            UMOLTC:
+                {infra: "LTC", supra: "UMO"},
+            UNICBTC:
+                {infra: "BTC", supra: "UNIC"},
+            UNICDOGE:
+                {infra: "DOGE", supra: "UNIC"},
+            UNICLTC:
+                {infra: "LTC", supra: "UNIC"},
+            UNIFYBTC:
+                {infra: "BTC", supra: "UNIFY"},
+            UNIFYDOGE:
+                {infra: "DOGE", supra: "UNIFY"},
+            UNIFYLTC:
+                {infra: "LTC", supra: "UNIFY"},
+            UNITBTC:
+                {infra: "BTC", supra: "UNIT"},
+            UNITDOGE:
+                {infra: "DOGE", supra: "UNIT"},
+            UNITLTC:
+                {infra: "LTC", supra: "UNIT"},
+            UNITSBTC:
+                {infra: "BTC", supra: "UNITS"},
+            UNITSDOGE:
+                {infra: "DOGE", supra: "UNITS"},
+            UNITSLTC:
+                {infra: "LTC", supra: "UNITS"},
+            UNOBTC:
+                {infra: "BTC", supra: "UNO"},
+            UNODOGE:
+                {infra: "DOGE", supra: "UNO"},
+            UNOLTC:
+                {infra: "LTC", supra: "UNO"},
+            UNOUSDT:
+                {infra: "USD", supra: "UNO"},
+            URBTC:
+                {infra: "BTC", supra: "UR"},
+            URDOGE:
+                {infra: "DOGE", supra: "UR"},
+            URLTC:
+                {infra: "LTC", supra: "UR"},
+            UTCBTC:
+                {infra: "BTC", supra: "UTC"},
+            UTCDOGE:
+                {infra: "DOGE", supra: "UTC"},
+            UTCLTC:
+                {infra: "LTC", supra: "UTC"},
+            VBTC:
+                {infra: "BTC", supra: "V"},
+            VCCBTC:
+                {infra: "BTC", supra: "VCC"},
+            VCCDOGE:
+                {infra: "DOGE", supra: "VCC"},
+            VCCLTC:
+                {infra: "LTC", supra: "VCC"},
+            VDOGE:
+                {infra: "DOGE", supra: "V"},
+            VIDZBTC:
+                {infra: "BTC", supra: "VIDZ"},
+            VIDZDOGE:
+                {infra: "DOGE", supra: "VIDZ"},
+            VIDZLTC:
+                {infra: "LTC", supra: "VIDZ"},
+            VIVOBTC:
+                {infra: "BTC", supra: "VIVO"},
+            VIVODOGE:
+                {infra: "DOGE", supra: "VIVO"},
+            VIVOLTC:
+                {infra: "LTC", supra: "VIVO"},
+            VLTC:
+                {infra: "LTC", supra: "V"},
+            VOISEBTC:
+                {infra: "BTC", supra: "VOISE"},
+            VOISEDOGE:
+                {infra: "DOGE", supra: "VOISE"},
+            VOISELTC:
+                {infra: "LTC", supra: "VOISE"},
+            VPRCBTC:
+                {infra: "BTC", supra: "VPRC"},
+            VPRCDOGE:
+                {infra: "DOGE", supra: "VPRC"},
+            VPRCLTC:
+                {infra: "LTC", supra: "VPRC"},
+            VRCBTC:
+                {infra: "BTC", supra: "VRC"},
+            VRCDOGE:
+                {infra: "DOGE", supra: "VRC"},
+            VRCLTC:
+                {infra: "LTC", supra: "VRC"},
+            VRMBTC:
+                {infra: "BTC", supra: "VRM"},
+            VRMDOGE:
+                {infra: "DOGE", supra: "VRM"},
+            VRMLTC:
+                {infra: "LTC", supra: "VRM"},
+            VUCBTC:
+                {infra: "BTC", supra: "VUC"},
+            VUCDOGE:
+                {infra: "DOGE", supra: "VUC"},
+            VUCLTC:
+                {infra: "LTC", supra: "VUC"},
+            WCBTC:
+                {infra: "BTC", supra: "WC"},
+            WCDOGE:
+                {infra: "DOGE", supra: "WC"},
+            WCLTC:
+                {infra: "LTC", supra: "WC"},
+            WColdBTC:
+                {infra: "BTC", supra: "WC_old"},
+            WColdDOGE:
+                {infra: "DOGE", supra: "WC_old"},
+            WColdLTC:
+                {infra: "LTC", supra: "WC_old"},
+            WDCBTC:
+                {infra: "BTC", supra: "WDC"},
+            WDCDOGE:
+                {infra: "DOGE", supra: "WDC"},
+            WDCLTC:
+                {infra: "LTC", supra: "WDC"},
+            WEEDBTC:
+                {infra: "BTC", supra: "WEED"},
+            WEEDDOGE:
+                {infra: "DOGE", supra: "WEED"},
+            WEEDLTC:
+                {infra: "LTC", supra: "WEED"},
+            WILDBTC:
+                {infra: "BTC", supra: "WILD"},
+            WILDDOGE:
+                {infra: "DOGE", supra: "WILD"},
+            WILDLTC:
+                {infra: "LTC", supra: "WILD"},
+            WISHBTC:
+                {infra: "BTC", supra: "WISH"},
+            WISHDOGE:
+                {infra: "DOGE", supra: "WISH"},
+            WISHLTC:
+                {infra: "LTC", supra: "WISH"},
+            WLCBTC:
+                {infra: "BTC", supra: "WLC"},
+            WLCDOGE:
+                {infra: "DOGE", supra: "WLC"},
+            WLCLTC:
+                {infra: "LTC", supra: "WLC"},
+            WRCBTC:
+                {infra: "BTC", supra: "WRC"},
+            WRCDOGE:
+                {infra: "DOGE", supra: "WRC"},
+            WRCLTC:
+                {infra: "LTC", supra: "WRC"},
+            WSXBTC:
+                {infra: "BTC", supra: "WSX"},
+            WSXDOGE:
+                {infra: "DOGE", supra: "WSX"},
+            WSXLTC:
+                {infra: "LTC", supra: "WSX"},
+            WWBTC:
+                {infra: "BTC", supra: "WW"},
+            WWDOGE:
+                {infra: "DOGE", supra: "WW"},
+            WWLTC:
+                {infra: "LTC", supra: "WW"},
+            XBCBTC:
+                {infra: "BTC", supra: "XBC"},
+            XBCDOGE:
+                {infra: "DOGE", supra: "XBC"},
+            XBCLTC:
+                {infra: "LTC", supra: "XBC"},
+            XBLBTC:
+                {infra: "BTC", supra: "XBL"},
+            XBLDOGE:
+                {infra: "DOGE", supra: "XBL"},
+            XBLLTC:
+                {infra: "LTC", supra: "XBL"},
+            XBTSBTC:
+                {infra: "BTC", supra: "XBTS"},
+            XBTSDOGE:
+                {infra: "DOGE", supra: "XBTS"},
+            XBTSLTC:
+                {infra: "LTC", supra: "XBTS"},
+            XBYBTC:
+                {infra: "BTC", supra: "XBY"},
+            XBYDOGE:
+                {infra: "DOGE", supra: "XBY"},
+            XBYLTC:
+                {infra: "LTC", supra: "XBY"},
+            XCOBTC:
+                {infra: "BTC", supra: "XCO"},
+            XCODOGE:
+                {infra: "DOGE", supra: "XCO"},
+            XCOLTC:
+                {infra: "LTC", supra: "XCO"},
+            XCPOBTC:
+                {infra: "BTC", supra: "XCPO"},
+            XCPODOGE:
+                {infra: "DOGE", supra: "XCPO"},
+            XCPOLTC:
+                {infra: "LTC", supra: "XCPO"},
+            XCREBTC:
+                {infra: "BTC", supra: "XCRE"},
+            XCREDOGE:
+                {infra: "DOGE", supra: "XCRE"},
+            XCRELTC:
+                {infra: "LTC", supra: "XCRE"},
+            XCTBTC:
+                {infra: "BTC", supra: "XCT"},
+            XCTDOGE:
+                {infra: "DOGE", supra: "XCT"},
+            XCTLTC:
+                {infra: "LTC", supra: "XCT"},
+            XCXTBTC:
+                {infra: "BTC", supra: "XCXT"},
+            XCXTDOGE:
+                {infra: "DOGE", supra: "XCXT"},
+            XCXTLTC:
+                {infra: "LTC", supra: "XCXT"},
+            XEMBTC:
+                {infra: "BTC", supra: "XEM"},
+            XEMDOGE:
+                {infra: "DOGE", supra: "XEM"},
+            XEMLTC:
+                {infra: "LTC", supra: "XEM"},
+            XFTBTC:
+                {infra: "BTC", supra: "XFT"},
+            XFTDOGE:
+                {infra: "DOGE", supra: "XFT"},
+            XFTLTC:
+                {infra: "LTC", supra: "XFT"},
+            XGOXBTC:
+                {infra: "BTC", supra: "XGOX"},
+            XGOXDOGE:
+                {infra: "DOGE", supra: "XGOX"},
+            XGOXLTC:
+                {infra: "LTC", supra: "XGOX"},
+            XGRBTC:
+                {infra: "BTC", supra: "XGR"},
+            XGRDOGE:
+                {infra: "DOGE", supra: "XGR"},
+            XGRLTC:
+                {infra: "LTC", supra: "XGR"},
+            XIDBTC:
+                {infra: "BTC", supra: "XID"},
+            XIDDOGE:
+                {infra: "DOGE", supra: "XID"},
+            XIDLTC:
+                {infra: "LTC", supra: "XID"},
+            XJOBTC:
+                {infra: "BTC", supra: "XJO"},
+            XJODOGE:
+                {infra: "DOGE", supra: "XJO"},
+            XJOLTC:
+                {infra: "LTC", supra: "XJO"},
+            XLCBTC:
+                {infra: "BTC", supra: "XLC"},
+            XLCDOGE:
+                {infra: "DOGE", supra: "XLC"},
+            XLCLTC:
+                {infra: "LTC", supra: "XLC"},
+            XMCCBTC:
+                {infra: "BTC", supra: "XMCC"},
+            XMCCDOGE:
+                {infra: "DOGE", supra: "XMCC"},
+            XMCCLTC:
+                {infra: "LTC", supra: "XMCC"},
+            XMGBTC:
+                {infra: "BTC", supra: "XMG"},
+            XMGDOGE:
+                {infra: "DOGE", supra: "XMG"},
+            XMGLTC:
+                {infra: "LTC", supra: "XMG"},
+            XMRBTC:
+                {infra: "BTC", supra: "XMR"},
+            XMRDOGE:
+                {infra: "DOGE", supra: "XMR"},
+            XMRLTC:
+                {infra: "LTC", supra: "XMR"},
+            XMRNZDT:
+                {infra: "NZDT", supra: "XMR"},
+            XMRUSDT:
+                {infra: "USD", supra: "XMR"},
+            XMYBTC:
+                {infra: "BTC", supra: "XMY"},
+            XMYDOGE:
+                {infra: "DOGE", supra: "XMY"},
+            XMYLTC:
+                {infra: "LTC", supra: "XMY"},
+            XPDBTC:
+                {infra: "BTC", supra: "XPD"},
+            XPDDOGE:
+                {infra: "DOGE", supra: "XPD"},
+            XPDLTC:
+                {infra: "LTC", supra: "XPD"},
+            XPMBTC:
+                {infra: "BTC", supra: "XPM"},
+            XPMDOGE:
+                {infra: "DOGE", supra: "XPM"},
+            XPMLTC:
+                {infra: "LTC", supra: "XPM"},
+            XPTXBTC:
+                {infra: "BTC", supra: "XPTX"},
+            XPTXDOGE:
+                {infra: "DOGE", supra: "XPTX"},
+            XPTXLTC:
+                {infra: "LTC", supra: "XPTX"},
+            XRABTC:
+                {infra: "BTC", supra: "XRA"},
+            XRADOGE:
+                {infra: "DOGE", supra: "XRA"},
+            XRALTC:
+                {infra: "LTC", supra: "XRA"},
+            XREBTC:
+                {infra: "BTC", supra: "XRE"},
+            XREDOGE:
+                {infra: "DOGE", supra: "XRE"},
+            XRELTC:
+                {infra: "LTC", supra: "XRE"},
+            XRYBTC:
+                {infra: "BTC", supra: "XRY"},
+            XRYDOGE:
+                {infra: "DOGE", supra: "XRY"},
+            XRYLTC:
+                {infra: "LTC", supra: "XRY"},
+            XSPECBTC:
+                {infra: "BTC", supra: "XSPEC"},
+            XSPECDOGE:
+                {infra: "DOGE", supra: "XSPEC"},
+            XSPECLTC:
+                {infra: "LTC", supra: "XSPEC"},
+            XSTBTC:
+                {infra: "BTC", supra: "XST"},
+            XSTDOGE:
+                {infra: "DOGE", supra: "XST"},
+            XSTLTC:
+                {infra: "LTC", supra: "XST"},
+            XVGBTC:
+                {infra: "BTC", supra: "XVG"},
+            XVGDOGE:
+                {infra: "DOGE", supra: "XVG"},
+            XVGLTC:
+                {infra: "LTC", supra: "XVG"},
+            XVGNZDT:
+                {infra: "NZDT", supra: "XVG"},
+            XVGUSDT:
+                {infra: "USD", supra: "XVG"},
+            XZCBTC:
+                {infra: "BTC", supra: "XZC"},
+            XZCDOGE:
+                {infra: "DOGE", supra: "XZC"},
+            XZCLTC:
+                {infra: "LTC", supra: "XZC"},
+            YOVIBTC:
+                {infra: "BTC", supra: "YOVI"},
+            YOVIDOGE:
+                {infra: "DOGE", supra: "YOVI"},
+            YOVILTC:
+                {infra: "LTC", supra: "YOVI"},
+            ZAPBTC:
+                {infra: "BTC", supra: "ZAP"},
+            ZAPDOGE:
+                {infra: "DOGE", supra: "ZAP"},
+            ZAPLTC:
+                {infra: "LTC", supra: "ZAP"},
+            ZCLBTC:
+                {infra: "BTC", supra: "ZCL"},
+            ZCLDOGE:
+                {infra: "DOGE", supra: "ZCL"},
+            ZCLLTC:
+                {infra: "LTC", supra: "ZCL"},
+            ZECBTC:
+                {infra: "BTC", supra: "ZEC"},
+            ZECDOGE:
+                {infra: "DOGE", supra: "ZEC"},
+            ZECLTC:
+                {infra: "LTC", supra: "ZEC"},
+            ZECNZDT:
+                {infra: "NZDT", supra: "ZEC"},
+            ZECUSDT:
+                {infra: "USD", supra: "ZEC"},
+            ZEITBTC:
+                {infra: "BTC", supra: "ZEIT"},
+            ZEITDOGE:
+                {infra: "DOGE", supra: "ZEIT"},
+            ZEITLTC:
+                {infra: "LTC", supra: "ZEIT"},
+            ZENBTC:
+                {infra: "BTC", supra: "ZEN"},
+            ZENDOGE:
+                {infra: "DOGE", supra: "ZEN"},
+            ZENLTC:
+                {infra: "LTC", supra: "ZEN"},
+            ZERBTC:
+                {infra: "BTC", supra: "ZER"},
+            ZERDOGE:
+                {infra: "DOGE", supra: "ZER"},
+            ZERLTC:
+                {infra: "LTC", supra: "ZER"},
+            ZETBTC:
+                {infra: "BTC", supra: "ZET"},
+            ZETDOGE:
+                {infra: "DOGE", supra: "ZET"},
+            ZETLTC:
+                {infra: "LTC", supra: "ZET"},
+            ZOIBTC:
+                {infra: "BTC", supra: "ZOI"},
+            ZOIDOGE:
+                {infra: "DOGE", supra: "ZOI"},
+            ZOILTC:
+                {infra: "LTC", supra: "ZOI"},
+            ZSEBTC:
+                {infra: "BTC", supra: "ZSE"},
+            ZSEDOGE:
+                {infra: "DOGE", supra: "ZSE"},
+            ZSELTC:
+                {infra: "LTC", supra: "ZSE"},
+        }
 
-,
+        ,
         kucoin: {
 
             ACTBCH:
@@ -5087,6 +3629,12 @@ export class AppConfigService {
                 {infra: "BTC", supra: "ACT"},
             ACTETH:
                 {infra: "ETH", supra: "ACT"},
+            ACATBTC:
+                {infra: "BTC", supra: "ACAT"},
+            ACATNEO:
+                {infra: "NEO", supra: "ACAT"},
+            ACATETH:
+                {infra: "ETH", supra: "ACAT"},
             ADBBTC:
                 {infra: "BTC", supra: "ADB"},
             ADBETH:
@@ -5586,6 +4134,8 @@ export class AppConfigService {
                 {infra: "BTC", supra: "ARN"},
             ARNETH:
                 {infra: "ETH", supra: "ARN"},
+            AXPBTC: {infra: "BTC", supra: "AXP"},
+            AXPETH: {infra: "ETH", supra: "AXP"},
             ARTBTC:
                 {infra: "BTC", supra: "ART"},
             ATBBTC:
@@ -7056,7 +5606,7 @@ export class AppConfigService {
 
     brokersLinks = {
         "binance": {
-            twitter_main:'binance_2017',
+            twitter_main: 'binance_2017',
 
             trade_screen: "https://www.binance.com/trade.html?symbol=",
             trade_screen_sep: "_",
@@ -7081,17 +5631,17 @@ export class AppConfigService {
             }
         },
         "kraken": {
-            twitter_main:'krakenfx',
-            twitter_support:'krakensupport',
-            trade_screen:"https://trade.kraken.com/kraken/",
-            trade_screen_sep:"",
+            twitter_main: 'krakenfx',
+            twitter_support: 'krakensupport',
+            trade_screen: "https://trade.kraken.com/kraken/",
+            trade_screen_sep: "",
             dbcode: "kra",
             api: "https://www.kraken.com/u/settings/api",
             signup: "https://www.kraken.com/en-us/signup",
             infras: ['USD', 'EUR', 'ETH', 'CAD', 'XBT', 'JPY', 'GBP'],
             ignoredPairs: []
         }, "hitbtc": {
-            twitter_main:'hitbtc',
+            twitter_main: 'hitbtc',
             trade_screen: "https://hitbtc.com/exchange/",
             trade_screen_sep: "-to-",
             dbcode: "hit",
@@ -7115,14 +5665,14 @@ export class AppConfigService {
 
             }
         }, "bitmex": {
-            twitter_main:"BitMEXdotcom",
+            twitter_main: "BitMEXdotcom",
             dbcode: "bmx",
             api: "https://www.bitmex.com/app/apiKeys",
             signup: "https://www.bitmex.com/register",
             infras: ['BTC', 'ETH', 'BNB', 'USD', 'USDT'],
             ignoredPairs: []
         }, "kucoin": {
-            twitter_main:"kucoincom",
+            twitter_main: "kucoincom",
             trade_screen: "https://www.kucoin.com/#/trade.pro/",
             trade_screen_sep: "_",
             dbcode: "kuc",
@@ -7145,13 +5695,13 @@ export class AppConfigService {
                 deposit: 0
             }
         }, "cryptopia": {
-            twitter_main:"Cryptopia_NZ",
+            twitter_main: "Cryptopia_NZ",
             trade_screen: "https://www.cryptopia.co.nz/Exchange/?market=",
             trade_screen_sep: "_",
             dbcode: "cry",
             api: "",
             signup: "https://www.cryptopia.co.nz/Register",
-            infras: ['BTC', 'ETH','NZDT','DOGE', 'USD', 'USDT'],
+            infras: ['BTC', 'ETH', 'NZDT', 'DOGE', 'USD', 'USDT'],
             ignoredPairs: [],
             fees: {
                 withdraw: {
@@ -7333,27 +5883,38 @@ export class AppConfigService {
         console.log("open", broker, pair);
 
         let p = this.infrasuprainv[broker][pair];
-        if(!p){console.error("err pair",pair,"not found in infrasuprainv");return}
+        if (!p) {
+            console.error("err pair", pair, "not found in infrasuprainv");
+            return
+        }
         let infra = p.infra;
         let supra = p.supra;
         let l = this.brokersLinks[broker].trade_screen + supra + this.brokersLinks[broker].trade_screen_sep + infra;
         return l
     }
 
-    getPairCommonName(broker: string, paircode) {
+    getPairCommonName(broker: string, paircode, sep: string = "") {
         if (!(broker in this.infrasuprainv)) return "**" + paircode
         if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
         let str = this.infrasuprainv[broker][paircode];
-        return str.supra + "/" + str.infra;
+        return str.supra + sep + str.infra;
     }
+    getPairInfraSupra(broker: string, paircode) {
+        if (!(broker in this.infrasuprainv)) return "**" + paircode
+        if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
+        let str = this.infrasuprainv[broker][paircode];
+        return str
+    }
+
     getPairRawName(broker: string, paircode) {
         if (!(broker in this.infrasuprainv)) return "**" + paircode
         if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
         let str = this.infrasuprainv[broker][paircode];
         return this.infrasuprainv;
     }
-    getTwitterMain(broker){
-        if(broker in this.brokersLinks)
-        return this.brokersLinks[broker].twitter_main
+
+    getTwitterMain(broker) {
+        if (broker in this.brokersLinks)
+            return this.brokersLinks[broker].twitter_main
     }
 }
