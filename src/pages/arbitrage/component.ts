@@ -98,6 +98,86 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         });
 
     }
+    updateKey(b:string,pair:string,res:any){
+        if (!(pair in this.appConfigService.infrasuprainv[b])) {
+            console.log("err unknown pair", b, pair)
+        } else {
+            const key = this.getUniversalName(b, pair);
+            if (key == "XRPBTC") console.log("--------------------------------------------------------------- linew ", b, pair, JSON.stringify(this.listing[key]))
+            const r = res[pair];
+            let linew: Tick = {broker: b, pair: key, volume: r.volume, bid: r.bid, ask: r.ask, p: r.last}
+            if (linew.ask > 0 && linew.bid > 0) {
+                linew.spread = linew.ask - linew.bid;
+            } else {
+                linew.spread = null;
+                linew.spreadpct = null;
+            }
+            if (key == "XRPBTC") console.log("linew new", b, key, JSON.stringify(linew))
+            if (key in this.listing && b in this.listing[key].brokers) {//b in this.indexes && linew.pair in this.indexes[b]) { //already added
+                if (key == "XRPBTC") console.log("  linew upd existing", b, JSON.stringify(this.listing[key].brokers))
+                //const j: number = this.indexes[b][linew.pair];
+                let LL = this.listing[key]
+                let Lbroker = LL.brokers[b];
+                if (linew.ask < Lbroker.cheapestask) {
+                    Lbroker.cheapestaskname = b;
+                }
+                if (linew.bid > Lbroker.mostexpensivebid) {
+                    Lbroker.mostexpensivebidname = b;
+                }
+                if (key == "XRPBTC") console.log("    linew upd", b, key, JSON.stringify(LL), linew.ask)
+                LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
+                LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
+                LL.spread = LL.mostexpensivebid - LL.cheapestask;
+                if (Lbroker.bid != linew.bid)
+                    Lbroker.oldbid = Lbroker.bid;
+                if (Lbroker.ask != linew.ask)
+                    Lbroker.oldask = Lbroker.ask;
+                Lbroker.ask = linew.ask;
+                Lbroker.bid = linew.bid;
+                if (Lbroker.ask > 0 && Lbroker.bid > 0) {
+                    Lbroker.spread = Lbroker.ask - Lbroker.bid;
+                    Lbroker.spreadpct = 100 * Lbroker.spread / Lbroker.ask;
+                } else {
+                    Lbroker.spread = null;
+                    Lbroker.spreadpct = null;
+                }
+                Lbroker.p = linew.p;
+            } else {
+                this.updatePairCreate(b,key,linew)
+            }
+        }
+    }
+    updatePairCreate(b:string,key:string,linew:any){
+        if (key == "XRPBTC") console.log("  linew add broker", b, JSON.stringify(linew))
+        if (!(key in this.listing)) {
+            this.listing[key] = {
+                cheapestask: linew.ask,
+                cheapestaskname: b,
+                askdepth: {},
+                biddepth: {},
+                mostexpensivebidname: b,
+                spread: -1,
+                mostexpensivebid: linew.bid,
+                brokers: {}
+            };
+            this.listing[key].brokers[b] = linew;
+            if (key == "XRPBTC") console.log("    linew create ", b, key, linew.ask, JSON.stringify(this.listing[key]))
+        } else {
+            let LL = this.listing[key];
+            if (linew.ask < LL.cheapestask) {
+                LL.cheapestaskname = b;
+            }
+            if (linew.bid > LL.mostexpensivebid) {
+                LL.mostexpensivebidname = b;
+            }
+            if (key == "XRPBTC") console.log("  linew", b, key, LL.cheapestask, linew.ask, Math.min(LL.cheapestask, linew.ask))
+            LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
+            LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
+            LL.spread = LL.mostexpensivebid - LL.cheapestask;
+
+            this.listing[key].brokers[b] = linew;
+        }
+    }
     updateListing(b: string) {
         if (!(b in this.indexes))
             this.indexes[b] = {}
@@ -105,75 +185,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         let res = L.getContent();
         console.log("CONTENT", b, res)
         for (let pair in res) {
-
-            if (!(pair in this.appConfigService.infrasuprainv[b])) {
-                console.log("err unknown pair", b, pair)
-            } else {
-                const key = this.getUniversalName(b, pair);
-                if (pair == "DASHUSD") console.log("--------------------------------------------------------------- linew ", b, pair, JSON.stringify(this.listing[key]))
-                const r = res[pair];
-                let linew: Tick = {broker: b, pair: key, volume: r.volume, bid: r.bid, ask: r.ask, p: r.last}
-                if (linew.ask > 0 && linew.bid > 0) {
-                    linew.spread = linew.ask - linew.bid;
-                } else {
-                    linew.spread = null;
-                    linew.spreadpct = null;
-                }
-                if (pair == "DASHUSD") console.log("linew new", b, key, JSON.stringify(linew))
-                if (key in this.listing && b in this.listing[key].brokers) {//b in this.indexes && linew.pair in this.indexes[b]) { //already added
-                    if (pair == "DASHUSD") console.log("  linew upd existing", b, JSON.stringify(this.listing[key].brokers))
-                    //const j: number = this.indexes[b][linew.pair];
-                    let LL = this.listing[key]
-                    let Lbroker = LL.brokers[b];
-                    if (linew.ask < Lbroker.cheapestask) {
-                        Lbroker.cheapestaskname = b;
-                    }
-                    if (linew.bid > Lbroker.mostexpensivebid) {
-                        Lbroker.mostexpensivebidname = b;
-                    }
-                    if (pair == "DASHUSD") console.log("    linew upd", b, key, JSON.stringify(LL), linew.ask)
-                    LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
-                    LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
-                    LL.spread = LL.mostexpensivebid - LL.cheapestask;
-                    if (Lbroker.bid != linew.bid)
-                        Lbroker.oldbid = Lbroker.bid;
-                    if (Lbroker.ask != linew.ask)
-                        Lbroker.oldask = Lbroker.ask;
-                    Lbroker.ask = linew.ask;
-                    Lbroker.bid = linew.bid;
-                    if (Lbroker.ask > 0 && Lbroker.bid > 0) {
-                        Lbroker.spread = Lbroker.ask - Lbroker.bid;
-                        Lbroker.spreadpct = 100 * Lbroker.spread / Lbroker.ask;
-                    } else {
-                        Lbroker.spread = null;
-                        Lbroker.spreadpct = null;
-                    }
-                    Lbroker.p = linew.p;
-                } else {
-                    if (pair == "DASHUSD") console.log("  linew add broker", b, JSON.stringify(linew))
-                    if (!(key in this.listing)) {
-                        this.listing[key] = {cheapestask: linew.ask, cheapestaskname: b, askdepth:{},biddepth:{},mostexpensivebidname: b, spread: -1, mostexpensivebid: linew.bid, brokers: {}};
-                        this.listing[key].brokers[b] = linew;
-                        if (pair == "DASHUSD") console.log("    linew create ", b, key, linew.ask, JSON.stringify(this.listing[key]))
-                    } else {
-                        let LL = this.listing[key];
-                        if (linew.ask < LL.cheapestask) {
-                            LL.cheapestaskname = b;
-                        }
-                        if (linew.bid > LL.mostexpensivebid) {
-                            LL.mostexpensivebidname = b;
-                        }
-                        if (pair == "DASHUSD") console.log("  linew", b, key, LL.cheapestask, linew.ask, Math.min(LL.cheapestask, linew.ask))
-                        LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
-                        LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
-                        LL.spread = LL.mostexpensivebid - LL.cheapestask;
-
-                        this.listing[key].brokers[b] = linew;
-                    }
-                }
-            }
-
-
+            this.updateKey(b,pair,res)
         }
         this.sortListing();
 

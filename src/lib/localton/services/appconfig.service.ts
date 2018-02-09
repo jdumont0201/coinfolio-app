@@ -7023,7 +7023,7 @@ export class AppConfigService {
                 {infra: "ETH", supra: "ZRX"},
         },
         kraken: {
-            XREPXXBT: {infra: "BTC", supra: "XRP"},
+            XREPXXBT: {infra: "BTC", supra: "REP"},
             XICNXXBT: {infra: "BTC", supra: "ICN"},
             XXDGXXBT: {infra: "BTC", supra: "DOGE"},
             XZECXXBT: {infra: "BTC", supra: "ZEC"},
