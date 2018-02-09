@@ -28,7 +28,7 @@
                             <span class="supra">{{li.supra}}</span> / <span class="infra">{{li.infra}}</span>
                         </div>
                         <div class="tdf ">
-                            {{li.spread |number:'1.1-1'}}%
+                             {{(li.list.postbid/li.list.preask * li.list.mostexpensivebid/li.list.cheapestask - (li.list.infra=='USD'?6:4)*0.001 -1 )*100  |number:'1.1-1' }}%
                         </div>
                         <div class="tdf">
                             <span class="broker-icon notext broker-{{li.list.cheapestaskname}}"></span><span class="hide-mobile">{{li.list.cheapestaskname}}</span>

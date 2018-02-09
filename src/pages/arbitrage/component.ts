@@ -79,7 +79,10 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     }
 
     getTradingCommission(b, pair) {
-        return this.appConfigService.getFeesPerBroker(b).trading.pc
+        let S=this.appConfigService.getFeesPerBroker(b);
+        if (S)
+        return S.trading.pc
+        else return 0
     }
     getDepositCommission(b, pair) {
         return this.appConfigService.getFeesPerBroker(b).deposit
