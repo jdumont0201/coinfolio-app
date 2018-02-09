@@ -71,9 +71,10 @@ static getIntervalSeconds(inter:string){
 
             n = 7
         }
+
         else {
 
-            n = 7
+            n = 8
         }
         return "1." + n + "-" + n;
 

@@ -3,46 +3,90 @@
         <h3>Arbitrage</h3>
     </mat-toolbar>
     <app-top-right-buttons [showSearch]="false"></app-top-right-buttons>
-    <div class="arbitrage-grid">
+    <div class="arbitrage-grid tablef clickable">
+        <div class="trf">
+            <div class="tdf"></div>
+            <div class="tdf"></div>
+            <div class="tdf bgvalpos">Buy </div>
+            <div class="tdf bgvalpos"> </div>
+            <div class="tdf bgvalneg">Sell </div>
+            <div class="tdf bgvalneg"> </div>
+        </div>
+        <div class="trf">
+            <div class="tdf">Pair</div>
+            <div class="tdf">Spread</div>
+            <div class="tdf bgvalpos"> Broker</div>
+            <div class="tdf bgvalpos"> Price</div>
+            <div class="tdf bgvalneg"> Broker</div>
+            <div class="tdf bgvalneg"> Price</div>
+        </div>
         <ng-container *ngFor="let li of sortedListing">
-            <ng-container *ngIf="li.spread>0 && getKeys(li.list.brokers).length>1">
-                <div class="arbitrage-header padded">
-                    <div class="td big">
+            <ng-container *ngIf=" getKeys(li.list.brokers).length>1">
+
+                <div >
+                    <div (click)="toggleDisplay(li.pair)" class="trf">
+                    <div class="tdf" >
                         {{li.pair}}
                     </div>
-                    <br>
-                    <ng-container *ngIf="li.spread>0">
-                        <div class="td ">
-                            <span class="valpos">Spread:{{li.spread |number:'1.1-1'}}%</span>
+                    <div class="tdf ">
+                        {{li.spread |number:'1.1-1'}}%
+                    </div>
+                    <div class="tdf">
+                        <span class="broker-icon notext broker-{{li.list.cheapestaskname}}"></span><span class="hide-mobile">{{li.list.cheapestaskname}}</span>
+                    </div>
+                    <div class="tdf">{{li.list.cheapestask}}<br>
+                    </div>
+                    <div class="tdf">
+                        <span class="broker-icon notext broker-{{li.list.mostexpensivebidname}}"></span><span class="hide-mobile">{{li.list.mostexpensivebidname }}</span>
+                    </div>
+                    <div class="tdf">
+                        {{li.list.mostexpensivebid}}
+                    </div>
+                    </div>
+
+                    <div *ngIf="displayed[li.pair]" class="tdf2">
+                        <div class="arbitrage-header padded">
+                            <div class="td big">
+                                {{li.pair}}
+                            </div>
                             <br>
 
-                            Buy at :{{li.list.cheapestask}} <span class="broker-icon notext broker-{{li.list.cheapestaskname}}"></span>@{{li.list.cheapestaskname}}<br>
-                            Sell at {{li.list.mostexpensivebid}} <span class="broker-icon notext broker-{{li.list.mostexpensivebidname}}"></span>@{{li.list.mostexpensivebidname }}
-                        </div>
+                            <div class="td ">
+                                <span class="valpos">Spread:{{li.spread |number:'1.1-1'}}%</span>
+                                <br>
 
-                        <button mat-raised-button (click)="open(li.pair,li.list.cheapestaskname)">{{li.list.cheapestaskname}}</button>
-                        <button mat-raised-button (click)="open(li.pair,li.list.mostexpensivebidname)">{{li.list.mostexpensivebidname}}</button>
-                    </ng-container>
-                </div>
-                <div class="table">
-                    <div class="tr">
-                        <div class="td">Broker</div>
-                        <div class="td"></div>
-                        <div class="td">Bid</div>
-                        <div class="td">Ask</div>
-                    </div>
-                    <ng-container *ngFor="let broker of getKeys(li.list.brokers)">
-                        <div class="tr">
-                            <div class="td"><span class="broker-{{li.list.brokers[broker].broker}}"><span
-                                    class="broker-icon notext broker-{{li.list.brokers[broker].broker}}"></span>{{li.list.brokers[broker].broker}}</span></div>
-                            <div class="td"></div>
-                            <div class="td"><span class="{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].bid | price}} <mat-icon>{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></span>
+                                Buy at :{{li.list.cheapestask}} <span class="broker-icon notext broker-{{li.list.cheapestaskname}}"></span>{{li.list.cheapestaskname}}<br>
+                                Sell at {{li.list.mostexpensivebid}} <span class="broker-icon notext broker-{{li.list.mostexpensivebidname}}"></span>@{{li.list.mostexpensivebidname
+                                }}
                             </div>
-                            <div class="td"><span class="{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].ask |price}} <mat-icon>{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>
-                            </div>
+
+                            <button mat-raised-button (click)="open(li.pair,li.list.cheapestaskname)">{{li.list.cheapestaskname}}</button>
+                            <button mat-raised-button (click)="open(li.pair,li.list.mostexpensivebidname)">{{li.list.mostexpensivebidname}}</button>
+
                         </div>
-                    </ng-container>
+                        <div class="table">
+                            <div class="tr">
+                                <div class="td">Broker</div>
+                                <div class="td"></div>
+                                <div class="td">Bid</div>
+                                <div class="td">Ask</div>
+                            </div>
+                            <ng-container *ngFor="let broker of getKeys(li.list.brokers)">
+                                <div class="tr">
+                                    <div class="td" (click)="open(li.pair,li.list.brokers[broker].broker)"><span  class="broker-{{li.list.brokers[broker].broker}}"><span
+                                            class="broker-icon notext broker-{{li.list.brokers[broker].broker}}"></span><a class="link">{{li.list.brokers[broker].broker}}</a></span></div>
+                                    <div class="td"></div>
+                                    <div class="td"><span  class="{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].bid | price}} <mat-icon>{{li.list.brokers[broker].oldbid>0?(li.list.brokers[broker].oldbid>li.list.brokers[broker].bid?"arrow_downward":"arrow_upward"):''}}</mat-icon></span>
+                                    </div>
+                                    <div class="td"><span
+                                            class="{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?'valneg':'valpos'):''}}"> {{li.list.brokers[broker].ask |price}} <mat-icon>{{li.list.brokers[broker].oldask>0?(li.list.brokers[broker].oldask>li.list.brokers[broker].ask?"arrow_downward":"arrow_upward"):''}}</mat-icon> </span>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
                 </div>
+
             </ng-container>
         </ng-container>
     </div>

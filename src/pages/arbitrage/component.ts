@@ -58,14 +58,11 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
 
     constructor(public refreshService: RefreshService, public publicDataService: PublicDataService, public requestService: RequestService, public consoleService: ConsoleService, public eventService: EventService, public tradingService: TradingService, public dataService: DataService, public appConfigService: AppConfigService, public logic: Logic, public authService: AuthService, public cd: ChangeDetectorRef) {
         super(refreshService, eventService, consoleService)
-
-
     }
 
     initPossibleBrokers() {
 
     }
-
     ngOnInit() {
         this.doSubscribe("searchUpdatedEvent", this.eventService.searchUpdatedEvent, (val) => {
             this.searchUpdated(val)
@@ -103,7 +100,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
             console.log("err unknown pair", b, pair)
         } else {
             const key = this.getUniversalName(b, pair);
-            if (key == "XRPBTC") console.log("--------------------------------------------------------------- linew ", b, pair, JSON.stringify(this.listing[key]))
+            if (key == "BCHUSD") console.log("--------------------------------------------------------------- linew ", b, pair, JSON.stringify(this.listing[key]))
             const r = res[pair];
             let linew: Tick = {broker: b, pair: key, volume: r.volume, bid: r.bid, ask: r.ask, p: r.last}
             if (linew.ask > 0 && linew.bid > 0) {
@@ -112,9 +109,9 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
                 linew.spread = null;
                 linew.spreadpct = null;
             }
-            if (key == "XRPBTC") console.log("linew new", b, key, JSON.stringify(linew))
+            if (key == "BCHUSD") console.log("linew new", b, key, JSON.stringify(linew))
             if (key in this.listing && b in this.listing[key].brokers) {//b in this.indexes && linew.pair in this.indexes[b]) { //already added
-                if (key == "XRPBTC") console.log("  linew upd existing", b, JSON.stringify(this.listing[key].brokers))
+                if (key == "BCHUSD") console.log("  linew upd existing", b, JSON.stringify(this.listing[key].brokers))
                 //const j: number = this.indexes[b][linew.pair];
                 let LL = this.listing[key]
                 let Lbroker = LL.brokers[b];
@@ -124,7 +121,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
                 if (linew.bid > Lbroker.mostexpensivebid) {
                     Lbroker.mostexpensivebidname = b;
                 }
-                if (key == "XRPBTC") console.log("    linew upd", b, key, JSON.stringify(LL), linew.ask)
+                if (key == "BCHUSD") console.log("    linew upd", b, key, JSON.stringify(LL), linew.ask)
                 LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
                 LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
                 LL.spread = LL.mostexpensivebid - LL.cheapestask;
@@ -148,7 +145,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         }
     }
     updatePairCreate(b:string,key:string,linew:any){
-        if (key == "XRPBTC") console.log("  linew add broker", b, JSON.stringify(linew))
+        if (key == "BCHUSD") console.log("  linew add broker", b, JSON.stringify(linew))
         if (!(key in this.listing)) {
             this.listing[key] = {
                 cheapestask: linew.ask,
@@ -161,7 +158,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
                 brokers: {}
             };
             this.listing[key].brokers[b] = linew;
-            if (key == "XRPBTC") console.log("    linew create ", b, key, linew.ask, JSON.stringify(this.listing[key]))
+            if (key == "BCHUSD") console.log("    linew create ", b, key, linew.ask, JSON.stringify(this.listing[key]))
         } else {
             let LL = this.listing[key];
             if (linew.ask < LL.cheapestask) {
@@ -170,7 +167,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
             if (linew.bid > LL.mostexpensivebid) {
                 LL.mostexpensivebidname = b;
             }
-            if (key == "XRPBTC") console.log("  linew", b, key, LL.cheapestask, linew.ask, Math.min(LL.cheapestask, linew.ask))
+            if (key == "BCHUSD") console.log("  linew", b, key, LL.cheapestask, linew.ask, Math.min(LL.cheapestask, linew.ask))
             LL.cheapestask = Math.min(LL.cheapestask, linew.ask)
             LL.mostexpensivebid = Math.max(LL.mostexpensivebid, linew.bid);
             LL.spread = LL.mostexpensivebid - LL.cheapestask;
@@ -271,11 +268,12 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
     }
 
     sortedListing = [];
-
+    displayed={}
     sortListing() {
         let r :SortedListItem[]= [];
         for (let k in this.listing) {
-            r.push({pair: k, spread: this.listing[k].spread / this.listing[k].cheapestask * 100, askdepth:[],biddepth:[],  list: this.listing[k]})
+            if( this.listing[k].spread>0)
+            r.push({pair: k,spread: this.listing[k].spread / this.listing[k].cheapestask * 100, askdepth:[],biddepth:[],  list: this.listing[k]})
         }
         this.sortedListing = r.sort(function (a, b) {
             let as = a.spread;
@@ -286,7 +284,10 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         console.log("thisso", this.sortedListing)
     }
 
-
+    toggleDisplay(pair){
+        if(pair in this.displayed) delete this.displayed[pair]
+        else this.displayed[pair]=true
+    }
     /*loadDataByBroker(b) {
         let B = this.tradingService.getBrokerByName(b);
         console.log("loaddata", b, B)

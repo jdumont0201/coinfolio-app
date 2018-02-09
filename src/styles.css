@@ -543,9 +543,18 @@ button:hover .crypto-iconed {
 .valsta {
     color: orange !important;
 }
-
 .valneg {
     color: red !important;
+}
+
+.bgvalpos {
+    background-color: #72cb00 !important;
+}
+.bgvalsta {
+    background-color: orange !important;
+}
+.bgvalneg {
+    background-color: red !important;
 }
 
 .tag-valpos, .tag-valneg {
@@ -2902,4 +2911,23 @@ h1 {
     font-size: 22px!important;
     font-family: London!important;
     line-height: 30px!important;
+}
+
+.tablef{
+
+}
+.clickable .trf:hover .tdf{
+    background:#333;cursor:pointer;
+}
+.clickable .trf{
+    display: flex;
+    flex-flow: wrap;
+}
+.tdf{
+    width: calc(100% / 6);border-bottom:solid 1px #222;padding:3px 0
+
+}
+.tdf2 .td{ background:#333!important }
+.tdf2{
+    flex:6; background:#333!important
 }
