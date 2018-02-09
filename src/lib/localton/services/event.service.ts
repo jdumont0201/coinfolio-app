@@ -29,7 +29,7 @@ export class EventService implements OnInit {
 
     nbNonSeenEvents=0;
     theme="blue"
-    isTickerVisible: boolean = true;
+    isTickerVisible: boolean = false;
     isMenuDisplayed: boolean = true;
     isMenu2Displayed: boolean = false;
     isMobile: boolean = false;
