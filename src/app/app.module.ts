@@ -123,6 +123,7 @@ import {AppMarketCapComponent} from "../widgets/marketcap/component";
 import {AppPriceDivMarketComponent} from "../widgets/pricedivmarket/component";
 import {AppVolumeComponent} from "../widgets/volume/component";
 import {AppTwitterComponent} from "../widgets/twitter/component"
+import {AppTwitterTimelineComponent} from "../widgets/twitter-timeline/component"
 import {AppHeadlinesComponent} from "../widgets/headlines/component"
 import {AppBitcoinDominanceMiniWidget} from "../widgets/bitcoin-dominance/component"
 import {AppWidgetTopEntriesWidget} from "../widgets/top-entries/component"
@@ -183,7 +184,7 @@ import {AppConfigAPIPage} from "../pages/config-api/component";
 @NgModule({
     declarations: [
         AppComponent,AppFormRenewPassword,AppConfigAPIPage,AppBrokerAllPanelsComponent,AppPairChartPage,AppSignupBrokersComponent,AppAuthBrokersPage,AppEventsComponent,WelcomeDialog,AppPleaseAddBrokerComponent,AppWrongParamComponent,AppBrokerIconComponent,AppWebsocketsComponent,AppConfigLoadingPage,AppArbitragePage,AppArbitrageCalculatorPage,AppFormResetPassword,AppBrokerConnectionComponent,AppPleaseLoginComponent,
-        AppChartComponent,AppPriceHistoryWidget,AppDashboardNowPage,
+        AppChartComponent,AppPriceHistoryWidget,AppDashboardNowPage,AppTwitterTimelineComponent,
         AppAuthResetpassword, AppCalendarPage,AppAuthPage,AppFormRegister,AppFormLogin,AppStatus,AppCalendarWidget, AppTopRightButtons ,AppMenuList,AppDisconnectedComponent,AppConfigBrokersPage,AppPositionsPage,AppPortfolioValueComponent,AppConfigureBrokerComponent,AppMarketCapLiveWidget,
         AskNameDialog, AppWelcomeComponent, AppVeilComponent,AppLoadingComponent,AppAdminPage,AppAllocationPage,AppTicker,AppPairTickComponent,AppConfigFavoritesPage, AppConfigInterfacePage,AppConfigImportsPage,AppConfigProfilePage,AppConfigSubscriptionPage,
         AppWidgetTopEntriesWidget,AppPairItemPage,AppLivePriceWidget,AppDepthWidget,AppTradesPage,AppMyTradesWidget,AppPortfolioRecapComponent,AppNewsPage,AppSocialPage,AppProxyComponent,

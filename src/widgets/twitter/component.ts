@@ -76,7 +76,7 @@ export class AppTwitterComponent implements OnInit {
             const tweet = R[k];
             A.push({
                 id: tweet.id_str,
-                text: tweet.text,
+                text: tweet.full_text,
                 image: tweet.user.profile_image_url,
                 userscreenname: tweet.user.screen_name,
                 url: tweet.entities.urls.length > 0 ? tweet.entities.urls[0].url : "no",

@@ -1,0 +1,38 @@
+
+<section class="widget tweets">
+    <h5>@{{username}} timeline </h5>
+
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <div class="progressbar-placeholder" *ngIf="!isLoading" ></div>
+    <ul>
+        <li *ngFor="let t of tweets" class="tweet">
+            <div>
+                <div>
+                <a target="_blank" href="http://twitter.com/{{t.userscreenname}}">
+                    <div class="tweet-image" [ngStyle]="{'background-image': 'url(' + t.image + ')'}"></div>
+                </a>
+                </div>
+                <div class="user">
+                    <a target="_blank" href="http://twitter.com/{{t.userscreenname}}"><span class="tweet-user">{{t.username}}</span><br>
+                        <span class="tweet-userscreen">@{{t.userscreenname}}</span>
+                    </a>
+                </div>
+                <div class="likes">
+                    <mat-icon>cached</mat-icon>
+                    <span class="tweet-retweets">{{t.retweets}}</span>
+                    <mat-icon>favorite_border</mat-icon>
+                    <span class="tweet-favorites">{{t.favorites}}</span>
+                </div>
+                <div>
+                    <span class="tweet-text">{{t.text}}</span><br>
+                    <span class="tweet-date">{{t.date | date:"medium"}}</span><br>
+                </div>
+
+                <a target="_blank" href="http://twitter.com/statuses/{{t.id}}" rel="external"
+                   class="tweet-url">More...</a>
+            </div>
+        </li>
+    </ul>
+
+
+</section>

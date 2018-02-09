@@ -37,7 +37,7 @@ export class AppConfigService {
 
     isCustomDashboardEnabled = false;
 
-    possibleBrokers: string[] = ["binance", "hitbtc", "kucoin", "kraken","cryptonia"]
+    possibleBrokers: string[] = ["binance", "hitbtc", "kucoin", "kraken","cryptopia"]
 
     generateInfraSupra() {
         let res = {};
@@ -66,7 +66,7 @@ export class AppConfigService {
     infrasupra = {}
     infrasuprainv = {
 
-    cryptonia: {
+    cryptopia: {
         "8BITBTC":   {   infra:  "BTC",  supra: "8BIT"},
         "8BITDOGE":{  infra: "DOGE", supra:  "8BIT"},
         "8BITLTC"  :{  infra    :    "LTC",      supra:"8BIT"},
@@ -7056,6 +7056,8 @@ export class AppConfigService {
 
     brokersLinks = {
         "binance": {
+            twitter_main:'binance_2017',
+
             trade_screen: "https://www.binance.com/trade.html?symbol=",
             trade_screen_sep: "_",
             dbcode: "bin",
@@ -7079,6 +7081,8 @@ export class AppConfigService {
             }
         },
         "kraken": {
+            twitter_main:'krakenfx',
+            twitter_support:'krakensupport',
             trade_screen:"https://trade.kraken.com/kraken/",
             trade_screen_sep:"",
             dbcode: "kra",
@@ -7087,6 +7091,7 @@ export class AppConfigService {
             infras: ['USD', 'EUR', 'ETH', 'CAD', 'XBT', 'JPY', 'GBP'],
             ignoredPairs: []
         }, "hitbtc": {
+            twitter_main:'hitbtc',
             trade_screen: "https://hitbtc.com/exchange/",
             trade_screen_sep: "-to-",
             dbcode: "hit",
@@ -7110,12 +7115,14 @@ export class AppConfigService {
 
             }
         }, "bitmex": {
+            twitter_main:"BitMEXdotcom",
             dbcode: "bmx",
             api: "https://www.bitmex.com/app/apiKeys",
             signup: "https://www.bitmex.com/register",
             infras: ['BTC', 'ETH', 'BNB', 'USD', 'USDT'],
             ignoredPairs: []
         }, "kucoin": {
+            twitter_main:"kucoincom",
             trade_screen: "https://www.kucoin.com/#/trade.pro/",
             trade_screen_sep: "_",
             dbcode: "kuc",
@@ -7137,7 +7144,8 @@ export class AppConfigService {
                 },
                 deposit: 0
             }
-        }, "cryptonia": {
+        }, "cryptopia": {
+            twitter_main:"Cryptopia_NZ",
             trade_screen: "https://www.cryptopia.co.nz/Exchange/?market=",
             trade_screen_sep: "_",
             dbcode: "cry",
@@ -7343,5 +7351,9 @@ export class AppConfigService {
         if (!(paircode in this.infrasuprainv[broker])) return "**" + paircode;
         let str = this.infrasuprainv[broker][paircode];
         return this.infrasuprainv;
+    }
+    getTwitterMain(broker){
+        if(broker in this.brokersLinks)
+        return this.brokersLinks[broker].twitter_main
     }
 }

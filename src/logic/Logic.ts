@@ -471,6 +471,11 @@ getLastCap(symbol:string,f){
         this.apiService.noauthget(url, (res) => {
             f(res)
         });
+    }   getTwitterTimeline(user: string, f: Function) {
+        let url = "widget/twitter/timeline?q=" + user;
+        this.apiService.noauthget(url, (res) => {
+            f(res)
+        });
     }
 
     loadMyPanels(f: Function) {

@@ -10,7 +10,14 @@
             <app-twitter [mode]="'general'" [symbol]="supra" [possibleSymbols]="possibleSymbols"></app-twitter>
         </mat-tab>
         <mat-tab label="Exchanges">
-            <app-twitter [mode]="'general'" [symbol]="defExchange" [possibleSymbols]="possibleExchanges"></app-twitter>
+            <mat-tab-group >
+                <mat-tab [label]="b" *ngFor="let b of appConfigService.possibleBrokers">
+                <app-widget-twitter-timeline [username]="appConfigService.getTwitterMain(b)"></app-widget-twitter-timeline>
+                </mat-tab>
+            </mat-tab-group>
+
+
+            <app-twitter *ngIf="false" [mode]="'general'" [symbol]="defExchange" [possibleSymbols]="possibleExchanges"></app-twitter>
         </mat-tab>
     </mat-tab-group>
 
