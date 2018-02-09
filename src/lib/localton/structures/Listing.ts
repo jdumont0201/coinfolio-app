@@ -8,7 +8,10 @@ import {AppConfigService} from "../services/appconfig.service";
 import {PublicDataService} from "../services/publicdata.service";
 
 export type CryptoPair = {
+
     pair: string,
+    universalname: string,
+    displayname: string,
     last?: number,
     spread?: number,
     spreadpct?: number,
@@ -104,7 +107,7 @@ export class Listing {
     getUSDValue(supra: string): { ask: number, bid: number, last: number } {
         //try direct usdt conversion
         let pair = this.getRawName("USD", supra);
-        if (pair)
+        if (pair && pair in this.content)
             return {ask: this.content[pair].ask, bid: this.content[pair].bid, last: this.content[pair].last}
 
         //try usdt
@@ -161,8 +164,13 @@ export class Listing {
             //this.content[pair].inptf = row.inptf;
             //this.content[pair].ratio = row.bids / (asks + bids);
         } else {
+            let f=this.appConfigService.getPairInfraSupra(this.broker,pair);
             this.content[pair] = {
                 pair: pair,
+                universalname: this.appConfigService.getPairCommonName(this.broker,pair,""),
+                displayname: this.appConfigService.getPairCommonName(this.broker,pair," / "),
+                infra:f.infra,
+                supra:f.supra,
                 //inptf: inptf,
                 //infra: infra,
                 broker: this.broker,

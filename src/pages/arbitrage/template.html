@@ -26,7 +26,8 @@
                 <div >
                     <div (click)="toggleDisplay(li.pair)" class="trf">
                     <div class="tdf" >
-                        {{li.pair}}
+
+                        <span class="supra">{{li.supra}}</span> / <span class="infra">{{li.infra}}</span>
                     </div>
                     <div class="tdf ">
                         {{li.spread |number:'1.1-1'}}%

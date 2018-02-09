@@ -31,10 +31,9 @@
                 </ng-container>
                 <ng-container matColumnDef="pair">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Pair</mat-header-cell>
-                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/chart/'+element.pair+'/broker/'+element.broker">{{appConfigService.getPairCommonName(element.broker,element.pair)}}
+                    <mat-cell *matCellDef="let element" class="celllink" [routerLink]="'/chart/'+element.pair+'/broker/'+element.broker"><span class="supra">{{element.supra}}</span> / <span class="infra">{{element.infra}}</span>
                     </mat-cell>
                 </ng-container>
-
                 <ng-container matColumnDef="change">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>1h Evol (%)</mat-header-cell>
                     <mat-cell *matCellDef="let element" >{{element.changelastprice  | number:'1.2-2'}}</mat-cell>

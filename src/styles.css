@@ -2519,10 +2519,10 @@ mat-table.data mat-row {
     margin-right: 6px;}
 .broker-kraken{background-position:-16px 0!important}
 .broker-cryptopia{background-position:-81px 0!important}
-.broker-bitfinex{background-position:-101px 0!important}
+.broker-bitfinex{background-position:-98px 0!important}
 .broker-bitmex{background-position:-49px 0!important}
 .broker-kucoin{background-position:-64px 0!important}
-.broker-hitbtc{background-position:-32px 0!important}
+.broker-hitbtc{background-position:-33px 0!important;}
 li.leftpad {
     padding-left: 20px!important;
 }

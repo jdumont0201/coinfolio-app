@@ -103,9 +103,9 @@ export class AppConfigService {
             tDATUSD:
                 {infra: "USD", supra: "DAT"},
             tDSHBTC:
-                {infra: "BTC", supra: "DSH"},
+                {infra: "BTC", supra: "DASH"},
             tDSHUSD:
-                {infra: "USD", supra: "DSH"},
+                {infra: "USD", supra: "DASH"},
             tEDOBTC:
                 {infra: "BTC", supra: "EDO"},
             tEDOETH:
