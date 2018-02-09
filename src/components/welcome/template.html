@@ -9,7 +9,11 @@
             </div>
 
             <div class="welcome-slogan">Manage your crypto portfolio efficiently
-                <div class="centered"><div><app-ticker [isDemo]="true"></app-ticker></div></div>
+                <div class="centered">
+                    <div>
+                        <app-ticker [isDemo]="true"></app-ticker>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -22,7 +26,7 @@
                         <ul id="portfolio-demo">
                             <ng-container *ngFor="let b of demoBrokers">
 
-                                <li  (click)="moreportfolio()" >
+                                <li (click)="moreportfolio()">
 
                                     <span class="broker-icon notext broker-{{b}}"></span>
                                     ${{demoPortfolio[b] | number:"1.2-2"}}
@@ -34,10 +38,10 @@
                         </ul>
                     </div>
                     <div class="desc bgwhite"><h2>Connect your favorite brokers</h2>
-<ul>
-    <li>Plug your exchanges using its API key</li>
-    <li>Choose your safety levels: readonly, trade or withdraw</li>
-</ul>
+                        <ul>
+                            <li>Plug your exchanges using its API key</li>
+                            <li>Choose your safety levels: readonly, trade or withdraw</li>
+                        </ul>
                         <span></span></div>
                 </div>
                 <div>
@@ -54,33 +58,35 @@
                 <div>
                     <div id="welcome-tweet-demo">
                         <ul>
-                            <li *ngFor="let t of tweets" class= "tweet bgwhite">
+                            <li *ngFor="let t of tweets" class="tweet bgwhite">
                                 <div>
                                     <div>
-                                    <div>
-                                        <a target="_blank" href="http://twitter.com/{{t.userscreenname}}">
-                                            <div class="tweet-image" [ngStyle]="{'background-image': 'url(https://pbs.twimg.com/profile_images/692197905265004545/ItJpuaN1_bigger.png)'}"></div>
-                                        </a>
+                                        <div>
+                                            <a target="_blank" href="http://twitter.com/{{t.userscreenname}}">
+                                                <div class="tweet-image"
+                                                     [ngStyle]="{'background-image': 'url(https://pbs.twimg.com/profile_images/692197905265004545/ItJpuaN1_bigger.png)'}"></div>
+                                            </a>
+                                        </div>
+                                        <div class="user">
+                                            <a target="_blank" href="http://twitter.com/{{t.userscreenname}}"><span class="tweet-user">{{t.username}}</span><br>
+                                                <span class="tweet-userscreen">@{{t.userscreenname}}</span>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="user">
-                                        <a target="_blank" href="http://twitter.com/{{t.userscreenname}}"><span class="tweet-user">{{t.username}}</span><br>
-                                            <span class="tweet-userscreen">@{{t.userscreenname}}</span>
-                                        </a>
-                                    </div></div>
                                     <div>
-                                    <div class="likes">
-                                        <mat-icon>cached</mat-icon>
-                                        <span class="tweet-retweets">{{t.retweets}}</span>
-                                        <mat-icon>favorite_border</mat-icon>
-                                        <span class="tweet-favorites">{{t.favorites}}</span>
-                                    </div>
+                                        <div class="likes">
+                                            <mat-icon>cached</mat-icon>
+                                            <span class="tweet-retweets">{{t.retweets}}</span>
+                                            <mat-icon>favorite_border</mat-icon>
+                                            <span class="tweet-favorites">{{t.favorites}}</span>
+                                        </div>
                                     </div>
                                     <div>
                                         <span class="tweet-text">{{t.text}}</span><br>
                                         <span class="tweet-date">{{dd | date:"medium"}}</span><br>
                                     </div>
 
-                                    <a rel="external"  (click)="more()"                             class="tweet-url">More...</a>
+                                    <a rel="external" (click)="more()" class="tweet-url">More...</a>
                                 </div>
                             </li>
                         </ul>
@@ -94,7 +100,7 @@
                 </div>
 
                 <div>
-                    <div id="welcome-arbitrage-demo" >
+                    <div id="welcome-arbitrage-demo">
                         <div class="table">
                             <div class="tr">
                                 <div class="td">Pair</div>
@@ -115,7 +121,7 @@
                     <div class="desc bgwhite"><h2>Perform arbitrage decisions easily</h2>
                         <ul>
                             <li>Read bid ask for pairs exchange have in common</li>
-                            <li>Compute spreads and profitability easily </li>
+                            <li>Compute spreads and profitability easily</li>
                         </ul>
                         <span></span></div>
                 </div>

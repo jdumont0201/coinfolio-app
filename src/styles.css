@@ -2929,3 +2929,5 @@ h1 {
 .tdf2{
     flex:6; background:#333!important
 }
+
+.favorite .mat-button-wrapper {color:white!important;}

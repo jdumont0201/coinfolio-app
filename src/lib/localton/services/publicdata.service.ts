@@ -70,7 +70,12 @@ export class PublicDataService extends CheckValid {
         this.eventService.hideLoading()
     }
 
-
+isLoaded(broker:string):boolean{
+        return this.getListingByName(broker).isLoaded
+}
+getStatus(broker:string):string{
+        return this.getListingByName(broker).status
+}
     getListingByName(broker: string): Listing {
         if(broker in this.listings)
         return this.listings[broker]

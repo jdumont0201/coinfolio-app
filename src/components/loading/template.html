@@ -10,40 +10,39 @@
             <mat-icon class="valpos">check</mat-icon>
             Connected to API
         </li>
+
+        <ng-container *ngFor="let b of appConfigService.possibleBrokers">
+
+            <li class="leftpad">
+                <mat-icon *ngIf="publicDataService.getStatus(b)=='done'" class="valpos">check</mat-icon>
+                <mat-progress-spinner mode="indeterminate"  color="accent"  *ngIf="publicDataService?.getStatus(b)=='todo'" class="spinner-small valsta"></mat-progress-spinner>
+                <mat-icon *ngIf="publicDataService?.getStatus(b)=='failed'" class="valneg">clear</mat-icon>
+                <span class="broker-icon notext broker-{{b}}"></span>{{b.substring(0,1).toUpperCase()+b.slice(1)}}         : Ticker
+            </li>
+        </ng-container>
         <li *ngIf="authService?.isAuthenticated()">
             <mat-icon class="valpos">check</mat-icon>
             Connected to your account
         </li>
         <ng-container *ngFor="let b of tradingService?.enabledBrokers">
-            <li ><span class="broker-icon notext broker-{{b}}"></span>{{b.substring(0,1).toUpperCase()+b.slice(1)}}</li>
+
+
             <li class="leftpad">
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='done'" class="valpos">check</mat-icon>
                 <mat-progress-spinner mode="indeterminate"  color="accent"  *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='todo'" class="spinner-small valsta"></mat-progress-spinner>
                 <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.portfolio=='failed'" class="valneg">clear</mat-icon>
-                Portfolio
+                <span class="broker-icon notext broker-{{b}}"></span>{{b.substring(0,1).toUpperCase()+b.slice(1)}} : Portfolio
             </li>
-            <li class="leftpad">
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='done'" class="valpos">check</mat-icon>
-                <mat-progress-spinner mode="indeterminate"  color="accent"  *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='todo'" class="spinner-small valsta"></mat-progress-spinner>
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.ticker=='failed'" class="valneg">clear</mat-icon>
-                Latest prices
-            </li>
-            <li class="leftpad">
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='done'" class="valpos">check</mat-icon>
-                <mat-progress-spinner mode="indeterminate"  color="accent"  *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='todo'" class="spinner-small valsta"></mat-progress-spinner>
 
-                <mat-icon *ngIf="tradingService?.brokers.loadStatus[b]?.bidask=='failed'" class="valneg">clear</mat-icon>
-                Bid/Ask
-            </li>
+
+
             <ng-container *ngIf="authService?.loginResponse">
             </ng-container>
 
         </ng-container>
         <li>
             <mat-icon *ngIf="tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valpos">check</mat-icon>
-            <mat-icon *ngIf="!tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valsta">timelapse</mat-icon>
-
-
+                <mat-icon *ngIf="!tradingService?.brokers.hasAttemptedLoginAllBrokers" class="valsta">timelapse</mat-icon>
             Ticker
         </li>
     </ul>

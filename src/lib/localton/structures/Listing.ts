@@ -41,6 +41,7 @@ export class Listing {
     content: { [name: string]: CryptoPair } = {}
     dataTime: Date;
     isLoaded: boolean;
+    status: string="todo";
     fee: Fee;
 
     constructor(public logic: Logic, public eventService: EventService, public publicDataService: PublicDataService, public refreshService: RefreshService, public broker: string, public consoleService: ConsoleService, public appConfigService: AppConfigService) {
@@ -51,6 +52,9 @@ export class Listing {
         this.refreshService.getPool(poolkey).define(10000, (f) => {
             this.logic.getFromPublic(broker, "bidask", (res) => {
                 this.addAll(res)
+                this.isLoaded=true;
+                this.status="done";
+                console.log("listing loaded",this.isLoaded,this.broker)
                 f();
             });
         })

@@ -12,6 +12,8 @@ import {Structures} from "../../lib/globalton/core/utils/utils";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
 import {CheckValid} from "../../lib/localton/components/CheckValid/component";
 import {RefreshService} from "../../lib/localton/services/refresh.service";
+import {PublicDataService} from "../../lib/localton/services/publicdata.service";
+import {AppConfigService} from "../../lib/localton/services/appconfig.service";
 
 @Component({
     selector: 'app-config-favorites',
@@ -19,14 +21,15 @@ import {RefreshService} from "../../lib/localton/services/refresh.service";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @Injectable()
-export class AppConfigFavoritesPage extends CheckValid implements OnDestroy{
+export class AppConfigFavoritesPage extends CheckValid implements OnDestroy {
     user;
-    listing
+    listing = []
 
-    ngOnDestroy(){
-       this.unsubscribeAllEvents()
+    ngOnDestroy() {
+        this.unsubscribeAllEvents()
     }
-    constructor(public authService: AuthService,public refreshService:RefreshService, public tradingService: TradingService, public requestService: RequestService, public consoleService: ConsoleService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, public cd: ChangeDetectorRef) {
+
+    constructor(public authService: AuthService, public appConfigService: AppConfigService, public publicDataService: PublicDataService, public refreshService: RefreshService, public tradingService: TradingService, public requestService: RequestService, public consoleService: ConsoleService, public dataService: DataService, public eventService: EventService, public logic: Logic, public snackBar: MatSnackBar, public cd: ChangeDetectorRef) {
         super(consoleService)
         console.log("favinit")
         this.logic.getMe((res) => {
@@ -41,11 +44,11 @@ export class AppConfigFavoritesPage extends CheckValid implements OnDestroy{
                 this.cd.markForCheck()
             })
         }, "config-favorites")
-        this.doSubscribe("brokerLoadedEvent", this.eventService.brokerLoadedEvent, (val) => {
+        /*this.doSubscribe("brokerLoadedEvent", this.eventService.brokerLoadedEvent, (val) => {
             this.consoleService.eventReceived("brokerLoadedEvent --> configFavorites")
             this.update();
         }, "config-favorites")
-
+        */
         this.update();
         this.doSubscribe("searchUpdatedEvent", this.eventService.searchUpdatedEvent, (val) => {
             this.searchUpdated(val)
@@ -94,9 +97,18 @@ export class AppConfigFavoritesPage extends CheckValid implements OnDestroy{
     }
 
     update() {
-        this.listing = this.tradingService.getListing()
-        console.log("favinit upd ", this.listing)
+
+        //this.appConfigService.possibleBrokers.forEach((b) => {
+        //let L= this.publicDataService.getListingByName(b)
+        //for(let k in L) this.listing.push(L[k])
+        for (let infra in this.appConfigService.infrasupra) {
+            for (let supra in this.appConfigService.infrasupra[infra]) {
+                this.listing.push({name:supra+infra,brokers:Object.keys(this.appConfigService.infrasupra[infra][supra])})
+            }
+        }
+
         this.cd.markForCheck()
+        //})
     }
 
     add(pair, broker) {
@@ -133,8 +145,8 @@ export class AppConfigFavoritesPage extends CheckValid implements OnDestroy{
             if (u) {
                 this.snackBar.open('Favorite ' + favorite.pair + ' removed', null, {duration: 3000});
                 this.authService.favoritePairs = this.user.favoritePairs;
-                    this.eventService.updateFavorites(this.user.favoritePairs)
-                this.refreshService.getPool(favorite.broker+"-change-"+favorite.pair).stop()
+                this.eventService.updateFavorites(this.user.favoritePairs)
+                this.refreshService.getPool(favorite.broker + "-change-" + favorite.pair).stop()
             } else {
                 this.snackBar.open('Cannot add pair ' + favorite.pair + ' to favorites', null, {duration: 3000});
             }

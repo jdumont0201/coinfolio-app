@@ -5671,6 +5671,13 @@ export class AppConfigService {
             signup: "https://www.bitmex.com/register",
             infras: ['BTC', 'ETH', 'BNB', 'USD', 'USDT'],
             ignoredPairs: []
+        }, "bitfinex": {
+            twitter_main: "bitfinex",
+            dbcode: "bfn",
+            api: "https://www.bitfinex.com",
+            signup: "https://www.bitfinex.com",
+            infras: ['BTC', 'ETH', 'BNB', 'USD', 'USDT'],
+            ignoredPairs: []
         }, "kucoin": {
             twitter_main: "kucoincom",
             trade_screen: "https://www.kucoin.com/#/trade.pro/",

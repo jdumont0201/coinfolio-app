@@ -8,6 +8,7 @@ import {RequestService} from "../../lib/globalton/core/services/request.service"
 import {ApiService} from "../../lib/globalton/core/services/api.service";
 import {TradingService} from "../../lib/localton/services/trading.service";
 import {ConsoleService} from "../../lib/globalton/core/services/console.service";
+import {PublicDataService} from "../../lib/localton/services/publicdata.service";
 
 @Component({
   selector: 'app-loading',
@@ -19,7 +20,7 @@ import {ConsoleService} from "../../lib/globalton/core/services/console.service"
 @Injectable()
 export class AppLoadingComponent extends AppSubscribeComponent{
   @Input() force:boolean
-  constructor(public logic: Logic, public consoleService:ConsoleService,public tradingService:TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
+  constructor(public logic: Logic, public consoleService:ConsoleService,public publicDataService:PublicDataService,public tradingService:TradingService, public authService: AuthService, public appConfigService: AppConfigService, public eventService: EventService, public apiService: ApiService, public requestService: RequestService) {
     super(logic,consoleService,authService,appConfigService,eventService,apiService,requestService)
 
   }
