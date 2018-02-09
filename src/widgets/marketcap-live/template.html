@@ -15,7 +15,7 @@
         </ng-container>
  <ng-container matColumnDef="change_pc_24h">
             <mat-header-cell *matHeaderCellDef> 24h Evol (%)</mat-header-cell>
-            <mat-cell *matCellDef="let element"><span *ngIf="element.change_pc_24h" class="{{element.change_pc_24h>0?'valpos':'valneg'}}"> {{element.change_pc_24h | number:'1.2-2'}}%</span></mat-cell>
+            <mat-cell *matCellDef="let element"><span *ngIf="element.change_pc_24h" class="{{element.change_pc_24h>0?'valpos':'valneg'}}"> {{element.change_pc_24h | number:'1.1-1'}}%</span></mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

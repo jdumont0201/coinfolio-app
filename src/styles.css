@@ -1705,7 +1705,7 @@ svg {
 }
 
 .mat-nav-list .mat-list-item:not(.menu-separator) {
-    height: 40px !important;
+    height: 34px !important;
 }
 
 .listing-row {
@@ -2329,6 +2329,7 @@ div#ticker {
 #status {
     width: 120px;
     background: #05529e;
+    background: #008000;
     height: 60px;
 }
 
