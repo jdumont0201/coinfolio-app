@@ -111,7 +111,7 @@ export class AppArbitragePage extends PageWithTabs implements OnInit, OnDestroy 
         } else {
             const key = this.appConfigService.getPairRawName(b, pair);
             const r = res[pair];
-            console.log("b",b,"USD",this.appConfigService.infrasupra,r.infra)
+            //console.log("b",b,"USD",this.appConfigService.infrasupra,r.infra)
 
             let prepair;
             let prer;

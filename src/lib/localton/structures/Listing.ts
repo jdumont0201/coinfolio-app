@@ -50,7 +50,7 @@ export class Listing {
         let poolkey = "public-" + broker + "-listing";
         this.refreshService.createPool(poolkey);
         this.refreshService.getPool(poolkey).define(10000, (f) => {
-            this.logic.getFromPublic(broker, "bidask", (res) => {
+            this.logic.getFromPublic(broker, "price", (res) => {
                 this.addAll(res)
                 this.isLoaded=true;
                 this.status="done";
@@ -61,7 +61,7 @@ export class Listing {
         })
 
 
-        this.logic.getFromPublic(broker, "bidask", (res) => {
+        this.logic.getFromPublic(broker, "price", (res) => {
             this.addAll(res)
 
         });
@@ -70,7 +70,7 @@ export class Listing {
     addAll(res) {
         for (let i in res) {
             if(i!=="123456")
-            this.add(i, res[i]);
+            this.add(i, res[i].http);
         }
     }
 

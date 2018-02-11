@@ -29,8 +29,8 @@ export class AppComponent {
     @ViewChild("sidenav") sidenav;
     @ViewChild("rightsidenav") rightsidenav;
 
-    constructor(public requestService: RequestService,public consoleService:ConsoleService, public eventService: EventService, public messageService: MessageService,
-                public logic: Logic, private route: ActivatedRoute, public snackBar: MatSnackBar, public tradingService: TradingService,public publicDataTrading:PublicDataService) {
+    constructor(public requestService: RequestService, public consoleService: ConsoleService, public eventService: EventService, public messageService: MessageService,
+                public logic: Logic, private route: ActivatedRoute, public snackBar: MatSnackBar, public tradingService: TradingService, public publicDataTrading: PublicDataService) {
         this.eventService.panelCreatorEvent.subscribe((val) => this.panelCreatorUpdated(val));
         this.eventService.loginEvent.subscribe((val) => this.loginUpdated(val));
         this.eventService.subscribeEvent.subscribe((val) => this.subscribeUpdated(val))
@@ -54,8 +54,8 @@ export class AppComponent {
     }
 
     errorsUpdated(msg: any) {
-    //    console.log("error changed", msg)
-     //   this.snackBar.open("Error :" + msg.code, null, {panelClass: "red", duration: 3000})
+        //    console.log("error changed", msg)
+        //   this.snackBar.open("Error :" + msg.code, null, {panelClass: "red", duration: 3000})
     }
 
     workspaceUpdated(val: any) {
@@ -84,10 +84,10 @@ export class AppComponent {
     }
 
     switchMenu() {
-        console.log("changing switch",this.eventService.isMenuPinned)
+        console.log("changing switch", this.eventService.isMenuPinned)
         this.sidenav.toggle();
 
-        if(this.eventService.isMenuDisplayed)
+        if (this.eventService.isMenuDisplayed)
             this.eventService.closeMenu()
         else
             this.eventService.openMenu(false)
@@ -96,18 +96,18 @@ export class AppComponent {
     }
 
     rightMenuUpdated(tab) {
-        this.consoleService.eventReceived("rightMenuUpdatedEvent --> appComponent",tab)
+        this.consoleService.eventReceived("rightMenuUpdatedEvent --> appComponent", tab)
         this.rightsidenav.toggle();
 
     }
 
     processPin() {
-        console.log("changing switch prpin",this.eventService.isMenuPinned)
+        console.log("changing switch prpin", this.eventService.isMenuPinned)
         if (this.eventService.isMenuPinned) {
-            console.log("changing switch prpin",this.eventService.isMenuPinned)
+            console.log("changing switch prpin", this.eventService.isMenuPinned)
             this.eventService.closeMenu()
             this.eventService.isMenuPinned = false
-        }else{
+        } else {
             this.eventService.openMenu(true)
             this.eventService.isMenuPinned = true
         }
@@ -117,8 +117,8 @@ export class AppComponent {
     backdrop() {
         //if (!this.eventService.isMobile) {
         console.log("BBBack")
-            this.sidenav.close();
-            this.eventService.closeMenu()
+        this.sidenav.close();
+        this.eventService.closeMenu()
         //}
     }
 }

@@ -98,7 +98,7 @@ export class Logic {
 
     getFromPublic(broker, task, f: Function, query?: string | any) {
         const queryStr = query ? (typeof query == "string" ? query : (HTML.objToQueryString(query))) : "";
-        this.requestService.get("https://public.coinamics.io/public/" + broker + '/' + task + "?" + queryStr, (res) => {
+        this.requestService.get("https://public.coinamics.io/exchange/" + broker + '/' + task + "?" + queryStr, (res) => {
             if (res.file) {
                 //let A=UniversalLoader.load(broker, task, res.result.data);
                 const A = res.file;
@@ -110,7 +110,7 @@ export class Logic {
 
     getDepthFromPublic(broker, symbol: string, f: Function) {
         let task = "depth"
-        let url = "https://public.coinamics.io/public/" + broker + '/' + task + "/" + symbol + "?" + symbol;
+        let url = "https://public.coinamics.io/exchange/" + broker + '/task/' + task + "/symbol/" + symbol + "?" + symbol;
         this.requestService.get(url, (res) => {
             if (res.file) {
                 //let A=UniversalLoader.load(broker, task, res.result.data);
